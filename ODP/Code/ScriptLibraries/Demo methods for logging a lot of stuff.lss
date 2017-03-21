@@ -1,0 +1,170 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM ***************************************************************************
+ ************************************************************************************
+	Methods for Logging a Lot of Stuff Lotusscript Library
+
+	Demonstration Library for Enhanced Logging
+	&copy; Copyright 2002 - 2010, Devin S. Olson
+	http://www.azlighthouse.com
+	
+	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
+	http://www.devinolson.net
+	Version 2.0.3e
+
+	Last updated: 09/2010
+
+ ************************************************************************************
+%END REM *********************************************************************
+
+Option Public
+Option Explicit
+Use "enhLogClass"
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Public Class Wabe
+Declare Sub proxyLogWarning (description$)
+Declare Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
+Declare Sub proxyLogAction (description$)
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Private Const LIB_PREFIX = |Library: Methods for Logging a Lot of Stuff.|
+
+
+Const NUMBERCHARS = "0123456789"
+Const ALPHACHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+Const ALPHANUMERIC = NUMBERCHARS & ALPHACHARS
+
+
+Public Class Wabe
+	Private CLASS_PREFIX As String
+	Private manxome As Integer
+	
+	Public Sub New()
+		CLASS_PREFIX = LIB_PREFIX + |Class: Wabe.|
+		Me.manxome = 0
+	End Sub ' New
+	
+	Sub gyre (source As EnhancedLog, pos&)
+		Me.gimble source, pos&
+	End Sub ' gyre
+	
+	Sub gimble (source As EnhancedLog, pos&)
+%REM  DEVELOPERS NOTE
+	The passed in source EnhancedLog object is only used to demonstrate that the 
+	EnhancedLog class is a Singleton object.  Normal usage would never require an 
+	explicitly declared EnhancedLog object -just about everything needed for normal 
+	logging is available through the enhLogXXXX wrapper methods.
+%END REM
+		
+		Dim description As String
+		Dim extendedInfo As String
+		Dim idx As Integer
+		
+		On Error GoTo ErrorTrap
+		
+		
+		If (pos& > 200) Then 
+			Select Case pos&
+			Case 201: enhLogWarning CLASS_PREFIX, |All|
+			Case 202: enhLogWarning CLASS_PREFIX, |mimsy|
+			Case 203: enhLogWarning CLASS_PREFIX, |were|
+			Case 204: enhLogWarning CLASS_PREFIX, |the|
+			Case 205: enhLogWarning CLASS_PREFIX, |borogoves,|
+			Case 206: enhLogWarning CLASS_PREFIX, |And|
+			Case 207: enhLogWarning CLASS_PREFIX, |the|
+			Case 208: enhLogWarning CLASS_PREFIX, |mome|
+			Case 209: enhLogWarning CLASS_PREFIX, |raths|
+			Case 210: enhLogWarning CLASS_PREFIX, |outgrabe.|
+			End Select ' Case pos&
+		End If ' (pos& > 200)
+		
+		For idx% = 1 To 36
+			description$ = description$ & Mid$(ALPHANUMERIC, idx%, 1)
+			enhLogAction CLASS_PREFIX, |(| & CStr(pos&) & |.| & CStr(idx%) & |) | & description$
+			If (((pos& + idx%) Mod 11) = 0) Then 
+				
+				source.LocalEcho = True ' use object explicit notation to activate local echo	
+				
+				enhLogExtendedContent CLASS_PREFIX, |I am the content. |, |I am extended content 1.|				
+				enhLogExtendedContent ||, ||, |I am extended content 2|
+				
+				enhLogSetLocalEcho False ' use method notation to deactivate local echo
+				
+				enhLogExtendedContent ||, ||, |I am extended content 3|
+				enhLogExtendedContent ||, ||, |I am extended content 4|
+				enhLogExtendedContent ||, ||, |I am extended content 5|
+				enhLogExtendedContent ||, ||, ||
+				
+				If (pos& > 200) Then Me.vorpal(pos&)
+				
+			End If ' (((idxEntry + idxAlphaChars%) Mod 11) = 0)
+		Next idx%		
+		
+ExitPoint:
+		Exit Sub
+ErrorTrap:
+		enhLogException CLASS_PREFIX, extendedInfo$
+		Resume ExitPoint
+	End Sub ' gimble
+	
+	
+	Public Sub vorpal(pos&)
+		
+		Dim extendedInfo As String
+		
+		On Error GoTo ErrorTrap
+		
+		Select Case Me.manxome
+		Case 0:
+			Me.manxome = 1
+			extendedInfo$ = |Beware the Jabberwock, my son!| 
+			
+		Case 1:
+			Me.manxome = 2
+			extendedInfo$ = |The jaws that bite, the claws that catch!|
+			
+		Case 2:
+			Me.manxome = 3
+			extendedInfo$ = |Beware the Jubjub bird, and shun|
+			
+		Case Else:
+			Me.manxome = 0
+			extendedInfo$ = |The frumious Bandersnatch!|
+		End Select ' Case Me.manxome
+		
+		
+		enhLogAction CLASS_PREFIX, |Now forcing an error|
+		extendedInfo$ = extendedInfo$ & Chr(10) & _ 
+		|Attempted to divide | & CStr(pos&) & | by zero.|
+		
+		enhLogAction CLASS_PREFIX, CStr(pos& / 0)
+		
+ExitPoint:
+		Exit Sub
+ErrorTrap:
+		enhLogException CLASS_PREFIX, extendedInfo$
+		Resume ExitPoint
+	End Sub ' vorpal
+End Class 
+'++LotusScript Development Environment:2:2:proxyLogWarning:2:8
+
+Sub proxyLogWarning (description$)
+	enhLogWarning LIB_PREFIX, description$
+End Sub ' proxyLogWarning
+
+'++LotusScript Development Environment:2:2:logActionToEnhancedLogObject:1:8
+Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
+%REM
+	This demonstrates nothing more than logging an action to a passed in EnhancedLog object.
+%END REM
+	source.LogAction description$
+End Sub ' logActionToEnhancedLogObject
+
+'++LotusScript Development Environment:2:2:proxyLogAction:3:8
+
+
+Sub proxyLogAction (description$)
+	enhLogAction LIB_PREFIX, description$
+End Sub ' proxyLogAction
+
+

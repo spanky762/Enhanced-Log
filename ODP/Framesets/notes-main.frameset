@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.4'
+ replicaid='85257B1600791A9D'>
+<noteinfo noteid='12a' unid='0297A3C140163950852573700052D7C1' sequence='12'>
+<created><datetime dst='true'>20071010T110451,85-04</datetime></created>
+<modified><datetime dst='true'>20170321T190620,18-04</datetime></modified>
+<revised><datetime dst='true'>20170321T190620,17-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20170321T190620,18-04</datetime></lastaccessed>
+<addedtofile><datetime>20130218T170246,84-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=THQ/OU=USS/O=SArmy</name><name
+>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
+<item name='$TITLE' sign='true'><text>notes-main</text></item>
+<item name='$Comment' sign='true'><text/></item>
+<item name='$FrameSet' sign='true'>
+<rawitemdata type='1'>
+7/8YAAIAAwAAAAAAAAAAAAAAAAAAAAAA8P8+AAAAAAABAAAAAAAHAAcAAAAAAAUAAAAAAAUAAAAA
+AAEAAgAAAAAABQAAAAAAAAADAAEAAgAPAAIAUADx/z4AEAAAAABAAQACAAEAAQAAAAAAAwAAAAcA
+AQAAAAAAAABuYXZjb250ZW50AQD///+8AQAACgEAAAAAvPb/LwAAAAAAAwAHAA0AAAAAAAAAAAAA
+AAAAAAAAAAAAAABub3Rlcy1tYWlubmF2P/H/OwAAAAAAAEABAAMAAQABAAAAAAAHAAAAAAABAAAA
+AAAAAGNvbnRlbnQBAP///7wBAAAKAQAAAAC8P/b/OgAAAAAAAwACABgAAAAAAAAAAAAAAAAAAAAA
+AAAAAABUb2RheXMgTG9nc1xCeSBUaW1lU3RhbXA=
+</rawitemdata></item>
+<item name='$Flags'><text>#34CQ</text></item>
+<item name='$DesignerVersion' sign='true'><text>7</text></item></note>
+
