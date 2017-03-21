@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
+ maintenanceversion='1.4' replicaid='85257B1600791A9D'>
+<noteinfo noteid='11a' unid='01D84037E75768E685257370004C2A2C' sequence='42'>
+<created><datetime dst='true'>20071010T095155,32-04</datetime></created>
+<modified><datetime dst='true'>20170321T190620,80-04</datetime></modified>
+<revised><datetime dst='true'>20170321T190620,79-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20170321T190620,80-04</datetime></lastaccessed>
+<addedtofile><datetime>20130218T170246,76-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
+<item name='$DefaultFrameset' sign='true'><text>notes-main</text></item>
+<item name='$FlagsNoRefresh' sign='true'><text>t</text></item>
+<item name='IconBitmap' summary='true' sign='true'>
+<rawitemdata type='6'>
+AiAgAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAD///8P///////////////////yIP+q+q//+v+q//+qr///8i//
+qvqvr/r6qv//qvr/////////////////////EREREREREREREREREREREREREQERERERERERERER
+ERERERIgEaoaoREaEaoREaqqERESIRGqGhGhERqqERGqqhERERERERERERERERERERH/////////
+////////////////AP////AAD/DwAAAAAP/f//D///8AAA///wAAAAD///8P//////D//w//////
+/////////////////////xEREREREREREREREREREREREREBERERERERERERERERERESLhGqGqER
+GhGqEaGqqhERESERqqoaqhGqqhERqqoRERERERERERERERERERER////////////////////////
+/wDwD/8PD/8A8P/////93//w8A/wDw//8P////D////w8PAA/wAA8A8PAP8PAP//////////////
+//////8UREQREUFEREFBRBRERBERFBREQRFBREREQRFEFERBERQUQRERQUERERFEFBRBERERERER
+ERERERERERERERER//////D/////D////////w/w8P///wDwAA/wDwD////w8PD///8A8PD/8A8A
+/////////////////////////w==
+</rawitemdata></item>
+<item name='$Daos' sign='true'><text>0</text></item>
+<item name='$Flags'><text>RFKc</text></item>
+<item name='$TITLE'><text>Enhanced Log
+#1Enhanced Log Template</text></item></note>
+
