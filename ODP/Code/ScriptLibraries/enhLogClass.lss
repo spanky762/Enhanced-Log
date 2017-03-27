@@ -90,98 +90,104 @@ Declare Private Class NestedProfiledMethodList
 Declare Public Class StringList 
 Declare Public Class BooleanList 
 Declare Public Class VariantList 
+Declare Public Class DateList 
+Declare Class keyedNotesDateTime 
 Declare Sub Initialize
 Declare Sub Terminate
-Declare Public Function enhLogGetCachedErrorTimestamp() As String
-Declare Public Function enhLogSave(force As Boolean, createResponse As Boolean)
 Declare Function getDocItemText(source As NotesDocument, itemname$) As Variant
-Declare Function getDbConfigDoc(ByVal source$, clearCache As Boolean) As NotesDocument
-Declare Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
+Declare Public Function enhLogSave(force As Boolean, createResponse As Boolean)
 Declare Public Sub enhLogAllDocItems (source As NotesDocument)
-Declare Private Function stripFirstSubstr (strSource As String, strSubstr As String) As String
 Declare Public Function enhLogGetLatestLog() As NotesDocument
-Declare Private Function getCallingUIobjectName() As String
 Declare Function getHashedValue(source$, clearCache As Boolean) As String
-Declare Public Function enhLogGetProfileMethodTriggerCount(source$) As Long 
 Declare Function getEmptyDocumentCollection (source As NotesDatabase) As NotesDocumentCollection
+Declare Public Function enhLogGetProfileMethodTriggerCount(source$) As Long 
 Declare Public Function enhLogGetProfiledMethodsXMLstream(includeAll As Boolean) As NotesStream 
 Declare Public Sub enhLogSetLogErrors (source As Boolean)
 Declare Private Sub InstantiateLog (programName$) 
 Declare Public Function enhLogArchiveDocuments (server$, filepath$, view$, max&, purge As Boolean, archived&, purged&) As Boolean
-Declare Public Function enhLogResetDbLog() As Boolean
 Declare Public Function enhLogTicksToMilliseconds(source#) As Double 
-Declare Function getCurrentDb() As NotesDatabase
-Declare Private Sub InstantiateLoggingSession()
 Declare Public Function enhLogAppendAsDocLink (source As NotesDocument, fieldname$, comment$, hotspottext$) As Boolean
-Declare Public Function enhLogGetCachedErrorCode() As Integer
+Declare Function getCurrentDb() As NotesDatabase
 Declare Public Function enhLogGetMethodTicks(ByVal classname$) As Double
 Declare Private Function getProfiledMethodXML(pm As ProfiledMethod, includeAll As Boolean) As String 
-Declare Public Sub enhLogSetAutoSave (source As Boolean)
-Declare Public Function enhLogGetCachedErrorLine() As Integer
 Declare Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesName, userroles As Variant, start As NotesDateTime, progname$, server$, title$, filepath$, subject$, resumeonfail As Boolean) As NotesDocument
-Declare Public Function getConfigUNID(ByVal source$, clearCache As Boolean) As String
-Declare Public Function enhLogGetTaggedMilliseconds(tag$) As Double
+Declare Public Sub enhLogSetAutoSave (source As Boolean)
 Declare Public Sub enhLogSetSubject(source$)
-Declare Private Function isStringArrayEmpty (source As Variant) As Boolean
 Declare Public Function enhLogGetCachedErrorMessage() As String
-Declare Public Sub enhLogSetProgramName (source$)
+Declare Private Function getListSize(source As Variant) As Long 
 Declare Public Sub enhLogSetLogActions (source As Boolean)
-Declare Public Function enhLogGetSubject() As String
 Declare Private Function getDocumentByUNID(ByVal unid$) As NotesDocument 	
-Declare Public Function enhLogGetProgramName() As String
 Declare Public Sub enhLogSetLogWarnings (source As Boolean)
+Declare Public Function enhLogGetProgramName() As String
 Declare Public Sub enhLogSetActionsIncludeMethodNames (source As Boolean)
-Declare Public Sub enhLogDumpContent (prefix$, filepath$)
 Declare Public Function enhLogHasErrors() As Boolean
-Declare Public Sub enhLogSetSendTo (source As Variant)
 Declare Public Function enhLogGetLogConfigText(itemname$) As String
-Declare Private Function stripHTML (source$, stripOrphans As Boolean) As String
 Declare Public Function enhLogCreateLog (programName$) As EnhancedLog
 Declare Private Function safeEvaluate(ByVal formula$, context As Variant, failValue As Variant) As Variant
 Declare Public Function enhLogIsProfilingEnabled() As Boolean 
 Declare Private Function initializeProfiledMethod(modulename$, classname$, methodname$, operation$, target As ProfiledMethod) As Boolean
-Declare Public Sub enhLogSetLogMethodResults (source As Boolean)
+Declare Function getListTags(source As Variant) As Variant  
 Declare Private Function strReplaceSubstring (source$, searchfor$, replacewith$) As String
+Declare Public Sub enhLogSetLogMethodResults (source As Boolean)
 Declare Public Function enhLogHasCachedError() As Boolean
-Declare Public Function enhLogGetLogConfigDb() As NotesDatabase 
 Declare Public Sub enhLogSetUserName (source As NotesName)
-Declare Function getEnvarName(source$, clearCache As Boolean) As String
-Declare Function getCurrentSession() As NotesSession
-Declare Public Sub enhLogSetResumeOnLoggingFailure (source As Boolean)
-Declare Public Sub enhLogSetUserNameAbbrev (source$)
 Declare Public Function enhLogGetCachedErrorMethod() As String
-Declare Private Function getLogOptionsProfile() As NotesDocument
-Declare Private Function getOpenDatabase(server$, filepath$) As NotesDatabase
-Declare Public Function enhLogExtendedContent (prefix$, description$, content$) As Boolean
-Declare Public Sub enhLogSetCommonProperties(progname$, localEcho As Boolean, logActions As Boolean, logMethodResults As Boolean, logErrors As Boolean, logStackExceptions As Boolean)
 Declare Public Function enhLogHasEntries() As Boolean
+Declare Public Function enhLogExtendedContent (prefix$, description$, content$) As Boolean
+Declare Private Function getOpenDatabase(server$, filepath$) As NotesDatabase
 Declare Public Function enhLogProfileMethodStart(ByVal classname$, ByVal operation$) As Double 
 Declare Public Function enhLogTicksPerSecond() As Long 
-Declare Public Function enhLogStackTrace(prefix$, extendedMsg$) As Boolean
 Declare Public Function enhLogGetConfigItemNames() As Variant 
-Declare Private Function getScalar(source As Variant ) As Variant	
-Declare Public Function enhLogMethodResultWithLink (prefix$, description$, linkto As Variant, comment$, HotSpotText$) As Boolean
-Declare Public Function enhLogMethodResult (prefix$, description$) As Boolean
-Declare Public Sub enhLogSetLogStackExceptions (source As Boolean)
+Declare Public Function enhLogStackTrace(prefix$, extendedMsg$) As Boolean
 Declare Public Function enhLogGetLogConfigUNID() As String
-Declare Public Function enhLogExceptionWithLink (prefix$, extendedMsg$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
-Declare Public Function enhLogException (prefix$, extendedMsg$) As Boolean
 Declare Public Sub enhLogSetOverwriteFile (source As Boolean)
 Declare Private Function createRichTextStyle (Bold As Boolean, Effects%, FontSize%, Italic As Boolean, NotesColor%, NotesFont%, PassThruHTML As Boolean, Strikethrough As Boolean, Underline As Boolean) As NotesRichTextStyle
 Declare Public Function enhLogGetCachedErrorExtended() As String
 Declare Public Function enhLogIsLogDisabled() As Boolean
-Declare Private Sub TrimString (source$)
 Declare Public Sub enhLogSetLocalEcho (source As Boolean)
-Declare Public Function enhLogWarning (prefix$, description$) As Boolean
-Declare Public Function enhLogWarningWithLink (prefix$, description$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
-Declare Private Function fileExists (source$) As Boolean
-Declare Public Function enhLogProfileMethodFinish(ByVal classname$, ByVal operation$) As Double 
 Declare Public Function enhLogGetTaggedTicks(tag$) As Double
-Declare Private Function getServerFilepath (ByVal server$, ByVal filepath$) As String
-Declare Public Function enhLogAction(prefix$, description$) As Boolean
 Declare Public Function enhLogActionWithLink (prefix$, description$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
-Declare Private Function enhLogOptionsProfileFieldNames() As Variant
+Declare Public Function enhLogAction(prefix$, description$) As Boolean
 Declare Public Sub enhLogClearCachedError()
+Declare Public Function enhLogGetCachedErrorTimestamp() As String
+Declare Function getDbConfigDoc(ByVal source$, clearCache As Boolean) As NotesDocument
+Declare Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
+Declare Private Function stripFirstSubstr (strSource As String, strSubstr As String) As String
+Declare Private Function getCallingUIobjectName() As String
+Declare Public Function enhLogResetDbLog() As Boolean
+Declare Private Sub InstantiateLoggingSession()
+Declare Public Function enhLogGetCachedErrorCode() As Integer
+Declare Public Function enhLogGetCachedErrorLine() As Integer
+Declare Function getSortedListTags(source As Variant) As Variant 
+Declare Public Function getConfigUNID(ByVal source$, clearCache As Boolean) As String
+Declare Private Function isStringArrayEmpty (source As Variant) As Boolean
+Declare Public Function enhLogGetTaggedMilliseconds(tag$) As Double
+Declare Public Sub enhLogSetProgramName (source$)
+Declare Public Function enhLogGetSubject() As String
+Declare Public Sub enhLogSetSendTo (source As Variant)
+Declare Public Sub enhLogDumpContent (prefix$, filepath$)
+Declare Private Function stripHTML (source$, stripOrphans As Boolean) As String
+Declare Function getCurrentSession() As NotesSession
+Declare Function getEnvarName(source$, clearCache As Boolean) As String
+Declare Public Function enhLogGetLogConfigDb() As NotesDatabase 
+Declare Public Sub enhLogSetResumeOnLoggingFailure (source As Boolean)
+Declare Public Sub enhLogSetUserNameAbbrev (source$)
+Declare Private Sub quickSortStrings(source As Variant)
+Declare Private Function getLogOptionsProfile() As NotesDocument
+Declare Public Sub enhLogSetCommonProperties(progname$, localEcho As Boolean, logActions As Boolean, logMethodResults As Boolean, logErrors As Boolean, logStackExceptions As Boolean)
+Declare Private Function getScalar(source As Variant ) As Variant	
+Declare Public Function enhLogMethodResult (prefix$, description$) As Boolean
+Declare Public Function enhLogMethodResultWithLink (prefix$, description$, linkto As Variant, comment$, HotSpotText$) As Boolean
+Declare Public Sub enhLogSetLogStackExceptions (source As Boolean)
+Declare Public Function enhLogException (prefix$, extendedMsg$) As Boolean
+Declare Public Function enhLogExceptionWithLink (prefix$, extendedMsg$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
+Declare Private Sub TrimString (source$)
+Declare Public Function enhLogWarningWithLink (prefix$, description$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
+Declare Public Function enhLogWarning (prefix$, description$) As Boolean
+Declare Public Function enhLogProfileMethodFinish(ByVal classname$, ByVal operation$) As Double 
+Declare Private Function fileExists (source$) As Boolean
+Declare Private Function getServerFilepath (ByVal server$, ByVal filepath$) As String
+Declare Private Function enhLogOptionsProfileFieldNames() As Variant
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
 
@@ -266,6 +272,7 @@ Private Const MAX_RECOVER_ATTEMPTS = 3
 Private Const LIB_PREFIX = |Library: enhLogClass.|
 Private Const CLASS_PREFIX = |Class: EnhancedLog.|
 Private Const CLASS_PREFIX_BOOLEANLIST = |Class: BooleanList.|
+Private Const CLASS_PREFIX_DATELIST = |Class: DateList.|
 Private Const CLASS_PREFIX_STRINGLIST = |Class: StringList.|
 Private Const CLASS_PREFIX_VARIANTLIST = |Class: VariantList.|
 Private Const VIEWNAME_LOGS_BYLOGTIME = "lkp-LogsByLogTime"
@@ -355,7 +362,19 @@ End Type
 Private genhl_ProfileMethods List As ProfiledMethod
 Private genhl_dbConfigDocCache List As NotesDocument
 Private genhl_ProfileMethodStarts List As Integer 
-Public genhl_Session As NotesSession   
+Public genhl_Session As NotesSession     
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2578,45 +2597,19 @@ ErrorTrap:
 	
 	%REM
 		Property listTags
-		Description: array of all listTags
+		Description: array of all ListTags
 	%END REM
 	Property Get listTags As Variant 
-		Dim valuesArray() As String
-		Dim i#
-		On Error GoTo ErrorTrap
-		
-		If (me.hasContent) Then
-			i# = me.size -1 
-			ReDim valuesArray(i#) As String 
-			i# = 0
-			ForAll element In me.content 
-				valuesArray(i#) = ListTag(element) 
-				i# = i# + 1
-			End ForAll
-			listTags = valuesArray
-		Else 
-			listTags = Null  
-		End If 
-		
-ExitPoint: 
-		Exit Property 
-ErrorTrap:
-		On Error GoTo 0
-		enhLogException CLASS_PREFIX_STRINGLIST, ""
-		Resume ExitPoint 
+		listTags =  getListTags(me.content) 
 	End Property
-
+	
+	
 	%REM
 		Property Get sortedListTags
 		Description: sorted Array of all ListTags
 	%END REM
 	Property Get sortedListTags As Variant 
-		On Error Resume Next	
-		If (me.hasContent) Then 
-			sortedListTags = Evaluate(|@Sort("| & Implode(me.listTags, |":"|) & |")|)
-		Else 
-			sortedListTags = Null
-		End If 
+		sortedListTags = getSortedListTags(me.content) 
 	End Property
 	
 	
@@ -2731,29 +2724,7 @@ ErrorTrap:
 		Description: array of all ListTags
 	%END REM
 	Property Get listTags As Variant 
-		Dim valuesArray() As String
-		Dim i#
-		On Error GoTo ErrorTrap 
-		
-		If (me.hasContent) Then
-			i# = me.size -1 
-			ReDim valuesArray(i#) As String 
-			i# = 0
-			ForAll element In me.content 
-				valuesArray(i#) = ListTag(element) 
-				i# = i# + 1
-			End ForAll
-			listTags = valuesArray
-		Else 
-			listTags = Null  
-		End If 
-		
-ExitPoint: 
-		Exit Property 
-ErrorTrap:
-		On Error GoTo 0
-		enhLogException CLASS_PREFIX_BOOLEANLIST, ""
-		Resume ExitPoint 
+		listTags =  getListTags(me.content) 
 	End Property
 	
 	
@@ -2762,12 +2733,7 @@ ErrorTrap:
 		Description: sorted Array of all ListTags
 	%END REM
 	Property Get sortedListTags As Variant 
-		On Error Resume Next	
-		If (me.hasContent) Then 
-			sortedListTags = Evaluate(|@Sort("| & Implode(me.listTags, |":"|) & |")|)
-		Else 
-			sortedListTags = Null
-		End If 
+		sortedListTags = getSortedListTags(me.content) 
 	End Property
 	
 
@@ -2824,7 +2790,7 @@ ErrorTrap:
 		On Error GoTo ErrorTrap
 		isTrue = (IsElement(me.content(key$)) And (me.content(key$)))
 
-		ExitPoint:
+ExitPoint:
 		Exit Function 
 ErrorTrap:
 		On Error GoTo 0
@@ -2853,7 +2819,7 @@ ErrorTrap:
 	%REM
 		Property Get hasFalse
 		Description: Flag indicating if the object contains a False value
-			%END REM
+	%END REM
 	Property Get hasFalse As Boolean
 		hasFalse = False 
 		If me.hasContent Then 
@@ -2939,9 +2905,117 @@ ErrorTrap:
 	
 	%REM
 		Property listTags
-		Description: array of all listTags
+		Description: array of all ListTags
 	%END REM
 	Property Get listTags As Variant 
+		listTags =  getListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property Get sortedListTags
+		Description: sorted Array of all ListTags
+	%END REM
+	Property Get sortedListTags As Variant 
+		sortedListTags = getSortedListTags(me.content) 
+	End Property
+	
+End Class
+Public Class DateList 
+	Public content List As NotesDateTime 
+
+	Public Sub New()
+	End Sub
+
+	Public Sub Delete()
+		Erase Me.Content
+	End Sub
+	
+	Property Get size As Long 
+		Dim result&
+		ForAll element In me.content 
+			result& = result& + 1
+		End ForAll
+		
+		size = result
+	End Property
+
+	Property Get hasContent As Boolean
+		Dim result As Boolean 
+		
+		result = False 
+		ForAll element In me.content 
+			result = True 
+			Exit ForAll 
+		End ForAll
+		
+		hasContent = result
+	End Property
+	
+	Sub addAll(source As DateList) 	
+		On Error GoTo ErrorTrap 
+		
+		If (source Is Nothing) Then GoTo ExitPoint 
+		
+		ForAll element In source.content 
+			Set me.content(ListTag(element)) = element 
+		End ForAll
+		
+ExitPoint: 
+		Exit Sub
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_DATELIST, ""
+		Resume ExitPoint 
+	End Sub
+	
+	
+	Function getValue(key As String) As NotesDateTime
+		Dim result As NotesDateTime  
+		On Error GoTo ErrorTrap 
+		
+		If ("" <> Trim$(key) And IsElement(me.content(key))) Then 
+			Set result = me.content(key)
+		Else 
+			Set result = Nothing
+		End If 
+		
+ExitPoint: 
+		Set getValue = result 
+		Exit Function
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_DATELIST, ""
+		Resume ExitPoint 
+	End Function
+	
+	%REM
+		Property listTags
+		Description: array of all ListTags
+	%END REM
+	Property Get listTags As Variant 
+		listTags =  getListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property Get sortedListTags
+		Description: sorted Array of all ListTags
+	%END REM
+	Property Get sortedListTags As Variant 
+		sortedListTags = getSortedListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property listTagsByDateAsc
+		Description: array of all listTags, ordered by Date (Ascending) 
+	%END REM
+	Function getlistTagsByDate(ascending As Boolean) As Variant 
+		Dim kndtArray() As KeyedNotesDateTime
+		Dim kndt As KeyedNotesDateTime 	
+		
+		
 		Dim valuesArray() As String
 		Dim i#
 		On Error GoTo ErrorTrap 
@@ -2949,38 +3023,130 @@ ErrorTrap:
 		If (me.hasContent) Then
 			i# = me.size -1 
 			ReDim valuesArray(i#) As String 
+			ReDim kndtArray(i#) As KeyedNotesDateTime 
 			i# = 0
-			ForAll element In me.content 
-				valuesArray(i#) = ListTag(element) 
-				i# = i# + 1
+
+			' populate the KeyedNotesDateTimes						
+			ForAll element In me.content
+				Set kndt = New KeyedNotesDateTime() 
+				kndt.key = ListTag(element) 
+				Set kndt.value = element
+				Set kndtArray(i#) = kndt
+				i# = i# + 1 
 			End ForAll
-			listTags = valuesArray
+			
+			' Sort the KeyedNotesDateTimes 
+			If (ascending) Then 
+				me.sortAsc kndtArray
+			Else 
+				me.sortDesc kndtArray
+			End If 
+				
+			
+			' Add the keys from kndt to the result
+			For i# = 0 To UBound(kndtArray) 
+				valuesArray(i#) = kndtArray(i#).key
+			Next
+			
+			getlistTagsByDate = valuesArray
 		Else 
-			listTags = Null  
+			getlistTagsByDate = Null  
 		End If 
 		
 ExitPoint: 
-		Exit Property 
+		Exit Function 
 ErrorTrap:
 		On Error GoTo 0
-		enhLogException CLASS_PREFIX_VARIANTLIST, ""
+		enhLogException CLASS_PREFIX_DATELIST, ""
 		Resume ExitPoint 
-	End Property
+	End Function
+	
+	
+	Private Sub sortAsc(source() As KeyedNotesDateTime)
+		Dim kndt As KeyedNotesDateTime
+		Dim Lower As Integer
+		Dim Upper As Integer
+		Dim botMax As Integer
+		Dim i As Integer
+		Dim k As Integer
+		Dim h As Integer
+		
+		Lower% = LBound(source())
+		Upper% = UBound(source())
 
-	%REM
-		Property Get sortedListTags
-		Description: sorted Array of all ListTags
-	%END REM
-	Property Get sortedListTags As Variant 
-		On Error Resume Next	
-		If (me.hasContent) Then 
-			sortedListTags = Evaluate(|@Sort("| & Implode(me.listTags, |":"|) & |")|)
-		Else 
-			sortedListTags = Null
-		End If 
-	End Property
+		h% = 1
+		Do
+			h% = (3*h%) + 1
+		Loop Until h% > Upper%-Lower%+1
+
+		Do
+			h% = h% \ 3
+			botMax% = Lower% + h% - 1
+			For i% = botMax% + 1 To Upper%
+				Set kndt = source( i% )
+				k% = i%
+				While (source(k% - h%).value.timeDifferenceDouble(kndt.value) > 0)
+					Set source(k%) = source( k% - h% )
+					k% = k% - h%
+					If (k% <= botMax%) Then GoTo wOut
+				Wend
+wOut:
+				If (k% <> i%) Then Set source(k%) = kndt
+			Next
+		Loop Until h% = 1
+	End Sub
+	
+	Private Sub sortDesc(source() As KeyedNotesDateTime)
+		Dim kndt As KeyedNotesDateTime
+		Dim Lower As Integer
+		Dim Upper As Integer
+		Dim botMax As Integer
+		Dim i As Integer
+		Dim k As Integer
+		Dim h As Integer
+		
+
+		Lower% = LBound(source())
+		Upper% = UBound(source())
+
+		h% = 1
+		Do
+			h% = (3*h%) + 1
+		Loop Until h% > Upper%-Lower%+1
+
+		Do
+			h% = h% \ 3
+			botMax% = Lower% + h% - 1
+			For i% = botMax% + 1 To Upper%
+				Set kndt = source( i% )
+				k% = i%
+				While (kndt.value.timeDifferenceDouble(source(k% - h%).value) > 0)
+					Set source(k%) = source( k% - h% )
+					k% = k% - h%
+					If (k% <= botMax%) Then GoTo wOut
+				Wend
+wOut:
+				If (k% <> i%) Then Set source(k%) = kndt
+			Next
+		Loop Until h% = 1
+	End Sub
+	
+
+	
 	
 End Class
+%REM
+	Class keyedNotesDateTime
+	Description: Comments for Class
+%END REM
+Class keyedNotesDateTime 
+	Public key As String 
+	Public value As NotesDateTime 
+
+	Public Sub New() 
+	End Sub
+End Class
+
 '++LotusScript Development Environment:2:2:Initialize:2:10
 
 Sub Initialize
@@ -2999,20 +3165,6 @@ Sub Terminate
 	End If ' enhLogExists And (Not (enhLog Is Nothing))
 	
 End Sub ' Terminate
-
-'++LotusScript Development Environment:2:1:enhLogGetCachedErrorTimestamp:2:8
-
-Public Function enhLogGetCachedErrorTimestamp() As String
-	enhLogGetCachedErrorTimestamp = ""
-	If enhLogExists Then enhLogGetCachedErrorTimestamp = enhLog.CachedErrorTimestamp
-End Function ' enhLogGetCachedErrorTimestamp
-
-'++LotusScript Development Environment:2:1:enhLogSave:2:8
-
-Public Function enhLogSave(force As Boolean, createResponse As Boolean)
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLogSave = enhLog.save(force, createResponse)
-End Function 
 
 '++LotusScript Development Environment:2:1:getDocItemText:11:8
 
@@ -3053,175 +3205,12 @@ ErrorTrap:
 	Resume ExitPoint	
 End Function  ' getDocItemText 
 
-'++LotusScript Development Environment:2:1:getDbConfigDoc:13:8
+'++LotusScript Development Environment:2:1:enhLogSave:2:8
 
-%REM
-	Function getDbConfigDoc
-	Gets the DbConfig document for the specified Form.
-	
-	Only 1 DbConfig document may exist for a specified form.
-	
-	@param source$ Form for the specified DbConfig document.
-	@param clearCache Flag indicating if the cached information should be cleared.
-	
-	@return NotesDocument for the specified key.  Returns Nothing if no document found.	
-%END REM
-Function getDbConfigDoc(ByVal source$, clearCache As Boolean) As NotesDocument
-	Dim extendedInfo As String
-	Dim result As NotesDocument
-	On Error GoTo ErrorTrap
-	
-	Dim nvw As NotesView
-	Dim column As NotesViewColumn
-	Dim killdoc As NotesDocument
-	Dim nitm As NotesItem
-	Dim unid As String
-	Dim oldunid As String
-	Dim form As String 
-	Dim docform As String
-	
-	Dim isCreated As Boolean
-	
-	TrimString source$
-	form$ = UCase$(source$)
-	extendedInfo$ = |Form: | & source$
-	If (Len(form$) < 1) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
-	
-	If clearCache Then
-		Erase genhl_dbConfigDocCache
-	ElseIf IsElement(genhl_dbConfigDocCache(form$)) Then 
-		Set result = genhl_dbConfigDocCache(form$)
-		GoTo ExitPoint
-	End If ' clearCache
-	
-	unid$ = getConfigUNID(form$, clearCache) 
-	extendedInfo$ = |Form: | & form$ & Chr(10) & |ClearCache: | & CStr(clearCache) & Chr(10) & |UNID: | & unid$
-	Set result = getDocumentByUNID(unid$) 
-	If (result Is Nothing) Then 
-		' get from view  (create if necessary)
-		extendedInfo$ = extendedInfo$ & Chr(10) & |View: | & VIEWNAME_DBCONFIG 
-		Set nvw = getCurrentDb().GetView (VIEWNAME_DBCONFIG) 
-		If (nvw Is Nothing) Then 
-			' create the view 
-			enhLogAction LIB_PREFIX, |Creating Temporary View: | & VIEWNAME_DBCONFIG
-			Set nvw = getCurrentDb().CreateView(VIEWNAME_DBCONFIG, |SELECT @Contains ( Form; "Config" )|)
-			Set column = nvw.CreateColumn(1, "Form", "@UpperCase(Form)")
-			column.isSorted = True
-			Set column = nvw.CreateColumn(2, "Modified", "@Modified")
-			column.isSorted = True
-			Call nvw.Refresh()
-			isCreated = True
-		End If ' (nvw Is Nothing)
-		
-		Set result = nvw.GetDocumentByKey(form$, True)
-		If isCreated Then 
-			' delete the temporary view
-			enhLogAction LIB_PREFIX, |Removing Temporary View: | & VIEWNAME_DBCONFIG
-			Call nvw.Remove() 
-		End If ' isCreated
-		
-		If (Not (result Is Nothing)) Then 
-			enhLogWarning LIB_PREFIX, |Found "| & source$ & |" Document with invalid UNID.|
-			oldunid$ = result.UniversalID
-			extendedInfo$ = extendedInfo$ & Chr(10) & |Old UNID: | & oldunid$
-			enhLogExtendedContent LIB_PREFIX, |Changing UNID of "| & source$ & |" Document|, |Old UNID: | & oldunid$
-			enhLogExtendedContent ||, ||, |New UNID: | & unid$
-			enhLogExtendedContent ||, ||, ||
-			result.UniversalID = unid$
-			If (Not result.Save(True, False)) Then Error ERR_DOC_NOT_SAVED, MSG_DOC_NOT_SAVED
-			Set killdoc = getDocumentByUNID(oldunid$)
-			Call killdoc.Remove(True)
-		End If	' (Not (result Is Nothing))
-	End If ' (result Is Nothing)
-	
-	If (result Is Nothing) Then 
-		enhLogWarning LIB_PREFIX, |No document found for | & source$
-		Set result = New NotesDocument(getCurrentDb())
-		result.UniversalID = getConfigUNID(unid$, False)
-		Set nitm = result.ReplaceItemValue(ITEMNAME_FORM, source$)
-		nitm.IsSummary = True		
-		enhLogExtendedContent LIB_PREFIX, |Created New "| & source$ & |" Document|, |UNID: | & unid$
-		enhLogExtendedContent ||, ||, ||
-	End If ' (result Is Nothing)
-	
-	docform$ = UCase$(Trim$(getDocItemText(result, ITEMNAME_FORM)))	
-	If (docform$ <> form$) Then 
-		enhLogWarning LIB_PREFIX, |Document form "| & docform$ & |" does not match specified config form "| & form$ & |"|
-		enhLogAction LIB_PREFIX, |Changing Form to: | & form$
-		Set nitm = result.ReplaceItemValue(ITEMNAME_FORM, form$)
-		nitm.IsSummary = True		
-	End If ' docform$ <> form$)
-	
-ExitPoint:
-	Set genhl_dbConfigDocCache(form$) = result
-	Set getDbConfigDoc = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	Set result = Nothing
-	Resume ExitPoint
-End Function  ' getDbConfigDoc 
-
-'++LotusScript Development Environment:2:1:enhLogGetLogConfigDoc:2:8
-
-Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
-	Dim extendedInfo As String
-	Dim result As NotesDocument
-	On Error GoTo ErrorTrap
-	
-	Dim killdoc As NotesDocument
-	Dim nitm As NotesItem 
-	Dim unid As String
-	Dim fieldnames As Variant
-
-	unid$ = enhLogGetLogConfigUNID() 
-	extendedInfo$ = |UNID: | & unid$
-	Set result = getDocumentByUNID(unid$) 
-	If (result Is Nothing) Then
-		Set killdoc = getLogOptionsProfile()
-		If (killdoc Is Nothing) Then
-			If spawnNew Then 
-				Set result = New NotesDocument(getCurrentDb())
-				result.UniversalID = unid$				
-				Set nitm = result.ReplaceItemValue(|Form|, FORMNAME_ENHANCEDLOGCONFIG)
-				nitm.IsSummary = True				
-				If (Not result.Save(True, False)) Then Error ERR_DOC_NOT_SAVED, MSG_DOC_NOT_SAVED
-			End If ' spawnNew		
-		Else
-			' killdoc is the deprecated log profile
-			' spawnNew is ignored - replacing deprecated profile document with new config document
-			Set result = New NotesDocument(getCurrentDb())
-			result.UniversalID = unid$				
-			Set nitm = result.ReplaceItemValue(|Form|, FORMNAME_ENHANCEDLOGCONFIG)
-			nitm.IsSummary = True		
-
-			fieldnames = enhLogOptionsProfileFieldNames()
-			ForAll itemname In fieldnames
-				If (killdoc.HasItem(itemname)) Then
-					extendedInfo$ = |Item: | & itemname
-					Set nitm = result.ReplaceItemValue(itemname, killdoc.GetFirstItem(itemname))
-					nitm.IsSummary = True
-				End If ' (killdoc.HasItem(itemname))
-			End ForAll ' fieldname In fieldnames
-			
-			If (Not result.Save(True, False)) Then Error ERR_DOC_NOT_SAVED, MSG_DOC_NOT_SAVED
-
-			extendedInfo$ = |UNID: | & killdoc.UniversalID
-			enhLogWarning LIB_PREFIX, |Removing Deprecated Log Profile document and replacing with Log Configuration document.|
-			Call killdoc.Remove(True)
-		End If ' (killdoc Is Nothing)
-	End If ' (result Is Nothing)
-	
-ExitPoint:
-	Set enhLogGetLogConfigDoc = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	Set result = Nothing
-	Resume ExitPoint
-End Function  ' enhLogGetLogConfigDoc 
+Public Function enhLogSave(force As Boolean, createResponse As Boolean)
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLogSave = enhLog.save(force, createResponse)
+End Function 
 
 '++LotusScript Development Environment:2:2:enhLogAllDocItems:2:8
 
@@ -3255,18 +3244,6 @@ ErrorTrap:
 	Resume ExitPoint
 End Sub ' enhLogAllDocItems
 
-'++LotusScript Development Environment:2:1:stripFirstSubstr:2:8
-
-Private Function stripFirstSubstr (strSource As String, strSubstr As String) As String
-	
-	If (InStr(strSource$, strSubstr$) > 0) Then
-		stripFirstSubstr$ = StrLeft(strSource$, strSubstr$) & StrRight(strSource$, strSubstr$)
-	Else
-		stripFirstSubstr$ = strSource$
-	End If ' (Instr(strSource$, strSubstr$) > 0)
-	
-End Function ' stripFirstSubstr
-
 '++LotusScript Development Environment:2:1:enhLogGetLatestLog:2:8
 
 Public Function enhLogGetLatestLog() As NotesDocument
@@ -3298,69 +3275,6 @@ ErrorTrap:
 	Set result = Nothing
 	Resume ExitPoint
 End Function ' enhLogGetLatestLog
-
-'++LotusScript Development Environment:2:1:getCallingUIobjectName:7:8
-%REM
-	Function getCallingUIobjectName
-	gets the name of the calling UI element
-	
-	@return String Comments
-%END REM
-Private Function getCallingUIobjectName() As String
-	Dim extendedInfo As String
-	Dim result As String
-	On Error GoTo ErrorTrap
-	
-	Dim nuiwsp As New NotesUIWorkspace()
-	Dim view As NotesUIView
-	Dim uidoc As NotesUIDocument
-	Dim doc As NotesDocument
-	Dim windowTitle As String
-	
-	result$ = ||
-	If (Not getCurrentSession().isOnServer) Then 
-		' Because a view can be embedded, need to check for it first.
-		Set view = nuiwsp.CurrentView
-		If (view Is Nothing) Then 
-			' check for ui document
-			Set uidoc = nuiwsp.CurrentDocument
-			If (Not (uidoc Is Nothing)) Then 
-				windowTitle$ = uidoc.WindowTitle
-				Set doc = uidoc.Document
-				If (doc Is Nothing) Then 
-					result$ = |Page: | & windowTitle$
-				Else
-					If IsEmpty(doc.Items) Then
-						result$ = |Page: | & windowTitle$
-					ElseIf doc.HasItem(|Form|) Then
-						result$ = |Form: | & Trim$(doc.GetFirstItem(|Form|).Text) & |.|
-					Else
-						result$ = |UIDoc: | & windowTitle$
-				End If ' IsEmpty(doc.Items)
-				End If ' (doc Is Nothing)
-			End If ' (uidoc Is Nothing)
-		Else
-			' view is something
-			result$ = Trim$(view.ViewAlias)
-			If (Len(result$) > 0) Then 
-				result$ = |View: | & view.ViewName & "|" & result$ & |.|
-			Else
-				result$ = |View: | & view.ViewName & |.|
-			End If ' (Len(result$) > 0)
-		End If ' (view Is Nothing)
-	End If ' getCurrentSession().isOnServer
-	
-	If (Len(result$) = 0) Then result$ = ELEMENT_UNKNOWN	
-		
-	ExitPoint:
-		getCallingUIobjectName = result$
-		Exit Function
-	ErrorTrap:
-		On Error GoTo 0
-		If enhLogExists Then enhLogException LIB_PREFIX, extendedInfo$
-		result$ = ELEMENT_UNKNOWN
-		Resume ExitPoint
-End Function ' getCallingUIobjectName
 
 '++LotusScript Development Environment:2:1:getHashedValue:13:8
 
@@ -3410,6 +3324,26 @@ ErrorTrap:
 	result$ = ""
 	Resume ExitPoint
 End Function ' getHashedValue 
+
+'++LotusScript Development Environment:2:1:getEmptyDocumentCollection:8:8
+
+%REM This function intentionally has NO ERROR TRAPPING.  
+	Creates an empty NotesDocumentCollection from the source database.
+	
+	@param source NotesDatabase from within which to create the empty document collection.
+	@return NotesDocumentCollection containing zero documents.
+%END REM Any raised errors should be handled by the calling code.
+Function getEmptyDocumentCollection (source As NotesDatabase) As NotesDocumentCollection
+	
+	Dim result As NotesDocumentCollection
+	
+	Set result = source.GetProfileDocCollection("*INVALID*")
+	While (result.Count > 0)
+		Call result.DeleteDocument(result.GetFirstDocument())
+	Wend ' (result.Count > 0)
+	
+	Set getEmptyDocumentCollection = result	
+End Function ' getEmptyDocumentCollection
 
 '++LotusScript Development Environment:2:1:enhLogGetProfileMethodTriggerCount:10:8
 
@@ -3472,26 +3406,6 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function ' enhLogGetProfileMethodTriggerCount 
-
-'++LotusScript Development Environment:2:1:getEmptyDocumentCollection:8:8
-
-%REM This function intentionally has NO ERROR TRAPPING.  
-	Creates an empty NotesDocumentCollection from the source database.
-	
-	@param source NotesDatabase from within which to create the empty document collection.
-	@return NotesDocumentCollection containing zero documents.
-%END REM Any raised errors should be handled by the calling code.
-Function getEmptyDocumentCollection (source As NotesDatabase) As NotesDocumentCollection
-	
-	Dim result As NotesDocumentCollection
-	
-	Set result = source.GetProfileDocCollection("*INVALID*")
-	While (result.Count > 0)
-		Call result.DeleteDocument(result.GetFirstDocument())
-	Wend ' (result.Count > 0)
-	
-	Set getEmptyDocumentCollection = result	
-End Function ' getEmptyDocumentCollection
 
 '++LotusScript Development Environment:2:1:enhLogGetProfiledMethodsXMLstream:10:8
 
@@ -3710,53 +3624,6 @@ ErrorTrap:
 	Resume ExitPoint
 End Function ' enhLogArchiveDocuments.
 
-'++LotusScript Development Environment:2:1:enhLogResetDbLog:2:8
-
-Public Function enhLogResetDbLog() As Boolean
-	Dim result As Boolean
-	Dim extendedInfo As String
-	Dim programName As String
-	Dim subject As String
-	
-	On Error GoTo ErrorTrap
-	If Not enhLogExists Then Call InstantiateLog("")
-	
-	programName$ = enhLog.ProgramName
-	subject$ = enhLog.Subject
-	
-	If Not (enhLog Is Nothing) Then
-		result = enhLogAction(LIB_PREFIX, |Resetting the enhLog|)
-		If (Not enhLog.Save(True, False)) Then
-			extendedInfo$ = |Unable to save log.|
-			Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
-		End If ' (Not enhLog.Save(True, False))
-		
-		Delete enhLog
-		Set enhLog = Nothing
-		
-		Sleep(1) ' Forces log entry documents to have at least 1 second between creation timestamps.
-	End If ' Not (enhLog Is Nothing)
-	
-	If Not result Then 
-		extendedInfo$ = |Error in prior instance of enhLog object.|
-		Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
-	End If ' Not result
-	
-	Set enhLog = New EnhancedLog(programName$) 	' Instantiates enhLog as a Singleton entity.
-	If (enhLog Is Nothing) Then Error ERR_OBJECT_CREATE_FAILED, MSG_OBJECT_CREATE_FAILED
-	enhLog.ProgramName = programName$
-	enhLog.Subject = subject$
-	
-ExitPoint:
-	enhLogResetDbLog = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = False
-	enhLogException LIB_PREFIX, ||
-	Resume ExitPoint
-End Function ' enhLogResetDbLog 
-
 '++LotusScript Development Environment:2:1:enhLogTicksToMilliseconds:10:8
 
 %REM
@@ -3795,6 +3662,25 @@ ErrorTrap:
 	Resume ExitPoint
 End Function ' enhLogTicksToMilliseconds
 
+'++LotusScript Development Environment:2:1:enhLogAppendAsDocLink:2:8
+
+Public Function enhLogAppendAsDocLink (source As NotesDocument, fieldname$, comment$, hotspottext$) As Boolean
+	Dim result As Boolean
+	
+	On Error GoTo ErrorTrap
+	If Not enhLogExists Then Call InstantiateLog("")
+	result = enhLog.AppendAsDocLink(source, fieldname$, comment$, hotspottext$)
+	
+ExitPoint:	
+	enhLogAppendAsDocLink = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	result = False	
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint	
+End Function ' enhLogAppendAsDocLink
+
 '++LotusScript Development Environment:2:1:getCurrentDb:6:8
 
 %REM
@@ -3817,45 +3703,6 @@ ErrorTrap:
 	Set result = Nothing
 	Resume ExitPoint
 End Function 'getCurrentDb
-
-'++LotusScript Development Environment:2:2:InstantiateLoggingSession:2:8
-
-Private Sub InstantiateLoggingSession()
-	g_errMsg$ = ||
-	g_errLine& = 0
-	g_errCode% = 0
-	
-	lstrLogTypes(LOGTYPE_NOTES) = |NotesLog|
-	lstrLogTypes(LOGTYPE_AGENT) = |AgentLog|
-	lstrLogTypes(LOGTYPE_FILE) = |FileLog|
-	lstrLogTypes(LOGTYPE_MAIL) = |MailLog|
-End Sub ' InstantiateLoggingSession
-
-'++LotusScript Development Environment:2:1:enhLogAppendAsDocLink:2:8
-
-Public Function enhLogAppendAsDocLink (source As NotesDocument, fieldname$, comment$, hotspottext$) As Boolean
-	Dim result As Boolean
-	
-	On Error GoTo ErrorTrap
-	If Not enhLogExists Then Call InstantiateLog("")
-	result = enhLog.AppendAsDocLink(source, fieldname$, comment$, hotspottext$)
-	
-ExitPoint:	
-	enhLogAppendAsDocLink = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = False	
-	enhLogException LIB_PREFIX, ||
-	Resume ExitPoint	
-End Function ' enhLogAppendAsDocLink
-
-'++LotusScript Development Environment:2:1:enhLogGetCachedErrorCode:2:8
-
-Public Function enhLogGetCachedErrorCode() As Integer
-	enhLogGetCachedErrorCode = 0
-	If enhLogExists Then enhLogGetCachedErrorCode = enhLog.CachedErrorCode
-End Function ' enhLogGetCachedErrorCode
 
 '++LotusScript Development Environment:2:1:enhLogGetMethodTicks:9:8
 
@@ -3938,27 +3785,6 @@ ErrorTrap:
 	result$ = ||
 	Resume ExitPoint
 End Function
-
-'++LotusScript Development Environment:2:2:enhLogSetAutoSave:2:8
-
-Public Sub enhLogSetAutoSave (source As Boolean)
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLogExtendedContent LIB_PREFIX, |Setting AutoSave to | & CStr(source), _ 
-	|Called by: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |()|
-	enhLog.AutoSave = source
-End Sub ' enhLogSetAutoSave
-
-'++LotusScript Development Environment:2:1:enhLogGetCachedErrorLine:7:8
-
-%REM
-	Public Function enhLogGetCachedErrorLine
-	The Enhanced Log's Cached Error Line
-	@return Integer
-%END REM
-Public Function enhLogGetCachedErrorLine() As Integer
-	enhLogGetCachedErrorLine = 0
-	If enhLogExists Then enhLogGetCachedErrorLine = enhLog.CachedErrorLine
-End Function ' enhLogGetCachedErrorLine
 
 '++LotusScript Development Environment:2:1:generateLogDoc:2:8
 
@@ -4062,85 +3888,14 @@ ErrorTrap:
 	' no resume is intentional
 End Function ' generateLogDoc
 
-'++LotusScript Development Environment:2:1:getConfigUNID:13:8
+'++LotusScript Development Environment:2:2:enhLogSetAutoSave:2:8
 
-%REM
-	Function getConfigUNID
-	Gets the UNID of the DbConfig document for a given source key.
-	
-	Only 1 DbConfig document may exist for a specified form.
-	
-	@param source$:  Form of the specified DbConfig document.
-	@param clearCache: Flag indicating if cached information should be cleared.
-	
-	@return	UNID for the Config doc.  Blank on Error.	
-%END REM
-Public Function getConfigUNID(ByVal source$, clearCache As Boolean) As String
-	Dim extendedInfo As String
-	Dim result As String
-	On Error GoTo ErrorTrap
-	
-	Static cache List As String
-	Dim envarName As String
-	
-	source$ = UCase$(Trim$(source$))
-	
-	extendedInfo$ = |Source: | & source$ & Chr(10) & |ClearCache: | & CStr(clearCache)
-	envarName$ = getEnvarName(source$, clearCache)
-	If (Len(envarName$) = 0) Then GoTo ExitPoint
-	
-	If clearCache Then Erase cache	
-	envarName$ = UNID_PREFIX & envarName$	
-	extendedInfo$ = extendedInfo$ & Chr(10) & |Environment Variable Name: | & envarName$
-	If IsElement(cache(envarName$)) Then 
-		result$ = cache(envarName$)
-	Else
-		result$ = getHashedValue(source$, clearCache)
-		If (Len(result$) = 0) Then Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
-	End If ' IsElement(cache(envarName$))
-	
-ExitPoint:
-	cache(envarName$) = result$
-	getConfigUNID = result$
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	result$ = ""
-	Resume ExitPoint
-End Function ' getConfigUNID
-
-'++LotusScript Development Environment:2:1:enhLogGetTaggedMilliseconds:9:8
-
-%REM
-	Function enhLogGetTaggedMilliseconds
-	Returns the number of milliseconds for a given tag since last called.
-
-	@param tag$: Unique string identifying the specific timer value to retrieve.
-	@return: Number of clock ticks since last called.
-%END REM
-Public Function enhLogGetTaggedMilliseconds(tag$) As Double
-	Dim extendedInfo As String	
-	Dim result As Double
-	On Error GoTo ErrorTrap
-	
-	Static cache List As Double
-	Dim thismoment As Double	
-	
-	result# = 0
-	thismoment# = GetThreadInfo(LIB_LSI_THREAD_TICKS)
-	If IsElement(cache(tag$)) Then result# = enhLogTicksToMilliseconds(thismoment# - cache(tag$))
-
-ExitPoint:
-	cache(tag$) = thismoment# 
-	enhLogGetTaggedMilliseconds = result#
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	result# = 0
-	Resume ExitPoint	
-End Function ' enhLogGetTaggedMilliseconds
+Public Sub enhLogSetAutoSave (source As Boolean)
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLogExtendedContent LIB_PREFIX, |Setting AutoSave to | & CStr(source), _ 
+	|Called by: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |()|
+	enhLog.AutoSave = source
+End Sub ' enhLogSetAutoSave
 
 '++LotusScript Development Environment:2:2:enhLogSetSubject:2:8
 
@@ -4149,51 +3904,6 @@ Public Sub enhLogSetSubject(source$)
 	enhLog.Subject = source
 End Sub ' enhLogSetSubject
 
-'++LotusScript Development Environment:2:1:isStringArrayEmpty:2:8
-
-Private Function isStringArrayEmpty (source As Variant) As Boolean
-	Dim result As Boolean
-	Dim sourceType As String
-	Dim extendedInfo As String
-	
-	
-	On Error GoTo ErrorTrap
-	g_errCode% = 0
-	
-	sourceType$ = TypeName(source)
-	
-	Select Case sourceType$
-	Case "STRING"
-		result = (Len(Trim$(source)) = 0)
-		
-	Case "STRING( )"
-		result = True
-		ForAll element In source
-			result = Not (Len(Trim$(source)) = 0)
-			If Not result Then GoTo ExitPoint
-		End ForAll 	' element In source
-		
-	Case Else 
-		extendedInfo$ = |Parameter must be a String or an array of Strings.| & _ 
-		Chr(10) & |Parameter type = | & sourceType$ & |.|
-		
-		Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
-	End Select 	' sourceType$
-	
-ExitPoint:	
-	On Error GoTo 0
-	If (g_errCode% = ERR_PARAMETER_INVALID) Then Error ERR_PARAMETER_INVALID, _ 
-	MSG_PARAMETER_INVALID
-	
-	isStringArrayEmpty = result
-	Exit Function	
-ErrorTrap:
-	On Error GoTo 0
-	If enhLogExists Then enhLogException LIB_PREFIX, extendedInfo$
-	g_errCode% = Err()
-	Resume ExitPoint
-End Function  	' isStringArrayEmpty
-
 '++LotusScript Development Environment:2:1:enhLogGetCachedErrorMessage:2:8
 
 Public Function enhLogGetCachedErrorMessage() As String
@@ -4201,12 +3911,25 @@ Public Function enhLogGetCachedErrorMessage() As String
 	If enhLogExists Then enhLogGetCachedErrorMessage = enhLog.CachedErrorMessage
 End Function ' enhLogGetCachedErrorMessage
 
-'++LotusScript Development Environment:2:2:enhLogSetProgramName:2:8
-
-Public Sub enhLogSetProgramName (source$)
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.ProgramName = source
-End Sub ' enhLogSetProgramName 
+'++LotusScript Development Environment:2:1:getListSize:5:8
+%REM
+	Function getListSize
+	Description: Gets the size of a list 
+%END REM
+Private Function getListSize(source As Variant) As Long 
+	Dim result&
+	
+	If IsList(source) Then 
+		ForAll element In source
+			result& = result& + 1
+		End ForAll
+	Else 
+		result& = 0 
+	End If 
+	
+	getListSize& = result&
+	
+End Function
 
 '++LotusScript Development Environment:2:2:enhLogSetLogActions:2:8
 
@@ -4214,13 +3937,6 @@ Public Sub enhLogSetLogActions (source As Boolean)
 	If Not enhLogExists Then Call InstantiateLog("")
 	enhLog.LogActions = source
 End Sub ' enhLogSetLogActions
-
-'++LotusScript Development Environment:2:1:enhLogGetSubject:2:8
-
-Public Function enhLogGetSubject() As String
-	enhLogGetSubject = ""
-	If enhLogExists Then enhLogGetSubject = enhLog.Subject
-End Function ' enhLogGetSubject  
 
 '++LotusScript Development Environment:2:1:getDocumentByUNID:2:8
 
@@ -4249,13 +3965,6 @@ InvalidUNID:
 	Resume ExitPoint
 End Function ' getDocumentByUNID
 
-'++LotusScript Development Environment:2:1:enhLogGetProgramName:2:8
-
-Public Function enhLogGetProgramName() As String
-	enhLogGetProgramName = ""
-	If enhLogExists Then enhLogGetProgramName = enhLog.ProgramName
-End Function ' enhLogGetProgramName
-
 '++LotusScript Development Environment:2:2:enhLogSetLogWarnings:2:8
 
 Public Sub enhLogSetLogWarnings (source As Boolean)
@@ -4263,51 +3972,19 @@ Public Sub enhLogSetLogWarnings (source As Boolean)
 	enhLog.LogWarnings = source
 End Sub ' enhLogSetLogWarnings
 
+'++LotusScript Development Environment:2:1:enhLogGetProgramName:2:8
+
+Public Function enhLogGetProgramName() As String
+	enhLogGetProgramName = ""
+	If enhLogExists Then enhLogGetProgramName = enhLog.ProgramName
+End Function ' enhLogGetProgramName
+
 '++LotusScript Development Environment:2:2:enhLogSetActionsIncludeMethodNames:2:8
 
 Public Sub enhLogSetActionsIncludeMethodNames (source As Boolean)
 	If Not enhLogExists Then Call InstantiateLog("")
 	enhLog.ActionsIncludeMethodNames = source
 End Sub ' enhLogSetActionsIncludeMethodNames
-
-'++LotusScript Development Environment:2:2:enhLogDumpContent:2:8
-
-Public Sub enhLogDumpContent (prefix$, filepath$)
-	Dim Text As String
-	Dim fileNum As Integer
-	
-	On Error GoTo ErrorTrap
-	If Not enhLogExists Then Call InstantiateLog("")
-	
-	If enhLog.ActionsIncludeMethodNames Then
-		enhLog.LogAction prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |():  Called enhLogDumpContent()|
-	Else
-		enhLog.LogAction prefix$ & | Called enhLogDumpContent()|
-	End If ' enhLog.ActionsIncludeMethodNames 
-	
-	If (filepath$ = "") Then Error 1200, "FILE NAME IS BLANK"
-	If Not fileExists(filepath$) Then Error 1000, "FILE NOT FOUND"
-	
-	enhLogExtendedContent LIB_PREFIX, |File Contents|, filepath$
-	
-	fileNum% = FreeFile()
-	Open filepath$ For Input As fileNum%
-	Do While Not EOF(fileNum%)
-		Line Input #fileNum%, text$ 
-		enhLogExtendedContent ||, ||, text$
-	Loop ' While Not Eof(fileNum%)
-		
-	enhLogExtendedContent ||, ||, ||
-		
-ExitPoint:
-	On Error GoTo 0
-	Close fileNum%
-	Exit Sub
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, ||
-	Resume ExitPoint
-End Sub ' enhLogDumpContent
 
 '++LotusScript Development Environment:2:1:enhLogHasErrors:2:8
 
@@ -4327,13 +4004,6 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, ||
 	Resume ExitPoint		
 End Function ' enhLogHasErrors
-
-'++LotusScript Development Environment:2:2:enhLogSetSendTo:2:8
-
-Public Sub enhLogSetSendTo (source As Variant)
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.SendTo = source
-End Sub ' enhLogSetSendTo	
 
 '++LotusScript Development Environment:2:1:enhLogGetLogConfigText:10:8
 
@@ -4362,83 +4032,6 @@ ErrorTrap:
 	result = ||
 	Resume ExitPoint	
 End Function  ' enhLogGetLogConfigText
-
-'++LotusScript Development Environment:2:1:stripHTML:4:8
-
-%REM THIS METHOD INTENTIONALLY HAS NO ERROR TRAPPING  
-%END REM ERRORS MUST BE HANDLED BY CALLING CODE
-Private Function stripHTML (source$, stripOrphans As Boolean) As String
-	Dim intPosOpen As Integer
-	Dim intPosClose As Integer
-	Dim strTarget As String
-	
-	strTarget$ = source$
-	
-	If stripOrphans Then
-		' Strip out Orphan Tags
-		Do
-			intPosOpen% = InStr(strTarget$, "<")
-			intPosClose% = InStr(strTarget$, ">")
-			
-			If intPosOpen% < intPosClose% Then
-				' Either the first open indicator occurs prior to the first close indicator,
-				' or doesn't exist at all.
-				If intPosOpen% = 0 Then
-					' The first open indicator doesn't exist.
-					' If the Orphan close indicator exists, then strip it out.
-					
-					If (intPosClose% > 0) Then strTarget$ = stripFirstSubstr(strTarget$, ">")
-				Else
-					' The first open indicator exists, and occurs prior to the first close indicator.
-					' THIS INDICATES STANDARD MARKUP. STRIP IT OUT
-					
-					strTarget$ = stripFirstSubstr(strTarget$, Mid$(strTarget$, intPosOpen%, _ 
-					(intPosClose% - intPosOpen%) + 1))
-				End If ' intPosOpen% = 0
-			Else
-				' Either the first close indicator occurs prior to the first open indicator,
-				' or doesn't exist at all.
-				If intPosClose% = 0 Then
-					' The first close indicator doesn't exist.
-					' If the Orphan open indicator exists, then strip it out.
-					
-					If (intPosOpen% > 0) Then strTarget$ = stripFirstSubstr(strTarget$, "<")
-				Else
-					' The first close indicator occurs prior to the first open indicator,
-					' and is therefore an Orphan. Strip it out.
-					
-					strTarget$ = stripFirstSubstr(strTarget$, ">")
-				End If 'intPosClose% = 0
-			End If ' intPosOpen% < intPosClose%
-		Loop While ((intPosOpen% + intPosClose%) > 0)
-		
-	Else
-		' Orphan tags are to be ignored.
-		
-		Do
-			intPosOpen% = InStr(strTarget$, "<")
-			If intPosOpen% > 0 Then
-				' An open indicator exists. Find the subsequent close indicator
-				intPosClose% = InStr(intPosOpen, strTarget$, ">")
-			Else
-				' No open indicator exists. Set the close position to zero and bail out.
-				intPosClose% = 0
-			End If ' intPosOpen% > 0
-			
-			If intPosClose% > intPosOpen% Then
-				' The first open indicator exists, and occurs prior to the first close indicator.
-				' THIS INDICATES STANDARD MARKUP. STRIP IT OUT
-				strTarget$ = stripFirstSubstr(strTarget$, Mid$(strTarget$, intPosOpen%, _ 
-				(intPosClose% - intPosOpen%) + 1))
-			Else
-				' No close indicator exists. Set the open position to zero and bail out.
-				intPosOpen% = 0
-			End If ' intPosClose% > intPosOpen%
-		Loop While ((intPosOpen% + intPosClose%) > 0)		
-	End If ' stripOrphans
-	
-	stripHTML$ = strTarget$	
-End Function ' stripHTML
 
 '++LotusScript Development Environment:2:1:enhLogCreateLog:2:8
 
@@ -4557,12 +4150,47 @@ ErrorTrap:
 	Resume ExitPoint
 End Function ' initializeProfiledMethod
 
-'++LotusScript Development Environment:2:2:enhLogSetLogMethodResults:2:8
+'++LotusScript Development Environment:2:1:getListTags:7:8
+%REM
+	Function getSortedListTags
+	Description: Gets the listTags for a list 
+	@param source: List object from which to get the list tags 
+	@return array of listTags from the list. 
+%END REM
+Function getListTags(source As Variant) As Variant  
+	Dim result As Variant 
+	On Error GoTo ErrorTrap 
 
-Public Sub enhLogSetLogMethodResults (source As Boolean)
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.LogMethodResults = source
-End Sub ' enhLogSetLogMethodResults
+	result = Null 
+	If Not IsList(source) Then GoTo ExitPoint 
+	
+	Dim valuesArray() As String
+	Dim i#
+	
+	' get the size first!  faster than multiple redim calls.
+	i# = getListSize(source) 
+	If (i# < 1) Then GoTo ExitPoint 
+
+	ReDim valuesArray(i# - 1) As String 
+
+	' populate the array with the listTags
+	i# = 0
+	ForAll element In source 
+		valuesArray(i#) = ListTag(element) 
+		i# = i# + 1
+	End ForAll
+
+	result = valuesArray
+	
+ExitPoint: 
+	getListTags = result 
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ""
+	result = Null
+	Resume ExitPoint 
+End Function
 
 '++LotusScript Development Environment:2:1:strReplaceSubstring:4:8
 
@@ -4586,6 +4214,13 @@ Private Function strReplaceSubstring (source$, searchfor$, replacewith$) As Stri
 	End If ' (searchfor$ = "")	
 End Function ' strReplaceSubstring
 
+'++LotusScript Development Environment:2:2:enhLogSetLogMethodResults:2:8
+
+Public Sub enhLogSetLogMethodResults (source As Boolean)
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLog.LogMethodResults = source
+End Sub ' enhLogSetLogMethodResults
+
 '++LotusScript Development Environment:2:1:enhLogHasCachedError:2:8
 
 Public Function enhLogHasCachedError() As Boolean
@@ -4593,124 +4228,11 @@ Public Function enhLogHasCachedError() As Boolean
 	If enhLogExists Then enhLogHasCachedError = enhLog.HasCachedError
 End Function ' enhLogHasCachedError
 
-'++LotusScript Development Environment:2:1:enhLogGetLogConfigDb:8:8
-
-%REM
-	Function enhLogGetLogConfigDb
-	Gets an open instance of the Database defined in the Log Config document.
-	
-	@return Database defined in the Log Config document.  Nothing on Error.
-%END REM
-Public Function enhLogGetLogConfigDb() As NotesDatabase 
-	Dim extendedInfo As String
-	Dim result As NotesDatabase
-	On Error GoTo ErrorTrap
-
-	Dim ndoc As NotesDocument 
-	Dim server As String 
-	Dim filepath As String
-
-	Set ndoc = enhLogGetLogConfigDoc(False)
-	server$ = getDocItemText(ndoc, ITEMNAME_ENHLOG_TARGET_SERVER)
-	filepath$ = getDocItemText(ndoc, ITEMNAME_ENHLOG_TARGET_FILEPATH)
-	extendedInfo$ = |Server: | & server$ & _ 
-	Chr(10) & |Filepath: | & filepath$
-	
-	Set result = getOpenDatabase(server$, filepath$) 
-	
-ExitPoint:
-	Set enhLogGetLogConfigDb = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException CLASS_PREFIX, extendedInfo$
-	Set result = Nothing
-	Resume ExitPoint
-End Function ' enhLogGetLogConfigDb
-
 '++LotusScript Development Environment:2:2:enhLogSetUserName:2:8
 
 Public Sub enhLogSetUserName (source As NotesName)
 	If Not enhLogExists Then Call InstantiateLog("")
 	Set enhLog.UserName = source
-End Sub ' enhLogSetUserName
-
-'++LotusScript Development Environment:2:1:getEnvarName:11:8
-
-%REM
-	Function getEnvarName
-	Constructs a valid Envirionment Variable Name from a given source string.
-	
-	@param source$: String from which to construct the Environment Variable NaMe.
-	@param clearCache: Flag indicating if cached information should be cleared.
-	
-	@return	Environment Variable Name.  Blank on Error.	
-%END REM
-Function getEnvarName(source$, clearCache As Boolean) As String
-	Dim extendedInfo As String
-	Dim result As String
-	On Error GoTo ErrorTrap
-	
-	Static cache List As String
-	
-	result$ = Trim$(source$)
-	If (Len(result$) = 0) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
-	If clearCache Then Erase cache
-	If IsElement(cache(result$)) Then 
-		result$ = cache(result$)
-	Else
-		cache(result$) = UCase$(strReplaceSubstring(result$, " ", "_"))
-		result$ = cache(result$) 
-	End If ' IsElement(cache(source$))
-	
-ExitPoint:
-	getEnvarName = result$
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	extendedInfo$ = |Source: | & source$ & Chr(10) & |ClearCache: | & CStr(clearCache)
-	enhLogException LIB_PREFIX, extendedInfo$
-	result$ = ""
-	Resume ExitPoint
-End Function ' getEnvarName
-
-'++LotusScript Development Environment:2:1:getCurrentSession:6:8
-
-%REM
-	Function getCurrentSession
-	@return: handle to the current NotesSession
-%END REM
-Function getCurrentSession() As NotesSession
-	Dim extendedInfo As String
-	On Error GoTo ErrorTrap
-	
-	If (genhl_Session Is Nothing) Then
-		extendedInfo$ = |Global Session Object Is Nothing| 
-		Set genhl_Session = New NotesSession()
-	End If ' (genhl_Session Is Nothing)
-	
-ExitPoint:
-	Set getCurrentSession = genhl_Session
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	Set genhl_Session = Nothing
-	Resume ExitPoint
-End Function ' getCurrentSession 
-
-'++LotusScript Development Environment:2:2:enhLogSetResumeOnLoggingFailure:2:8
-
-Public Sub enhLogSetResumeOnLoggingFailure (source As Boolean)
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.ResumeOnLoggingFailure = source
-End Sub ' enhLogSetResumeOnLoggingFailure
-
-'++LotusScript Development Environment:2:2:enhLogSetUserNameAbbrev:2:8
-
-Public Sub enhLogSetUserNameAbbrev (source$)
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.UserNameAbbrev = source
 End Sub ' enhLogSetUserName
 
 '++LotusScript Development Environment:2:1:enhLogGetCachedErrorMethod:2:8
@@ -4720,39 +4242,53 @@ Public Function enhLogGetCachedErrorMethod() As String
 	If enhLogExists Then enhLogGetCachedErrorMethod = enhLog.CachedErrorMethod
 End Function ' enhLogGetCachedErrorMethod
 
-'++LotusScript Development Environment:2:1:getLogOptionsProfile:2:8
+'++LotusScript Development Environment:2:1:enhLogHasEntries:2:8
 
-Private Function getLogOptionsProfile() As NotesDocument
-	Dim extendedInfo As String
-	Static result As NotesDocument
+Public Function enhLogHasEntries() As Boolean
+	Dim result As Boolean
+	
 	On Error GoTo ErrorTrap
+	result = False
+	If enhLogExists Then result = enhLog.HasEntries
 	
-	Static checked As Boolean
-	Dim fieldnames As Variant
-	
-	If checked Then GoTo ExitPoint	
-	extendedInfo$ = |Profile document name: | & PROFILENAME_ENHANCEDLOG
-	Set result = getCurrentSession().CurrentDatabase.GetProfileDocument(PROFILENAME_ENHANCEDLOG)
-	If result.IsNewNote Then Set result = Nothing
-	If (result Is Nothing) Then GoTo ExitPoint
-	
-	fieldnames = enhLogOptionsProfileFieldNames
-	ForAll fieldname In fieldnames
-		If (Not result.HasItem(fieldname)) Then 
-			Set result = Nothing
-			GoTo ExitPoint
-		End If
-	End ForAll ' (Not result.HasItem(fieldname))
-	
-ExitPoint:
-	checked = True
-	Set getLogOptionsProfile = result
+ExitPoint:	
+	enhLogHasEntries = result
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
-	If enhLogExists Then enhLogException LIB_PREFIX, extendedInfo$
+	result = False	
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint		
+End Function ' enhLogHasEntries  
+
+'++LotusScript Development Environment:2:1:enhLogExtendedContent:2:8
+
+Public Function enhLogExtendedContent (prefix$, description$, content$) As Boolean
+	Dim result As Boolean
+	
+	On Error GoTo ErrorTrap
+	If Not enhLogExists Then Call InstantiateLog("")
+	
+	If ((description$ = "") And (prefix$ = "")) Then 
+		enhLog.LogExtendedContent ||, content$
+	Else
+		If enhLog.ActionsIncludeMethodNames Then
+			enhLog.LogExtendedContent prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$, content$
+		Else
+			enhLog.LogExtendedContent prefix$ & description$, content$
+		End If ' enhLog.ActionsIncludeMethodNames
+	End If ' ((description$ = "") And (prefix$ = ""))
+	
+	result = True
+	
+ExitPoint:	
+	enhLogExtendedContent = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	result = False
 	Resume ExitPoint	
-End Function ' getLogOptionsProfile	
+End Function ' enhLogExtendedContent
 
 '++LotusScript Development Environment:2:1:getOpenDatabase:2:8
 
@@ -4788,76 +4324,6 @@ ErrorTrap:
 	Set result = Nothing
 	Resume ExitPoint
 End Function ' getOpenDatabase
-
-'++LotusScript Development Environment:2:1:enhLogExtendedContent:2:8
-
-Public Function enhLogExtendedContent (prefix$, description$, content$) As Boolean
-	Dim result As Boolean
-	
-	On Error GoTo ErrorTrap
-	If Not enhLogExists Then Call InstantiateLog("")
-	
-	If ((description$ = "") And (prefix$ = "")) Then 
-		enhLog.LogExtendedContent ||, content$
-	Else
-		If enhLog.ActionsIncludeMethodNames Then
-			enhLog.LogExtendedContent prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$, content$
-		Else
-			enhLog.LogExtendedContent prefix$ & description$, content$
-		End If ' enhLog.ActionsIncludeMethodNames
-	End If ' ((description$ = "") And (prefix$ = ""))
-	
-	result = True
-	
-ExitPoint:	
-	enhLogExtendedContent = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = False
-	Resume ExitPoint	
-End Function ' enhLogExtendedContent
-
-'++LotusScript Development Environment:2:2:enhLogSetCommonProperties:2:8
-
-Public Sub enhLogSetCommonProperties(progname$, localEcho As Boolean, logActions As Boolean, logMethodResults As Boolean, logErrors As Boolean, logStackExceptions As Boolean)
-	Dim extendedInfo As String
-	On Error GoTo ErrorTrap
-	Const SEARCHFOR = |Notes: Programmable Element Unknown|
-	
-	enhLogSetLocalEcho localEcho
-	enhLogSetLogActions logActions
-	enhLogSetLogMethodResults logMethodResults
-	enhLogSetLogErrors logErrors	
-	enhLogSetLogStackExceptions logStackExceptions
-	If (Len(Trim(progname$)) > 0) Then enhLogSetProgramName progname$	
-	
-ExitPoint:
-	Exit Sub
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	Resume ExitPoint
-End Sub ' enhLogSetCommonProperties
-
-'++LotusScript Development Environment:2:1:enhLogHasEntries:2:8
-
-Public Function enhLogHasEntries() As Boolean
-	Dim result As Boolean
-	
-	On Error GoTo ErrorTrap
-	result = False
-	If enhLogExists Then result = enhLog.HasEntries
-	
-ExitPoint:	
-	enhLogHasEntries = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = False	
-	enhLogException LIB_PREFIX, ||
-	Resume ExitPoint		
-End Function ' enhLogHasEntries  
 
 '++LotusScript Development Environment:2:1:enhLogProfileMethodStart:11:8
 
@@ -4954,36 +4420,6 @@ ErrorTrap:
 	Resume ExitPoint
 End Function 'enhLogTicksPerSecond
 
-'++LotusScript Development Environment:2:1:enhLogStackTrace:2:8
-
-Public Function enhLogStackTrace(prefix$, extendedMsg$) As Boolean
-	Dim result As Boolean	
-	On Error GoTo ErrorTrap
-
-	Dim msg As String 
-	result = True	
-	
-	If (Len(extendedMsg$) > 0) Then 
-		msg$ = prefix$ & Chr(10) & extendedMsg$
-	ElseIf (Len(prefix$) = 0) Then 
-		msg$ = GetThreadInfo(LIB_LSI_THREAD_CALLMODULE) & |.| & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)	
-	Else
-		msg$ = prefix$
-	End If ' (len(extendedMsg$) > 0)
-
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.logWarning msg$
-	enhLog.logStackTrace
-	
-ExitPoint:	
-	enhLogStackTrace = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedMsg$
-	Resume ExitPoint	
-End Function ' enhLogStackTrace
-
 '++LotusScript Development Environment:2:1:enhLogGetConfigItemNames:2:8
 
 Public Function enhLogGetConfigItemNames() As Variant 
@@ -5022,104 +4458,35 @@ ErrorTrap:
 	Resume ExitPoint	
 End Function ' enhLogGetConfigItemNames
 
-'++LotusScript Development Environment:2:1:getScalar:2:8
+'++LotusScript Development Environment:2:1:enhLogStackTrace:2:8
 
-Private Function getScalar(source As Variant ) As Variant	
-	Dim result As Variant
-	
+Public Function enhLogStackTrace(prefix$, extendedMsg$) As Boolean
+	Dim result As Boolean	
 	On Error GoTo ErrorTrap
-	
-	If IsScalar(source) Then
-		If IsObject(source) Then
-			Set result = source
-		Else
-			result = source
-		End If ' Isobject(source) 
-	Else
-		If IsObject(source(LBound(source))) Then
-			Set result = source(LBound(source))
-		Else
-			result = source(LBound(source))
-		End If ' Isobject(source(Lbound(source))) 
-	End If ' Isscalar(source)
-	
-ExitPoint:
-	If IsObject(result) Then
-		Set getScalar = result
-	Else
-		getScalar = result
-	End If ' Isobject(result)
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0 
-	If enhLogExists Then enhLogException LIB_PREFIX, ||
-	result = False
-	Resume ExitPoint
-End Function ' getScalar
 
-'++LotusScript Development Environment:2:1:enhLogMethodResultWithLink:2:8
-
-Public Function enhLogMethodResultWithLink (prefix$, description$, linkto As Variant, comment$, HotSpotText$) As Boolean
-	Dim result As Boolean
-	Dim content As String
+	Dim msg As String 
+	result = True	
 	
-	On Error GoTo ErrorTrap
+	If (Len(extendedMsg$) > 0) Then 
+		msg$ = prefix$ & Chr(10) & extendedMsg$
+	ElseIf (Len(prefix$) = 0) Then 
+		msg$ = GetThreadInfo(LIB_LSI_THREAD_CALLMODULE) & |.| & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)	
+	Else
+		msg$ = prefix$
+	End If ' (len(extendedMsg$) > 0)
+
 	If Not enhLogExists Then Call InstantiateLog("")
-	
-	If enhLog.ActionsIncludeMethodNames Then
-		content$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
-	Else
-		content$ = prefix$ & description$
-	End If ' enhLog.ActionsIncludeMethodNames 
-	
-	enhLog.LogMethodResultWithLink content$, linkTo, comment$, HotSpotText$
-	enhLogExtendedContent ||, ||, ||
-	
-	result = True
+	enhLog.logWarning msg$
+	enhLog.logStackTrace
 	
 ExitPoint:	
-	enhLogMethodResultWithLink = result
+	enhLogStackTrace = result
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
-	result = Err()	
-	enhLogException LIB_PREFIX, ||
-	Resume ExitPoint		
-End Function ' enhLogMethodResultWithLink
-
-'++LotusScript Development Environment:2:1:enhLogMethodResult:2:8
-
-Public Function enhLogMethodResult (prefix$, description$) As Boolean
-	Dim result As Boolean
-	
-	On Error GoTo ErrorTrap
-	If Not enhLogExists Then Call InstantiateLog("")
-	
-	If enhLog.ActionsIncludeMethodNames Then
-		enhLog.LogMethodResult prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
-		enhLogExtendedContent ||, ||, ||
-	Else
-		enhLog.LogMethodResult prefix$ & description$
-	End If ' enhLog.ActionsIncludeMethodNames 
-	
-	result = True
-	
-ExitPoint:	
-	enhLogMethodResult = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = False	
-	enhLogException LIB_PREFIX, ||
+	enhLogException LIB_PREFIX, extendedMsg$
 	Resume ExitPoint	
-End Function ' enhLogMethodResult
-
-'++LotusScript Development Environment:2:2:enhLogSetLogStackExceptions:2:8
-
-Public Sub enhLogSetLogStackExceptions (source As Boolean)
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.LogStackExceptions = source
-End Sub ' enhLogSetLogStackExceptions
+End Function ' enhLogStackTrace
 
 '++LotusScript Development Environment:2:1:enhLogGetLogConfigUNID:2:8
 
@@ -5128,67 +4495,6 @@ Public Function enhLogGetLogConfigUNID() As String
 	' ATTENTION DEVELOPERS - If you change this key you will loose any existing Log Config documents.
 	enhLogGetLogConfigUNID = getConfigUNID(|ENHLOGCONFIG|, False) 
 End Function ' enhLogGetLogConfigUNID
-
-'++LotusScript Development Environment:2:1:enhLogExceptionWithLink:2:8
-
-Public Function enhLogExceptionWithLink (prefix$, extendedMsg$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
-	Dim result As Boolean	
-	On Error GoTo ErrorTrap
-	
-	Dim errcode As Integer
-	Dim errline As Long
-	Dim errmsg As String
-	Dim methodname As String
-
-	errcode% = Err()
-	errline& = Erl()
-	errmsg$ = Error()
-	methodname$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
-	
-
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.LogExceptionWithLink errcode%, errmsg$, errline&, methodname$, extendedMsg$, linkTo, comment$, HotSpotText$
-	
-	result = True	
-	
-ExitPoint:	
-	enhLogExceptionWithLink = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = False
-	Resume ExitPoint	
-End Function ' enhLogExceptionWithLink
-
-'++LotusScript Development Environment:2:1:enhLogException:2:8
-
-Public Function enhLogException (prefix$, extendedMsg$) As Boolean
-	Dim result As Boolean	
-	On Error GoTo ErrorTrap
-	
-	Dim errcode As Integer
-	Dim errline As Long
-	Dim errmsg As String
-	Dim methodname As String
-
-	errcode% = Err()
-	errline& = Erl()
-	errmsg$ = Error()
-	methodname$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
-	
-	If Not enhLogExists Then Call InstantiateLog("")
-	enhLog.LogException errcode%, errmsg$, errline& , methodname$, extendedMsg$
-	
-	result = True	
-	
-ExitPoint:	
-	enhLogException = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = False
-	Resume ExitPoint	
-End Function ' enhLogException
 
 '++LotusScript Development Environment:2:2:enhLogSetOverwriteFile:2:8
 
@@ -5248,12 +4554,6 @@ ErrorTrap:
 	Resume ExitPoint	
 End Function ' enhLogIsLogDisabled
 
-'++LotusScript Development Environment:2:2:TrimString:2:8
-
-Private Sub TrimString (source$)
-	source$ = Trim$(source$)
-End Sub ' TrimString
-
 '++LotusScript Development Environment:2:2:enhLogSetLocalEcho:2:8
 
 Public Sub enhLogSetLocalEcho (source As Boolean)
@@ -5261,31 +4561,1112 @@ Public Sub enhLogSetLocalEcho (source As Boolean)
 	enhLog.LocalEcho = source
 End Sub ' enhLogSetLocalEcho
 
-'++LotusScript Development Environment:2:1:enhLogWarning:2:8
+'++LotusScript Development Environment:2:1:enhLogGetTaggedTicks:9:8
 
-Public Function enhLogWarning (prefix$, description$) As Boolean
+%REM
+	Function enhLogGetTaggedTicks
+	Returns the number of clock ticks for a given tag since last called.
+
+	@param tag$: Unique string identifying the specific timer value to retrieve.
+	@return: Number of clock ticks since last called.
+%END REM
+Public Function enhLogGetTaggedTicks(tag$) As Double
+	Dim extendedInfo As String	
+	Dim result As Double
+	On Error GoTo ErrorTrap
+	
+	Static cache List As Double
+	Dim thismoment As Double	
+	
+	result# = 0
+	thismoment# = GetThreadInfo(LIB_LSI_THREAD_TICKS)
+	If IsElement(cache(tag$)) Then result# = thismoment# - cache(tag$)
+
+ExitPoint:
+	cache(tag$) = thismoment# 
+	enhLogGetTaggedTicks = result#
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedInfo$
+	result# = 0
+	Resume ExitPoint	
+End Function ' enhLogGetTaggedTicks
+
+'++LotusScript Development Environment:2:1:enhLogActionWithLink:2:8
+
+Public Function enhLogActionWithLink (prefix$, description$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
+	Dim result As Boolean
+	Dim content As String
+	
+	On Error GoTo ErrorTrap
+	If Not enhLogExists Then Call InstantiateLog("")
+	
+	If enhLog.ActionsIncludeMethodNames Then
+		content$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
+	Else
+		content$ = prefix$ & description$
+	End If ' enhLog.ActionsIncludeMethodNames 
+	
+	enhLog.LogActionWithLink content$, linkTo, comment$, HotSpotText$
+	
+	result = True
+	
+ExitPoint:	
+	enhLogActionWithLink = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	result = Err()	
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint	
+End Function ' enhLogActionWithLink
+
+'++LotusScript Development Environment:2:1:enhLogAction:2:8
+
+Public Function enhLogAction(prefix$, description$) As Boolean
 	Dim result As Boolean
 	
 	On Error GoTo ErrorTrap
 	If Not enhLogExists Then Call InstantiateLog("")
 	
 	If enhLog.ActionsIncludeMethodNames Then
-		enhLog.LogWarning prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
+		enhLog.LogAction prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
 	Else
-		enhLog.LogWarning prefix$ & description$
+		enhLog.LogAction prefix$ & description$
 	End If ' enhLog.ActionsIncludeMethodNames 
 	
 	result = True
 	
 ExitPoint:	
-	enhLogWarning = result
+	enhLogAction = result
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
 	result = False	
 	enhLogException LIB_PREFIX, ||
 	Resume ExitPoint	
-End Function ' enhLogWarning
+End Function ' enhLogAction
+
+'++LotusScript Development Environment:2:2:enhLogClearCachedError:6:8
+
+
+
+
+
+Public Sub enhLogClearCachedError()
+	On Error GoTo ErrorTrap
+	If Not enhLogExists Then Call InstantiateLog("")
+	Call enhLog.ClearCachedError()
+	
+ExitPoint:
+	Exit Sub
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint
+End Sub ' enhLogClearCachedError
+
+'++LotusScript Development Environment:2:1:enhLogGetCachedErrorTimestamp:13:8
+
+
+
+
+
+
+
+
+
+
+
+
+Public Function enhLogGetCachedErrorTimestamp() As String
+	enhLogGetCachedErrorTimestamp = ""
+	If enhLogExists Then enhLogGetCachedErrorTimestamp = enhLog.CachedErrorTimestamp
+End Function ' enhLogGetCachedErrorTimestamp
+
+'++LotusScript Development Environment:2:1:getDbConfigDoc:13:8
+
+%REM
+	Function getDbConfigDoc
+	Gets the DbConfig document for the specified Form.
+	
+	Only 1 DbConfig document may exist for a specified form.
+	
+	@param source$ Form for the specified DbConfig document.
+	@param clearCache Flag indicating if the cached information should be cleared.
+	
+	@return NotesDocument for the specified key.  Returns Nothing if no document found.	
+%END REM
+Function getDbConfigDoc(ByVal source$, clearCache As Boolean) As NotesDocument
+	Dim extendedInfo As String
+	Dim result As NotesDocument
+	On Error GoTo ErrorTrap
+	
+	Dim nvw As NotesView
+	Dim column As NotesViewColumn
+	Dim killdoc As NotesDocument
+	Dim nitm As NotesItem
+	Dim unid As String
+	Dim oldunid As String
+	Dim form As String 
+	Dim docform As String
+	
+	Dim isCreated As Boolean
+	
+	TrimString source$
+	form$ = UCase$(source$)
+	extendedInfo$ = |Form: | & source$
+	If (Len(form$) < 1) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
+	
+	If clearCache Then
+		Erase genhl_dbConfigDocCache
+	ElseIf IsElement(genhl_dbConfigDocCache(form$)) Then 
+		Set result = genhl_dbConfigDocCache(form$)
+		GoTo ExitPoint
+	End If ' clearCache
+	
+	unid$ = getConfigUNID(form$, clearCache) 
+	extendedInfo$ = |Form: | & form$ & Chr(10) & |ClearCache: | & CStr(clearCache) & Chr(10) & |UNID: | & unid$
+	Set result = getDocumentByUNID(unid$) 
+	If (result Is Nothing) Then 
+		' get from view  (create if necessary)
+		extendedInfo$ = extendedInfo$ & Chr(10) & |View: | & VIEWNAME_DBCONFIG 
+		Set nvw = getCurrentDb().GetView (VIEWNAME_DBCONFIG) 
+		If (nvw Is Nothing) Then 
+			' create the view 
+			enhLogAction LIB_PREFIX, |Creating Temporary View: | & VIEWNAME_DBCONFIG
+			Set nvw = getCurrentDb().CreateView(VIEWNAME_DBCONFIG, |SELECT @Contains ( Form; "Config" )|)
+			Set column = nvw.CreateColumn(1, "Form", "@UpperCase(Form)")
+			column.isSorted = True
+			Set column = nvw.CreateColumn(2, "Modified", "@Modified")
+			column.isSorted = True
+			Call nvw.Refresh()
+			isCreated = True
+		End If ' (nvw Is Nothing)
+		
+		Set result = nvw.GetDocumentByKey(form$, True)
+		If isCreated Then 
+			' delete the temporary view
+			enhLogAction LIB_PREFIX, |Removing Temporary View: | & VIEWNAME_DBCONFIG
+			Call nvw.Remove() 
+		End If ' isCreated
+		
+		If (Not (result Is Nothing)) Then 
+			enhLogWarning LIB_PREFIX, |Found "| & source$ & |" Document with invalid UNID.|
+			oldunid$ = result.UniversalID
+			extendedInfo$ = extendedInfo$ & Chr(10) & |Old UNID: | & oldunid$
+			enhLogExtendedContent LIB_PREFIX, |Changing UNID of "| & source$ & |" Document|, |Old UNID: | & oldunid$
+			enhLogExtendedContent ||, ||, |New UNID: | & unid$
+			enhLogExtendedContent ||, ||, ||
+			result.UniversalID = unid$
+			If (Not result.Save(True, False)) Then Error ERR_DOC_NOT_SAVED, MSG_DOC_NOT_SAVED
+			Set killdoc = getDocumentByUNID(oldunid$)
+			Call killdoc.Remove(True)
+		End If	' (Not (result Is Nothing))
+	End If ' (result Is Nothing)
+	
+	If (result Is Nothing) Then 
+		enhLogWarning LIB_PREFIX, |No document found for | & source$
+		Set result = New NotesDocument(getCurrentDb())
+		result.UniversalID = getConfigUNID(unid$, False)
+		Set nitm = result.ReplaceItemValue(ITEMNAME_FORM, source$)
+		nitm.IsSummary = True		
+		enhLogExtendedContent LIB_PREFIX, |Created New "| & source$ & |" Document|, |UNID: | & unid$
+		enhLogExtendedContent ||, ||, ||
+	End If ' (result Is Nothing)
+	
+	docform$ = UCase$(Trim$(getDocItemText(result, ITEMNAME_FORM)))	
+	If (docform$ <> form$) Then 
+		enhLogWarning LIB_PREFIX, |Document form "| & docform$ & |" does not match specified config form "| & form$ & |"|
+		enhLogAction LIB_PREFIX, |Changing Form to: | & form$
+		Set nitm = result.ReplaceItemValue(ITEMNAME_FORM, form$)
+		nitm.IsSummary = True		
+	End If ' docform$ <> form$)
+	
+ExitPoint:
+	Set genhl_dbConfigDocCache(form$) = result
+	Set getDbConfigDoc = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedInfo$
+	Set result = Nothing
+	Resume ExitPoint
+End Function  ' getDbConfigDoc 
+
+'++LotusScript Development Environment:2:1:enhLogGetLogConfigDoc:2:8
+
+Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
+	Dim extendedInfo As String
+	Dim result As NotesDocument
+	On Error GoTo ErrorTrap
+	
+	Dim killdoc As NotesDocument
+	Dim nitm As NotesItem 
+	Dim unid As String
+	Dim fieldnames As Variant
+
+	unid$ = enhLogGetLogConfigUNID() 
+	extendedInfo$ = |UNID: | & unid$
+	Set result = getDocumentByUNID(unid$) 
+	If (result Is Nothing) Then
+		Set killdoc = getLogOptionsProfile()
+		If (killdoc Is Nothing) Then
+			If spawnNew Then 
+				Set result = New NotesDocument(getCurrentDb())
+				result.UniversalID = unid$				
+				Set nitm = result.ReplaceItemValue(|Form|, FORMNAME_ENHANCEDLOGCONFIG)
+				nitm.IsSummary = True				
+				If (Not result.Save(True, False)) Then Error ERR_DOC_NOT_SAVED, MSG_DOC_NOT_SAVED
+			End If ' spawnNew		
+		Else
+			' killdoc is the deprecated log profile
+			' spawnNew is ignored - replacing deprecated profile document with new config document
+			Set result = New NotesDocument(getCurrentDb())
+			result.UniversalID = unid$				
+			Set nitm = result.ReplaceItemValue(|Form|, FORMNAME_ENHANCEDLOGCONFIG)
+			nitm.IsSummary = True		
+
+			fieldnames = enhLogOptionsProfileFieldNames()
+			ForAll itemname In fieldnames
+				If (killdoc.HasItem(itemname)) Then
+					extendedInfo$ = |Item: | & itemname
+					Set nitm = result.ReplaceItemValue(itemname, killdoc.GetFirstItem(itemname))
+					nitm.IsSummary = True
+				End If ' (killdoc.HasItem(itemname))
+			End ForAll ' fieldname In fieldnames
+			
+			If (Not result.Save(True, False)) Then Error ERR_DOC_NOT_SAVED, MSG_DOC_NOT_SAVED
+
+			extendedInfo$ = |UNID: | & killdoc.UniversalID
+			enhLogWarning LIB_PREFIX, |Removing Deprecated Log Profile document and replacing with Log Configuration document.|
+			Call killdoc.Remove(True)
+		End If ' (killdoc Is Nothing)
+	End If ' (result Is Nothing)
+	
+ExitPoint:
+	Set enhLogGetLogConfigDoc = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedInfo$
+	Set result = Nothing
+	Resume ExitPoint
+End Function  ' enhLogGetLogConfigDoc 
+
+'++LotusScript Development Environment:2:1:stripFirstSubstr:2:8
+
+Private Function stripFirstSubstr (strSource As String, strSubstr As String) As String
+	
+	If (InStr(strSource$, strSubstr$) > 0) Then
+		stripFirstSubstr$ = StrLeft(strSource$, strSubstr$) & StrRight(strSource$, strSubstr$)
+	Else
+		stripFirstSubstr$ = strSource$
+	End If ' (Instr(strSource$, strSubstr$) > 0)
+	
+End Function ' stripFirstSubstr
+
+'++LotusScript Development Environment:2:1:getCallingUIobjectName:7:8
+%REM
+	Function getCallingUIobjectName
+	gets the name of the calling UI element
+	
+	@return String Comments
+%END REM
+Private Function getCallingUIobjectName() As String
+	Dim extendedInfo As String
+	Dim result As String
+	On Error GoTo ErrorTrap
+	
+	Dim nuiwsp As New NotesUIWorkspace()
+	Dim view As NotesUIView
+	Dim uidoc As NotesUIDocument
+	Dim doc As NotesDocument
+	Dim windowTitle As String
+	
+	result$ = ||
+	If (Not getCurrentSession().isOnServer) Then 
+		' Because a view can be embedded, need to check for it first.
+		Set view = nuiwsp.CurrentView
+		If (view Is Nothing) Then 
+			' check for ui document
+			Set uidoc = nuiwsp.CurrentDocument
+			If (Not (uidoc Is Nothing)) Then 
+				windowTitle$ = uidoc.WindowTitle
+				Set doc = uidoc.Document
+				If (doc Is Nothing) Then 
+					result$ = |Page: | & windowTitle$
+				Else
+					If IsEmpty(doc.Items) Then
+						result$ = |Page: | & windowTitle$
+					ElseIf doc.HasItem(|Form|) Then
+						result$ = |Form: | & Trim$(doc.GetFirstItem(|Form|).Text) & |.|
+					Else
+						result$ = |UIDoc: | & windowTitle$
+				End If ' IsEmpty(doc.Items)
+				End If ' (doc Is Nothing)
+			End If ' (uidoc Is Nothing)
+		Else
+			' view is something
+			result$ = Trim$(view.ViewAlias)
+			If (Len(result$) > 0) Then 
+				result$ = |View: | & view.ViewName & "|" & result$ & |.|
+			Else
+				result$ = |View: | & view.ViewName & |.|
+			End If ' (Len(result$) > 0)
+		End If ' (view Is Nothing)
+	End If ' getCurrentSession().isOnServer
+	
+	If (Len(result$) = 0) Then result$ = ELEMENT_UNKNOWN	
+		
+	ExitPoint:
+		getCallingUIobjectName = result$
+		Exit Function
+	ErrorTrap:
+		On Error GoTo 0
+		If enhLogExists Then enhLogException LIB_PREFIX, extendedInfo$
+		result$ = ELEMENT_UNKNOWN
+		Resume ExitPoint
+End Function ' getCallingUIobjectName
+
+'++LotusScript Development Environment:2:1:enhLogResetDbLog:2:8
+
+Public Function enhLogResetDbLog() As Boolean
+	Dim result As Boolean
+	Dim extendedInfo As String
+	Dim programName As String
+	Dim subject As String
+	
+	On Error GoTo ErrorTrap
+	If Not enhLogExists Then Call InstantiateLog("")
+	
+	programName$ = enhLog.ProgramName
+	subject$ = enhLog.Subject
+	
+	If Not (enhLog Is Nothing) Then
+		result = enhLogAction(LIB_PREFIX, |Resetting the enhLog|)
+		If (Not enhLog.Save(True, False)) Then
+			extendedInfo$ = |Unable to save log.|
+			Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
+		End If ' (Not enhLog.Save(True, False))
+		
+		Delete enhLog
+		Set enhLog = Nothing
+		
+		Sleep(1) ' Forces log entry documents to have at least 1 second between creation timestamps.
+	End If ' Not (enhLog Is Nothing)
+	
+	If Not result Then 
+		extendedInfo$ = |Error in prior instance of enhLog object.|
+		Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
+	End If ' Not result
+	
+	Set enhLog = New EnhancedLog(programName$) 	' Instantiates enhLog as a Singleton entity.
+	If (enhLog Is Nothing) Then Error ERR_OBJECT_CREATE_FAILED, MSG_OBJECT_CREATE_FAILED
+	enhLog.ProgramName = programName$
+	enhLog.Subject = subject$
+	
+ExitPoint:
+	enhLogResetDbLog = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	result = False
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint
+End Function ' enhLogResetDbLog 
+
+'++LotusScript Development Environment:2:2:InstantiateLoggingSession:2:8
+
+Private Sub InstantiateLoggingSession()
+	g_errMsg$ = ||
+	g_errLine& = 0
+	g_errCode% = 0
+	
+	lstrLogTypes(LOGTYPE_NOTES) = |NotesLog|
+	lstrLogTypes(LOGTYPE_AGENT) = |AgentLog|
+	lstrLogTypes(LOGTYPE_FILE) = |FileLog|
+	lstrLogTypes(LOGTYPE_MAIL) = |MailLog|
+End Sub ' InstantiateLoggingSession
+
+'++LotusScript Development Environment:2:1:enhLogGetCachedErrorCode:2:8
+
+Public Function enhLogGetCachedErrorCode() As Integer
+	enhLogGetCachedErrorCode = 0
+	If enhLogExists Then enhLogGetCachedErrorCode = enhLog.CachedErrorCode
+End Function ' enhLogGetCachedErrorCode
+
+'++LotusScript Development Environment:2:1:enhLogGetCachedErrorLine:7:8
+
+%REM
+	Public Function enhLogGetCachedErrorLine
+	The Enhanced Log's Cached Error Line
+	@return Integer
+%END REM
+Public Function enhLogGetCachedErrorLine() As Integer
+	enhLogGetCachedErrorLine = 0
+	If enhLogExists Then enhLogGetCachedErrorLine = enhLog.CachedErrorLine
+End Function ' enhLogGetCachedErrorLine
+
+'++LotusScript Development Environment:2:1:getSortedListTags:7:8
+%REM
+	Function getSortedListTags
+	Description: Gets the Sorted listTags for a list 
+	@param source: List object from which to get the list tags 
+	@return sorted array of listTags from the list.  
+%END REM
+Function getSortedListTags(source As Variant) As Variant 
+	On Error GoTo ErrorTrap 
+	Dim result As Variant 
+
+	If IsList(source) Then 
+		result = getListTags(source) 
+		If IsNull(result) Then GoTo ExitPoint 
+		quickSortStrings result 
+	End If 
+	
+ExitPoint: 
+	getSortedListTags = result 
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ""
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:getConfigUNID:13:8
+
+%REM
+	Function getConfigUNID
+	Gets the UNID of the DbConfig document for a given source key.
+	
+	Only 1 DbConfig document may exist for a specified form.
+	
+	@param source$:  Form of the specified DbConfig document.
+	@param clearCache: Flag indicating if cached information should be cleared.
+	
+	@return	UNID for the Config doc.  Blank on Error.	
+%END REM
+Public Function getConfigUNID(ByVal source$, clearCache As Boolean) As String
+	Dim extendedInfo As String
+	Dim result As String
+	On Error GoTo ErrorTrap
+	
+	Static cache List As String
+	Dim envarName As String
+	
+	source$ = UCase$(Trim$(source$))
+	
+	extendedInfo$ = |Source: | & source$ & Chr(10) & |ClearCache: | & CStr(clearCache)
+	envarName$ = getEnvarName(source$, clearCache)
+	If (Len(envarName$) = 0) Then GoTo ExitPoint
+	
+	If clearCache Then Erase cache	
+	envarName$ = UNID_PREFIX & envarName$	
+	extendedInfo$ = extendedInfo$ & Chr(10) & |Environment Variable Name: | & envarName$
+	If IsElement(cache(envarName$)) Then 
+		result$ = cache(envarName$)
+	Else
+		result$ = getHashedValue(source$, clearCache)
+		If (Len(result$) = 0) Then Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
+	End If ' IsElement(cache(envarName$))
+	
+ExitPoint:
+	cache(envarName$) = result$
+	getConfigUNID = result$
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedInfo$
+	result$ = ""
+	Resume ExitPoint
+End Function ' getConfigUNID
+
+'++LotusScript Development Environment:2:1:isStringArrayEmpty:2:8
+
+Private Function isStringArrayEmpty (source As Variant) As Boolean
+	Dim result As Boolean
+	Dim sourceType As String
+	Dim extendedInfo As String
+	
+	
+	On Error GoTo ErrorTrap
+	g_errCode% = 0
+	
+	sourceType$ = TypeName(source)
+	
+	Select Case sourceType$
+	Case "STRING"
+		result = (Len(Trim$(source)) = 0)
+		
+	Case "STRING( )"
+		result = True
+		ForAll element In source
+			result = Not (Len(Trim$(source)) = 0)
+			If Not result Then GoTo ExitPoint
+		End ForAll 	' element In source
+		
+	Case Else 
+		extendedInfo$ = |Parameter must be a String or an array of Strings.| & _ 
+		Chr(10) & |Parameter type = | & sourceType$ & |.|
+		
+		Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
+	End Select 	' sourceType$
+	
+ExitPoint:	
+	On Error GoTo 0
+	If (g_errCode% = ERR_PARAMETER_INVALID) Then Error ERR_PARAMETER_INVALID, _ 
+	MSG_PARAMETER_INVALID
+	
+	isStringArrayEmpty = result
+	Exit Function	
+ErrorTrap:
+	On Error GoTo 0
+	If enhLogExists Then enhLogException LIB_PREFIX, extendedInfo$
+	g_errCode% = Err()
+	Resume ExitPoint
+End Function  	' isStringArrayEmpty
+
+'++LotusScript Development Environment:2:1:enhLogGetTaggedMilliseconds:9:8
+
+%REM
+	Function enhLogGetTaggedMilliseconds
+	Returns the number of milliseconds for a given tag since last called.
+
+	@param tag$: Unique string identifying the specific timer value to retrieve.
+	@return: Number of clock ticks since last called.
+%END REM
+Public Function enhLogGetTaggedMilliseconds(tag$) As Double
+	Dim extendedInfo As String	
+	Dim result As Double
+	On Error GoTo ErrorTrap
+	
+	Static cache List As Double
+	Dim thismoment As Double	
+	
+	result# = 0
+	thismoment# = GetThreadInfo(LIB_LSI_THREAD_TICKS)
+	If IsElement(cache(tag$)) Then result# = enhLogTicksToMilliseconds(thismoment# - cache(tag$))
+
+ExitPoint:
+	cache(tag$) = thismoment# 
+	enhLogGetTaggedMilliseconds = result#
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedInfo$
+	result# = 0
+	Resume ExitPoint	
+End Function ' enhLogGetTaggedMilliseconds
+
+'++LotusScript Development Environment:2:2:enhLogSetProgramName:2:8
+
+Public Sub enhLogSetProgramName (source$)
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLog.ProgramName = source
+End Sub ' enhLogSetProgramName 
+
+'++LotusScript Development Environment:2:1:enhLogGetSubject:2:8
+
+Public Function enhLogGetSubject() As String
+	enhLogGetSubject = ""
+	If enhLogExists Then enhLogGetSubject = enhLog.Subject
+End Function ' enhLogGetSubject  
+
+'++LotusScript Development Environment:2:2:enhLogSetSendTo:2:8
+
+Public Sub enhLogSetSendTo (source As Variant)
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLog.SendTo = source
+End Sub ' enhLogSetSendTo	
+
+'++LotusScript Development Environment:2:2:enhLogDumpContent:2:8
+
+Public Sub enhLogDumpContent (prefix$, filepath$)
+	Dim Text As String
+	Dim fileNum As Integer
+	
+	On Error GoTo ErrorTrap
+	If Not enhLogExists Then Call InstantiateLog("")
+	
+	If enhLog.ActionsIncludeMethodNames Then
+		enhLog.LogAction prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |():  Called enhLogDumpContent()|
+	Else
+		enhLog.LogAction prefix$ & | Called enhLogDumpContent()|
+	End If ' enhLog.ActionsIncludeMethodNames 
+	
+	If (filepath$ = "") Then Error 1200, "FILE NAME IS BLANK"
+	If Not fileExists(filepath$) Then Error 1000, "FILE NOT FOUND"
+	
+	enhLogExtendedContent LIB_PREFIX, |File Contents|, filepath$
+	
+	fileNum% = FreeFile()
+	Open filepath$ For Input As fileNum%
+	Do While Not EOF(fileNum%)
+		Line Input #fileNum%, text$ 
+		enhLogExtendedContent ||, ||, text$
+	Loop ' While Not Eof(fileNum%)
+		
+	enhLogExtendedContent ||, ||, ||
+		
+ExitPoint:
+	On Error GoTo 0
+	Close fileNum%
+	Exit Sub
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint
+End Sub ' enhLogDumpContent
+
+'++LotusScript Development Environment:2:1:stripHTML:4:8
+
+%REM THIS METHOD INTENTIONALLY HAS NO ERROR TRAPPING  
+%END REM ERRORS MUST BE HANDLED BY CALLING CODE
+Private Function stripHTML (source$, stripOrphans As Boolean) As String
+	Dim intPosOpen As Integer
+	Dim intPosClose As Integer
+	Dim strTarget As String
+	
+	strTarget$ = source$
+	
+	If stripOrphans Then
+		' Strip out Orphan Tags
+		Do
+			intPosOpen% = InStr(strTarget$, "<")
+			intPosClose% = InStr(strTarget$, ">")
+			
+			If intPosOpen% < intPosClose% Then
+				' Either the first open indicator occurs prior to the first close indicator,
+				' or doesn't exist at all.
+				If intPosOpen% = 0 Then
+					' The first open indicator doesn't exist.
+					' If the Orphan close indicator exists, then strip it out.
+					
+					If (intPosClose% > 0) Then strTarget$ = stripFirstSubstr(strTarget$, ">")
+				Else
+					' The first open indicator exists, and occurs prior to the first close indicator.
+					' THIS INDICATES STANDARD MARKUP. STRIP IT OUT
+					
+					strTarget$ = stripFirstSubstr(strTarget$, Mid$(strTarget$, intPosOpen%, _ 
+					(intPosClose% - intPosOpen%) + 1))
+				End If ' intPosOpen% = 0
+			Else
+				' Either the first close indicator occurs prior to the first open indicator,
+				' or doesn't exist at all.
+				If intPosClose% = 0 Then
+					' The first close indicator doesn't exist.
+					' If the Orphan open indicator exists, then strip it out.
+					
+					If (intPosOpen% > 0) Then strTarget$ = stripFirstSubstr(strTarget$, "<")
+				Else
+					' The first close indicator occurs prior to the first open indicator,
+					' and is therefore an Orphan. Strip it out.
+					
+					strTarget$ = stripFirstSubstr(strTarget$, ">")
+				End If 'intPosClose% = 0
+			End If ' intPosOpen% < intPosClose%
+		Loop While ((intPosOpen% + intPosClose%) > 0)
+		
+	Else
+		' Orphan tags are to be ignored.
+		
+		Do
+			intPosOpen% = InStr(strTarget$, "<")
+			If intPosOpen% > 0 Then
+				' An open indicator exists. Find the subsequent close indicator
+				intPosClose% = InStr(intPosOpen, strTarget$, ">")
+			Else
+				' No open indicator exists. Set the close position to zero and bail out.
+				intPosClose% = 0
+			End If ' intPosOpen% > 0
+			
+			If intPosClose% > intPosOpen% Then
+				' The first open indicator exists, and occurs prior to the first close indicator.
+				' THIS INDICATES STANDARD MARKUP. STRIP IT OUT
+				strTarget$ = stripFirstSubstr(strTarget$, Mid$(strTarget$, intPosOpen%, _ 
+				(intPosClose% - intPosOpen%) + 1))
+			Else
+				' No close indicator exists. Set the open position to zero and bail out.
+				intPosOpen% = 0
+			End If ' intPosClose% > intPosOpen%
+		Loop While ((intPosOpen% + intPosClose%) > 0)		
+	End If ' stripOrphans
+	
+	stripHTML$ = strTarget$	
+End Function ' stripHTML
+
+'++LotusScript Development Environment:2:1:getCurrentSession:6:8
+
+%REM
+	Function getCurrentSession
+	@return: handle to the current NotesSession
+%END REM
+Function getCurrentSession() As NotesSession
+	Dim extendedInfo As String
+	On Error GoTo ErrorTrap
+	
+	If (genhl_Session Is Nothing) Then
+		extendedInfo$ = |Global Session Object Is Nothing| 
+		Set genhl_Session = New NotesSession()
+	End If ' (genhl_Session Is Nothing)
+	
+ExitPoint:
+	Set getCurrentSession = genhl_Session
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedInfo$
+	Set genhl_Session = Nothing
+	Resume ExitPoint
+End Function ' getCurrentSession 
+
+'++LotusScript Development Environment:2:1:getEnvarName:11:8
+
+%REM
+	Function getEnvarName
+	Constructs a valid Envirionment Variable Name from a given source string.
+	
+	@param source$: String from which to construct the Environment Variable NaMe.
+	@param clearCache: Flag indicating if cached information should be cleared.
+	
+	@return	Environment Variable Name.  Blank on Error.	
+%END REM
+Function getEnvarName(source$, clearCache As Boolean) As String
+	Dim extendedInfo As String
+	Dim result As String
+	On Error GoTo ErrorTrap
+	
+	Static cache List As String
+	
+	result$ = Trim$(source$)
+	If (Len(result$) = 0) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
+	If clearCache Then Erase cache
+	If IsElement(cache(result$)) Then 
+		result$ = cache(result$)
+	Else
+		cache(result$) = UCase$(strReplaceSubstring(result$, " ", "_"))
+		result$ = cache(result$) 
+	End If ' IsElement(cache(source$))
+	
+ExitPoint:
+	getEnvarName = result$
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	extendedInfo$ = |Source: | & source$ & Chr(10) & |ClearCache: | & CStr(clearCache)
+	enhLogException LIB_PREFIX, extendedInfo$
+	result$ = ""
+	Resume ExitPoint
+End Function ' getEnvarName
+
+'++LotusScript Development Environment:2:1:enhLogGetLogConfigDb:8:8
+
+%REM
+	Function enhLogGetLogConfigDb
+	Gets an open instance of the Database defined in the Log Config document.
+	
+	@return Database defined in the Log Config document.  Nothing on Error.
+%END REM
+Public Function enhLogGetLogConfigDb() As NotesDatabase 
+	Dim extendedInfo As String
+	Dim result As NotesDatabase
+	On Error GoTo ErrorTrap
+
+	Dim ndoc As NotesDocument 
+	Dim server As String 
+	Dim filepath As String
+
+	Set ndoc = enhLogGetLogConfigDoc(False)
+	server$ = getDocItemText(ndoc, ITEMNAME_ENHLOG_TARGET_SERVER)
+	filepath$ = getDocItemText(ndoc, ITEMNAME_ENHLOG_TARGET_FILEPATH)
+	extendedInfo$ = |Server: | & server$ & _ 
+	Chr(10) & |Filepath: | & filepath$
+	
+	Set result = getOpenDatabase(server$, filepath$) 
+	
+ExitPoint:
+	Set enhLogGetLogConfigDb = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException CLASS_PREFIX, extendedInfo$
+	Set result = Nothing
+	Resume ExitPoint
+End Function ' enhLogGetLogConfigDb
+
+'++LotusScript Development Environment:2:2:enhLogSetResumeOnLoggingFailure:2:8
+
+Public Sub enhLogSetResumeOnLoggingFailure (source As Boolean)
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLog.ResumeOnLoggingFailure = source
+End Sub ' enhLogSetResumeOnLoggingFailure
+
+'++LotusScript Development Environment:2:2:enhLogSetUserNameAbbrev:2:8
+
+Public Sub enhLogSetUserNameAbbrev (source$)
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLog.UserNameAbbrev = source
+End Sub ' enhLogSetUserName
+
+'++LotusScript Development Environment:2:2:quickSortStrings:1:8
+Private Sub quickSortStrings(source As Variant)
+	Dim value$ 
+	Dim Lower As Integer
+	Dim Upper As Integer
+	Dim botMax As Integer
+	Dim i As Integer
+	Dim k As Integer
+	Dim h As Integer
+	
+	Lower% = LBound(source)
+	Upper% = UBound(source)
+
+	h% = 1
+	Do
+		h% = (3*h%) + 1
+	Loop Until h% > Upper%-Lower%+1
+
+	Do
+		h% = h% \ 3
+		botMax% = Lower% + h% - 1
+		For i% = botMax% + 1 To Upper%
+			value$ = source( i% )
+			k% = i%
+			While (StrCompare(source(k% - h%), value$) > 0)
+				source(k%) = source( k% - h% )
+				k% = k% - h%
+				If (k% <= botMax%) Then GoTo wOut
+			Wend
+wOut:
+			If (k% <> i%) Then source(k%) = value
+		Next
+	Loop Until h% = 1
+End Sub
+
+'++LotusScript Development Environment:2:1:getLogOptionsProfile:3:8
+
+
+Private Function getLogOptionsProfile() As NotesDocument
+	Dim extendedInfo As String
+	Static result As NotesDocument
+	On Error GoTo ErrorTrap
+	
+	Static checked As Boolean
+	Dim fieldnames As Variant
+	
+	If checked Then GoTo ExitPoint	
+	extendedInfo$ = |Profile document name: | & PROFILENAME_ENHANCEDLOG
+	Set result = getCurrentSession().CurrentDatabase.GetProfileDocument(PROFILENAME_ENHANCEDLOG)
+	If result.IsNewNote Then Set result = Nothing
+	If (result Is Nothing) Then GoTo ExitPoint
+	
+	fieldnames = enhLogOptionsProfileFieldNames
+	ForAll fieldname In fieldnames
+		If (Not result.HasItem(fieldname)) Then 
+			Set result = Nothing
+			GoTo ExitPoint
+		End If
+	End ForAll ' (Not result.HasItem(fieldname))
+	
+ExitPoint:
+	checked = True
+	Set getLogOptionsProfile = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	If enhLogExists Then enhLogException LIB_PREFIX, extendedInfo$
+	Resume ExitPoint	
+End Function ' getLogOptionsProfile	
+
+'++LotusScript Development Environment:2:2:enhLogSetCommonProperties:2:8
+
+Public Sub enhLogSetCommonProperties(progname$, localEcho As Boolean, logActions As Boolean, logMethodResults As Boolean, logErrors As Boolean, logStackExceptions As Boolean)
+	Dim extendedInfo As String
+	On Error GoTo ErrorTrap
+	Const SEARCHFOR = |Notes: Programmable Element Unknown|
+	
+	enhLogSetLocalEcho localEcho
+	enhLogSetLogActions logActions
+	enhLogSetLogMethodResults logMethodResults
+	enhLogSetLogErrors logErrors	
+	enhLogSetLogStackExceptions logStackExceptions
+	If (Len(Trim(progname$)) > 0) Then enhLogSetProgramName progname$	
+	
+ExitPoint:
+	Exit Sub
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedInfo$
+	Resume ExitPoint
+End Sub ' enhLogSetCommonProperties
+
+'++LotusScript Development Environment:2:1:getScalar:2:8
+
+Private Function getScalar(source As Variant ) As Variant	
+	Dim result As Variant
+	
+	On Error GoTo ErrorTrap
+	
+	If IsScalar(source) Then
+		If IsObject(source) Then
+			Set result = source
+		Else
+			result = source
+		End If ' Isobject(source) 
+	Else
+		If IsObject(source(LBound(source))) Then
+			Set result = source(LBound(source))
+		Else
+			result = source(LBound(source))
+		End If ' Isobject(source(Lbound(source))) 
+	End If ' Isscalar(source)
+	
+ExitPoint:
+	If IsObject(result) Then
+		Set getScalar = result
+	Else
+		getScalar = result
+	End If ' Isobject(result)
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0 
+	If enhLogExists Then enhLogException LIB_PREFIX, ||
+	result = False
+	Resume ExitPoint
+End Function ' getScalar
+
+'++LotusScript Development Environment:2:1:enhLogMethodResult:2:8
+
+Public Function enhLogMethodResult (prefix$, description$) As Boolean
+	Dim result As Boolean
+	
+	On Error GoTo ErrorTrap
+	If Not enhLogExists Then Call InstantiateLog("")
+	
+	If enhLog.ActionsIncludeMethodNames Then
+		enhLog.LogMethodResult prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
+		enhLogExtendedContent ||, ||, ||
+	Else
+		enhLog.LogMethodResult prefix$ & description$
+	End If ' enhLog.ActionsIncludeMethodNames 
+	
+	result = True
+	
+ExitPoint:	
+	enhLogMethodResult = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	result = False	
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint	
+End Function ' enhLogMethodResult
+
+'++LotusScript Development Environment:2:1:enhLogMethodResultWithLink:2:8
+
+Public Function enhLogMethodResultWithLink (prefix$, description$, linkto As Variant, comment$, HotSpotText$) As Boolean
+	Dim result As Boolean
+	Dim content As String
+	
+	On Error GoTo ErrorTrap
+	If Not enhLogExists Then Call InstantiateLog("")
+	
+	If enhLog.ActionsIncludeMethodNames Then
+		content$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
+	Else
+		content$ = prefix$ & description$
+	End If ' enhLog.ActionsIncludeMethodNames 
+	
+	enhLog.LogMethodResultWithLink content$, linkTo, comment$, HotSpotText$
+	enhLogExtendedContent ||, ||, ||
+	
+	result = True
+	
+ExitPoint:	
+	enhLogMethodResultWithLink = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	result = Err()	
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint		
+End Function ' enhLogMethodResultWithLink
+
+'++LotusScript Development Environment:2:2:enhLogSetLogStackExceptions:2:8
+
+Public Sub enhLogSetLogStackExceptions (source As Boolean)
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLog.LogStackExceptions = source
+End Sub ' enhLogSetLogStackExceptions
+
+'++LotusScript Development Environment:2:1:enhLogException:2:8
+
+Public Function enhLogException (prefix$, extendedMsg$) As Boolean
+	Dim result As Boolean	
+	On Error GoTo ErrorTrap
+	
+	Dim errcode As Integer
+	Dim errline As Long
+	Dim errmsg As String
+	Dim methodname As String
+
+	errcode% = Err()
+	errline& = Erl()
+	errmsg$ = Error()
+	methodname$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
+	
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLog.LogException errcode%, errmsg$, errline& , methodname$, extendedMsg$
+	
+	result = True	
+	
+ExitPoint:	
+	enhLogException = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	result = False
+	Resume ExitPoint	
+End Function ' enhLogException
+
+'++LotusScript Development Environment:2:1:enhLogExceptionWithLink:2:8
+
+Public Function enhLogExceptionWithLink (prefix$, extendedMsg$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
+	Dim result As Boolean	
+	On Error GoTo ErrorTrap
+	
+	Dim errcode As Integer
+	Dim errline As Long
+	Dim errmsg As String
+	Dim methodname As String
+
+	errcode% = Err()
+	errline& = Erl()
+	errmsg$ = Error()
+	methodname$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
+	
+
+	If Not enhLogExists Then Call InstantiateLog("")
+	enhLog.LogExceptionWithLink errcode%, errmsg$, errline&, methodname$, extendedMsg$, linkTo, comment$, HotSpotText$
+	
+	result = True	
+	
+ExitPoint:	
+	enhLogExceptionWithLink = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	result = False
+	Resume ExitPoint	
+End Function ' enhLogExceptionWithLink
+
+'++LotusScript Development Environment:2:2:TrimString:2:8
+
+Private Sub TrimString (source$)
+	source$ = Trim$(source$)
+End Sub ' TrimString
 
 '++LotusScript Development Environment:2:1:enhLogWarningWithLink:2:8
 
@@ -5316,24 +5697,31 @@ ErrorTrap:
 	Resume ExitPoint	
 End Function ' enhLogWarningWithLink
 
-'++LotusScript Development Environment:2:1:fileExists:2:8
+'++LotusScript Development Environment:2:1:enhLogWarning:2:8
 
-Private Function fileExists (source$) As Boolean
-	Dim extendedInfo As String
+Public Function enhLogWarning (prefix$, description$) As Boolean
 	Dim result As Boolean
 	
 	On Error GoTo ErrorTrap
-	extendedInfo$ = |"| & source$ & |"|
-	result = (Len(Dir(source$, 14)) > 0)
+	If Not enhLogExists Then Call InstantiateLog("")
 	
-ExitPoint:
-	fileExists = result
+	If enhLog.ActionsIncludeMethodNames Then
+		enhLog.LogWarning prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
+	Else
+		enhLog.LogWarning prefix$ & description$
+	End If ' enhLog.ActionsIncludeMethodNames 
+	
+	result = True
+	
+ExitPoint:	
+	enhLogWarning = result
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
-	result = False
-	Resume ExitPoint
-End Function ' fileExists  
+	result = False	
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint	
+End Function ' enhLogWarning
 
 '++LotusScript Development Environment:2:1:enhLogProfileMethodFinish:12:8
 
@@ -5430,37 +5818,24 @@ ErrorTrap:
 	Resume ExitPoint
 End Function ' enhLogProfileMethodFinish
 
-'++LotusScript Development Environment:2:1:enhLogGetTaggedTicks:9:8
+'++LotusScript Development Environment:2:1:fileExists:2:8
 
-%REM
-	Function enhLogGetTaggedTicks
-	Returns the number of clock ticks for a given tag since last called.
-
-	@param tag$: Unique string identifying the specific timer value to retrieve.
-	@return: Number of clock ticks since last called.
-%END REM
-Public Function enhLogGetTaggedTicks(tag$) As Double
-	Dim extendedInfo As String	
-	Dim result As Double
+Private Function fileExists (source$) As Boolean
+	Dim extendedInfo As String
+	Dim result As Boolean
+	
 	On Error GoTo ErrorTrap
+	extendedInfo$ = |"| & source$ & |"|
+	result = (Len(Dir(source$, 14)) > 0)
 	
-	Static cache List As Double
-	Dim thismoment As Double	
-	
-	result# = 0
-	thismoment# = GetThreadInfo(LIB_LSI_THREAD_TICKS)
-	If IsElement(cache(tag$)) Then result# = thismoment# - cache(tag$)
-
 ExitPoint:
-	cache(tag$) = thismoment# 
-	enhLogGetTaggedTicks = result#
+	fileExists = result
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	result# = 0
-	Resume ExitPoint	
-End Function ' enhLogGetTaggedTicks
+	result = False
+	Resume ExitPoint
+End Function ' fileExists  
 
 '++LotusScript Development Environment:2:1:getServerFilepath:2:8
 
@@ -5474,61 +5849,6 @@ Private Function getServerFilepath (ByVal server$, ByVal filepath$) As String
 		getServerFilepath = filepath$
 	End If ' (Len(server$) > 0)	
 End Function ' getServerFilepath
-
-'++LotusScript Development Environment:2:1:enhLogAction:2:8
-
-Public Function enhLogAction(prefix$, description$) As Boolean
-	Dim result As Boolean
-	
-	On Error GoTo ErrorTrap
-	If Not enhLogExists Then Call InstantiateLog("")
-	
-	If enhLog.ActionsIncludeMethodNames Then
-		enhLog.LogAction prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
-	Else
-		enhLog.LogAction prefix$ & description$
-	End If ' enhLog.ActionsIncludeMethodNames 
-	
-	result = True
-	
-ExitPoint:	
-	enhLogAction = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = False	
-	enhLogException LIB_PREFIX, ||
-	Resume ExitPoint	
-End Function ' enhLogAction
-
-'++LotusScript Development Environment:2:1:enhLogActionWithLink:2:8
-
-Public Function enhLogActionWithLink (prefix$, description$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
-	Dim result As Boolean
-	Dim content As String
-	
-	On Error GoTo ErrorTrap
-	If Not enhLogExists Then Call InstantiateLog("")
-	
-	If enhLog.ActionsIncludeMethodNames Then
-		content$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
-	Else
-		content$ = prefix$ & description$
-	End If ' enhLog.ActionsIncludeMethodNames 
-	
-	enhLog.LogActionWithLink content$, linkTo, comment$, HotSpotText$
-	
-	result = True
-	
-ExitPoint:	
-	enhLogActionWithLink = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	result = Err()	
-	enhLogException LIB_PREFIX, ||
-	Resume ExitPoint	
-End Function ' enhLogActionWithLink
 
 '++LotusScript Development Environment:2:1:enhLogOptionsProfileFieldNames:2:8
 
@@ -5563,28 +5883,8 @@ End Function ' enhLogOptionsProfileFieldNames
 
 
 
-'++LotusScript Development Environment:2:2:enhLogClearCachedError:6:8
-
-
-
-
-
-Public Sub enhLogClearCachedError()
-	On Error GoTo ErrorTrap
-	If Not enhLogExists Then Call InstantiateLog("")
-	Call enhLog.ClearCachedError()
 	
-ExitPoint:
-	Exit Sub
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, ||
-	Resume ExitPoint
-End Sub ' enhLogClearCachedError
-
-
-
-
+	
 
 
 
