@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.4" replicaid="85257B1600791A9D" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1d2" sequence="85" unid="1D96B8649B3AF31A862577FA007649FC">
+<noteinfo noteid="1d2" sequence="93" unid="1D96B8649B3AF31A862577FA007649FC">
 <created><datetime>20101215T153201,88-06</datetime></created>
-<modified><datetime dst="true">20170321T190620,68-04</datetime></modified>
-<revised><datetime dst="true">20170321T190620,67-04</datetime></revised>
-<lastaccessed><datetime dst="true">20170321T190620,68-04</datetime></lastaccessed>
+<modified><datetime dst="true">20170327T143818,99-04</datetime></modified>
+<revised><datetime dst="true">20170327T143818,98-04</datetime></revised>
+<lastaccessed><datetime dst="true">20170327T143818,99-04</datetime></lastaccessed>
 <addedtofile><datetime>20130218T170247,64-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=NA/O=GBS</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=NA/O=GBS</name><name>CN=Devin Olson/O=dlc</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=THQ/OU=USS/O=SArmy</name><name>CN=THQ Developer/OU=USS/O=SArmy</name><name>CN=Devin Olson/OU=THQ/OU=USS/O=SArmy</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$TITLE" sign="true"><text>enhLogClass</text></item>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$POID"><datetime>20101203T153715,18-05</datetime></item>
-<item name="$Comment" sign="true"><text>Carrier for the EnhancedLog class.</text></item>
 
 
 
 
 
-</note>
+
+<item name="$Comment"><text>Carrier for the EnhancedLog class.</text></item></note>
