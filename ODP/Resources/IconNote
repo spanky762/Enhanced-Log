@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
  maintenanceversion='1.4' replicaid='85257B1600791A9D'>
-<noteinfo noteid='11a' unid='01D84037E75768E685257370004C2A2C' sequence='48'>
+<noteinfo noteid='11a' unid='01D84037E75768E685257370004C2A2C' sequence='51'>
 <created><datetime dst='true'>20071010T095155,32-04</datetime></created>
-<modified><datetime dst='true'>20170329T163612,04-04</datetime></modified>
-<revised><datetime dst='true'>20170329T163612,03-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20170329T163612,04-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20170330T101012,78-04</datetime></modified>
+<revised><datetime dst='true'>20170330T101012,77-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20170330T101012,78-04</datetime></lastaccessed>
 <addedtofile><datetime>20130218T170246,76-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <item name='IconBitmap' summary='true' sign='true'>
@@ -27,6 +27,7 @@ ERERERERERERERER//////D/////D////////w/w8P///wDwAA/wDwD////w8PD///8A8PD/8A8A
 <item name='$DefaultFrameset'><text>notes-main</text></item>
 <item name='$TITLE'><text>Enhanced Log
 #1Enhanced Log Template</text></item>
-<item name='$Flags'><text>FKc</text></item>
+<item name='$Flags'><text>FKn</text></item>
+<item name='$LaunchXPageRunOnServer'><text>0</text></item>
 <item name='$FlagsNoRefresh'><text>trv</text></item></note>
 
