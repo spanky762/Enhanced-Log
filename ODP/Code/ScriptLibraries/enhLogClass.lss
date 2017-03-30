@@ -187,6 +187,7 @@ Declare Public Function enhLogWarning (prefix$, description$) As Boolean
 Declare Public Function enhLogProfileMethodFinish(ByVal classname$, ByVal operation$) As Double 
 Declare Private Function fileExists (source$) As Boolean
 Declare Private Function getServerFilepath (ByVal server$, ByVal filepath$) As String
+Declare Private Function isBlankString(source$) As Boolean 
 Declare Private Function enhLogOptionsProfileFieldNames() As Variant
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
@@ -362,7 +363,9 @@ End Type
 Private genhl_ProfileMethods List As ProfiledMethod
 Private genhl_dbConfigDocCache List As NotesDocument
 Private genhl_ProfileMethodStarts List As Integer 
-Public genhl_Session As NotesSession     
+Public genhl_Session As NotesSession      
+
+
 
 
 
@@ -2501,7 +2504,6 @@ ErrorTrap:
 		Resume ExitPoint		
 	End Sub ' Instantiate()
 End Class 	
-
 Private Class ProfiledMethodList 
 	Private CLASS_NAME As String
 	Private CLASS_PREFIX As String 
@@ -2514,7 +2516,6 @@ Private Class ProfiledMethodList
 	End Sub ' New	
 
 End Class
-
 Private Class NestedProfiledMethodList 
 	Private CLASS_NAME As String
 	Private CLASS_PREFIX As String 
@@ -2527,6 +2528,10 @@ Private Class NestedProfiledMethodList
 	End Sub ' New	
 
 End Class
+%REM
+	Class StringList 
+	Wrapper for a List As String object, with extended functionality through the various properties and methods. 
+%END REM
 Public Class StringList 
 	Public content List As String
 
@@ -2576,15 +2581,23 @@ ErrorTrap:
 	End Sub
 	
 	
-	Function getValue(key As String) As String
+	Function getValue(key$) As String
 		Dim result As String  
 		On Error GoTo ErrorTrap 
 		
-		If ("" <> Trim$(key) And IsElement(me.content(key))) Then 
-			result = me.content(key)
+		result = || 
+		If isBlankString(key$) Then GoTo ExitPoint 
+		
+		If IsElement(me.content(key$)) Then 
+			result = me.content(key$)
 		Else 
-			result = ""
-		End If 
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					result = element 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
 		
 ExitPoint: 
 		getValue = result 
@@ -2651,6 +2664,10 @@ ErrorTrap:
 	End Property	
 	
 End Class
+%REM
+	Class BooleanList 
+	Wrapper for a List As Boolean object, with extended functionality through the various properties and methods. 
+%END REM
 Public Class BooleanList 
 	Public content List As Boolean
 
@@ -2700,15 +2717,23 @@ ErrorTrap:
 	End Sub
 	
 	
-	Function getValue(key As String) As Boolean
-		Dim result As Boolean  
+	Function getValue(key$) As Boolean
+		Dim result As Boolean 
 		On Error GoTo ErrorTrap 
 		
-		If ("" <> Trim$(key) And IsElement(me.content(key))) Then 
-			result = me.content(key)
+		result = False 
+		If isBlankString(key$) Then GoTo ExitPoint 
+		
+		If IsElement(me.content(key$)) Then 
+			result = me.content(key$) 
 		Else 
-			result = False
-		End If 
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					result = element 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
 		
 ExitPoint: 
 		getValue = result 
@@ -2788,7 +2813,7 @@ ErrorTrap:
 	%END REM
 	Function isTrue(key$) As Boolean 
 		On Error GoTo ErrorTrap
-		isTrue = (IsElement(me.content(key$)) And (me.content(key$)))
+		isTrue = Me.getValue(key$) 
 
 ExitPoint:
 		Exit Function 
@@ -2835,6 +2860,10 @@ ErrorTrap:
 	
 	
 End Class
+%REM
+	Class VariantList 
+	Wrapper for a List As Variant object, with extended functionality through the various properties and methods. 
+%END REM
 Public Class VariantList 
 	Public content List As Variant 
 
@@ -2884,18 +2913,38 @@ ErrorTrap:
 	End Sub
 	
 	
-	Function getValue(key As String) As Variant
+	Function getValue(key$) As Variant
 		Dim result As Variant  
 		On Error GoTo ErrorTrap 
 		
-		If ("" <> Trim$(key) And IsElement(me.content(key))) Then 
-			result = me.content(key)
+		result = Null  
+		If isBlankString(key$) Then GoTo ExitPoint 
+		
+		If IsElement(me.content(key$)) Then 
+			If IsObject(me.content(key$)) Then 
+				Set result = me.content(key$)
+			Else 
+				result = me.content(key$) 
+			End If 
 		Else 
-			result = False
-		End If 
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					If IsObject(me.content(key$)) Then 
+						Set result = me.content(key$)
+					Else 
+						result = me.content(key$) 
+					End If 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
 		
 ExitPoint: 
-		getValue = result 
+		If IsObject(result) Then 
+			Set getValue =result
+		Else 
+			getValue = result
+		End If 
 		Exit Function
 ErrorTrap:
 		On Error GoTo 0
@@ -2921,6 +2970,10 @@ ErrorTrap:
 	End Property
 	
 End Class
+%REM
+	Class DateList 
+	Wrapper for a List As Date object, with extended functionality through the various properties and methods. 
+%END REM
 Public Class DateList 
 	Public content List As NotesDateTime 
 
@@ -2970,16 +3023,24 @@ ErrorTrap:
 	End Sub
 	
 	
-	Function getValue(key As String) As NotesDateTime
+	Function getValue(key$) As NotesDateTime
 		Dim result As NotesDateTime  
 		On Error GoTo ErrorTrap 
+	
+		Set result = Nothing 
+		If isBlankString(key$) Then GoTo ExitPoint 
 		
-		If ("" <> Trim$(key) And IsElement(me.content(key))) Then 
-			Set result = me.content(key)
+		If IsElement(me.content(key$)) Then 
+			Set result = me.content(key$)
 		Else 
-			Set result = Nothing
-		End If 
-		
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					Set result = element 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
+
 ExitPoint: 
 		Set getValue = result 
 		Exit Function
@@ -3146,7 +3207,6 @@ Class keyedNotesDateTime
 	Public Sub New() 
 	End Sub
 End Class
-
 '++LotusScript Development Environment:2:2:Initialize:2:10
 
 Sub Initialize
@@ -5850,6 +5910,25 @@ Private Function getServerFilepath (ByVal server$, ByVal filepath$) As String
 	End If ' (Len(server$) > 0)	
 End Function ' getServerFilepath
 
+'++LotusScript Development Environment:2:1:isBlankString:5:8
+%REM
+	Function isBlankString
+	Description: Comments for Function
+%END REM
+Private Function isBlankString(source$) As Boolean 
+	Dim result As Boolean 
+	
+	result = (Len(FullTrim(source$)) < 1) 
+	
+ExitPoint:
+	isBlankString = result 
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	result = True 
+	Resume ExitPoint 
+End Function
+
 '++LotusScript Development Environment:2:1:enhLogOptionsProfileFieldNames:2:8
 
 Private Function enhLogOptionsProfileFieldNames() As Variant
@@ -5878,3 +5957,4 @@ Private Function enhLogOptionsProfileFieldNames() As Variant
 		ReDim result(0) As String
 		Resume ExitPoint
 End Function ' enhLogOptionsProfileFieldNames
+
