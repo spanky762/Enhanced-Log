@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.4" replicaid="85257B1600791A9D" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1ce" sequence="5" unid="2D70747AF90DBAA0862577FA007649FB">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.8" replicaid="852581FE004DADAB" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1be" sequence="4" unid="2D70747AF90DBAA0862577FA007649FB">
 <created><datetime>20101215T153201,87-06</datetime></created>
-<modified><datetime dst="true">20170321T190620,66-04</datetime></modified>
-<revised><datetime dst="true">20170321T190620,65-04</datetime></revised>
-<lastaccessed><datetime dst="true">20170321T190620,66-04</datetime></lastaccessed>
-<addedtofile><datetime>20130218T170247,62-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=NA/O=GBS</name><name>CN=Devin Olson/O=dlc</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=THQ/OU=USS/O=SArmy</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20171222T115300,54-05</datetime></modified>
+<revised><datetime>20171222T115300,53-05</datetime></revised>
+<lastaccessed><datetime>20171222T115300,53-05</datetime></lastaccessed>
+<addedtofile><datetime>20171222T090829,80-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
