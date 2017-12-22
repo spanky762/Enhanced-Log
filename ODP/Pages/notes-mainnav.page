@@ -1,14 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.4'
- replicaid='85257B1600791A9D'>
-<noteinfo noteid='18a' unid='FDF07F8438ACF5EB852577ED0058914E' sequence='11'>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.8'
+ replicaid='852581FE004DADAB'>
+<noteinfo noteid='1a6' unid='FDF07F8438ACF5EB852577ED0058914E' sequence='3'>
 <created><datetime>20101202T110723,66-05</datetime></created>
-<modified><datetime dst='true'>20170321T190620,58-04</datetime></modified>
-<revised><datetime dst='true'>20170321T190620,57-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20170321T190620,58-04</datetime></lastaccessed>
-<addedtofile><datetime>20130218T170247,28-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=THQ/OU=USS/O=SArmy</name><name
->CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20171222T115300,79-05</datetime></modified>
+<revised><datetime>20171222T115300,78-05</datetime></revised>
+<lastaccessed><datetime>20171222T115300,78-05</datetime></lastaccessed>
+<addedtofile><datetime>20171222T090829,54-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='$HTMLCode' sign='true'>
 <rawitemdata type='1'>
