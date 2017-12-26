@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.8" replicaid="852581FE004DADAB" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1be" sequence="4" unid="2D70747AF90DBAA0862577FA007649FB">
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.9" replicaid="85257B1600791A9D" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1ce" sequence="18" unid="2D70747AF90DBAA0862577FA007649FB">
 <created><datetime>20101215T153201,87-06</datetime></created>
-<modified><datetime>20171222T115300,54-05</datetime></modified>
-<revised><datetime>20171222T115300,53-05</datetime></revised>
-<lastaccessed><datetime>20171222T115300,53-05</datetime></lastaccessed>
-<addedtofile><datetime>20171222T090829,80-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20171226T063541,50-05</datetime></modified>
+<revised><datetime>20171226T063541,49-05</datetime></revised>
+<lastaccessed><datetime>20171226T063541,50-05</datetime></lastaccessed>
+<addedtofile><datetime>20171226T062534,16-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$TITLE" sign="true"><text>Demo methods for logging a lot of stuff</text></item>
 <item name="$DesignerVersion" sign="true"><text>8.5.2</text></item>
-<item name="$Comment" sign="true"><text>Demo library only - not for production</text></item>
 <item name="$POID"><datetime>20101203T153715,20-05</datetime></item>
 
-</note>
+
+<item name="$Comment"><text>Demo library only - not for production</text></item></note>
