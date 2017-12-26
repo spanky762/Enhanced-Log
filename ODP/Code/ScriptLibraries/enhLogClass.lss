@@ -9,10 +9,10 @@
 
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2017.12.22
+	Version 2017.12.26
 
 	Last updated: 12/2017
-	
+
  ************************************************************************************
 %END REM *********************************************************************
 
@@ -285,7 +285,7 @@ Private Const ITEMNAME_FORM = |Form|
 Private Const ITEMNAME_HASERRORS = |HasErrors|
 Private Const ITEMNAME_HASWARNINGS = |HasWarnings|
 Private Const ITEMNAME_XMLCONTENT = |xmlContent|
-Private Const VERSION = |2017.12.22|
+Private Const VERSION = |2017.12.26|
 Private Const LOGTYPE_NOTES = 0
 Private Const LOGTYPE_AGENT = 1
 Private Const LOGTYPE_FILE = 2
@@ -6359,6 +6359,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function   
+
+
 
 
 
