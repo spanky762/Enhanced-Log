@@ -1,0 +1,962 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM ***************************************************************************
+ ************************************************************************************
+	azlwListsCollections Lotusscript Library
+
+	Lists and Collections 
+	Copyright &copy; 2002 - 2022, Devin S. Olson
+	http://www.azlighthouse.com
+
+	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
+	http://www.devinolson.net
+	Version 2017.12.26
+
+	Last updated: 12/2017
+
+ ************************************************************************************
+%END REM *********************************************************************
+
+%REM  Released under the Apache License, Version 2.0
+	' ************************************************************************************
+	' *  Copyright 2002 Devin S. Olson
+	' *  
+	' *  Licensed under the Apache License, Version 2.0 (the "License"); 
+	' *  you may not use this file except in compliance with the License. 
+	' *  You may obtain a copy of the License at 
+	' *  
+	' *  http://www.apache.org/licenses/LICENSE-2.0 
+	' *  	
+	' *  Unless required by applicable law or agreed to in writing, software 
+	' *  distributed under the License is distributed on an "AS IS" BASIS, 
+	' *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+	' *  See the License for the specific language governing permissions and 
+	' *  limitations under the License. 
+	' *  	
+ 	' ************************************************************************************
+ 	' ************************************************************************************
+	' BEGIN NOTICE	
+	' *	NOTICE
+	' *		Enhanced Log 
+	' *		Copyright (c) 2002 - 2022 Devin S. Olson.  All rights reserved.
+	' *
+	' *  Developed by: Devin S. Olson
+	' *                azlighthouse works, llc.
+	' *                http://www.azlighthouse.com
+	' *  
+	' *  Permission is hereby granted, free of charge, to any person obtaining a copy
+	' *  of this software and associated documentation files (the "Software"), to
+	' *  deal with the Software without restriction, including without limitation the
+	' *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+	' *  sell copies of the Software, and to permit persons to whom the Software is
+	' *  furnished to do so, subject to the following conditions:
+	' *  
+	' *    1. Redistributions of source code must retain the above copyright notice,
+	' *       this list of conditions and the following disclaimers.
+	' *  
+	' *    2. Redistributions in binary form must reproduce the above copyright
+	' *       notice, this list of conditions and the following disclaimers in the
+	' *       documentation and/or other materials provided with the distribution.
+	' *  
+	' *    3. Neither the names of Devin S. Olson, azlighthouse works, nor the names  
+	' *       of its contributors may be used to endorse or promote products derived 
+	' *       from this Software without specific prior written permission.
+	' *  
+	' *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+	' *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+	' *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE 
+	' *  CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+	' *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+	' *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
+	' *  WITH THE SOFTWARE.
+	' *  
+	' *  NOTICE TRANSLATION: 
+	' *  	You can give away this code.  
+	' *  	You can sell this code.  
+	' *  	You can use this code in your programs, either to give away or to sell.  
+	' *  	You can to whatever you want to do with this code, 
+	' *  	AS LONG AS YOU CREDIT THE AUTHOR AND INCLUDE THE ABOVE LICENSE AND NOTICE.  
+	' *  	It's pretty simple: don't be a jerk and claim that you wrote the code.
+	' *	END NOTICE
+ 	' ************************************************************************************
+%END REM
+Option Public
+Option Explicit 
+Use "enhLogClass" 
+
+
+
+
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Public Class BooleanList 
+Declare Public Class DateList 
+Declare Public Class IntegerList 
+Declare Public Class VariantList 
+Declare Class keyedNotesDateTime 
+Declare Public Class StringList 
+Declare Public Function getSortedListTags(source As Variant) As Variant 
+Declare Private Sub quickSortStrings(source As Variant)
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Private Const LIB_PREFIX = |azlwListsCollections.| 
+
+
+Private Const CLASS_PREFIX_BOOLEANLIST = LIB_PREFIX & |Class: BooleanList.|
+Private Const CLASS_PREFIX_INTEGERLIST =  LIB_PREFIX & |Class: IntegerList.|
+Private Const CLASS_PREFIX_DATELIST =  LIB_PREFIX & |Class: DateList.|
+Private Const CLASS_PREFIX_STRINGLIST =  LIB_PREFIX & |Class: StringList.|
+Private Const CLASS_PREFIX_VARIANTLIST =  LIB_PREFIX & |Class: VariantList.|       
+
+
+
+
+
+
+
+
+
+
+%REM
+	Class BooleanList 
+	Wrapper for a List As Boolean object, with extended functionality through the various properties and methods. 
+%END REM
+Public Class BooleanList 
+	Public content List As Boolean
+
+	Public Sub New()
+	End Sub
+
+	Public Sub Delete()
+		Erase Me.Content
+	End Sub
+	
+	Property Get size As Long 
+		Dim result&
+		ForAll element In me.content 
+			result& = result& + 1
+		End ForAll
+		
+		size = result
+	End Property
+
+	Property Get hasContent As Boolean
+		Dim result As Boolean 
+		
+		result = False 
+		ForAll element In me.content 
+			result = True 
+			Exit ForAll 
+		End ForAll
+		
+		hasContent = result
+	End Property
+	
+	Sub addAll(source As BooleanList) 	
+		On Error GoTo ErrorTrap 
+		
+		If (source Is Nothing) Then GoTo ExitPoint 
+		
+		ForAll element In source.content 
+			me.content(ListTag(element)) = element 
+		End ForAll
+		
+ExitPoint: 
+		Exit Sub
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_BOOLEANLIST, ""
+		Resume ExitPoint 
+	End Sub
+	
+	
+	Function getValue(key$) As Boolean
+		Dim result As Boolean 
+		On Error GoTo ErrorTrap 
+		
+		result = False 
+		If isBlankString(key$) Then GoTo ExitPoint 
+		
+		If IsElement(me.content(key$)) Then 
+			result = me.content(key$) 
+		Else 
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					result = element 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
+		
+ExitPoint: 
+		getValue = result 
+		Exit Function
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_BOOLEANLIST, ""
+		Resume ExitPoint 
+	End Function
+	
+	%REM
+		Property listTags
+		Description: array of all ListTags
+	%END REM
+	Property Get listTags As Variant 
+		listTags =  getListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property Get sortedListTags
+		Description: sorted Array of all ListTags
+	%END REM
+	Property Get sortedListTags As Variant 
+		sortedListTags = getSortedListTags(me.content) 
+	End Property
+	
+
+	%REM
+		Property trueOnly
+		Description: subset of all True values
+	%END REM
+	Property Get trueOnly As BooleanList
+		Dim result As New BooleanList() 
+		On Error GoTo ErrorTrap 
+		
+		ForAll booleanValue In me.content 
+			If (booleanValue) Then result.content(ListTag(booleanValue)) = booleanValue
+		End ForAll
+		
+ExitPoint: 
+		Set trueOnly = result
+		Exit Property 
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_BOOLEANLIST, ""
+		Resume ExitPoint 
+	End Property	
+	
+	%REM
+		Property falseOnly
+		Description: subset of all False values
+	%END REM
+	Property Get falseOnly As BooleanList
+		Dim result As New BooleanList() 
+		On Error GoTo ErrorTrap 
+		
+		ForAll booleanValue In me.content 
+			If (Not booleanValue) Then result.content(ListTag(booleanValue)) = booleanValue
+		End ForAll
+		
+ExitPoint: 
+		Set falseOnly = result
+		Exit Property 
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_BOOLEANLIST, ""
+		Resume ExitPoint 
+	End Property	
+	
+
+	
+	
+	%REM
+		Function isTrue
+		Description: Indicates if a key is a member of the internal list AND it's associated value is True. 
+	%END REM
+	Function isTrue(key$) As Boolean 
+		On Error GoTo ErrorTrap
+		isTrue = Me.getValue(key$) 
+
+ExitPoint:
+		Exit Function 
+ErrorTrap:
+		On Error GoTo 0
+		isTrue = False
+		Resume ExitPoint  
+	End Function
+	
+	
+	%REM
+		Property Get hasTrue
+		Description: Flag indicating if the object contains a True value
+	%END REM
+	Property Get hasTrue As Boolean
+		hasTrue = False 
+		If me.hasContent Then 
+			ForAll element In me.content 
+				If (element) Then 
+					hasTrue = True 
+					Exit ForAll
+				End If  
+			End ForAll
+		End If
+	End Property
+	
+	
+	%REM
+		Property Get hasFalse
+		Description: Flag indicating if the object contains a False value
+	%END REM
+	Property Get hasFalse As Boolean
+		hasFalse = False 
+		If me.hasContent Then 
+			ForAll element In me.content 
+				If (Not element) Then 
+					hasFalse = True 
+					Exit ForAll
+				End If  
+			End ForAll
+		End If
+	End Property
+	
+	
+	
+End Class
+%REM
+	Class DateList 
+	Wrapper for a List As Date object, with extended functionality through the various properties and methods. 
+%END REM
+Public Class DateList 
+	Public content List As NotesDateTime 
+
+	Public Sub New()
+	End Sub
+
+	Public Sub Delete()
+		Erase Me.Content
+	End Sub
+	
+	Property Get size As Long 
+		Dim result&
+		ForAll element In me.content 
+			result& = result& + 1
+		End ForAll
+		
+		size = result
+	End Property
+
+	Property Get hasContent As Boolean
+		Dim result As Boolean 
+		
+		result = False 
+		ForAll element In me.content 
+			result = True 
+			Exit ForAll 
+		End ForAll
+		
+		hasContent = result
+	End Property
+	
+	Sub addAll(source As DateList) 	
+		On Error GoTo ErrorTrap 
+		
+		If (source Is Nothing) Then GoTo ExitPoint 
+		
+		ForAll element In source.content 
+			Set me.content(ListTag(element)) = element 
+		End ForAll
+		
+ExitPoint: 
+		Exit Sub
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_DATELIST, ""
+		Resume ExitPoint 
+	End Sub
+	
+	
+	Function getValue(key$) As NotesDateTime
+		Dim result As NotesDateTime  
+		On Error GoTo ErrorTrap 
+	
+		Set result = Nothing 
+		If isBlankString(key$) Then GoTo ExitPoint 
+		
+		If IsElement(me.content(key$)) Then 
+			Set result = me.content(key$)
+		Else 
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					Set result = element 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
+
+ExitPoint: 
+		Set getValue = result 
+		Exit Function
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_DATELIST, ""
+		Resume ExitPoint 
+	End Function
+	
+	%REM
+		Property listTags
+		Description: array of all ListTags
+	%END REM
+	Property Get listTags As Variant 
+		listTags =  getListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property Get sortedListTags
+		Description: sorted Array of all ListTags
+	%END REM
+	Property Get sortedListTags As Variant 
+		sortedListTags = getSortedListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property listTagsByDateAsc
+		Description: array of all listTags, ordered by Date (Ascending) 
+	%END REM
+	Function getlistTagsByDate(ascending As Boolean) As Variant 
+		Dim kndtArray() As KeyedNotesDateTime
+		Dim kndt As KeyedNotesDateTime 	
+		
+		
+		Dim valuesArray() As String
+		Dim i#
+		On Error GoTo ErrorTrap 
+		
+		If (me.hasContent) Then
+			i# = me.size -1 
+			ReDim valuesArray(i#) As String 
+			ReDim kndtArray(i#) As KeyedNotesDateTime 
+			i# = 0
+
+			' populate the KeyedNotesDateTimes						
+			ForAll element In me.content
+				Set kndt = New KeyedNotesDateTime() 
+				kndt.key = ListTag(element) 
+				Set kndt.value = element
+				Set kndtArray(i#) = kndt
+				i# = i# + 1 
+			End ForAll
+			
+			' Sort the KeyedNotesDateTimes 
+			If (ascending) Then 
+				me.sortAsc kndtArray
+			Else 
+				me.sortDesc kndtArray
+			End If 
+				
+			
+			' Add the keys from kndt to the result
+			For i# = 0 To UBound(kndtArray) 
+				valuesArray(i#) = kndtArray(i#).key
+			Next
+			
+			getlistTagsByDate = valuesArray
+		Else 
+			getlistTagsByDate = Null  
+		End If 
+		
+ExitPoint: 
+		Exit Function 
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_DATELIST, ""
+		Resume ExitPoint 
+	End Function
+	
+	
+	Private Sub sortAsc(source() As KeyedNotesDateTime)
+		Dim kndt As KeyedNotesDateTime
+		Dim Lower As Integer
+		Dim Upper As Integer
+		Dim botMax As Integer
+		Dim i As Integer
+		Dim k As Integer
+		Dim h As Integer
+		
+		Lower% = LBound(source())
+		Upper% = UBound(source())
+
+		h% = 1
+		Do
+			h% = (3*h%) + 1
+		Loop Until h% > Upper%-Lower%+1
+
+		Do
+			h% = h% \ 3
+			botMax% = Lower% + h% - 1
+			For i% = botMax% + 1 To Upper%
+				Set kndt = source( i% )
+				k% = i%
+				While (source(k% - h%).value.timeDifferenceDouble(kndt.value) > 0)
+					Set source(k%) = source( k% - h% )
+					k% = k% - h%
+					If (k% <= botMax%) Then GoTo wOut
+				Wend
+wOut:
+				If (k% <> i%) Then Set source(k%) = kndt
+			Next
+		Loop Until h% = 1
+	End Sub
+	
+	Private Sub sortDesc(source() As KeyedNotesDateTime)
+		Dim kndt As KeyedNotesDateTime
+		Dim Lower As Integer
+		Dim Upper As Integer
+		Dim botMax As Integer
+		Dim i As Integer
+		Dim k As Integer
+		Dim h As Integer
+		
+
+		Lower% = LBound(source())
+		Upper% = UBound(source())
+
+		h% = 1
+		Do
+			h% = (3*h%) + 1
+		Loop Until h% > Upper%-Lower%+1
+
+		Do
+			h% = h% \ 3
+			botMax% = Lower% + h% - 1
+			For i% = botMax% + 1 To Upper%
+				Set kndt = source( i% )
+				k% = i%
+				While (kndt.value.timeDifferenceDouble(source(k% - h%).value) > 0)
+					Set source(k%) = source( k% - h% )
+					k% = k% - h%
+					If (k% <= botMax%) Then GoTo wOut
+				Wend
+wOut:
+				If (k% <> i%) Then Set source(k%) = kndt
+			Next
+		Loop Until h% = 1
+	End Sub
+	
+
+	
+	
+End Class
+
+
+
+%REM
+	Class IntegerList 
+	Wrapper for a List As Integer object, with extended functionality through the various properties and methods. 
+%END REM
+Public Class IntegerList 
+	Public content List As Integer
+
+	Public Sub New()
+	End Sub
+
+	Public Sub Delete()
+		Erase Me.Content
+	End Sub
+	
+	Property Get size As Long 
+		Dim result&
+		ForAll element In me.content 
+			result& = result& + 1
+		End ForAll
+		
+		size = result
+	End Property
+
+	Property Get hasContent As Boolean
+		Dim result As Boolean 
+		
+		result = False 
+		ForAll element In me.content 
+			result = True 
+			Exit ForAll 
+		End ForAll
+		
+		hasContent = result
+	End Property
+	
+	Sub addAll(source As IntegerList) 	
+		On Error GoTo ErrorTrap 
+		
+		If (source Is Nothing) Then GoTo ExitPoint 
+		
+		ForAll element In source.content 
+			me.content(ListTag(element)) = element 
+		End ForAll
+		
+ExitPoint: 
+		Exit Sub
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_INTEGERLIST, ""
+		Resume ExitPoint 
+	End Sub
+	
+	
+	Function getValue(key$) As Integer
+		Dim result As Integer  
+		On Error GoTo ErrorTrap 
+		
+		result = 0
+		If isBlankString(key$) Then GoTo ExitPoint 
+		
+		If IsElement(me.content(key$)) Then 
+			result = me.content(key$)
+		Else 
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					result = element 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
+		
+ExitPoint: 
+		getValue = result 
+		Exit Function
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_INTEGERLIST, ""
+		Resume ExitPoint 
+	End Function
+	
+	%REM
+		Property listTags
+		Description: array of all ListTags
+	%END REM
+	Property Get listTags As Variant 
+		listTags =  getListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property Get sortedListTags
+		Description: sorted Array of all ListTags
+	%END REM
+	Property Get sortedListTags As Variant 
+		sortedListTags = getSortedListTags(me.content) 
+	End Property
+	
+	
+	
+End Class
+%REM
+	Class VariantList 
+	Wrapper for a List As Variant object, with extended functionality through the various properties and methods. 
+%END REM
+Public Class VariantList 
+	Public content List As Variant 
+
+	Public Sub New()
+	End Sub
+
+	Public Sub Delete()
+		Erase Me.Content
+	End Sub
+	
+	Property Get size As Long 
+		Dim result&
+		ForAll element In me.content 
+			result& = result& + 1
+		End ForAll
+		
+		size = result
+	End Property
+
+	Property Get hasContent As Boolean
+		Dim result As Boolean 
+		
+		result = False 
+		ForAll element In me.content 
+			result = True 
+			Exit ForAll 
+		End ForAll
+		
+		hasContent = result
+	End Property
+	
+	Sub addAll(source As VariantList) 	
+		On Error GoTo ErrorTrap 
+		
+		If (source Is Nothing) Then GoTo ExitPoint 
+		
+		ForAll element In source.content 
+			me.content(ListTag(element)) = element 
+		End ForAll
+		
+ExitPoint: 
+		Exit Sub
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_VARIANTLIST, ""
+		Resume ExitPoint 
+	End Sub
+	
+	
+	Function getValue(key$) As Variant
+		Dim result As Variant  
+		On Error GoTo ErrorTrap 
+		
+		result = Null  
+		If isBlankString(key$) Then GoTo ExitPoint 
+		
+		If IsElement(me.content(key$)) Then 
+			If IsObject(me.content(key$)) Then 
+				Set result = me.content(key$)
+			Else 
+				result = me.content(key$) 
+			End If 
+		Else 
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					If IsObject(me.content(key$)) Then 
+						Set result = me.content(key$)
+					Else 
+						result = me.content(key$) 
+					End If 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
+		
+ExitPoint: 
+		If IsObject(result) Then 
+			Set getValue =result
+		Else 
+			getValue = result
+		End If 
+		Exit Function
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_VARIANTLIST, ""
+		Resume ExitPoint 
+	End Function
+	
+	%REM
+		Property listTags
+		Description: array of all ListTags
+	%END REM
+	Property Get listTags As Variant 
+		listTags =  getListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property Get sortedListTags
+		Description: sorted Array of all ListTags
+	%END REM
+	Property Get sortedListTags As Variant 
+		sortedListTags = getSortedListTags(me.content) 
+	End Property
+	
+End Class
+%REM
+	Class keyedNotesDateTime
+	Description: Carrier for a key / value pair, where the value is a NotesDateTime object.
+%END REM
+Class keyedNotesDateTime 
+	Public key As String 
+	Public value As NotesDateTime 
+
+	Public Sub New() 
+	End Sub
+End Class 
+
+
+%REM
+	Class StringList 
+	Wrapper for a List As String object, with extended functionality through the various properties and methods. 
+%END REM
+Public Class StringList 
+	Public content List As String
+
+	Public Sub New()
+	End Sub
+
+	Public Sub Delete()
+		Erase Me.Content
+	End Sub
+	
+	Property Get size As Long 
+		Dim result&
+		ForAll element In me.content 
+			result& = result& + 1
+		End ForAll
+		
+		size = result
+	End Property
+
+	Property Get hasContent As Boolean
+		Dim result As Boolean 
+		
+		result = False 
+		ForAll element In me.content 
+			result = True 
+			Exit ForAll 
+		End ForAll
+		
+		hasContent = result
+	End Property
+	
+	Sub addAll(source As StringList) 	
+		On Error GoTo ErrorTrap 
+		
+		If (source Is Nothing) Then GoTo ExitPoint 
+		
+		ForAll element In source.content 
+			me.content(ListTag(element)) = element 
+		End ForAll
+		
+ExitPoint: 
+		Exit Sub
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_STRINGLIST, ""
+		Resume ExitPoint 
+	End Sub
+	
+	
+	Function getValue(key$) As String
+		Dim result As String  
+		On Error GoTo ErrorTrap 
+		
+		result = || 
+		If isBlankString(key$) Then GoTo ExitPoint 
+		
+		If IsElement(me.content(key$)) Then 
+			result = me.content(key$)
+		Else 
+			ForAll element In me.content 
+				If (0 = StrCompare(key$, ListTag(element), 5)) Then 
+					result = element 
+					Exit ForAll   
+				End If
+			End ForAll
+		End If
+		
+ExitPoint: 
+		getValue = result 
+		Exit Function
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_STRINGLIST, ""
+		Resume ExitPoint 
+	End Function
+	
+	%REM
+		Property listTags
+		Description: array of all ListTags
+	%END REM
+	Property Get listTags As Variant 
+		listTags =  getListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property Get sortedListTags
+		Description: sorted Array of all ListTags
+	%END REM
+	Property Get sortedListTags As Variant 
+		sortedListTags = getSortedListTags(me.content) 
+	End Property
+	
+	
+	%REM
+		Property Get uniqueValues
+		Description: array containing unique values 
+	%END REM
+	Property Get uniqueValues As Variant
+		On Error GoTo ErrorTrap
+		Dim valueTags List As String 
+		Dim valuesArray() As String
+		Dim i#
+		
+		If (me.hasContent) Then 
+			ForAll element In me.content 
+				valueTags(element) = ListTag(element) 
+			End ForAll
+
+			i# = me.size -1 
+			ReDim valuesArray(i) As String 
+			
+			i# = 0 
+			ForAll element In valueTags 
+				valuesArray(i#) = me.content(element) 
+				i# = i# + 1
+			End ForAll
+
+			uniqueValues = valuesArray 	
+		Else 
+			uniqueValues = Null
+		End If 	
+		
+ExitPoint: 
+		Exit Property 
+ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX_STRINGLIST, "" 
+		Resume ExitPoint
+	End Property	
+	
+End Class
+'++LotusScript Development Environment:2:1:getSortedListTags:7:8
+%REM
+	Function getSortedListTags
+	Description: Gets the Sorted listTags for a list 
+	@param source: List object from which to get the list tags 
+	@return sorted array of listTags from the list.  
+%END REM
+Public Function getSortedListTags(source As Variant) As Variant 
+	On Error GoTo ErrorTrap 
+	Dim result As Variant 
+
+	If IsList(source) Then 
+		result = getListTags(source) 
+		If IsNull(result) Then GoTo ExitPoint 
+		quickSortStrings result 
+	End If 
+	
+ExitPoint: 
+	getSortedListTags = result 
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ""
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:2:quickSortStrings:1:8
+Private Sub quickSortStrings(source As Variant)
+	Dim value$ 
+	Dim Lower As Integer
+	Dim Upper As Integer
+	Dim botMax As Integer
+	Dim i As Integer
+	Dim k As Integer
+	Dim h As Integer
+	
+	Lower% = LBound(source)
+	Upper% = UBound(source)
+
+	h% = 1
+	Do
+		h% = (3*h%) + 1
+	Loop Until h% > Upper%-Lower%+1
+
+	Do
+		h% = h% \ 3
+		botMax% = Lower% + h% - 1
+		For i% = botMax% + 1 To Upper%
+			value$ = source( i% )
+			k% = i%
+			While (StrCompare(source(k% - h%), value$) > 0)
+				source(k%) = source( k% - h% )
+				k% = k% - h%
+				If (k% <= botMax%) Then GoTo wOut
+			Wend
+wOut:
+			If (k% <> i%) Then source(k%) = value
+		Next
+	Loop Until h% = 1
+End Sub

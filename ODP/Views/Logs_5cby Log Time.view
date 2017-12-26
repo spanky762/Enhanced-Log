@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='view' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.8' replicaid='852581FE004DADAB'>
-<noteinfo noteid='176' unid='DF668089A058A324862577FA00762127' sequence='3'>
+ maintenanceversion='1.9' replicaid='85257B1600791A9D'>
+<noteinfo noteid='1b6' unid='DF668089A058A324862577FA00762127' sequence='20'>
 <created><datetime>20101215T153017,35-06</datetime></created>
-<modified><datetime>20171222T115300,81-05</datetime></modified>
-<revised><datetime>20171222T115300,80-05</datetime></revised>
-<lastaccessed><datetime>20171222T115300,80-05</datetime></lastaccessed>
-<addedtofile><datetime>20171222T090828,88-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20171226T131325,15-05</datetime></modified>
+<revised><datetime>20171226T131325,14-05</datetime></revised>
+<lastaccessed><datetime>20171226T131325,15-05</datetime></lastaccessed>
+<addedtofile><datetime>20130218T170247,50-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>

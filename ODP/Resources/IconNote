@@ -1,14 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.8' replicaid='852581FE004DADAB'>
-<noteinfo noteid='11e' unid='B249CAE81274D8BA852581FE004DADAD' sequence='11'>
-<created><datetime>20171222T090827,33-05</datetime></created>
-<modified><datetime>20171222T114910,52-05</datetime></modified>
-<revised><datetime>20171222T114910,51-05</datetime></revised>
-<lastaccessed><datetime>20171222T114910,51-05</datetime></lastaccessed>
-<addedtofile><datetime>20171222T090827,35-05</datetime></addedtofile></noteinfo>
+ maintenanceversion='1.9' replicaid='85257B1600791A9D'>
+<noteinfo noteid='11a' unid='01D84037E75768E685257370004C2A2C' sequence='61'>
+<created><datetime dst='true'>20071010T095155,32-04</datetime></created>
+<modified><datetime>20171226T130943,24-05</datetime></modified>
+<revised><datetime>20171226T130943,23-05</datetime></revised>
+<lastaccessed><datetime>20171226T130943,24-05</datetime></lastaccessed>
+<addedtofile><datetime>20130218T170246,76-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
-<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='IconBitmap' summary='true' sign='true'>
 <rawitemdata type='6'>
 AiAgAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

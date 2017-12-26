@@ -9,9 +9,9 @@
 	
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2.0.3e
+	Version 2017.12.26
 
-	Last updated: 09/2010
+	Last updated: 12/2017
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -23,8 +23,8 @@ Use "enhLogClass"
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Public Class Wabe
 Declare Sub proxyLogWarning (description$)
-Declare Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
 Declare Sub proxyLogAction (description$)
+Declare Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
 Private Const LIB_PREFIX = |Library: Methods for Logging a Lot of Stuff.|
@@ -152,14 +152,6 @@ Sub proxyLogWarning (description$)
 	enhLogWarning LIB_PREFIX, description$
 End Sub ' proxyLogWarning
 
-'++LotusScript Development Environment:2:2:logActionToEnhancedLogObject:1:8
-Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
-%REM
-	This demonstrates nothing more than logging an action to a passed in EnhancedLog object.
-%END REM
-	source.LogAction description$
-End Sub ' logActionToEnhancedLogObject
-
 '++LotusScript Development Environment:2:2:proxyLogAction:3:8
 
 
@@ -167,4 +159,14 @@ Sub proxyLogAction (description$)
 	enhLogAction LIB_PREFIX, description$
 End Sub ' proxyLogAction
 
+
+
+
+'++LotusScript Development Environment:2:2:logActionToEnhancedLogObject:1:8
+Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
+%REM
+	This demonstrates nothing more than logging an action to a passed in EnhancedLog object.
+%END REM
+	source.LogAction description$
+End Sub ' logActionToEnhancedLogObject
 
