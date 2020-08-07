@@ -1,0 +1,2521 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library applicationUtils
+	Created May 15, 2019 by Devin Olson/azlighthouse (devin.olson@azlighthouse.com) 
+	Application Utilities
+%END REM
+Option Public
+Option Declare
+Use "enhLogClass"
+Use "azlwConstants"
+Use "azlwListsCollections"
+
+
+
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Public Class DocumentObject 
+Declare Function getCurrentUser() As NotesName  
+Declare Function webSpawnCSV(viewname$, fileprefix$) As Boolean 
+Declare Function getQueryStringArgs() As StringList
+Declare Function getForm(source As NotesDocument) As String 
+Declare Function webSpawnXLS(viewname$, fileprefix$) As Boolean 
+Declare Function iif(condition, truevalue, falsevalue) As Variant 
+Declare Function filterByForm(source As NotesDocumentCollection, form$) As NotesDocumentCollection 
+Declare Public Function asciiFilterByRange(source$, ranges As IntegerPairList) As String 
+Declare Function getDocumentUNIDs(viewname$) As StringSet 
+Declare Function getUserRoles() As StringSet 
+Declare Function urlEncode(ByVal source As String) As String
+Declare Function getNAB() As NotesDatabase 
+Declare Function getFQDN() As String 
+Declare Function getAbbreviated(source$) As String 
+Declare Function escapeXML(ByVal s$) As String 
+Declare Function removeRoles(source As StringSet) As StringSet 
+Declare Function getDocumentItemStrings(source As NotesDocument) As StringList 
+Declare Public Sub logDocumentInfo(unid$)  
+Declare Function getRequestContentJSONstrings(source As NotesDocument) As StringList 
+Declare Function getCachedView(viewname$) As NotesView 
+Declare Public Function safeEvaluateToString(ByVal formula$, context As Variant, failValue As Variant) As Variant
+Declare Function hasUserRole(ByVal role$) As Boolean 
+Declare Function getApplicationConfig() As NotesDocument 
+Declare Function getDocument_Config(key$) As NotesDocument
+Declare Function formatWholeThousands(source As Variant) As String 
+Declare Public Function escapeJSON(ByVal s$) As String
+Declare Function isTrue(source$) As Boolean 
+Declare Public Function getDocumentByDocumentID(documentID$) As NotesDocument 	
+Declare Function getApplicationConfigItemText(itemname$) As String 
+Declare Public Function getViewFromDb(ndb As NotesDatabase, viewname$) As NotesView 
+Declare Function getCommon(source$) As String 
+Declare Function getParentDocument(source As NotesDocument) As NotesDocument 
+Declare Public Function alphanumericOnly(source$) As String 
+Declare Function replaceDocumentItem(source As NotesDocument, target As NotesDocument, itemnameSource$, itemnameTarget$, addvalues As Variant, removevalues As Variant, flags As NotesItemFlags) As Boolean 
+Declare Function getViewColumnValuesStringSet(viewname$, colnum%) As StringSet 
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+Private Const LIB_PREFIX = |applicationUtils.|
+
+Private Const ITEMNAME_REQUEST_CONTENT = |REQUEST_CONTENT|
+
+Const VIEWNAME_CONFIG = |lkp-Config|  
+
+Public Const MAX_LENGTH_DOCUMENTSUMMARY = 1012
+
+%REM
+	Type NotesItemFlags 
+	
+	Carrier of Flag properties for a NotesItem 
+	<ul>
+		<li>IsAuthors</li>
+		<li>IsEncrypted</li>
+		<li>IsNames</li>
+		<li>IsProtected</li>
+		<li>IsSigned</li>
+		<li>IsReaders</li>
+		<li>IsSummary</li>
+	</ul> 
+	
+	@see NotesDocument help
+	
+%END REM
+Type NotesItemFlags
+	IsAuthors As Boolean 
+	IsEncrypted As Boolean 
+	IsNames As Boolean 
+	IsProtected As Boolean 
+	IsReaders As Boolean 
+	IsSigned As Boolean 
+	IsSummary As Boolean 
+End Type  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%REM
+	Class DocumentObject
+	Root Class for Notes Document based objects
+%END REM
+Public Class DocumentObject 
+	Private server_ 	As String 
+	Private filepath_ 	As String 
+	
+	Private unid_ 		As String
+	Private variants_	As VariantList  
+	Private dates_ 		As DateList 
+	Private strings_ 	As StringList 
+	Private longs_ 		As LongList 
+	Private doubles_ 	As DoubleList 
+	Private currencys_	As CurrencyList 
+	Private booleans_ 	As BooleanList  
+	
+	
+	
+	Private isdirty_ As Boolean 
+	
+	Private Property Get CLASS_PREFIX As String  
+		CLASS_PREFIX = LIB_PREFIX & |Class: DocumentObject.|
+	End Property
+	
+	
+	%REM
+		Property Get UniversalID
+		UniversalID for the object
+	%END REM
+	Property Get UniversalID As String 
+		UniversalID = me.unid_
+	End Property
+	
+	%REM
+		Property Get IsDirty
+		Flag indicating if the Object has been updated since being read from the backing document.
+	%END REM
+	Property Get IsDirty As Boolean 
+		IsDirty = me.isdirty_
+	End Property
+
+
+	%REM
+		Property Get Server
+		Server of the Database for the object
+	%END REM
+	Property Get Server 
+		Server = me.server_ 
+	End Property
+	
+	
+	%REM
+		Property Get Filepath
+		Filepath of the Database for the object
+	%END REM
+	Property Get Filepath 
+		Filepath = me.filepath_ 
+	End Property
+	
+	
+	%REM
+		Property Get Database
+		NotesDatabase containing the underlying document 
+
+		DEVELOPER NOTE: A handle to the database is NOT maintained within this object.
+		The database is retrieved every time this method is called, using the server and filepath for the object. 
+
+		@return NotesDatabase
+	%END REM
+	Property Get Database As NotesDatabase 
+		On Error GoTo ErrorTrap
+		
+		Dim result As NotesDatabase 
+		
+		Set result = getCurrentSession().Getdatabase(me.Server, me.Filepath, False)
+		If Not result.Isopen Then Call result.Open(me.Server, me.Filepath)
+		
+	ExitPoint: 
+		Set Database = result 
+		Exit Property 
+	ErrorTrap: 
+		On Error GoTo 0
+		enhLogException me.CLASS_PREFIX, |Server: | & me.Server & |, | & Chr(10) & |Filepath: | & me.Filepath
+		Resume ExitPoint 		
+	End Property
+	
+	
+	%REM
+		Property Get Dates
+		Changeable Dates for the object (k=tag, v=value)
+	%END REM
+	Property Get Dates As DateList 
+		If (me.dates_ Is Nothing) Then Set me.dates_ = New DateList() 
+		Set Dates = me.dates_ 
+	End Property
+	
+	
+	%REM
+		Property Get Strings
+		Changeable Strings for the object (k=tag, v=value) 
+		
+		DEVELOPER NOTE: This does NOT include static string values such as Server, Filepath, UniversalID, etc. 
+		
+		@return StringList containing Strings which can be changed.
+	%END REM
+	Property Get Strings As StringList 
+		If (me.strings_ Is Nothing) Then Set me.strings_ = New StringList() 
+		Set Strings = me.strings_ 
+	End Property
+	
+	
+	%REM
+		Property Get Booleans
+		Changeable Booleans for the object (k=tag, v=value)
+	%END REM
+	Property Get Booleans As BooleanList 
+		If (me.booleans_ Is Nothing) Then Set me.booleans_ = New BooleanList() 
+		Set Booleans = me.booleans_ 
+	End Property
+	
+	
+	
+	%REM
+		Property Get HasBooleans
+		Flag indicating if the Object has Boolean variables
+	%END REM
+	Property Get HasBooleans As Boolean 
+		Dim result As Boolean 
+		
+		result = Not (me.booleans_ Is Nothing) 
+		If result Then result = me.Booleans.hasContent 
+		
+		HasBooleans = result 
+	End Property
+	
+	
+	%REM
+		Property Get Variants
+		Changeable Variants for the object (k=tag, v=value)
+	%END REM
+	Property Get Variants As VariantList 
+		If (me.variants_ Is Nothing) Then Set me.variants_ = New VariantList() 
+		Set Variants = me.variants_ 
+	End Property
+	
+	
+	
+	%REM
+		Property Get HasVariants
+		Flag indicating if the Object has Variant variables
+	%END REM
+	Property Get HasVariants As Boolean 
+		Dim result As Boolean 
+		
+		result = Not (me.variants_ Is Nothing) 
+		If result Then result = me.Variants.hasContent 
+		
+		HasVariants = result 
+	End Property
+	
+	
+	%REM
+		Property Get Longs
+		Changeable Longs for the object (k=tag, v=value)
+	%END REM
+	Property Get Longs As LongList 
+		If (me.longs_ Is Nothing) Then Set me.longs_ = New LongList() 
+		Set Longs = me.longs_ 
+	End Property
+	
+	
+	
+	%REM
+		Property Get HasLongs
+		Flag indicating if the Object has Long variables
+	%END REM
+	Property Get HasLongs As Boolean 
+		Dim result As Boolean 
+		
+		result = Not (me.longs_ Is Nothing) 
+		If result Then result = me.Longs.hasContent 
+		
+		HasLongs = result 
+	End Property
+	
+	
+	
+	
+	
+	
+	%REM
+		Property Get Doubles
+		Changeable Doubles for the object (k=tag, v=value)
+	%END REM
+	Property Get Doubles As DoubleList 
+		If (me.doubles_ Is Nothing) Then Set me.doubles_ = New DoubleList() 
+		Set Doubles = me.doubles_ 
+	End Property
+	
+	
+	
+	%REM
+		Property Get HasDoubles
+		Flag indicating if the Object has Double variables
+	%END REM
+	Property Get HasDoubles As Boolean 
+		Dim result As Boolean 
+		
+		result = Not (me.doubles_ Is Nothing) 
+		If result Then result = me.Doubles.hasContent 
+		
+		HasDoubles = result 
+	End Property
+	
+	
+	
+	
+	
+	
+	%REM
+		Property Get Currencys
+		Changeable Currencys for the object (k=tag, v=value)
+	%END REM
+	Property Get Currencys As CurrencyList 
+		If (me.currencys_ Is Nothing) Then Set me.currencys_ = New CurrencyList() 
+		Set Currencys = me.currencys_ 
+	End Property
+	
+	
+	
+	%REM
+		Property Get HasCurrencys
+		Flag indicating if the Object has Currency variables
+	%END REM
+	Property Get HasCurrencys As Boolean 
+		Dim result As Boolean 
+		
+		result = Not (me.currencys_ Is Nothing) 
+		If result Then result = me.Currencys.hasContent 
+		
+		HasCurrencys = result 
+	End Property
+	
+	
+	
+	
+	%REM
+		Property Get HasDates
+		Flag indicating if the Object has Date variables
+	%END REM
+	Property Get HasDates As Boolean 
+		Dim result As Boolean 
+		
+		result = Not (me.dates_ Is Nothing) 
+		If result Then result = me.Dates.hasContent 
+		
+		HasDates = result 
+	End Property
+	
+	
+	
+	%REM
+		Property Get HasStrings
+		Flag indicating if the Object has String variables
+	%END REM
+	Property Get HasStrings As Boolean 
+		Dim result As Boolean 
+		
+		result = Not (me.strings_ Is Nothing) 
+		If result Then result = me.Strings.hasContent 
+		
+		HasStrings = result 
+	End Property
+	
+	
+	
+	
+	
+	%REM
+		Property Get Document
+		Underlying NotesDocument for the Object
+		
+		DEVELOPER NOTE: A handle to the document is NOT maintained within this object.
+		The Document is retrieved (by UniversalID) from the database every time this method is called.
+		
+		@return NotesDocument		
+	%END REM
+	Property Get Document As NotesDocument 
+		On Error GoTo ErrorTrap
+		On Error 4091 GoTo InvalidUNID  ' Error #4091 = Invalid universal id
+		
+		Dim ndb As NotesDatabase 
+		Dim result As NotesDocument
+		
+		Dim extendedInfo List As String 
+		Dim msg$
+		
+		
+		If isBlankString(me.Server) Then extendedinfo(|Server|) = |(local workstation)| Else extendedinfo(|Server|) = me.Server 
+		extendedInfo(|Filepath|) = me.Filepath 
+		extendedInfo(|UniversalID|) = me.UniversalID 
+
+		Set ndb = me.Database 
+		Set result = ndb.getDocumentByUNID(me.UniversalID)
+
+		
+	ExitPoint:
+		Set Document = result
+		Exit Property 
+		
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedInfo 
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException me.CLASS_PREFIX, msg$
+		Resume ExitPoint 
+	InvalidUNID:
+		On Error GoTo ErrorTrap
+		Set result = Nothing
+		Resume ExitPoint			
+	End Property
+	
+	
+	
+	%REM
+		Property Set IsDirty
+		Flag indicating if the Object has been updated since being read from the backing document.
+	%END REM
+	Property Set IsDirty As Boolean 
+		me.isdirty_ = IsDirty
+	End Property
+
+	
+	
+	%REM
+		Constructor 
+	%END REM
+	Public Sub New(source As NotesDocument) 
+		On Error GoTo ErrorTrap
+		
+		Dim extendedInfo List As String 
+		Dim msg$
+		
+		Dim errcode% 
+		Dim errmsg$ 
+
+
+		If (source Is Nothing) Then GoTo ExitPoint 
+		
+		extendedinfo(|Universalid|) = source.Universalid 
+		me.unid_ = source.UniversalID 
+		me.server_ = source.Parentdatabase.Server 
+		me.filepath_ = source.Parentdatabase.Filepath 
+
+		
+	ExitPoint:
+		If (0 <> errcode%) Then Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED & errmsg$
+		Exit Sub 
+		
+	ErrorTrap:
+		On Error GoTo 0
+		errcode% = Err() 
+		errmsg$ = Error() 
+		ForAll s In extendedInfo 
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException me.CLASS_PREFIX, msg$
+		Resume ExitPoint 
+	End Sub
+
+	
+	%REM
+		Function writeItemsToDocument
+		Writes the DocumentObject's items to the back-end document. 
+		
+		@return Flag indicating success / failure of the operation. 
+	%END REM
+	Public Function writeItemsToDocument(target As NotesDocument) As Boolean 
+		On Error GoTo ErrorTrap
+		
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		Dim itemname$ 
+		
+		Dim result As Boolean
+		
+		
+		
+		' BEGIN CODE
+		If (target Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Target document is Nothing.|
+		extendedinfo(|Server|) = me.Server 
+		extendedinfo(|Filepath|) = me.Filepath 
+		extendedinfo(|UniversalID|) = me.UniversalID 
+		
+		If (Not me.Dates.hasContent) _ 
+		And (Not me.Strings.hasContent) _ 
+		And (Not me.Booleans.hasContent) Then GoTo ExitPoint  
+		
+		' Dates 
+		If me.Dates.hasContent Then 
+			ForAll d In me.Dates.content 
+				itemname$ = ListTag(d) 
+				extendedinfo(|Item Name|) = itemname$ 
+				If (d Is Nothing) Then 
+					extendedinfo(itemname$) = |Nothing|
+				Else 
+					extendedinfo(itemname$) = d.Gmttime 
+				End If
+				
+				Call target.replaceItemValue(itemname$, d) 
+			End ForAll
+		End If
+	
+		
+		' Strings 
+		If me.Strings.hasContent Then 
+			ForAll s In me.Strings.content 
+				itemname$ = ListTag(s) 
+				extendedinfo(|Item Name|) = itemname$ 
+				extendedinfo(itemname$) = s
+
+				Call target.replaceItemValue(itemname$, s) 
+			End ForAll
+		End If
+
+		
+		' Booleans 
+		If me.Booleans.hasContent Then 
+			ForAll b In me.Booleans.content 
+				itemname$ = ListTag(b) 
+				extendedinfo(|Item Name|) = itemname$
+				If b Then  
+					extendedinfo(itemname$) = |true|
+					Call target.replaceItemValue(itemname$, |1|) 
+				Else 
+					extendedinfo(itemname$) = |false|
+					Call target.replaceItemValue(itemname$, |0|)
+				End If 
+			End ForAll
+		End If
+	
+	
+		' If here then everything worked and at least one item was updated.  
+		result = True 
+		
+	ExitPoint: 
+'		If result Then 
+'			enhLogMethodResult CLASS_PREFIX, |True|
+'			ForAll s In extendedinfo
+'				enhLogExtendedContent ||, ||, ListTag(s) & |: | & s
+'			End ForAll		
+'			enhLogExtendedContent ||, ||, ||
+'		End If
+		writeItemsToDocument = result
+		Exit Function 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Function
+
+	
+	%REM
+		Function save
+		Saves any changes to the document.
+		
+		Will only attempt to save to the document if the object's IsDirty property is True 
+				
+		@param force Boolean.  If True, the document is saved even if someone else edits and saves the document while the script is running. 
+			The last version of the document that was saved wins; the earlier version is discarded. 
+			If False, and someone else edits the document while the script is running, the createResponse argument determines what happens.
+
+		@param createResponse Boolean.  If True, the current document becomes a response to the original document. 
+			If False, the save is canceled. If the force parameter is True, the createResponse parameter has no effect.
+	
+		@return Flag indicating if the document was saved.
+	%END REM
+	Public Function save(force As Boolean, createResponse As Boolean) As Boolean  
+		On Error GoTo ErrorTrap
+		
+		Dim target As NotesDocument
+		
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		
+		Dim result As Boolean
+		
+		' BEGIN CODE
+		
+		If Not me.isDirty Then GoTo ExitPoint 
+
+		Set target = me.Document 
+		If (target Is Nothing) Then Error ERR_DOCUMENT_NOT_FOUND, MSG_DOCUMENT_NOT_FOUND
+		
+		If me.writeItemsToDocument(target) Then result = target.Save(force, createResponse) 
+		
+	ExitPoint: 
+'		enhLogMethodResult CLASS_PREFIX, CStr(result)
+		save = result
+		Exit Function 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Function
+	
+	
+	Public Function getSummary(includeSystem As Boolean) As String
+		On Error GoTo ErrorTrap
+		
+	
+		Dim parts List As String 
+		
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		Dim result$
+		Dim tag$
+		
+		
+		result$ = CLASS_PREFIX
+		If Not isBlankString(me.Server) Then result$ = result$ & | (| & me.Server & |!!|
+		 
+	 	
+	 	result$ = result$ & me.FilePath & |) | & me.UniversalID
+	 	
+	 	If me.isDirty Then result$  = result$ & | (Dirty)|
+
+		extendedinfo(|Checking|) = |Booleans|
+		If me.hasBooleans Then  
+			ForAll b In me.Booleans.content 
+				If b Then 
+					tag$ = ListTag(b)
+					extendedinfo(|tag|) = tag$ 
+					If Len(result$) > MAX_LENGTH_DOCUMENTSUMMARY Then 
+						result$ = Left$(result$, MAX_LENGTH_DOCUMENTSUMMARY - 4) & |... |
+						GoTo ExitPoint 
+					End If
+					If (includeSystem Or Not(|$| = Left(tag$, 1))) Then result$ = result$ & |, (| & tag$ & |)|  
+				End If 
+			End ForAll
+		End If 
+		
+		extendedinfo(|Checking|) = |Dates|
+		If me.hasDates Then  
+			ForAll dt In me.Dates.content 
+				tag$ = ListTag(dt)
+				extendedinfo(|tag|) = tag$ 
+				If Not (dt Is Nothing) Then  
+					If Len(result$) > MAX_LENGTH_DOCUMENTSUMMARY Then 
+						result$ = Left$(result$, MAX_LENGTH_DOCUMENTSUMMARY - 4) & |... |
+						GoTo ExitPoint 
+					End If
+					If (includeSystem Or Not(|$| = Left(tag$, 1))) Then result$ = result$ & |, | & tag$ & |: | & dt.Gmttime 
+				End If
+			End ForAll		
+		End If 
+		
+		extendedinfo(|Checking|) = |Strings|
+		If me.hasStrings Then  
+			ForAll s In me.Strings.content 
+				tag$ = ListTag(s)
+				extendedinfo(|tag|) = tag$ 
+				If Not isBlankString(s) Then 
+					If Len(result$) > MAX_LENGTH_DOCUMENTSUMMARY Then 
+						result$ = Left$(result$, MAX_LENGTH_DOCUMENTSUMMARY - 4) & |... |
+						GoTo ExitPoint 
+					End If
+					If (includeSystem Or Not(|$| = Left(tag$, 1))) Then result$ = result$ & |, | & tag$ & |: | & s
+				End If
+			End ForAll
+		End If 		
+		
+		
+		extendedinfo(|Checking|) = |Doubles|
+		If me.hasDoubles Then  
+			ForAll d In me.Doubles.content 
+				tag$ = ListTag(d)
+				extendedinfo(|tag|) = tag$ 
+				If Len(result$) > MAX_LENGTH_DOCUMENTSUMMARY Then 
+					result$ = Left$(result$, MAX_LENGTH_DOCUMENTSUMMARY - 4) & |... |
+					GoTo ExitPoint 
+				End If
+				If (includeSystem Or Not(|$| = Left(tag$, 1))) Then result$ = result$ & |, | & tag$ & |: | & CStr(d)
+			End ForAll
+		End If 		
+		
+		extendedinfo(|Checking|) = |Longs|
+		If me.hasLongs Then  
+			ForAll l In me.Longs.content 
+				tag$ = ListTag(l)
+				extendedinfo(|tag|) = tag$ 
+				If Len(result$) > MAX_LENGTH_DOCUMENTSUMMARY Then 
+					result$ = Left$(result$, MAX_LENGTH_DOCUMENTSUMMARY - 4) & |... |
+					GoTo ExitPoint 
+				End If
+				If (includeSystem Or Not(|$| = Left(tag$, 1))) Then result$ = result$ & |, | & tag$ & |: | & CStr(l)
+			End ForAll
+		End If 		
+		
+		
+		extendedinfo(|Checking|) = |Currencys|
+		If me.hasCurrencys Then  
+			ForAll c In me.Currencys.content 
+				tag$ = ListTag(c)
+				extendedinfo(|tag|) = tag$ 
+				If Len(result$) > MAX_LENGTH_DOCUMENTSUMMARY Then 
+					result$ = Left$(result$, MAX_LENGTH_DOCUMENTSUMMARY - 4) & |... |
+					GoTo ExitPoint 
+				End If
+				If (includeSystem Or Not(|$| = Left(tag$, 1))) Then result$ = result$ & |, | & tag$ & |: $| & Format$(c, |###,###,###,##0.00|)
+			End ForAll
+		End If 		
+		
+		
+	
+	ExitPoint: 
+		getSummary = result$
+		Exit Function 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Function
+	
+	Public Function toString() As String 
+		toString = me.getSummary(False) 
+	End Function
+	
+	%REM
+		Function clone 
+		
+		Clones the document object
+		
+		@param target INBOUND/OUTBOUND Document object 
+		@return Flag indicating if clone information was written to target 
+	%END REM
+	%REM
+	Public Function clone(target As DocumentObject) As Boolean
+		On Error GoTo ErrorTrap
+
+
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+
+		Dim tag$
+		
+		Dim result As Boolean 
+
+
+		
+		If (target Is Nothing) Then Set target = New DocumentObject(Nothing) 
+		
+		extendedinfo(|property|) = |server|	
+		target.server_ = me.server_ 
+		
+		extendedinfo(|property|) = |filepath|	
+		target.filepath_ = me.filepath_ 
+		
+		extendedinfo(|property|) = |unid|	
+		target.unid_ = me.unid_
+
+		extendedinfo(|property|) = |unid|	
+		target.isdirty_ = me.isdirty_ 
+
+		
+		If me.HasBooleans Then
+			extendedinfo(|property|) = |Booleans|	
+			Set target.booleans_ = New BooleanList() 
+			Call target.booleans_.addAll(me.Booleans)
+		End If 
+		
+		If me.HasLongs Then 
+			extendedinfo(|property|) = |Longs|	
+			Set target.longs_ = New LongList() 
+			Call target.longs_.addAll(me.Longs)
+		End If 
+		
+		If me.HasDoubles Then 
+			extendedinfo(|property|) = |Doubles|	
+			Set target.doubles_ = New DoubleList() 
+			Call target.doubles_.addAll(me.Doubles)
+		End If 
+		
+		If me.HasCurrencys Then 
+			extendedinfo(|property|) = |Currencys|	
+			Set target.currencys_ = New CurrencyList() 
+			Call target.currencys_.addAll(me.Currencys)
+		End If 
+		
+		If me.HasStrings Then 
+			extendedinfo(|property|) = |Strings|	
+			Set target.strings_ = New StringList() 
+			Call target.strings_.addAll(me.Strings)
+		End If 
+		
+		If me.HasDates Then 
+			extendedinfo(|property|) = |Dates|	
+			Set target.dates_ = New DateList() 
+			Call target.dates_.addAll(me.Dates)
+		End If 
+
+		If me.HasVariants Then 
+			extendedinfo(|property|) = |Variants|	
+			Set target.variants_ = New VariantList() 
+			Call target.variants_.addAll(me.Variants)
+		End If 
+		
+
+		
+		' if here then the operation was successful
+		result = True 
+		
+	ExitPoint:
+		enhLogMethodResult CLASS_PREFIX, CStr(result) 
+		clone = result
+		Exit Function 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint	 
+	End Function 
+	%END REM
+		
+End Class
+'++LotusScript Development Environment:2:1:getCurrentUser:7:8
+%REM
+	Function getCurrentUser
+	Gets the Current Effective User
+	
+	@return Current Effective User
+%END REM
+Function getCurrentUser() As NotesName  
+	On Error GoTo ErrorTrap
+	
+	Static result As NotesName 
+	If (result Is Nothing) Then Set result = New NotesName(getCurrentSession().EffectiveUserName) 
+	
+ExitPoint:
+	Set getCurrentUser = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint 
+End Function
+
+
+
+
+
+'++LotusScript Development Environment:2:1:webSpawnCSV:14:8
+%REM
+	Function webSpawnCSV
+	WEB ONLY: Exports a view to a Comma Separated Value file.  
+	
+	CURRENTLY ONLY SUPPORTS FLAT VIEWS - CATEGORIES, TOTALS, ICONS ARE IGNORED 
+	
+	@param viewname$ Name of the view from which to spawn the export 
+	@param fileprefix$ Prefix for filename (example: "Customer Sales", "Inventory List", etc) 
+	
+	
+	
+	@return flag indicating if the export was successful. 
+%END REM
+Function webSpawnCSV(viewname$, fileprefix$) As Boolean 
+	On Error GoTo ErrorTrap
+	
+	Dim nvw As NotesView 
+	Dim nvc As NotesViewColumn 
+	Dim nav As NotesViewNavigator 
+	Dim nvent As NotesViewEntry 
+	
+	Dim visiblecols() As Integer 
+	
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	
+	Dim values As Variant 
+	Dim exfilename$
+	Dim row$
+	Dim col$
+	Dim ord%
+	Dim colnum%
+	Dim result As Boolean 
+	
+
+	extendedinfo(|View Name|) = viewname$
+	extendedinfo(|File Prefix|) = fileprefix$
+
+	If isBlankString(fileprefix$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |FilePrefix|
+
+
+	ReDim visiblecols(0) As Integer 
+	
+	Set nvw = getCachedView(viewname$) 
+	If (nvw Is Nothing) Then GoTo ExitPoint 		
+
+	exfilename$ = fileprefix$ & |_| & CStr(CDbl(Now)) & ".csv"
+	
+	row$ = ||
+	ForAll c In nvw.Columns 
+		Set nvc = c 
+		If Not (nvc.Iscategory Or nvc.Ishidden Or nvc.Ishidedetail Or nvc.isIcon) Then 
+			ReDim Preserve visiblecols(ord%) As Integer 
+			visiblecols(ord%) = nvc.Position - 1
+			ord% = ord% + 1
+			If isBlankString(row$) Then 
+				row$ = nvc.Title 
+			Else
+				row$ = row$ & |,| & nvc.Title
+			End If
+		End If
+	End ForAll
+	
+	If (ord% < 1) Then 
+		enhLogWarning LIB_PREFIX, |No acceptable columns found for view | & viewname$
+		GoTo ExitPoint 
+	End If
+	
+	Print |Content-type:text/csv|
+	Print |Content-Disposition: attachment;Filename=| & exfilename
+	Print row$
+	
+	Set nav = nvw.createViewNav() 
+	Set nvent = nav.getFirstDocument() 
+	While Not (nvent Is Nothing) 
+		row$ = ||
+		For ord% = LBound(visiblecols) To UBound(visiblecols) 
+			col$ = ||
+			extendedinfo(|Visible Column Ordinal Position|) = CStr(ord%)
+			If IsElement(extendedInfo(|Visible Column Number|)) Then Erase extendedInfo(|Visible Column Number|) 
+			colnum% = visiblecols(ord%) 
+			extendedinfo(|Visible Column Number|) = CStr(colnum%)
+			
+			values = nvent.ColumnValues(colnum%)
+			If IsElement(extendedInfo(|Column Array Index|)) Then Erase extendedInfo(|Column Array Index|) 
+			If IsArray(values) Then 
+				For colnum% = LBound(values) To UBound(values)
+					extendedInfo(|Column Array Index|) = CStr(colnum%) 
+					col$ = col$ & CStr(values(colnum%))
+					If (colnum% < UBound(values)) Then col$ = col$ & |; | 
+				Next
+			Else 
+				col$ = CStr(values) 
+			End If 
+			
+			If isBlankString(row$) Then 
+				row$ = col$
+			Else
+				row$ = row$ & |,| & col$
+			End If
+		Next
+	
+		Print row$
+		Set nvent = nav.getNextDocument(nvent)
+	Wend
+
+	Print CRLF ' add a blank line at the end of the file 	
+	
+	' if here then success! 
+	result = True 
+	
+ExitPoint:
+	webSpawnCSV = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo 
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:getQueryStringArgs:5:8
+%REM
+	Function getQueryStringArgs
+	Get the QueryString arguments 
+%END REM
+Function getQueryStringArgs() As StringList
+	On Error GoTo ErrorTrap
+	
+	Dim context As NotesDocument
+	Dim result As New StringList() 
+	 
+	Dim queryString$
+	Dim arguments As Variant
+	Dim pair As Variant  
+	Dim lcqs$ 	
+	Dim args$ 
+	Dim arg$
+	Dim idx% 
+	
+	Set context = getCurrentSession().DocumentContext 
+	queryString$ = context.Query_String_Decoded(0) 
+	
+'	enhLogExtendedContent LIB_PREFIX, ||, |QueryString: | & queryString$
+
+	If isBlankString(queryString$) Then GoTo ExitPoint 
+
+	lcqs$ = LCase$(queryString$) 
+	idx% = InStr(lcqs$, |open|) 
+	If (idx% < 0) Then GoTo ExitPoint  ' not found
+	
+	idx% = InStr(idx%, lcqs$, |&|) 
+	args$ = Mid$(queryString$, idx% + 1, Len(queryString$)) 
+'	enhLogExtendedContent ||, ||, |args: | & args$
+	arguments = Split(args$, |&|)
+	
+	ForAll element In arguments 
+		arg$ = CStr(element) 
+		If (InStr(arg$, |=|) < 0) Then
+			result.content(arg$) = ||
+		Else 
+			pair = Split(arg$, |=|) 
+			If (UBound(pair) < 1) Then 
+				result.content(arg$) = ||
+			Else 
+				If (Len(pair(0)) > 0) Then 
+					result.content(pair(0)) = pair(1) 
+				Else 
+					result.content(pair(1)) = ||
+				End If
+			End If 
+		End If
+	End ForAll 
+	
+ExitPoint:
+	Set getQueryStringArgs = result
+'	If result.hasContent Then 
+'		ForAll param In result.content 
+'			enhLogExtendedContent ||, ||, ListTag(param) & |: | & param 
+'		End ForAll
+'		enhLogExtendedContent ||, ||, ||
+'	End If
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException ||, ||
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:getForm:10:8
+%REM
+	Function getForm
+	Stupid utility function to safely get the form from a document without throwing an exception. 
+	
+	Only reason for this method is to help keep calling code a bit cleaner. 
+	
+	@param source Document from which to retrieve the form.
+	@return form string.  Blank if form item does not exist. 
+%END REM
+Function getForm(source As NotesDocument) As String 
+	On Error GoTo ErrorTrap
+	
+	Dim nitm As NotesItem
+	Dim result$
+	
+	If (source Is Nothing) Then GoTo ExitPoint 
+	If source.hasItem(|Form|) Then result$ = source.getFirstItem(|Form|).Text 
+	
+ExitPoint: 
+	getForm = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	' set result to empty string and resume
+	result$ = ||
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:webSpawnXLS:14:8
+%REM
+	Function webSpawnXLS
+	WEB ONLY: Exports a view to an MS-EXCEL file.  
+	
+	CURRENTLY ONLY SUPPORTS FLAT VIEWS - CATEGORIES, TOTALS, ICONS ARE IGNORED 
+	
+	@param viewname$ Name of the view from which to spawn the export 
+	@param fileprefix$ Prefix for filename (example: "Customer Sales", "Inventory List", etc) 
+	
+	
+	
+	@return flag indicating if the export was successful. 
+%END REM
+Function webSpawnXLS(viewname$, fileprefix$) As Boolean 
+	On Error GoTo ErrorTrap
+
+	Dim nvw As NotesView 
+	Dim nvc As NotesViewColumn 
+	Dim nav As NotesViewNavigator 
+	Dim nvent As NotesViewEntry 
+	
+	Dim visiblecols() As Integer 
+	
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	
+	Dim values As Variant 
+	Dim exfilename$
+	Dim row$
+	Dim col$
+	Dim ord%
+	Dim colnum%
+	Dim result As Boolean 
+	
+
+	extendedinfo(|View Name|) = viewname$
+	extendedinfo(|File Prefix|) = fileprefix$
+
+	If isBlankString(fileprefix$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |FilePrefix|
+
+
+	ReDim visiblecols(0) As Integer 
+	
+	Set nvw = getCachedView(viewname$) 
+	If (nvw Is Nothing) Then GoTo ExitPoint 		
+
+	exfilename$ = fileprefix$ & |_| & CStr(CDbl(Now)) & ".xls"
+	
+	row$ = ||
+	ForAll c In nvw.Columns 
+		Set nvc = c 
+		If Not (nvc.Iscategory Or nvc.Ishidden Or nvc.Ishidedetail Or nvc.isIcon) Then 
+			ReDim Preserve visiblecols(ord%) As Integer 
+			visiblecols(ord%) = nvc.Position - 1
+			ord% = ord% + 1
+			row$ = row$ & |<td>| & nvc.Title & |</td>|
+		End If
+	End ForAll
+	
+	If (ord% < 1) Then 
+		enhLogWarning LIB_PREFIX, |No acceptable columns found for view | & viewname$
+		GoTo ExitPoint 
+	End If
+	
+	Print |Content-type:application/vnd.ms-excel|
+	Print |Content-Disposition: attachment;Filename=| & exfilename
+	Print |<html><head><title>| & fileprefix$ & |</title></head><body>|
+	Print |<table><thead>|
+	Print |<tr>| & row$ & |</tr>|
+	Print |</thead>|
+	Print |<tbody>|
+	
+	Set nav = nvw.createViewNav() 
+	Set nvent = nav.getFirstDocument() 
+	While Not (nvent Is Nothing) 
+		row$ = ||
+		For ord% = LBound(visiblecols) To UBound(visiblecols) 
+			col$ = ||
+			extendedinfo(|Visible Column Ordinal Position|) = CStr(ord%)
+			If IsElement(extendedInfo(|Visible Column Number|)) Then Erase extendedInfo(|Visible Column Number|) 
+			colnum% = visiblecols(ord%) 
+			extendedinfo(|Visible Column Number|) = CStr(colnum%)
+			
+			values = nvent.ColumnValues(colnum%)
+			If IsElement(extendedInfo(|Column Array Index|)) Then Erase extendedInfo(|Column Array Index|) 
+			If IsArray(values) Then 
+				For colnum% = LBound(values) To UBound(values)
+					extendedInfo(|Column Array Index|) = CStr(colnum%) 
+					col$ = col$ & CStr(values(colnum%))
+					If (colnum% < UBound(values)) Then col$ = col$ & |; | 
+				Next
+			Else 
+				col$ = CStr(values) 
+			End If 
+			
+			
+			row$ = row$ & |<td>| & col$ & |</td>|			
+		Next
+	
+		Print |<tr>| & row$ & |</tr>|
+		Set nvent = nav.getNextDocument(nvent)
+	Wend
+	
+	Print |</table></body></html>|
+	
+	' if here then success! 
+	result = True 
+	
+ExitPoint:
+	webSpawnXLS = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo 
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:iif:12:8
+%REM
+	Function iif
+	Tests a condition and returns a conditional value 
+	
+	@param condition Condition to Test, must evaluate to a boolean result
+	@param truevalue Value to return if condition evaluates to true 
+	@param falsevalue Value to return if condition evaluates to false 
+	
+	@return truevalue if condition evaluates to true, or falsevalue if condition evaluates to false. 
+	@throws Exception if condition evaluation generates an exception 	
+%END REM
+Function iif(condition, truevalue, falsevalue) As Variant 
+	On Error GoTo ErrorTrap
+	
+	Dim result As Variant  
+	
+	Dim errmsg$
+	Dim errcode#
+	
+	
+	If (condition) Then 
+		If IsObject(truevalue) Then Set result = truevalue Else result = truevalue 
+	Else 
+		If IsObject(falsevalue) Then Set result = falsevalue Else result = falsevalue 	
+	End If
+	
+ExitPoint:
+	If (0 <> errcode) Then Error errcode#, errmsg$
+	If IsObject(result) Then 
+		Set iif = result 
+	Else 
+		iif = result 
+	End If
+	Exit Function 
+	
+ErrorTrap:
+	On Error GoTo 0 
+	errcode# = Err() 
+	errmsg$ = Error() 
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint  
+End Function
+
+'++LotusScript Development Environment:2:1:filterByForm:12:8
+%REM
+	Function filterByForm
+	Filters a Collection
+	Creates a New Collection and populates it with documents from the 
+	source collection that have a Form value matching the specified form.
+	
+	@param source Collection containing the documents to be filtered 
+	@param form$ Form for which results should be limited 
+	
+	@return New Collection containing filtered documents.
+%END REM
+Function filterByForm(source As NotesDocumentCollection, form$) As NotesDocumentCollection 
+	On Error GoTo ErrorTrap
+
+	Dim result As NotesDocumentCollection 
+	Dim ndoc As NotesDocument 
+	
+	Set result = getEmptyDocumentCollection(getCurrentDb())
+	
+	If (source Is Nothing) Then GoTo ExitPoint 
+	If isBlankString(form$) Then GoTo ExitPoint
+	
+	Set ndoc = source.getFirstDocument() 
+	While Not (ndoc Is Nothing)
+		If ndoc.hasItem(|Form|) Then 
+			If (0 = StrComp(form$, ndoc.getFirstItem(|Form|).Text, 5)) Then Call result.addDocument(ndoc)
+		End If
+		 
+		Set ndoc = source.getNextDocument(ndoc) 	
+	Wend 
+	
+ExitPoint:
+	Set filterByForm = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Form: | & form$
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:asciiFilterByRange:9:8
+%REM
+	Function asciiFilterByRange
+	Removes all non-allowed characters from a string 
+	
+	@param source$ String from which to remove non-allowed characters 
+	@param ranges List of ascii ranges (k=name, v=range) definining the allowed characters.
+	@return source with all non-alphanumeric characters removed. 
+%END REM
+Public Function asciiFilterByRange(source$, ranges As IntegerPairList) As String 
+	On Error GoTo ErrorTrap
+
+	
+	Dim range As IntegerPair  	
+	
+	Dim character$ 
+	Dim result$
+	
+	Dim idx&
+	Dim code&
+	Dim include As Boolean  
+
+	If isBlankString(source$) Then GoTo ExitPoint 
+	If Not ranges.hasContent Then GoTo ExitPoint
+		
+	For idx& = 1 To Len(source$) 
+		include = False 
+		character$ = Mid$(source$, idx&, 1)
+		code& = Asc(character$)
+		
+		ForAll element In ranges.content 
+			Set range = element 
+			include = ((code& >= range.First) And (code& <= range.Last)) 
+			If include Then Exit ForAll 
+		End ForAll
+		
+		If include Then result$ = result$ & character$
+	Next
+	
+		
+ExitPoint: 
+	asciiFilterByRange = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & source$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:getDocumentUNIDs:5:8
+%REM
+	Function getDocumentUNIDs
+	Gets the UniversalIDs for all documents in a view
+%END REM
+Function getDocumentUNIDs(viewname$) As StringSet 
+	On Error GoTo ErrorTrap
+	
+	Dim nvw As NotesView
+	Dim nav As NotesViewNavigator
+	Dim nvent As NotesViewEntry 
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	
+	Dim result As New StringSet()
+	
+	extendedInfo(|View Name|) = viewname$
+	Set nvw = getCachedView(viewname$) 
+	Set nav = nvw.createViewNav() 
+	Set nvent = nav.getFirstDocument() 
+	While Not (nvent Is Nothing) 
+		If nvent.isValid And nvent.isDocument Then Call result.add(nvent.UniversalID) 
+		
+		Set nvent = nav.getNextDocument(nvent) 
+	Wend
+	
+	
+ExitPoint: 
+	Set getDocumentUNIDs = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:getUserRoles:7:8
+%REM
+	Function getUserRoles
+	Gets the ACL Roles for the current user
+	
+	@return ACL Roles for the current user
+%END REM
+Function getUserRoles() As StringSet 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	
+	Static result As StringSet 
+	
+	Dim roles As Variant
+	Dim role$
+	
+	
+	' BEGIN CODE
+	If (result Is Nothing) Then 
+		Set result = New StringSet()		
+		extendedinfo(|Canonical|) = getCurrentUser().Canonical
+		roles = getCurrentDb().QueryAccessRoles(getCurrentUser().Canonical) 
+		ForAll element In roles
+			role$ = CStr(element)
+			extendedinfo(|role|) = role$
+			If Not isBlankString(role$) Then Call result.add(role$)
+		End ForAll
+	End If
+
+	
+ExitPoint: 
+	Set getUserRoles = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:urlEncode:1:8
+Function urlEncode(ByVal source As String) As String
+	On Error GoTo ErrorTrap 
+	
+	Dim v As Variant
+	Dim txt As String
+
+	txt = source
+	txt = Join(Split(txt, |"|),|%22| )
+	v = Evaluate(| @URLENcode("Domino" ; "| & txt & |")|)
+
+	If IsArray(v) Then txt=v(0) Else txt = v
+
+	txt = Join(Split(txt, |'|) , |%27|)	
+	txt = Join(Split(txt, |"|) , |%22|) 
+		
+	
+ExitPoint: 
+	urlEncode = txt
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & source
+	Resume ExitPoint		
+End Function
+
+
+'++LotusScript Development Environment:2:1:getNAB:5:8
+%REM
+	Function getNAB
+	Description
+%END REM
+Function getNAB() As NotesDatabase 
+	On Error GoTo ErrorTrap
+	
+	Static result As NotesDatabase
+	
+	If (result Is Nothing) Then Set result = getOpenDatabase(getCurrentDb().Server, |names.nsf|)
+	
+ExitPoint: 
+	Set getNAB = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:getFQDN:5:8
+%REM
+	Function getFQDN
+	Gets the FQDN from the Application Config document. 
+%END REM
+Function getFQDN() As String 
+	On Error GoTo ErrorTrap
+	
+	Static result$
+	
+	If isBlankString(result$) Then result$ = getApplicationConfigItemText(|FQDN|)
+	
+ExitPoint:
+	getFQDN = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:getAbbreviated:5:8
+%REM
+	Function getAbbreviated
+	Gets an abbreviated name for a source name
+%END REM
+Function getAbbreviated(source$) As String 
+	On Error GoTo ErrorTrap
+	
+	Dim nnam 		As NotesName
+	Static names 	List As String 
+	Dim result$
+	
+	If isBlankString(source$) Then GoTo ExitPoint 
+
+	If Not IsElement(names(source$)) Then 
+		Set nnam = New NotesName(source$) 
+		names(source$) = nnam.Abbreviated 
+	End If
+	
+	result$ = names(source$) 
+	
+ExitPoint: 
+	getAbbreviated = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & source$
+	names(source$) = ||
+	Resume ExitPoint 	
+End Function
+
+
+
+'++LotusScript Development Environment:2:1:escapeXML:1:8
+Function escapeXML(ByVal s$) As String 
+	On Error GoTo ErrorTrap
+	
+	Dim a$
+	Dim b$
+	Dim m%
+	
+	If isBlankString(s$) Then GoTo ExitPoint 
+	
+	s$ = Join(Split(s$, |'|) , |&apos;|)	
+	s$ = Join(Split(s$, |"|) , |&quot;|) 
+	s$ = Join(Split(s$, |>|) , |&gt;|) 
+	s$ = Join(Split(s$, |<|) , |&lt;|) 
+	s$ = Join(Split(s$, |&|) , |&amp;|) 
+
+
+	' strip unicode character 
+	For m% = 1 To Len(s$) 
+		a$ = Mid$(s$, m%,1) 
+		If Uni(a$) > 127 Then 
+			b$ = b$ & "&amp;#" & Uni(a$) 
+		Else 
+			b$ = b$ & a$ 
+		End If 
+	Next 
+
+	s$ = b$ 
+	
+	
+ExitPoint: 
+	escapeXML = s$
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & s$
+	Resume ExitPoint
+End Function 
+
+'++LotusScript Development Environment:2:1:removeRoles:9:8
+%REM
+	Function removeRoles
+	Removes all Roles from a StringSet and returns the result 
+	
+	@param source StringSet from which to remove roles
+	
+	@return StringSet containing all entries from source with roles removed 
+%END REM
+Function removeRoles(source As StringSet) As StringSet 
+	On Error GoTo ErrorTrap
+	
+	Dim result As New StringSet()
+	Dim values As Variant 
+	Dim temp$ 
+	
+	If (source Is Nothing) Then GoTo ExitPoint 
+	If Not source.hasContent Then GoTo ExitPoint 
+	
+	values = source.Values 
+	ForAll element In values 
+		temp$ = CStr(element)
+		 
+		If Not (("[" = Left$(temp$, 1)) And ("]" = Right$(temp$, 1))) Then result.add temp$ 
+	End ForAll
+	
+ExitPoint: 
+	Set removeRoles = result 
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0 
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:getDocumentItemStrings:6:8
+%REM
+	Function getDocumentItemStrings
+	Gets the item strings from a Notes Document
+	Only includes items that are not blank. 
+%END REM
+Function getDocumentItemStrings(source As NotesDocument) As StringList 
+	On Error GoTo ErrorTrap
+	
+	Dim result As New StringList()
+	Dim stringvalue$
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+
+
+	If (source Is Nothing) Then GoTo ExitPoint 
+	
+	extendedinfo(|Source UNID|) = source.Universalid 
+	ForAll nitm In source.Items
+		extendedinfo(|Item Name|) = nitm.Name 
+		If (nitm.Type = RICHTEXT) Then
+			stringvalue$ = nitm.getFormattedText(True, 0)
+		Else
+			stringvalue$ = nitm.Text
+		End If 
+		
+		If Not isBlankString(stringvalue$) Then result.content(nitm.Name) = stringvalue$
+	End ForAll 	
+
+ExitPoint: 
+	Set getDocumentItemStrings = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:2:logDocumentInfo:1:8
+Public Sub logDocumentInfo(unid$)  
+	On Error GoTo ErrorTrap
+	
+	Dim nses As NotesSession 
+	Dim ndb As NotesDatabase
+	Dim ndoc As NotesDocument 
+	
+	Set nses = New NotesSession() 
+	Set ndb = nses.CurrentDatabase
+	Set ndoc = ndb.getDocumentByUNID(unid$)
+	If (ndoc Is Nothing) Then Error ERR_DOCUMENT_NOT_FOUND, MSG_DOCUMENT_NOT_FOUND 
+		
+	enhLogAllDocItems ndoc 
+	
+ExitPoint:
+	Exit Sub 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |UniversalID: | & unid$
+	Resume ExitPoint 
+End Sub
+
+'++LotusScript Development Environment:2:1:getRequestContentJSONstrings:12:8
+%REM
+	Function getRequestContentJSONstrings
+	Gets the REQUEST_CONTENT JSON Strings 
+	
+	If a document has a REQUEST_CONTENT item, 
+	and that item consists of JSON content, 
+	this method will return the content as a StringList 
+	
+	@param source NotesDocument from which to get the content 
+	@return StringList containing the content
+%END REM
+Function getRequestContentJSONstrings(source As NotesDocument) As StringList 
+	On Error GoTo ErrorTrap
+	
+	
+	Dim nitm As NotesItem 
+	Dim requestcontent As Variant 
+	Dim chunks As Variant 
+	
+	Static searchfor(3) As String 
+	Static replacewith(3) As String 
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	
+	Dim result As New StringList()
+	
+	Dim tempstring$
+	Dim replaced$ 
+	
+	Static isInitialized As Boolean 
+	 
+	
+	If (source Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Source document is Nothing|
+	
+	If source.hasItem(ITEMNAME_REQUEST_CONTENT) Then 
+		Set nitm = source.getFirstItem(ITEMNAME_REQUEST_CONTENT) 
+		tempstring$ = nitm.Text 
+		If isBlankString(tempstring$) Then GoTo ExitPoint 
+		
+		If strBeginsWith(tempstring$, |{"|) And strEndsWith(tempstring$, |"}|) Then 
+			If Not isInitialized Then 
+				searchfor(0) = |&apos;|
+				replacewith(0) = |'|
+				
+				searchfor(1) = |&quot;|
+				replacewith(1) = |"|
+				
+				searchfor(2) = |{"|
+				replacewith(2) = ||
+				
+				searchfor(3) = |"}|
+				replacewith(3) = ||
+				
+				isInitialized = True
+			End If 
+	
+			requestcontent = Split(tempstring$ , |","|) 
+			ForAll element In requestcontent
+				replaced$ = Replace(CStr(element), searchfor, replacewith) 
+				chunks = Split(replaced, |":"|)
+				If (UBound(chunks) > 0) Then 
+					result.content(chunks(0)) = chunks(1)
+				End If
+			End ForAll
+			
+		End If
+	End If
+
+ExitPoint: 
+	Set getRequestContentJSONstrings = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:getCachedView:5:8
+%REM
+	Function getCachedView
+	Gets a Cached View from the Current Database 
+%END REM
+Function getCachedView(viewname$) As NotesView 
+	If isBlankString(viewname$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Viewname is blank.  |
+
+	On Error GoTo ErrorTrap
+
+	Static views List As NotesView 
+	Dim result As NotesView 
+	
+	If IsElement(views(viewname$)) Then 
+		Set result = views(viewname$) 
+	Else 
+		Set result = getCurrentDb().getView(viewname$) 
+		If (result Is Nothing) Then Error ERR_VIEW_NOT_FOUND, MSG_VIEW_NOT_FOUND
+		result.Autoupdate = False
+		Set views(viewname$) = result
+	End If
+
+ExitPoint:
+	Set getCachedView = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Viewname: | & viewname$
+	Set result = Nothing
+	Set views(viewname$) = result
+	Resume ExitPoint 
+End Function
+
+
+
+
+'++LotusScript Development Environment:2:1:safeEvaluateToString:11:8
+%REM  
+	Function safeEvaluateToString 
+	Evaluates a formula and returns the result. 
+	
+	@param formula$ Formula to evaluate
+	@param context Context object for which the formula should be run
+	@param failValue Value to return in the event of a failure.
+	
+	@return String representation of result of the evaluated formula, or failValue if a failure occurs. 
+%END REM
+Public Function safeEvaluateToString(ByVal formula$, context As Variant, failValue As Variant) As Variant
+	On Error GoTo ErrorTrap
+
+	Dim evalResult As Variant 
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	Dim result$
+	
+	evalResult = safeEvaluate(formula$, context, failValue)  
+	If IsArray(evalResult) Then 
+		ForAll element In evalResult 
+			result$ = result$ & CStr(element) 
+		End ForAll
+	Else 
+		result = CStr(evalResult) 
+	End If
+	
+ExitPoint: 
+	safeEvaluateToString = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:hasUserRole:9:8
+%REM
+	Function hasUserRole
+	Indicates if the current user has a specified role in the ACL of the current database
+	
+	@param role$ Role to check.  
+	
+	@return Flag indicating if the current user has the specified role 
+%END REM
+Function hasUserRole(ByVal role$) As Boolean 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	Dim roles As Variant 
+	Dim result As Boolean
+	
+	
+	extendedinfo(|role|) = role$ 
+	
+	TrimString role$
+	If isBlankString(role$) Then GoTo ExitPoint 
+	
+	If (0 <> StrComp(|[|, Left$(role$, 1))) Then 
+		result = hasUserRole(|[| & role$ & |]|) 
+		GoTo ExitPoint 
+	End If
+	
+	result = getUserRoles().hasTag(role$)
+	If Not result Then 
+		roles = getUserRoles().Values 
+		ForAll element In roles 
+			If (0 = StrComp(LCase$(role$), LCase$(CStr(element)))) Then 
+				result = True
+				Exit ForAll 
+			End If
+		End ForAll
+	End If
+	
+ExitPoint:
+	hasUserRole = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:getApplicationConfig:5:8
+%REM
+	Function getApplicationConfig
+	Gets the Application Config document
+%END REM
+Function getApplicationConfig() As NotesDocument 
+	On Error GoTo ErrorTrap
+
+	Dim nvw As NotesView 
+
+	Static result As NotesDocument
+	
+	If (result Is Nothing) Then Set result = getDocument_Config(|config|) 
+	
+ExitPoint:
+	Set getApplicationConfig = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:getDocument_Config:10:8
+%REM
+	Function getDocument_Config
+	Retrieves the Config document for the specified key 
+	
+	@param key$ Key used to find the Config document. 
+		If blank then the default "config" will be used.
+	
+	@return Config document associated with the source key
+%END REM
+Function getDocument_Config(key$) As NotesDocument
+	On Error GoTo ErrorTrap
+
+	Dim nvw As NotesView 
+	Dim result As NotesDocument 
+
+
+	If isBlankString(key$) Then 
+		Set result = getDocument_Config(|config|)
+	Else
+		Set nvw = getCurrentDb().getView(VIEWNAME_CONFIG) 
+		If (nvw Is Nothing) Then GoTo ExitPoint 
+		
+		Set result = nvw.getDocumentByKey(key$, True) 
+		If (result Is Nothing) Then 
+			Call nvw.Refresh()
+			Set result = nvw.getDocumentByKey(key$, True) 
+			If (result Is Nothing) Then enhLogWarning LIB_PREFIX, MSG_DOCUMENT_NOT_FOUND & |Key: | & key$
+		End If
+	End If
+	
+ExitPoint:
+	Set getDocument_Config = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source Key: | & key$
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:formatWholeThousands:12:8
+%REM
+	Function formatWholeThousands
+	Attempts to format a number using the FORMAT_WHOLE_THOUSANDS constant.
+	
+	ATTENTION: THIS METHOD CONTAINS NO ERROR TRAPPING
+	
+	@source: number (Integer, Long, Double, Currency, etc) to format
+	@return: source formatted using FORMAT_WHOLE_THOUSANDS
+	
+	@thows: LotusScript exception on failure
+%END REM
+Function formatWholeThousands(source As Variant) As String 
+	formatWholeThousands = Format$(source, FORMAT_WHOLE_THOUSANDS) 	
+End Function
+
+'++LotusScript Development Environment:2:1:escapeJSON:1:8
+Public Function escapeJSON(ByVal s$) As String
+	On Error GoTo ErrorTrap 
+
+%REM
+	Backslash Is replaced With \\
+	Backspace Is replaced With \b.
+	Form feed Is replaced With \f.
+	Newline Is replaced With \n.
+	Carriage Return Is replaced With \r.
+	Tab Is replaced With \t.
+	Double quote Is replaced With \"	
+%END REM
+
+	If isBlankString(s$) Then GoTo ExitPoint 
+
+	s$ = Join(Split(s$, Chr$(92)), 	Chr$(92) & Chr$(92)) ' do backslash first, fool.	
+	s$ = Join(Split(s$, Chr$(8)), 	|\b|)
+	s$ = Join(Split(s$, Chr$(12)), 	|\f|)	
+	s$ = Join(Split(s$, Chr$(10)), 	|\n|)
+	s$ = Join(Split(s$, Chr$(13)), 	|\r|)
+	s$ = Join(Split(s$, Chr$(9)), 	|\t|)
+	s$ = Join(Split(s$, Chr$(34)), 	|\"|)
+
+	
+	%REM
+	'****
+	source = Join(Split(source, |"|) , |\"|)
+	source = Join(Split(source, Chr$(13) & Chr$(10)) , |\n|) 
+	source = Join(Split(source,  Chr$(10)) , |\n|) 
+	source = Join(Split(source, Chr$(13)) , |\n|)
+	
+	Dim txt As String, t As String, x As Integer, n As Integer
+	For x = 1 To Len(source)
+		t = Mid$(source, x, 1)
+		n = Uni(t)
+		If (n > 31) And (n < 127) Then txt = txt & t Else txt = txt &  urlencode("" & t)  
+	Next 
+	escapejson = txt		
+	%END REM 
+	
+		
+	
+ExitPoint: 
+	escapeJson = s$
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & s$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:isTrue:9:8
+%REM
+	Function isTrue
+	Tests a string to see if it represents a True value.
+	
+	@param source String that can be interpreted as either a true or a false value. 
+	
+	@return Flag indicating if source represents a True value. 
+%END REM
+Function isTrue(source$) As Boolean 
+	On Error GoTo ErrorTrap
+
+
+	Dim condition$ 
+	Dim result As Boolean 
+	
+	
+	condition$ = LCase$(Trim$(source$))
+	
+	Select Case condition$ 
+		Case |1|		: result = True 
+		Case |true|		: result = True 
+		Case |yes|		: result = True 
+		Case |y|		: result = True 
+		Case |t|		: result = True 
+		Case |enabled| 	: result = True 
+	End Select
+	
+ExitPoint:
+	isTrue = result 
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & source$
+	Resume ExitPoint 
+End Function
+
+'++LotusScript Development Environment:2:1:getDocumentByDocumentID:8:8
+%REM
+	Gets the document from the current database for the specified DocumentID. 
+	
+	@param documentID DocumentID of the target document. 
+	
+	@return Document for the specified UniversalID, or Nothing if not found. 
+%END REM
+Public Function getDocumentByDocumentID(documentID$) As NotesDocument 	
+	On Error GoTo ErrorTrap
+
+	
+	Dim nvw As NotesView 
+	Dim nvent As NotesViewEntry 
+	Dim result As NotesDocument
+	
+	Dim unid$ 
+
+	If isBlankString(documentID$) Then GoTo ExitPoint
+	
+	Set nvw = getCurrentDb().getView(|lkp-AllByDocumentID|) 
+	Set nvent = nvw.getEntryByKey(documentID$, True) 
+	If (nvent Is Nothing) Then 
+		Call nvw.refresh() 
+		Set nvent = nvw.getEntryByKey(documentID$, True) 
+		If (nvent Is Nothing) Then GoTo ExitPoint 
+	End If 
+
+	' Use the NotesViewEntry's UniversalID and the getDocumentByUNID method to break Scope dependency on the view
+	Set result = getDocumentByUNID(nvent.UniversalID)  
+
+	
+ExitPoint:
+	Set getDocumentByDocumentID = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |DocumentID: | & documentID$
+	Resume ExitPoint	
+End Function 
+
+'++LotusScript Development Environment:2:1:getApplicationConfigItemText:9:8
+%REM
+	Function getApplicationConfigItemText
+	Gets the Text for an Item from the Application Config document. 
+	
+	@param itemname$ Name of the Item from which to retrive the text value. 
+	
+	@return Text value of the named item. Blank if item does not exist or error.  
+%END REM
+Function getApplicationConfigItemText(itemname$) As String 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	Dim result$
+	
+	' BEGIN CODE
+	extendedinfo(|Item Name|) = itemname$ 
+	If isBlankString(itemname$) Then GoTo ExitPoint
+	If Not getApplicationConfig().hasItem(itemname$) Then GoTo ExitPoint
+	
+	result$ = getApplicationConfig().getFirstItem(itemname$).Text  
+	
+ExitPoint: 
+	getApplicationConfigItemText = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:getViewFromDb:10:8
+%REM
+	Function getViewFromDb
+	Gets a View from a database 
+	
+	@param ndb Database from which to retrieve the view
+	@param viewname Name of the View to retrive 
+	
+	@return View from the Database, if found.  Nothing on Error. 
+%END REM
+Public Function getViewFromDb(ndb As NotesDatabase, viewname$) As NotesView 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	Dim result As NotesView
+	Dim server$
+	
+	' BEGIN CODE
+	If (ndb Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Database is Nothing|
+	If isBlankString(viewname$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Viewname is blank|
+
+	server$ = ndb.Server
+	If isBlankString(server$) Then server$ = |Notes Client Workstatsion for | & getCurrentUser().Abbreviated
+	
+	extendedinfo(|server|) = server$ 
+	extendedinfo(|filepath|) = ndb.Filepath 
+	extendedinfo(|view|) = viewname$
+	
+	Set result = ndb.getView(viewname$)
+	If (result Is Nothing) Then Error ERR_VIEW_NOT_FOUND, MSG_VIEW_NOT_FOUND
+	
+	
+ExitPoint: 
+	Set getViewFromDb = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:getCommon:5:8
+%REM
+	Function getCommon
+	Gets the Common name for a source name
+%END REM
+Function getCommon(source$) As String 
+	On Error GoTo ErrorTrap
+	
+	Dim nnam 		As NotesName
+	Static names 	List As String 
+	Dim result$
+	
+	If isBlankString(source$) Then GoTo ExitPoint 
+
+	If Not IsElement(names(source$)) Then 
+		Set nnam = New NotesName(source$) 
+		names(source$) = nnam.Common 
+	End If
+	
+	result$ = names(source$) 
+	
+ExitPoint: 
+	getCommon = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & source$
+	names(source$) = ||
+	Resume ExitPoint 	
+End Function
+
+'++LotusScript Development Environment:2:1:getParentDocument:9:8
+%REM
+	Function getParentDocument
+	Gets the Parent (as defined by UniversalID in $unidParent field) document
+	
+	@param source Document for which to retrieve the Parent document
+	
+	@return Parent document (if one exists) for the source document. 
+%END REM
+Function getParentDocument(source As NotesDocument) As NotesDocument 
+	On Error GoTo ErrorTrap
+	
+	Dim result As NotesDocument 
+	
+	' exception logging variables
+	Dim extendedinfo 	List As String 
+	Dim msg$
+
+	Dim unidparent$
+
+	extendedinfo(|Item Name|) = |$unidParent|
+	unidparent$ = Trim$(source.getFirstItem(|$unidParent|).Text) 
+	extendedinfo(|$unidParent|) = unidparent$
+	If isBlankString(unidparent$) Then GoTo ExitPoint 
+	
+	Set result = getDocumentByUNID(unidparent$) 
+	If (result Is Nothing) Then Error ERR_DOCUMENT_NOT_FOUND, MSG_DOCUMENT_NOT_FOUND
+	
+ExitPoint:
+	Set getParentDocument = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint 	
+End Function
+
+'++LotusScript Development Environment:2:1:alphanumericOnly:8:8
+%REM
+	Function alphanumericOnly
+	Removes all non-alphanumeric (a-z, A-Z, 0-9) characters from String 
+	
+	@param source$ String from which to remove non-alphanumeric characters 
+	@return source with all non-alphanumeric characters removed. 
+%END REM
+Public Function alphanumericOnly(source$) As String 
+	On Error GoTo ErrorTrap
+
+	Static ranges As IntegerPairList
+	Dim result$
+	
+	If isBlankString(source$) Then GoTo ExitPoint 
+	
+	If (ranges Is Nothing) Then 
+		Set ranges = New IntegerPairList() 
+		Set ranges.content(|Numeric|) = New IntegerPair(48, 57) 		' ASCII 0 - 9
+		Set ranges.content(|AlphaUpper|) = New IntegerPair(65, 90) 		' ASCII A - Z
+		Set ranges.content(|AlphaLower|) = New IntegerPair(97, 122) 	' ASCII a - z
+	End If
+	
+	result$ = asciiFilterbyRange(source$, ranges) 
+		
+ExitPoint: 
+	alphanumericOnly = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & source$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:replaceDocumentItem:17:8
+%REM
+	Function replaceDocumentItem
+	Replaces an item on a document, using values from a document item
+
+	@param source Document from which to retrieve item values.  Can be Nothing
+	@param target Document for which the item will be updated. 
+	@param itemnameSource$ Name of the item on the source document from which to retrieve values.  Can be blank. 
+	@param itemnameTarget$ Name of item to be replaced (or created) 
+	@param addvalues array of strings containing additional values to be added to the target item
+	@param removevalues array of strings containing values to be removed before replacing the target item 
+	@param flags NotesItemFlags instance containing the flag values for the item.
+		
+	@return Flag indicating success / failure of the operation 
+	
+	@see Type NotesItemFlags
+%END REM
+Function replaceDocumentItem(source As NotesDocument, target As NotesDocument, itemnameSource$, itemnameTarget$, addvalues As Variant, removevalues As Variant, flags As NotesItemFlags) As Boolean 
+	If (target Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Target document is Nothing.|
+	If isBlankString(itemnameTarget$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Target Itemname is blank.|
+	On Error GoTo ErrorTrap 
+	
+	Static tempset As StringSet 
+	Dim nitmSource As NotesItem 
+	Dim nitmTarget As NotesItem 
+	Dim tag$
+	
+	Dim result As Boolean 
+	
+	If (tempset Is Nothing) Then Set tempset = New StringSet() 
+	Erase tempset.content 
+	If Not (source Is Nothing) Then 
+		' Get values from source
+		If Not isBlankString(itemnameSource$) Then 
+			If source.hasItem(itemnameSource$) Then 
+				Set nitmSource = source.getFirstItem(itemnameSource$)
+				ForAll element In nitmSource.values 
+					tag$ = CStr(element)
+					tempset.add(tag$) 
+				End ForAll
+			End If
+		End If
+	End If 
+	
+
+	' add in additional values	
+	If Not IsNull(addvalues) Then 
+		If Not IsEmpty(addvalues) Then 
+			ForAll element In addvalues 
+				tag$ = CStr(element)
+				tempset.add(tag$) 
+			End ForAll
+		End If 
+	End If 
+	
+	' remove unwanted values
+	If Not IsNull(removevalues) Then 
+		If Not IsEmpty(removevalues) Then 
+			ForAll element In removevalues 
+				tag$ = CStr(element)
+				If tempset.hasTag(tag$) Then Erase tempset.content(tag$)
+			End ForAll
+		End If 
+	End If 
+	
+	' write item to target
+	Set nitmTarget = target.replaceItemValue(itemnameTarget$, tempset.Values) 
+	With nitmTarget 
+		.IsAuthors = flags.IsAuthors 
+		.IsEncrypted = flags.IsEncrypted 
+		.IsNames = flags.IsNames 
+		.IsProtected = flags.IsProtected 
+		.IsReaders = flags.IsReaders 
+		.IsSigned = flags.IsSigned 
+		.IsSummary = flags.IsSummary 
+	End With	
+	
+	
+	' if here then everything worked
+	result = True 
+	
+ExitPoint:
+	replaceDocumentItem = result 
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint 
+End Function 	
+
+'++LotusScript Development Environment:2:1:getViewColumnValuesStringSet:10:8
+%REM
+	Function getViewColumnValuesStringSet
+	Gets a StringSet of Column Values from a view
+	
+	@param viewname$ Name of View
+	@param colnum% Column Number (0 based) 
+	
+	@return StringSet containing Column Values
+%END REM
+Function getViewColumnValuesStringSet(viewname$, colnum%) As StringSet 
+	On Error GoTo ErrorTrap
+	
+	Dim nvw As NotesView 
+	Dim nav As NotesViewNavigator 
+	Dim nvent As NotesViewEntry 
+	Dim column As Variant 	
+
+	Dim result As New StringSet() 
+
+	Set nvw = getCachedView(viewname$)
+	Set nav = nvw.createViewNav()  
+	Set nvent = nav.getFirstDocument() 
+	While Not (nvent Is Nothing) 
+		column = nvent.columnValues(colnum%) 
+		If IsScalar(column) Then 
+			result.add CStr(column) 
+		Else 
+			ForAll element In column 
+				result.add CStr(element) 
+			End ForAll
+		End If
+		
+		Set nvent = nav.getNextDocument(nvent) 
+	Wend
+	
+ExitPoint:
+	Set getViewColumnValuesStringSet = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Viewname: | & viewname$ & Chr(10) & |Column #: | & CStr(colnum%) 
+	Resume ExitPoint 
+End Function
+
+
+

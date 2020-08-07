@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="852585BD005BCB90" version="10.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="212" sequence="3" unid="C004114485DB0E72852585BD005CAAA6">
+<created><datetime dst="true">20200807T125209,98-04</datetime></created>
+<modified><datetime dst="true">20200807T125231,37-04</datetime></modified>
+<revised><datetime dst="true">20200807T125231,36-04</datetime></revised>
+<lastaccessed><datetime dst="true">20200807T125231,36-04</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20200807T125212,80-04</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=PartnerConnect</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=PartnerConnect</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
+<item name="$TITLE" sign="true"><text>azlwConstants</text></item>
+<item name="$Flags"><text>s34Q</text></item>
+<item name="$PublicAccess" sign="true"><text>1</text></item>
+<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item>
+
+
+<item name="$Comment"><text>Constants Library</text></item></note>
