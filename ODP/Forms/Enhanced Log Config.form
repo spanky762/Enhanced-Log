@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
  replicaid='852585C5003A254A'>
-<noteinfo noteid='1aa' unid='5404EE5DBF38772D85257B16007BD134' sequence='3'>
+<noteinfo noteid='1aa' unid='5404EE5DBF38772D85257B16007BD134' sequence='4'>
 <created><datetime>20130218T173224,84-05</datetime></created>
-<modified><datetime>20210118T124944,22-05</datetime></modified>
-<revised><datetime>20210118T124944,21-05</datetime></revised>
-<lastaccessed><datetime>20210118T124944,21-05</datetime></lastaccessed>
+<modified><datetime>20210118T130251,86-05</datetime></modified>
+<revised><datetime>20210118T130251,85-05</datetime></revised>
+<lastaccessed><datetime>20210118T130251,85-05</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20200815T063508,27-04</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=admin/O=dleapdev</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
@@ -19,11 +19,11 @@ X/8QAAIADwAHAAAAAAAAAA==
 <rawitemdata type='1'>
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
-<item name='$SubForms'><text>Config\Enhanced Log Information | cfg-EnhLogInfo</text></item>
+<item name='$SubForms' sign='true'><text>Config\Enhanced Log Information | cfg-EnhLogInfo</text></item>
 <item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
 <item name='$WindowTitle' sign='true'><formula>"Log Configuration"</formula></item>
 <item name='$Flags'><text>CD</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
 <item name='$Fonts'>
 <rawitemdata type='1'>
 i/9KAAIABSZBcmlhbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYmVmVyZGFuYQAAAAAAAAAA
@@ -106,7 +106,7 @@ End Sub<break/></text></item>
 <item name='enhLogEnableScheduledPurge' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='enhLogPurgeAge' summary='false'><number>0</number></item>
+<item name='enhLogPurgeAge' summary='false' sign='true'><number>0</number></item>
 <item name='enhLogTargetServer' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>

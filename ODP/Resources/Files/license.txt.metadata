@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.4" replicaid="85257B1600791A9D" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="17e" sequence="3" unid="F8BCDFC4FF0AC313852577EA007224B7">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="form" maintenanceversion="1.0" replicaid="852585C5003A254A" version="11.0">
+<noteinfo noteid="1c2" sequence="5" unid="F8BCDFC4FF0AC313852577EA007224B7">
 <created><datetime>20101129T154645,03-05</datetime></created>
-<modified><datetime dst="true">20170321T190620,52-04</datetime></modified>
-<revised><datetime dst="true">20170321T190620,51-04</datetime></revised>
-<lastaccessed><datetime dst="true">20170321T190620,52-04</datetime></lastaccessed>
-<addedtofile><datetime>20130218T170247,22-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=THQ/OU=USS/O=SArmy</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20210118T130251,91-05</datetime></modified>
+<revised><datetime>20210118T130251,90-05</datetime></revised>
+<lastaccessed><datetime>20210118T130251,90-05</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20200815T063508,79-04</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=dleapdev</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$TITLE"><text>license.txt</text></item>
 <item name="$Flags"><text>345CgQ</text></item>
 <item name="$FlagsExt" sign="true"><text>D</text></item>
-
 <item name="$MimeType" sign="true"><text>text/plain</text></item>
 <item name="$FileModDT" sign="true"><datetime>20101129T154628,51-05</datetime></item>
+<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item>
 
-<item name="$FileNames" sign="true"><text>license.txt</text></item>
-<item name="$DesignerVersion" sign="true"><text>8.5.2</text></item></note>
+
+<item name="$FileNames" sign="true"><text>license.txt</text></item></note>
