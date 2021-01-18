@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="852585BD005BCB90" version="10.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="19a" sequence="5" unid="1D96B8649B3AF31A862577FA007649FC">
-<created><datetime>20101215T153201,88-06</datetime></created>
-<modified><datetime dst="true">20200807T125026,53-04</datetime></modified>
-<revised><datetime dst="true">20200807T125026,52-04</datetime></revised>
-<lastaccessed><datetime dst="true">20200807T125026,52-04</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20200807T124252,83-04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="852585C5003A254A" version="11.0">
+<noteinfo noteid="242" sequence="1" unid="418CA900B5769A72852586610061C2D6">
+<created><datetime>20210118T124748,70-05</datetime></created>
+<modified><datetime>20210118T124751,22-05</datetime></modified>
+<revised><datetime>20210118T124751,21-05</datetime></revised>
+<lastaccessed><datetime>20210118T124751,21-05</datetime></lastaccessed>
+<addedtofile><datetime>20210118T124751,21-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=admin/O=dleapdev</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$TITLE" sign="true"><text>enhLogClass</text></item>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
-<item name="$POID"><datetime>20101203T153715,18-05</datetime></item>
+<item name="$POID"><datetime dst="true">20190626T055254,45-04</datetime></item>
+<item name="$Comment" sign="true"><text>Carrier for the EnhancedLog class.</text></item>
 
 
 
 
 
-
-<item name="$Comment"><text>Carrier for the EnhancedLog class.</text></item></note>
+</note>
