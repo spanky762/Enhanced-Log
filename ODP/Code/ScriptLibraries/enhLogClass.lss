@@ -2640,7 +2640,6 @@ ErrorTrap:
 		Resume ExitPoint		
 	End Sub 
 End Class 	
-
 '++LotusScript Development Environment:2:2:Initialize:2:10
 
 Sub Initialize
@@ -4158,7 +4157,7 @@ End Function
 '++LotusScript Development Environment:2:1:isBlankString:5:8
 %REM
 	Function isBlankString
-	Description: Comments for Function
+	Indicates if a string is blank
 %END REM
 Public Function isBlankString(source$) As Boolean 
 	Dim result As Boolean 
@@ -5727,6 +5726,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
