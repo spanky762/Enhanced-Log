@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='helpaboutdocument' xmlns='http://www.lotus.com/dxl'
- version='9.0' maintenanceversion='1.8' replicaid='852581FE004DADAB'>
-<noteinfo noteid='162' unid='C102C898FB7300E885257370004FE586' sequence='3'>
+ version='11.0' maintenanceversion='1.0' replicaid='852585C5003A254A'>
+<noteinfo noteid='166' unid='C102C898FB7300E885257370004FE586' sequence='4'>
 <created><datetime dst='true'>20071010T103241,02-04</datetime></created>
-<modified><datetime>20171222T115236,62-05</datetime></modified>
-<revised><datetime>20171222T115236,61-05</datetime></revised>
-<lastaccessed><datetime>20171222T115236,61-05</datetime></lastaccessed>
-<addedtofile><datetime>20171222T090828,60-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20210118T130251,79-05</datetime></modified>
+<revised><datetime>20210118T130251,78-05</datetime></revised>
+<lastaccessed><datetime>20210118T130251,78-05</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20200815T063507,60-04</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='$FILE' summary='true' sign='true' seal='true'><object><file hosttype='msdos'
@@ -265,7 +265,7 @@ bmQgY2xhaW0gdGhhdCB5b3Ugd3JvdGUgdGhlIGNvZGUuDQoNCg==
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
 <item name='$Flags'><text>R</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
 <item name='$Fonts'>
 <rawitemdata type='1'>
 i/9KAAIABRZUaW1lcyBOZXcgUm9tYW4AAAAAAAAAAAAAAAAAAAAAAAYmQXJpYWwAAAAAAAAAAAAA
@@ -740,7 +740,7 @@ cjogRGV2aW4gUy4gT2xzb24gIChkZXZpbi5vbHNvbkBhemxpZ2h0aG91c2UuY29tKYECgwQOAIX/
 CAAGAAAJ3QYAAK3/fv8MACAACAAAAAAA9v8zAAAAAAABAAAAGQAAAAAAAAAAAAAAAABodHRwOi8v
 d3d3LmRldmlub2xzb24ubmV0AK3/JgALAAgQAAAaAGh0dHA6Ly93d3cuZGV2aW5vbHNvbi5uZXQA
 3QYAAIX/hf8aAAYEBAl3d3cuZGV2aW5vbHNvbi5uZXTSCAEAAAD/AN4GAACF/64C3gYAAK4Ahf8I
-AAYAAAmBAoMEDgCF/x0ABgAACUxhc3QgdXBkYXRlZDogMTIvMjAxNwCBAoMEAgCF/wgABgAACYEC
+AAYAAAmBAoMEDgCF/x0ABgAACUxhc3QgdXBkYXRlZDogMDEvMjAyMQCBAoMEAgCF/wgABgAACYEC
 gwQCAIX/CAAGAAAMgQKDBAIAhf8IAAYAAAyBAoMEAgCF/wgAAQAACg==
 </rawitemdata></item></note>
 

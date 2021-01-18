@@ -1,16 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.0" replicaid="852585BD005BCB90" version="10.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="196" sequence="6" unid="CE05ECD5C61A5D28852582020042B690">
-<created><datetime>20171226T070841,12-05</datetime></created>
-<modified><datetime dst="true">20200807T125054,99-04</datetime></modified>
-<revised><datetime dst="true">20200807T125054,98-04</datetime></revised>
-<lastaccessed><datetime dst="true">20200807T125054,98-04</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20200807T124252,77-04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="852585C5003A254A" version="11.0">
+<noteinfo noteid="23e" sequence="7" unid="86046AB4202C2A0E852586610061C2D5">
+<created><datetime>20210118T124748,69-05</datetime></created>
+<modified><datetime>20210118T130252,11-05</datetime></modified>
+<revised><datetime>20210118T130252,10-05</datetime></revised>
+<lastaccessed><datetime>20210118T130252,10-05</datetime></lastaccessed>
+<addedtofile><datetime>20210118T124751,13-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$TITLE" sign="true"><text>azlwListsCollections</text></item>
 <item name="$DesignerVersion" sign="true"><text>8.5.3</text></item>
+<item name="$POID"><datetime dst="true">20190630T192503,29-04</datetime></item>
+<item name="$Comment" sign="true"><text>Lists and Collections</text></item>
 
 
-<item name="$Comment"><text>Lists and Collections</text></item></note>
+
+</note>

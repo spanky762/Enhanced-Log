@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.4" replicaid="85257B1600791A9D" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="132" sequence="6" unid="39E9BD50C51D1CE58525737000503567">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="form" maintenanceversion="1.0" replicaid="852585C5003A254A" version="11.0">
+<noteinfo noteid="1ca" sequence="5" unid="39E9BD50C51D1CE58525737000503567">
 <created><datetime dst="true">20071010T103605,51-04</datetime></created>
-<modified><datetime dst="true">20170321T190620,22-04</datetime></modified>
-<revised><datetime dst="true">20170321T190620,21-04</datetime></revised>
-<lastaccessed><datetime dst="true">20170321T190620,22-04</datetime></lastaccessed>
-<addedtofile><datetime>20130218T170246,88-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=Corporate/O=Spartan</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=THQ/OU=USS/O=SArmy</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20210118T130251,93-05</datetime></modified>
+<revised><datetime>20210118T130251,92-05</datetime></revised>
+<lastaccessed><datetime>20210118T130251,92-05</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20200815T063508,91-04</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=dleapdev</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$TITLE"><text>LogEntry.gif</text></item>
 <item name="$FlagsExt" sign="true"><text>D</text></item>
@@ -13,9 +13,8 @@
 <item name="$ImagesHigh" sign="true"><number>1</number></item>
 <item name="$ImagesColorize" sign="true"><number>0</number></item>
 <item name="$ImageNames" sign="true"><text>LogEntry.gif</text></item>
-<item name="$DesignerVersion" sign="true"><text>7</text></item>
-
-
-<item name="$MimeType" sign="true"><text>image/gif</text></item>
 <item name="$FileModDT" sign="true"><datetime>20081205T070728,58-05</datetime></item>
-<item name="$Flags"><text>34CiQ</text></item></note>
+<item name="$Flags"><text>34CiQ</text></item>
+<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item>
+
+</note>

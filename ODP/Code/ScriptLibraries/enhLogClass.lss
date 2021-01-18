@@ -103,7 +103,7 @@ Declare Public Function uiSelectDatabase(title$, msg$, fieldnameServer$, fieldna
 Declare Public Function strEndsWith(searchin$, searchfor$) As Boolean 
 Declare Public Function enhLogStackTrace(prefix$, extendedMsg$) As Boolean
 Declare Public Sub enhLogSetActionsIncludeMethodNames (source As Boolean)
-Declare Private Function getScalar(source As Variant ) As Variant	
+Declare Private Function getScalar(source As Variant) As Variant	
 Declare Public Function enhLogExceptionWithLink (prefix$, extendedMsg$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
 Declare Public Function enhLogGetCachedErrorTimestamp() As String
 Declare Public Sub enhLogDumpContent (prefix$, filepath$)
@@ -131,6 +131,7 @@ Declare Public Function enhLogGetLogConfigDb() As NotesDatabase
 Declare Private Function initializeProfiledMethod(modulename$, classname$, methodname$, operation$, target As ProfiledMethod) As Boolean
 Declare Public Function isBlankString(source$) As Boolean 
 Declare Public Sub enhLogSetUserName (source As NotesName)
+Declare Public Function getScalarString(source As Variant) As String 
 Declare Public Function enhLogHasCachedError() As Boolean
 Declare Public Function safeEvaluate(ByVal formula$, context As Variant, failValue As Variant) As Variant
 Declare Public Function enhLogTicksToMilliseconds(source#) As Double 
@@ -366,6 +367,10 @@ End Type
 Private genhl_ProfiledMethods As ProfiledMethodList 
 Private genhl_dbConfigDocCache List As NotesDocument
 Private genhl_ProfileMethodStarts List As Integer    
+
+
+
+
 
 
 
@@ -2640,7 +2645,6 @@ ErrorTrap:
 		Resume ExitPoint		
 	End Sub 
 End Class 	
-
 '++LotusScript Development Environment:2:2:Initialize:2:10
 
 Sub Initialize
@@ -3206,9 +3210,10 @@ Public Sub enhLogSetActionsIncludeMethodNames (source As Boolean)
 	enhLog.ActionsIncludeMethodNames = source
 End Sub 
 
-'++LotusScript Development Environment:2:1:getScalar:2:8
+'++LotusScript Development Environment:2:1:getScalar:3:8
 
-Private Function getScalar(source As Variant ) As Variant	
+
+Private Function getScalar(source As Variant) As Variant	
 	Dim result As Variant
 	
 	On Error GoTo ErrorTrap
@@ -3240,6 +3245,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 '++LotusScript Development Environment:2:1:enhLogExceptionWithLink:16:8
 
@@ -4180,6 +4188,33 @@ Public Sub enhLogSetUserName (source As NotesName)
 	If Not enhLogExists Then Call InstantiateLog(||)
 	Set enhLog.UserName = source
 End Sub 
+
+'++LotusScript Development Environment:2:1:getScalarString:9:8
+%REM
+	Function getScalarString
+	Gets the scalar value of an object as a string 
+	
+	@param source variant from which to get the scalar value
+	
+	@return Scalar value of the object. 
+%END REM
+Public Function getScalarString(source As Variant) As String 
+	On Error GoTo ErrorTrap
+	
+	Dim result$
+	
+	' BEGIN CODE
+	
+	result$ = CStr(getScalar(source))
+	
+ExitPoint: 
+	getScalarString = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException CLASS_PREFIX, ||
+	Resume ExitPoint
+End Function
 
 '++LotusScript Development Environment:2:1:enhLogHasCachedError:2:8
 
@@ -5727,6 +5762,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 

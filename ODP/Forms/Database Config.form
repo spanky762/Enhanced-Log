@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.9'
- replicaid='85257B1600791A9D'>
-<noteinfo noteid='22a' unid='57489F137E42A61885257B16007B8D20' sequence='21'>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
+ replicaid='852585C5003A254A'>
+<noteinfo noteid='1a6' unid='57489F137E42A61885257B16007B8D20' sequence='4'>
 <created><datetime>20130218T172930,56-05</datetime></created>
-<modified><datetime>20171226T131325,07-05</datetime></modified>
-<revised><datetime>20171226T131325,06-05</datetime></revised>
-<lastaccessed><datetime>20171226T131325,07-05</datetime></lastaccessed>
-<addedtofile><datetime>20171226T062533,94-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20210118T130251,85-05</datetime></modified>
+<revised><datetime>20210118T130251,84-05</datetime></revised>
+<lastaccessed><datetime>20210118T130251,84-05</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20200815T063508,23-04</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=dleapdev</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='$Comment' sign='true'><text/></item>
 <item name='$HTMLCode' sign='true'>
@@ -19,11 +19,11 @@ X/8QAAIADwAHAAAAAAAAAA==
 <rawitemdata type='1'>
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
-<item name='$SubForms'><text>Config\Enhanced Log Information | cfg-EnhLogInfo</text></item>
+<item name='$SubForms' sign='true'><text>Config\Enhanced Log Information | cfg-EnhLogInfo</text></item>
 <item name='$SubForm_RepIDs' sign='true'><text>0000000000000000</text></item>
 <item name='$WindowTitle' sign='true'><formula>"Database Config"</formula></item>
 <item name='$Flags'><text>CD</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
 <item name='$Fonts'>
 <rawitemdata type='1'>
 i/9KAAIABSZBcmlhbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYmVmVyZGFuYQAAAAAAAAAA
@@ -102,7 +102,7 @@ End Sub<break/></text></item>
 <item name='enhLogEnableScheduledPurge' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='enhLogPurgeAge' summary='false'><number>0</number></item>
+<item name='enhLogPurgeAge' summary='false' sign='true'><number>0</number></item>
 <item name='enhLogTargetServer' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
@@ -159,7 +159,7 @@ RQBXAAAAkAAGAEQARQBMAEUAVABFAAAAAADsAAoASQBOAEkAVABJAEEATABJAFoARQAAAAAAmAAJ
 AFQARQBSAE0ASQBOAEEAVABFAAAA0AAGAE8AQgBKAEUAQwBUAAAAAAD//wAAAAAAAP//CwBlAG4A
 aABMAG8AZwBDAGwAYQBzAHMAAAD//wsARQBOAEgATABPAEcAQwBMAEEAUwBTAAAA//8LAEYATwBS
 AE0AXwBQAFIARQBGAEkAWAAAAP//DwBGAG8AcgBtADoAIABEAGIAQwBvAG4AZgBpAGcALgAAAAUA
-PAAAAAAAtpbVdRgAAAAAALgAiBiYDQAAAAAAAAAABAAQAAAAAADUAAYAAAAAAPAAAAAAAAAAAAAA
+PAAAAAAAUsJzphgAAAAAALgAmHTSDgAAAAAAAAAABAAQAAAAAADUAAYAAAAAAPAAAAAAAAAAAAAA
 AAAAAAAEABAAAAAAADoAABoEANKcAB0AAAIAAAARABAAAAAAAP//AQADAAgAAAAKAAoAAAA=
 </rawitemdata></item>
 <item name='$$$FormScript_O' sign='true'>
@@ -182,7 +182,7 @@ AAD//wsATwBCAEoARQBDAFQATgBBAE0ARQBfAAAAaAEPAE4ATwBUAEUAUwBVAEkARABPAEMAVQBN
 AEUATgBUAAAAuAEGACUATABTAFgAVQBJAAAAAADwAQgAUABPAFMAVABPAFAARQBOAAAAAAD//xkA
 RQBOAEgATABPAEcAUwBFAFQAQwBPAE0ATQBPAE4AUABSAE8AUABFAFIAVABJAEUAUwAAAP//CwBG
 AE8AUgBNAF8AUABSAEUARgBJAFgAAAD//wsARQBOAEgATABPAEcAQwBMAEEAUwBTAAAA//8PAEYA
-bwByAG0AOgAgAEQAYgBDAG8AbgBmAGkAZwAuAAAABQDEAgAAAADIJLM0GAAAAAAAmAAIQaINAAAA
+bwByAG0AOgAgAEQAYgBDAG8AbgBmAGkAZwAuAAAABQDEAgAAAAC4+HkpGAAAAAAAmABgD90OAAAA
 AAAAAAAIAAAAbAEAAPwAAAAAAAAAAgAAALAAXAEAAAAAAAAAAAAAAAAAAAAAsACwAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAXAFcAQAAAAAAAAAAAQAAAAIAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAQBcAQAAGAEGCAAA
@@ -192,7 +192,7 @@ AAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgDAAAAAFAIAAAAACgABAP//AAADACAAAAAAAOgACQIA
 AMwACAAAAKACoAJsAQAAAAAAAAEAAAAEAgQCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAQCBAIAAAAAAAAAAAEAAAANAAAAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAEAAAAAAOgACQIAAMwA
-EwAAAGwBAADLAAAAAAAAABgAAAAEANgBiBiYDQhBog0EAAAAIQAkAvT7AAAIAEAAAAAAAIQBAAAA
+EwAAAGwBAADLAAAAAAAAABgAAAAEANgBmHTSDmAP3Q4EAAAAIQAkAjoAAAAIAEAAAAAAAIQBAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAABgAIAAYADQANAA0ADQANAAYABgAEAAAAAAAAALwBBgAAAAAA9AEAAAAAAAAAAAAAAAAA
 AAQAOwAAAAAA0sAAHQAAGgwAW1wBSbAAyswAphoNAEdcAcvLAAAAbAEaDgAdGhIAKUACffQBgoKC
