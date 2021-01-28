@@ -86,8 +86,6 @@ Use "enhLogClass"
 Use "azlwConstants"
 Use "azlwListsCollections"
 
-
-
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Public Class DocumentObject 
 Declare Function getCurrentUser() As NotesName  
@@ -126,6 +124,8 @@ Declare Function replaceDocumentItem(source As NotesDocument, target As NotesDoc
 Declare Function getViewColumnValuesStringSet(viewname$, colnum%) As StringSet 
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
+
+
 Private Const LIB_PREFIX = |applicationUtils.|
 
 Private Const ITEMNAME_REQUEST_CONTENT = |REQUEST_CONTENT|
@@ -985,11 +985,11 @@ ErrorTrap:
 	Resume ExitPoint 
 End Function
 
+'++LotusScript Development Environment:2:1:webSpawnCSV:18:8
 
 
 
 
-'++LotusScript Development Environment:2:1:webSpawnCSV:14:8
 %REM
 	Function webSpawnCSV
 	WEB ONLY: Exports a view to a Comma Separated Value file.  
@@ -1642,9 +1642,9 @@ ErrorTrap:
 	Resume ExitPoint 	
 End Function
 
+'++LotusScript Development Environment:2:1:escapeXML:3:8
 
 
-'++LotusScript Development Environment:2:1:escapeXML:1:8
 Function escapeXML(ByVal s$) As String 
 	On Error GoTo ErrorTrap
 	
@@ -1910,10 +1910,10 @@ ErrorTrap:
 	Resume ExitPoint 
 End Function
 
+'++LotusScript Development Environment:2:1:safeEvaluateToString:14:8
 
 
 
-'++LotusScript Development Environment:2:1:safeEvaluateToString:11:8
 %REM  
 	Function safeEvaluateToString 
 	Evaluates a formula and returns the result. 
@@ -2562,6 +2562,7 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, |Viewname: | & viewname$ & Chr(10) & |Column #: | & CStr(colnum%) 
 	Resume ExitPoint 
 End Function
+
 
 
 
