@@ -9,9 +9,9 @@
 
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2020.08.07
+	Version 2021.01.12
 
-	Last updated: 08/2020
+	Last updated: 01/2021
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -3246,10 +3246,10 @@ ErrorTrap:
 	Resume ExitPoint
 End Function 
 
+'++LotusScript Development Environment:2:1:enhLogExceptionWithLink:19:8
 
 
 
-'++LotusScript Development Environment:2:1:enhLogExceptionWithLink:16:8
 
 %REM 
 	Function enhLogExceptionWithLink
@@ -5762,6 +5762,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 

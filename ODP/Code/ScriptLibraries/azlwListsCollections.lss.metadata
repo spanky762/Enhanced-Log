@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="852585C5003A254A" version="11.0">
-<noteinfo noteid="23e" sequence="7" unid="86046AB4202C2A0E852586610061C2D5">
+<noteinfo noteid="23e" sequence="19" unid="86046AB4202C2A0E852586610061C2D5">
 <created><datetime>20210118T124748,69-05</datetime></created>
-<modified><datetime>20210118T130252,11-05</datetime></modified>
-<revised><datetime>20210118T130252,10-05</datetime></revised>
-<lastaccessed><datetime>20210118T130252,10-05</datetime></lastaccessed>
+<modified><datetime>20210127T182819,24-05</datetime></modified>
+<revised><datetime>20210127T182819,23-05</datetime></revised>
+<lastaccessed><datetime>20210127T182819,23-05</datetime></lastaccessed>
 <addedtofile><datetime>20210118T124751,13-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
-<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
+<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name></updatedby>
+<wassignedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name></wassignedby>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$TITLE" sign="true"><text>azlwListsCollections</text></item>
 <item name="$DesignerVersion" sign="true"><text>8.5.3</text></item>
 <item name="$POID"><datetime dst="true">20190630T192503,29-04</datetime></item>
-<item name="$Comment" sign="true"><text>Lists and Collections</text></item>
 
 
 
-</note>
+
+<item name="$Comment"><text>Lists and Collections</text></item></note>
