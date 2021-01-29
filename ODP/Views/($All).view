@@ -1,14 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
- replicaid='852585C5003A254A'>
-<noteinfo noteid='25e' unid='562EE858F4591DE685258662004A1473' sequence='2'>
+ replicaid='8525866C0048AE26'>
+<noteinfo noteid='202' unid='562EE858F4591DE685258662004A1473' sequence='6'>
 <created><datetime>20210119T082908,99-05</datetime></created>
-<modified><datetime>20210119T143737,63-05</datetime></modified>
-<revised><datetime>20210119T143737,62-05</datetime></revised>
-<lastaccessed><datetime>20210119T143737,62-05</datetime></lastaccessed>
-<addedtofile><datetime>20210119T082911,36-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name
->CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20210129T082955,71-05</datetime></modified>
+<revised><datetime>20210129T082955,70-05</datetime></revised>
+<lastaccessed><datetime>20210129T082955,70-05</datetime></lastaccessed>
+<addedtofile><datetime>20210129T081437,98-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
 <item name='$TITLE' sign='true'><text>($All)</text></item>
