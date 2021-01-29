@@ -82,7 +82,6 @@
 Option Public
 Option Explicit
 
-%Include "lsconst.lss" 
  
 
 '++LotusScript Development Environment:2:5:(Forward):0:1
