@@ -98,7 +98,7 @@ Declare Function filterByForm(source As NotesDocumentCollection, form$) As Notes
 Declare Public Function asciiFilterByRange(source$, ranges As IntegerPairList) As String 
 Declare Function getDocumentUNIDs(viewname$) As StringSet 
 Declare Function getUserRoles() As StringSet 
-Declare Function getNAB() As NotesDatabase 
+Declare Function getCurrentNAB() As NotesDatabase 
 Declare Function getFQDN() As String 
 Declare Function getAbbreviated(source$) As String 
 Declare Function escapeXML(ByVal s$) As String 
@@ -1569,12 +1569,12 @@ ErrorTrap:
 	Resume ExitPoint
 End Function
 
-'++LotusScript Development Environment:2:1:getNAB:5:8
+'++LotusScript Development Environment:2:1:getCurrentNAB:5:8
 %REM
-	Function getNAB
-	Description
+	Function getCurrentNAB
+	Gets the names.nsf from the current server
 %END REM
-Function getNAB() As NotesDatabase 
+Function getCurrentNAB() As NotesDatabase 
 	On Error GoTo ErrorTrap
 	
 	Static result As NotesDatabase
@@ -1582,7 +1582,7 @@ Function getNAB() As NotesDatabase
 	If (result Is Nothing) Then Set result = getOpenDatabase(getCurrentDb().Server, |names.nsf|)
 	
 ExitPoint: 
-	Set getNAB = result
+	Set getCurrentNAB = result
 	Exit Function 
 ErrorTrap:
 	On Error GoTo 0
@@ -2562,6 +2562,7 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, |Viewname: | & viewname$ & Chr(10) & |Column #: | & CStr(colnum%) 
 	Resume ExitPoint 
 End Function
+
 
 
 
