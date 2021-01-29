@@ -9,9 +9,9 @@
 
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2017.03.15
+	Version 2021.01.21
 
-	Last updated: 03/2017
+	Last updated: 01/2021
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -80,14 +80,20 @@
  	' ************************************************************************************
 %END REM
 Option Public
-Option Explicit 
-%Include "lsconst.lss" 
-	
+Option Explicit
 
+%Include "lsconst.lss" 
+ 
 
 '++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Property Get CR As String  
+Declare Property Get CRLF As String  
+Declare Property Get LF As String 
+Declare Property Get HT As String 
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
+	
+
 Private Const LIB_PREFIX = |azlwConstants.|
 
 
@@ -158,3 +164,48 @@ Const MSG_NOTES_DXLIMPORTER_FAILED = |Import of DXL content has FAILED.  |
 Const FORMAT_WHOLE_THOUSANDS = |###,###,###,##0|
 
 
+
+
+
+'++LotusScript Development Environment:2:3:CR Get:11:8
+
+
+
+
+
+
+%REM
+	Property Get CR
+	Gets the LotusScript character for a carriage return
+%END REM
+Property Get CR As String  
+	CR = Chr(13)
+End Property
+
+'++LotusScript Development Environment:2:3:CRLF Get:6:8
+
+%REM
+	Property Get LF
+	Gets the LotusScript characters for a carriage return followed by a line feed
+%END REM
+Property Get CRLF As String  
+	CRLF = CR & LF 
+End Property
+
+'++LotusScript Development Environment:2:3:LF Get:5:8
+%REM
+	Property Get LF
+	Gets the LotusScript character for a line feed
+%END REM
+Property Get LF As String 
+	LF = Chr(10)
+End Property
+
+'++LotusScript Development Environment:2:3:HT Get:5:8
+%REM
+	Property Get HT
+	Gets the LotusScript character for a horizontal tabulation
+%END REM
+Property Get HT As String 
+	HT = Chr(9)
+End Property

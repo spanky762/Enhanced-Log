@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="852585C5003A254A" version="11.0">
-<noteinfo noteid="23a" sequence="1" unid="24503045BB3CC583852586610061C2D4">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="8525866C0048AE26" version="11.0">
+<noteinfo noteid="1a2" sequence="6" unid="24503045BB3CC583852586610061C2D4">
 <created><datetime>20210118T124748,68-05</datetime></created>
-<modified><datetime>20210118T124751,09-05</datetime></modified>
-<revised><datetime>20210118T124751,08-05</datetime></revised>
-<lastaccessed><datetime>20210118T124751,08-05</datetime></lastaccessed>
-<addedtofile><datetime>20210118T124751,08-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=PartnerConnect</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=PartnerConnect</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=admin/O=dleapdev</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20210129T082955,20-05</datetime></modified>
+<revised><datetime>20210129T082955,19-05</datetime></revised>
+<lastaccessed><datetime>20210129T082955,19-05</datetime></lastaccessed>
+<addedtofile><datetime>20210129T081437,15-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$TITLE" sign="true"><text>azlwConstants</text></item>
 <item name="$Flags"><text>s34Q</text></item>
