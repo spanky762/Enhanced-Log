@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='helpusingdocument' xmlns='http://www.lotus.com/dxl'
- version='11.0' maintenanceversion='1.0' replicaid='8525866C0048AE26'>
-<noteinfo noteid='16a' unid='E5AD462E797701AA852573700050055E' sequence='7'>
+ version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7'>
+<noteinfo noteid='21a' unid='E5AD462E797701AA852573700050055E' sequence='4'>
 <created><datetime dst='true'>20071010T103402,54-04</datetime></created>
-<modified><datetime>20210129T085951,37-05</datetime></modified>
-<revised><datetime>20210129T085951,36-05</datetime></revised>
-<lastaccessed><datetime>20210129T085951,36-05</datetime></lastaccessed>
-<addedtofile><datetime>20210129T081436,86-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20210203T052447,38-05</datetime></modified>
+<revised><datetime>20210203T052447,37-05</datetime></revised>
+<lastaccessed><datetime>20210203T052447,37-05</datetime></lastaccessed>
+<addedtofile><datetime>20210203T051203,90-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='$HTMLCode' sign='true'>
@@ -187,7 +187,7 @@ b24gIChkZXZpbi5vbHNvbkBhemxpZ2h0aG91c2UuY29tKYECgwQKAIX/CAAGBAAJ3QYAAK3/fv8M
 ACAACAAAAAAA9v81AAAAAAABAAAAGwAAAAAAAAAAAAAAAABodHRwOi8vd3d3LmRldmlub2xzb24u
 bmV0LwAArf8nAAsACBAAABsAaHR0cDovL3d3dy5kZXZpbm9sc29uLm5ldC8AAN0GAACF/4X/GgAG
 BAQJd3d3LmRldmlub2xzb24ubmV00ggJAAAA/wDeBgAAhf+uAt4GAACuAIX/CAAGBAAJgQKDBAoA
-hf8dAAYAAAlMYXN0IHVwZGF0ZWQ6IDAxLzIwMjEAgQKDBAIAhf8IAAYAAAmBAoMEAgCF/wgABgAA
+hf8dAAYAAAlMYXN0IHVwZGF0ZWQ6IDAyLzIwMjEAgQKDBAIAhf8IAAYAAAmBAoMEAgCF/wgABgAA
 DIECgwQCAIX/CAAGAAAMgQKDBAIAhf8IAAYAAAyBAoMEAgCF/wgABgAADIECgwQCAIX/CAABAAAK
 </rawitemdata></item></note>
 
