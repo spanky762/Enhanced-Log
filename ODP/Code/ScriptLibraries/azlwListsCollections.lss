@@ -9,9 +9,9 @@
 
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2021.01.12
+	Version 2021.02.02
 
-	Last updated: 01/2021
+	Last updated: 02/2021
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -2249,6 +2249,7 @@ Public Class IntegerPair
 		me.last_ = last% 
 	End Sub
 End Class
+
 '++LotusScript Development Environment:2:2:Initialize:1:10
 Sub Initialize
 	
@@ -2535,11 +2536,13 @@ Public Sub shellSortStrings(source As Variant)
 			idxInner& = idxOuter& 
 			extendedinfo(|Inner Index|) = CStr(idxInner&)	
 			
-			' shift the element to the right 
-			While (idxInner& > (interval& -1)) And (StrCompare(source(idxInner& - interval&), insertionValue$) > 0)
+			' shift the element to the right
+			Do While (idxInner& > (interval& -1)) 
+				If (StrCompare(source(idxInner& - interval&), insertionValue$) < 0) Then Exit Do 
 				source(idxInner&) = source(idxInner& - interval&) 
 				idxInner& = idxInner& - interval& 
-			Wend
+				extendedinfo(|Inner Index|) = CStr(idxInner&)				
+			Loop
 				
 			' insert the value 
 			source(idxInner&) = insertionValue$ 
@@ -3243,6 +3246,10 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, msg$
 	Resume ExitPoint
 End Function
+
+
+
+
 
 
 
