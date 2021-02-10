@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
  replicaid='85258671003806E7'>
-<noteinfo noteid='1de' unid='E008CB5A9A0CC1C885258662006B7C3C' sequence='6'>
+<noteinfo noteid='1de' unid='E008CB5A9A0CC1C885258662006B7C3C' sequence='7'>
 <created><datetime>20210119T143401,56-05</datetime></created>
-<modified><datetime>20210204T110805,49-05</datetime></modified>
-<revised><datetime>20210204T110805,48-05</datetime></revised>
-<lastaccessed><datetime>20210204T110805,48-05</datetime></lastaccessed>
+<modified><datetime>20210210T081928,96-05</datetime></modified>
+<revised><datetime>20210210T081928,95-05</datetime></revised>
+<lastaccessed><datetime>20210210T081928,95-05</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,56-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name></updatedby>
-<wassignedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name></wassignedby>
+<updatedby><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name
+>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
 <item name='$SourceSeqTime' sign='true'><datetime dst='true'>20190510T170614,19-04</datetime></item>
 <item name='$SourceSequence' sign='true'><text>00000001</text></item>

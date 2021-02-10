@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='filter' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
  replicaid='85258671003806E7'>
-<noteinfo noteid='15e' unid='BCE8F62199434CFF862577FA007653DA' sequence='5'>
+<noteinfo noteid='15e' unid='BCE8F62199434CFF862577FA007653DA' sequence='6'>
 <created><datetime>20101215T153227,14-06</datetime></created>
-<modified><datetime>20210204T110804,00-05</datetime></modified>
-<revised><datetime>20210204T110803,99-05</datetime></revised>
-<lastaccessed><datetime>20210204T110803,99-05</datetime></lastaccessed>
+<modified><datetime>20210210T081928,57-05</datetime></modified>
+<revised><datetime>20210210T081928,56-05</datetime></revised>
+<lastaccessed><datetime>20210210T081928,56-05</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051202,62-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name
->CN=Devin Olson/OU=USA/O=PNPHCL</name></updatedby>
-<wassignedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name></wassignedby>
+>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='$POID'><datetime>20101203T153715,23-05</datetime></item>
 <item name='$TITLE' sign='true'><text>Archive Log Entries|sched-ArchiveLogEntries</text></item>
 <item name='$AssistType' sign='true'><number>65413</number></item>
@@ -173,5 +173,5 @@ Ab99DAO/fmgAm799NAO/fogAm7+bpRo3ACmAA0vgAi1UAyN97AB9PAGRIE4DfogAYgMcAGIDIAAj
 MRo5ABo6ACnoB32MAH3AA1gDHACbv33YA79YAyAAm799CAS/IzEaOwAcGjwAGj0ACgAAGj4AKUgI
 fYwAXjABIzEaPwAPuv8aQAAdAgAAABEAFAAAAAAA//8BAAMAGgAAAB0ARAAkAAoAAAAA
 </rawitemdata></item>
-<item name='$AssistVersion'><datetime>20210204T110803,99-05</datetime></item></note>
+<item name='$AssistVersion'><datetime>20210210T081928,53-05</datetime></item></note>
 
