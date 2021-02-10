@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='11.0'
- maintenanceversion='1.0' replicaid='852585C5003A254A'>
-<noteinfo noteid='11e' unid='3957B372DFB3B974852585C5003A254C' sequence='16'>
-<created><datetime dst='true'>20200815T063506,36-04</datetime></created>
-<modified><datetime>20210119T143737,15-05</datetime></modified>
-<revised><datetime>20210119T143737,14-05</datetime></revised>
-<lastaccessed><datetime>20210119T143737,14-05</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20200815T063506,38-04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
-<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
+ maintenanceversion='1.0' replicaid='85258671003806E7'>
+<noteinfo noteid='11e' unid='357125677E91D06885258671003806EB' sequence='10'>
+<created><datetime>20210203T051157,87-05</datetime></created>
+<modified><datetime>20210204T110803,39-05</datetime></modified>
+<revised><datetime>20210204T110803,37-05</datetime></revised>
+<lastaccessed><datetime>20210204T110803,38-05</datetime></lastaccessed>
+<addedtofile><datetime>20210203T051157,87-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name
+>CN=Devin Olson/OU=USA/O=PNPHCL</name></updatedby>
+<wassignedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name></wassignedby>
 <item name='IconBitmap' summary='true' sign='true'>
 <rawitemdata type='6'>
 AiAgAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
