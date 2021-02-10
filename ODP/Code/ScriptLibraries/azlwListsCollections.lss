@@ -9,7 +9,7 @@
 
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2021.02.02
+	Version 2021.02.09
 
 	Last updated: 02/2021
 
@@ -466,14 +466,48 @@ ErrorTrap:
 	
 	%REM
 		Function isEqual
-		Description: Comares tags and values to another azlwListCarrier 
+		Description: Compares tags and values to another azlwListCarrier 
 		
-		@param source azlwListCarrier object to compare 
-		@return True if all tags and values are identical 
+		@param source 	azlwListCarrier object to compare 
+		
+		@return 		Flag indicating all tags and values have equal values
 	%END REM
 	Function isEqual(source As azlwListCarrier) As Boolean 	
 		isEqual = me.equals(source) 
 	End Function
+
+
+	%REM
+		Sub logContent
+		Logs the content of the object (keys and values) using the EnhancedLog class 
+		
+		@param prefix$  		Prefix used for the first call to LogExtendedContent 
+		@param description$ 	Description used for the first call to LogExtendedContent 
+		@param content$ 		Content used for the first call to LogExtendedContent 
+		
+	%END REM
+	Sub logContent(prefix$, description$, content$) 
+		On Error GoTo ErrorTrap
+		
+		Dim values As Variant ' List as XXX container 
+		
+		' BEGIN CODE
+		enhLogExtendedContent prefix$, description$, content$
+		
+		values = me.getContent() 
+		ForAll element In values 
+			enhLogExtendedContent ||, ||, ListTag(element) & |: | & CStr(element) 
+		End ForAll
+		
+	ExitPoint: 
+		Exit Sub 
+	ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX, ||
+		Resume ExitPoint
+	End Sub
+
+
 	
 End Class
 
