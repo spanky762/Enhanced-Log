@@ -36,7 +36,7 @@
  	' ************************************************************************************
 	' BEGIN NOTICE	
 	' *	NOTICE
-	' *		Enhanced Log 
+	' *		azlwAppUtils 
 	' *		Copyright (c) 2002 - 2052 Devin S. Olson.  All rights reserved.
 	' *
 	' *  Developed by: Devin S. Olson
@@ -2283,7 +2283,6 @@ Public Class IntegerPair
 		me.last_ = last% 
 	End Sub
 End Class
-
 '++LotusScript Development Environment:2:2:Initialize:1:10
 Sub Initialize
 	
@@ -3280,6 +3279,7 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, msg$
 	Resume ExitPoint
 End Function
+
 
 
 
