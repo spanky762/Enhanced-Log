@@ -22,6 +22,7 @@ Use "enhLogClass"
 
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Public Class Wabe
+Declare Sub logalotofstuff()  
 Declare Sub proxyLogWarning (description$)
 Declare Sub proxyLogAction (description$)
 Declare Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
@@ -33,6 +34,9 @@ Private Const LIB_PREFIX = |Library: Methods for Logging a Lot of Stuff.|
 Const NUMBERCHARS = "0123456789"
 Const ALPHACHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 Const ALPHANUMERIC = NUMBERCHARS & ALPHACHARS
+
+
+
 
 
 Public Class Wabe
@@ -146,6 +150,119 @@ ErrorTrap:
 		Resume ExitPoint
 	End Sub ' vorpal
 End Class 
+'++LotusScript Development Environment:2:2:logalotofstuff:5:8
+%REM
+	Sub logalotofstuff
+	Logs a Lot of Stuff 
+%END REM
+Sub logalotofstuff()  
+	
+	Dim config As NotesDocument 
+	Dim myWabe As Wabe
+	
+	Dim myLogObject_1 As EnhancedLog ' NEVER REQUIRED - USED HERE FOR EXAMPLE PURPOSES ONLY
+	Dim myLogObject_2 As EnhancedLog ' NEVER REQUIRED - USED HERE FOR EXAMPLE PURPOSES ONLY
+	Dim myLogObject_3 As EnhancedLog ' NEVER REQUIRED - USED HERE FOR EXAMPLE PURPOSES ONLY
+	
+	Dim idxAlphaChars As Integer
+	Dim idx As Long
+	Dim description As String
+	
+	
+	On Error GoTo ErrorTrap
+	
+	Set myWabe = New Wabe()
+	
+	enhLogAction |This is the Prefix |, |Logging a lot of stuff|
+	
+	enhLogExtendedContent LIB_PREFIX, |Using a Prefix |, |The prefix is normally used to indicate a specific library|
+	enhLogExtendedContent ||, ||, |or class containing the method which is calling the logging methods.|
+	enhLogExtendedContent ||, ||, |If no prefix is desired then simply pass an empty string.|
+	
+	enhLogExtendedContent ||, ||, |A blank line can be inserted into the log by calling the|
+	enhLogExtendedContent ||, ||, |enhLogExtendedContent method and passing it all blanks.|
+	enhLogExtendedContent ||, ||, ||
+	
+	Set config = enhLogGetLogConfigDoc(False)
+	If (Not (config Is Nothing)) Then 
+		enhLogAction LIB_PREFIX, |It is also possible to log all the items from any document.  For instance, here is the information from the Enhanced Log Configuration document:|
+		enhLogAllDocItems config
+	End If ' (Not (config Is Nothing))	
+	
+	enhLogExtendedContent LIB_PREFIX, ||, ||
+	enhLogAction LIB_PREFIX, |Creating an Object Instance of the EnhanceLog Class|
+	enhLogExtendedContent ||, ||, |Although NOT required,  |
+	enhLogExtendedContent ||, ||, |an explicit instance of the EnhancedLog class can created and used.  |
+	enhLogExtendedContent ||, ||, |This is accomplished in the same manner as creating any other object instance: |
+	enhLogExtendedContent ||, ||, |Set myLogObject = New EnhancedLog(programName$)|
+	enhLogExtendedContent ||, ||, ||
+	enhLogExtendedContent ||, ||, |IMPORTANT NOTE:  The EnhancedLog Class uses the SINGLETON pattern: |
+	enhLogExtendedContent ||, ||, |  ALL EnhancedLog Objects reference the SAME OBJECT INSTANCE|
+	enhLogExtendedContent ||, ||, |  This eliminates loss of continuity among multiple log instances within the same session.|
+	enhLogExtendedContent ||, ||, |Example:|
+	enhLogExtendedContent ||, ||, |    Set myLogObject_1 = New EnhancedLog("")|
+	enhLogExtendedContent ||, ||, |    Set myLogObject_2 = New EnhancedLog("")|
+	enhLogExtendedContent ||, ||, |At this point in your code, even though you have created two object handles, they both point to the same object.|
+	enhLogExtendedContent ||, ||, |The above code is functionally equivalent to the following: |
+	enhLogExtendedContent ||, ||, |    Set myLogObject_1 = New EnhancedLog("")|
+	enhLogExtendedContent ||, ||, |    Set myLogObject_2 = myLogObject_1|
+	enhLogExtendedContent ||, ||, ||
+	enhLogExtendedContent LIB_PREFIX, _ 
+	|The Demo agent will now create a new object instance handle to the EnhancedLog object:|, _ 
+	|Set myLogObject_1 = New EnhancedLog("")|	
+	Set myLogObject_1 = New EnhancedLog("")
+	logActionToEnhancedLogObject myLogObject_1, |This is a direct call to myLogObject_1's LogAction Method|
+	
+	proxyLogWarning |This is what logging a warning looks like.|
+
+	enhLogExtendedContent LIB_PREFIX, _ 
+	|The Demo agent will now create another new object instance handle to the EnhancedLog object:|, _ 
+	|Set myLogObject_2 = New EnhancedLog("")|
+	Set myLogObject_2 = New EnhancedLog("")
+	logActionToEnhancedLogObject myLogObject_2, |This is a direct call to myLogObject_2's LogAction Method|
+	
+	enhLogExtendedContent LIB_PREFIX, _ 
+	|The Demo agent will now create a third object instance handle to the EnhancedLog object:|, _ 
+	|Set myLogObject_3 = myLogObject_1|
+	Set myLogObject_3 = myLogObject_1
+	logActionToEnhancedLogObject myLogObject_3, |This is a direct call to myLogObject_3's LogAction Method|
+	
+	logActionToEnhancedLogObject myLogObject_1, |Here is another direct call to myLogObject_1's LogAction Method|
+	logActionToEnhancedLogObject myLogObject_2, |Here is another direct call to myLogObject_2's LogAction Method|
+	logActionToEnhancedLogObject myLogObject_3, |Here is another direct call to myLogObject_3's LogAction Method|
+	
+	proxyLogAction |This is an indirect call using the public enhLogAction method.|
+
+	enhLogExtendedContent ||, ||, ||
+	enhLogWarning LIB_PREFIX, |**************************************************************************************************************|
+	enhLogWarning LIB_PREFIX, |Examples of Extended Information, Logging Exceptions, and very large logs (multiple log documents)|
+	enhLogWarning LIB_PREFIX, |NEVER ENABLE LOG STACK EXCEPTIONS IN PRODUCTION WITHOUT A VERY GOOD REASON|
+	enhLogExtendedContent ||, ||, |Logging stack exceptions uses a back-end method which is known to have a memory leak.|
+	enhLogExtendedContent ||, ||, |This can lead to a PANIC CRASH on the server.|
+	enhLogWarning LIB_PREFIX, |**************************************************************************************************************|
+	enhLogExtendedContent ||, ||, ||
+
+	For idx& = 1 To 220
+		enhLogSetLogStackExceptions ((idx& Mod 2) = 0) ' Logs stack exceptions on for even values of idx&
+		
+		If ((idx& Mod 3) = 0) Then
+			myWabe.gyre myLogObject_3, idx&
+		ElseIf ((idx& Mod 2) = 0) Then
+			myWabe.gyre myLogObject_2, idx&
+		Else
+			myWabe.gyre myLogObject_1, idx&
+		End If ' ((idx& Mod 3) = 0)
+
+	Next idx&
+	
+ExitPoint:
+	enhLogMethodResult LIB_PREFIX, |This is the what a method result looks like|
+	Exit Sub	
+ErrorTrap:
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint
+End Sub
+
 '++LotusScript Development Environment:2:2:proxyLogWarning:2:8
 
 Sub proxyLogWarning (description$)
@@ -169,4 +286,5 @@ Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
 %END REM
 	source.LogAction description$
 End Sub ' logActionToEnhancedLogObject
+
 
