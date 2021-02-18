@@ -38,7 +38,6 @@ Const ALPHANUMERIC = NUMBERCHARS & ALPHACHARS
 
 
 
-
 Public Class Wabe
 	Private CLASS_PREFIX As String
 	Private manxome As Integer
@@ -286,6 +285,7 @@ Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
 %END REM
 	source.LogAction description$
 End Sub ' logActionToEnhancedLogObject
+
 
 
 
