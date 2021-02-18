@@ -9,9 +9,9 @@
 	
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2017.12.26
+	Version 2021.02.18
 
-	Last updated: 12/2017
+	Last updated: 02/2021
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -34,7 +34,6 @@ Private Const LIB_PREFIX = |Library: Methods for Logging a Lot of Stuff.|
 Const NUMBERCHARS = "0123456789"
 Const ALPHACHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 Const ALPHANUMERIC = NUMBERCHARS & ALPHACHARS
-
 
 
 
@@ -286,5 +285,7 @@ Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
 %END REM
 	source.LogAction description$
 End Sub ' logActionToEnhancedLogObject
+
+
 
 

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
  replicaid='85258671003806E7'>
-<noteinfo noteid='1a2' unid='E8A970EC3F9BD1F4852585BD005C2013' sequence='16'>
+<noteinfo noteid='1a2' unid='E8A970EC3F9BD1F4852585BD005C2013' sequence='17'>
 <created><datetime dst='true'>20200807T124615,23-04</datetime></created>
-<modified><datetime>20210218T135517,92-05</datetime></modified>
-<revised><datetime>20210218T135517,91-05</datetime></revised>
-<lastaccessed><datetime>20210218T135517,91-05</datetime></lastaccessed>
+<modified><datetime>20210218T164650,57-05</datetime></modified>
+<revised><datetime>20210218T164650,56-05</datetime></revised>
+<lastaccessed><datetime>20210218T164650,56-05</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,14-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
@@ -21,7 +21,7 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 </rawitemdata></item>
 <item name='$WindowTitle' sign='true'><formula>"Log " + @Text(A$STARTTIME; "D0T0")</formula></item>
 <item name='$Flags'><text>CDw</text></item>
-<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
 <item name='$Fonts'>
 <rawitemdata type='1'>
 i/8oAAEABSZBcmlhbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
@@ -274,11 +274,11 @@ GAOBphpuAA/K/xpvAB0CAAAAEQAYAAAAAAD//wEAAwAGAAAACgCQAQ8ArAIjAAoAAADr
 <item name='A$LOGTYPE' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='HasErrors' summary='false'><number>0</number></item>
+<item name='HasErrors' summary='false' sign='true'><number>0</number></item>
 <item name='A$ACTION' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='A$ERRCODE' summary='false'><number>0</number></item>
+<item name='A$ERRCODE' summary='false' sign='true'><number>0</number></item>
 <item name='A$ERRMSG' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
@@ -291,7 +291,7 @@ GAOBphpuAA/K/xpvAB0CAAAAEQAYAAAAAAD//wEAAwAGAAAACgCQAQ8ArAIjAAoAAADr
 <item name='VERSION' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='A$HASXMLCONTENT' summary='false'><number>0</number></item>
+<item name='A$HASXMLCONTENT' summary='false' sign='true'><number>0</number></item>
 <item name='A$PROGNAME' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
@@ -304,14 +304,14 @@ GAOBphpuAA/K/xpvAB0CAAAAEQAYAAAAAAD//wEAAwAGAAAACgCQAQ8ArAIjAAoAAADr
 <item name='A$SERVER' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='A$LOGTIME' summary='false'>
+<item name='A$LOGTIME' summary='false' sign='true'>
 <rawitemdata type='400'>
 AAAAAAAAAAA=
 </rawitemdata></item>
 <item name='A$DBTITLE' placeholder='true'>
 <rawitemdata type='0'>
 </rawitemdata></item>
-<item name='A$ENDTIME' summary='false'>
+<item name='A$ENDTIME' summary='false' sign='true'>
 <rawitemdata type='400'>
 AAAAAAAAAAA=
 </rawitemdata></item>
