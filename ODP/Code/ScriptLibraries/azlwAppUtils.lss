@@ -36,7 +36,7 @@
  	' ************************************************************************************
 	' BEGIN NOTICE	
 	' *	NOTICE
-	' *		Enhanced Log 
+	' *		azlwAppUtils
 	' *		Copyright (c) 2002 - 2052 Devin S. Olson.  All rights reserved.
 	' *
 	' *  Developed by: Devin S. Olson
@@ -2562,6 +2562,7 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, |Viewname: | & viewname$ & Chr(10) & |Column #: | & CStr(colnum%) 
 	Resume ExitPoint 
 End Function
+
 
 
 

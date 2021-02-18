@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="852585C5003A254A" version="11.0">
-<noteinfo noteid="18e" sequence="6" unid="2D70747AF90DBAA0862577FA007649FB">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="85258671003806E7" version="11.0">
+<noteinfo noteid="182" sequence="19" unid="2D70747AF90DBAA0862577FA007649FB">
 <created><datetime>20101215T153201,87-06</datetime></created>
-<modified><datetime>20210118T130251,84-05</datetime></modified>
-<revised><datetime>20210118T130251,83-05</datetime></revised>
-<lastaccessed><datetime>20210118T130251,83-05</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20200815T063507,91-04</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=admin/O=dleapdev</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20210218T164650,65-05</datetime></modified>
+<revised><datetime>20210218T164650,64-05</datetime></revised>
+<lastaccessed><datetime>20210218T164650,64-05</datetime></lastaccessed>
+<addedtofile><datetime>20210203T051202,72-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$TITLE" sign="true"><text>Demo methods for logging a lot of stuff</text></item>
 <item name="$DesignerVersion" sign="true"><text>8.5.2</text></item>
 <item name="$POID"><datetime>20101203T153715,20-05</datetime></item>
-<item name="$Comment" sign="true"><text>Demo library only - not for production</text></item>
 
-</note>
+
+<item name="$Comment" sign="true"><text>Demo library only - not for production</text></item></note>
