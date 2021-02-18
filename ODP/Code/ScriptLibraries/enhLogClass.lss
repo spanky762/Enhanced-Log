@@ -188,9 +188,9 @@ Declare Public Function enhLogExtendedContentWithLink (prefix$, description$, co
 Declare Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
 Declare Public Function enhLogActionWithLink (prefix$, description$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
 Declare Public Sub enhLogSetLocalEcho (source As Boolean)
-Declare Public Property Set enhLogEventsToNotesLog As Boolean 
+Declare Public Property Set enhLogContentToNotesLog As Boolean 
 Declare Public Function getCurrentSession() As NotesSession
-Declare Public Property Get enhLogEventsToNotesLog As Boolean 
+Declare Public Property Get enhLogContentToNotesLog As Boolean 
 Declare Public Sub enhLogSetLogStackExceptions (source As Boolean)
 Declare Public Sub enhLogClearCachedError()
 Declare Public Sub enhLogSetLogMethodResults (source As Boolean)
@@ -355,7 +355,7 @@ Private g_errCode As Integer
 Private singletonSaveRecursions As Integer
 Private enhLogExists As Boolean
 Private singletonExists As Boolean
-Private doLogEventsToNotesLog As Boolean 
+Private doLogContentToNotesLog As Boolean 
 
 %REM ***************************************************************************
  ************************************************************************************
@@ -608,7 +608,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	Private doAutoSave As Boolean
 	Private doOverwriteFile As Boolean
 	Private doResumeOnLoggingFailure As Boolean
-	Private doLogEventsToNotesLog As Boolean 
+	Private doLogContentToNotesLog As Boolean 
 	Private hasLogConfigDoc As Boolean
 	Private isLogEnabled As Boolean
 	Private isLogTypeChanged As Boolean
@@ -1496,7 +1496,7 @@ CriticalError:
 				Set nitm = Me.ndoc.ReplaceItemValue(|A$ENDTIME|, Now)
 				nitm.IsSummary = True		
 				
-				If enhLogEventsToNotesLog Then 
+				If enhLogContentToNotesLog Then 
 					Set nitm = Me.ndoc.ReplaceItemValue(|FinishTime|, Now)
 					nitm.IsSummary = True		
 				End If 
@@ -1630,7 +1630,7 @@ ErrorTrap:
 	End Property 
 	
 	Public Property Get NotesLogForm As String
-		If Me.doLogEventsToNotesLog Then 
+		If Me.doLogContentToNotesLog Then 
 			NotesLogForm = FORMALIAS_EVENTS  
 		Else 
 			'			NotesLogForm = FORMNAME_LOGENTRY
@@ -2196,69 +2196,65 @@ CriticalError:
 		
 		
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText Me.Subject
+		Me.nrti.AppendText Me.progName$
 		Me.nrti.AddNewLine 2
 		
-		Me.nrti.AppendText |Program|
-		Me.nrti.AddTab 1 
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader 
-		Me.nrti.AddNewLine 1
-
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |LogID|
-		Me.nrti.AddTab 1
+		Me.nrti.AppendText |LogID: |
+		Me.nrti.AddTab 2
 		Me.nrti.AppendStyle Me.nrtStyleTableHeader
 		Me.nrti.AppendText Me.ndoc.Universalid
 		Me.nrti.AddNewLine 1
- 
+		
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |User|
-		Me.nrti.AddTab 1
+		Me.nrti.AppendText |User: |
+		Me.nrti.AddTab 2
 		Me.nrti.AppendStyle Me.nrtStyleTableHeader
 		Me.nrti.AppendText Me.UserNameAbbrev
 		Me.nrti.AddNewLine 1
 
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
- 		Me.nrti.AppendText |Server|
-		Me.nrti.AddTab 1
+		Me.nrti.AppendText |Server: |
+		Me.nrti.AddTab 2
 		Me.nrti.AppendStyle Me.nrtStyleTableHeader
 		Me.nrti.AppendText Me.dbServer$
 		Me.nrti.AddNewLine 1
 
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Db Title|
-		Me.nrti.AddTab 1
+		Me.nrti.AppendText |Db Title: |
+		Me.nrti.AddTab 2
 		Me.nrti.AppendStyle Me.nrtStyleTableHeader
 		Me.nrti.AppendText Me.dbTitle$
 		Me.nrti.AddNewLine 1
- 
+		
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Db Filepath|
-		Me.nrti.AddTab 1
+		Me.nrti.AppendText |Db Filepath: |
+		Me.nrti.AddTab 2
 		Me.nrti.AppendStyle Me.nrtStyleTableHeader
 		Me.nrti.AppendText Me.dbFilepath$
 		Me.nrti.AddNewLine 1
- 
+		
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Db Replica ID|
-		Me.nrti.AddTab 1
+		Me.nrti.AppendText |Replica ID: |
+		Me.nrti.AddTab 2
 		Me.nrti.AppendStyle Me.nrtStyleTableHeader
 		Me.nrti.AppendText Me.dbRepID$
 		Me.nrti.AddNewLine 1
  
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Notes Version|
-		Me.nrti.AddTab 1
+		Me.nrti.AppendText |Version: |
+		Me.nrti.AddTab 2
 		Me.nrti.AppendStyle Me.nrtStyleTableHeader
 		Me.nrti.AppendText Me.myNotesVersion$
 		Me.nrti.AddNewLine 1
  
 		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |ACL Level|
-		Me.nrti.AddTab 1
+		Me.nrti.AppendText |ACL Level: |
+		Me.nrti.AddTab 2
 		Me.nrti.AppendStyle Me.nrtStyleTableHeader
 		Me.nrti.AppendText getACLlevel(Me.acl)
 		Me.nrti.AddNewLine 1
+
 
 		If IsArray(me.userRoles) Then
 			ForAll s In me.userRoles 
@@ -2296,7 +2292,7 @@ CriticalError:
 		Else
 			Set Me.nrti = New NotesRichTextItem(Me.ndoc, ITEMNAME_BODY)
 			
-			If enhLogEventsToNotesLog Then Call Me.AddBodyHeader()
+			If enhLogContentToNotesLog Then Call Me.AddBodyHeader()
 			
 			If Not Me.isSpanningLogDocs Then
 				Me.nrti.AppendParagraphStyle nrtparastyle
@@ -3839,7 +3835,7 @@ End Function
 	Description
 %END REM
 Public Function enhLogGetNotesLogForm() As String 
-	If doLogEventsToNotesLog Then 
+	If doLogContentToNotesLog Then 
 		enhLogGetNotesLogForm = FORMALIAS_EVENTS  
 	Else 
 		enhLogGetNotesLogForm = |Log Entry|
@@ -5500,7 +5496,7 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 	
 	Set nitm = result.replaceItemValue(|A$NOTESVERSION|, notesversion$) 
 	
-	If enhLogEventsToNotesLog Then 
+	If enhLogContentToNotesLog Then 
 		Set nnam = New NotesName(getCurrentSession().EffectiveUserName) 
 		Set nitm = result.replaceItemValue(|StartTime|, start) 
 		Set nitm = result.replaceItemValue(|Server|, nnam.Abbreviated) ' poor choice of field names 
@@ -5903,13 +5899,13 @@ Public Sub enhLogSetLocalEcho (source As Boolean)
 	enhLog.LocalEcho = source
 End Sub 
 
-'++LotusScript Development Environment:2:4:enhLogEventsToNotesLog Set:5:8
+'++LotusScript Development Environment:2:4:enhLogContentToNotesLog Set:5:8
 %REM
-	Property Set enhLogEventsToNotesLog
+	Property Set enhLogContentToNotesLog
 	Specifies if log activity should be recorded using the Events form in the Notes Log (log.nsf by default) 
 %END REM
-Public Property Set enhLogEventsToNotesLog As Boolean 
-	doLogEventsToNotesLog = enhLogEventsToNotesLog 
+Public Property Set enhLogContentToNotesLog As Boolean 
+	doLogContentToNotesLog = enhLogContentToNotesLog 
 
 	If Not enhLogExists Then Call InstantiateLog(||)
 	
@@ -5938,13 +5934,13 @@ ErrorTrap:
 	Resume ExitPoint
 End Function 
 
-'++LotusScript Development Environment:2:3:enhLogEventsToNotesLog Get:5:8
+'++LotusScript Development Environment:2:3:enhLogContentToNotesLog Get:5:8
 %REM
-	Property Get enhLogEventsToNotesLog
+	Property Get enhLogContentToNotesLog
 	Indicates if log activity should be recorded using the Events form in the Notes Log (log.nsf by default) 
 %END REM
-Public Property Get enhLogEventsToNotesLog As Boolean 
-	enhLogEventsToNotesLog = doLogEventsToNotesLog
+Public Property Get enhLogContentToNotesLog As Boolean 
+	enhLogContentToNotesLog = doLogContentToNotesLog
 End Property
 
 '++LotusScript Development Environment:2:2:enhLogSetLogStackExceptions:2:8
@@ -6007,6 +6003,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
 
 
 
