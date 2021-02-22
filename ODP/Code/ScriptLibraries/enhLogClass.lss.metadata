@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="85258671003806E7" version="11.0">
-<noteinfo noteid="196" sequence="62" unid="418CA900B5769A72852586610061C2D6">
+<noteinfo noteid="196" sequence="109" unid="418CA900B5769A72852586610061C2D6">
 <created><datetime>20210118T124748,70-05</datetime></created>
-<modified><datetime>20210218T145255,80-05</datetime></modified>
-<revised><datetime>20210218T145255,79-05</datetime></revised>
-<lastaccessed><datetime>20210218T145255,79-05</datetime></lastaccessed>
+<modified><datetime>20210222T073251,75-05</datetime></modified>
+<revised><datetime>20210222T073251,74-05</datetime></revised>
+<lastaccessed><datetime>20210222T073251,74-05</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051202,96-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$TITLE" sign="true"><text>enhLogClass</text></item>
 <item name="$Flags"><text>s34Q</text></item>
@@ -17,4 +17,4 @@
 
 
 
-<item name="$Comment"><text>Carrier for the EnhancedLog class.</text></item></note>
+<item name="$Comment" sign="true"><text>Carrier for the EnhancedLog class.</text></item></note>
