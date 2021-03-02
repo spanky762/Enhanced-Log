@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='sharedfield' xmlns='http://www.lotus.com/dxl' version='11.0'
+ maintenanceversion='1.0' replicaid='85258671003806E7'>
+<noteinfo noteid='2f6' unid='0BBCC61BB665BD238525868C0002F4C0' sequence='2'>
+<created><datetime>20210301T193217,28-05</datetime></created>
+<modified><datetime>20210301T193235,14-05</datetime></modified>
+<revised><datetime>20210301T193235,13-05</datetime></revised>
+<lastaccessed><datetime>20210301T193235,13-05</datetime></lastaccessed>
+<addedtofile><datetime>20210301T193217,42-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item>
+<item name='$TITLE'><text>$TemplateVersion</text></item>
+<item name='$Info' sign='true'>
+<rawitemdata type='1'>
+hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
+</rawitemdata></item>
+<item name='$Flags'><text/></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$TemplateVersion' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='$Fields'><text>$TemplateVersion</text></item>
+<item name='$Body' summary='true' sign='true'>
+<rawitemdata type='1'>
+gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8IAAEAAArdBgAAiv/+/1AA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AHgAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAIr/SACKAAAFADACAAAAAAAAAgEAAAoUAAAAAAAAABAAAAAAABQA
+AAASAAEACAAyMDIxMDIyOAMAJFRlbXBsYXRlVmVyc2lvbmIOAQCEAAAAAAAAAAAA3gYAAIr/hf8I
+AAEAAAo=
+</rawitemdata></item></note>
+
