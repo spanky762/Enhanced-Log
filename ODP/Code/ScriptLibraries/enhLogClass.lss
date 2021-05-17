@@ -100,6 +100,7 @@ Declare Private Sub InstantiateLoggingSession()
 Declare Public Sub enhLogSetLogWarnings (source As Boolean)
 Declare Public Sub enhLogSetUserNameAbbrev (source$)
 Declare Public Function uiSelectDatabase(title$, msg$, fieldnameServer$, fieldnameFilepath$) As NotesDatabase 
+Declare Public Sub enhLogReleaseVersionBuild() 
 Declare Public Function strEndsWith(searchin$, searchfor$) As Boolean 
 Declare Public Function enhLogStackTrace(prefix$, extendedMsg$) As Boolean
 Declare Public Sub enhLogSetActionsIncludeMethodNames (source As Boolean)
@@ -179,6 +180,7 @@ Declare Public Function enhLogMethodResultWithLink (prefix$, description$, linkt
 Declare Public Function getFormPrefixForLogging(subform_prefix$) As String 
 Declare Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesName, userroles As Variant, start As NotesDateTime, progname$, server$, title$, filepath$, subject$, notesversion$, resumeonfail As Boolean) As NotesDocument
 Declare Public Function enhLogGetCachedErrorMethod() As String
+Declare Sub enhLogInstantiateNotesLog() 
 Declare Private Sub InstantiateLog (programName$) 
 Declare Private Function getCallingUIobjectName() As String
 Declare Public Sub TrimString (target$)
@@ -236,7 +238,9 @@ Private Const PROFILENAME_ENHANCEDLOG = |enhLogOptionsProfile|
 
 Private Const VIEWNAME_LOGS_BYLOGTIME = |lkp-LogsByLogTime|
 
-Private Const VERSION = |2021.02.28|
+Private Const VERSION = 		|1.9|
+Private Const BUILD = 			|1.B4F|
+Private Const RELEASE_DATE = 	|01 May 2021|
 
 
 %REM ***************************************************************************
@@ -403,6 +407,11 @@ Private enhLog As EnhancedLog
 Private genhl_ProfiledMethods As ProfiledMethodList 
 Private genhl_dbConfigDocCache List As NotesDocument
 Private genhl_ProfileMethodStarts List As Integer    
+
+
+
+
+
 
 
 
@@ -3314,6 +3323,21 @@ ErrorTrap:
 	Resume Prompt
 End Function
 
+'++LotusScript Development Environment:2:2:enhLogReleaseVersionBuild:6:8
+
+%REM
+	Sub enhLogReleaseVersionBuild
+	Writes the Enhanced Log Release, Version, and Build number to the log. 
+%END REM
+Public Sub enhLogReleaseVersionBuild() 
+	enhLogExtendedContent ||, ||, _ 
+	|Enhanced Log, | & RELEASE_DATE _ 
+	& |, Version: | & VERSION _ 
+	& |, Build: | & BUILD
+End Sub
+
+
+
 '++LotusScript Development Environment:2:1:strEndsWith:9:8
 %REM
 	Function strEndsWith
@@ -5557,6 +5581,7 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 		Set nnam = New NotesName(getCurrentSession().EffectiveUserName) 
 		Set nitm = result.replaceItemValue(|StartTime|, start) 
 		Set nitm = result.replaceItemValue(|Server|, nnam.Abbreviated) ' poor choice of field names 
+		Set nitm = result.replaceItemValue(|ExcludeFromView|, |A|) 
 	End If
 	
 	' set all the items as summay
@@ -5595,6 +5620,89 @@ Public Function enhLogGetCachedErrorMethod() As String
 	enhLogGetCachedErrorMethod = ||
 	If enhLogExists Then enhLogGetCachedErrorMethod = enhLog.CachedErrorMethod
 End Function 
+
+'++LotusScript Development Environment:2:2:enhLogInstantiateNotesLog:19:8
+
+%REM
+	Sub enhLogInstantiateNotesLog
+	Instantiates sets the properties (as specified in azlwConstants) for logging to log.nsf
+	
+	LOG OPTIONS controlled by Notes INI Variables
+		
+	ENHLOG_LOG_LEVEL
+		OFF = 0  		<<< MUST EXPLICTLY SET 
+		ERROR = 200 	<< DEFAULT : Logs Exceptions
+		WARN = 300		: Logs Warnings and Exceptions
+		INFO = 400 		: Logs Method Results, Warnings, and Exceptions
+		TRACE = 600		: Logs Actions, Extended Content, Method Results, Warnings, and Exceptions 
+	
+	ENHLOG_LOCAL_ECHO=1 
+		Causes all Log events to be echoed to the Notes Client status bar
+	
+%END REM
+Sub enhLogInstantiateNotesLog() 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	Dim level$
+	Dim localecho$ 
+	
+	
+	' BEGIN CODE 
+	enhLogSetLogErrors  True 
+	enhLogSetActionsIncludeMethodNames True 
+	enhLogSetLogWarnings False 		
+	enhLogSetLogMethodResults False
+	enhLogSetLogActions False
+	enhLogSetLocalEcho False
+
+	level$ = getCurrentSession().getEnvironmentString(|ENHLOG_LOG_LEVEL|, True)
+	extendedInfo(|Level|) = level$ 
+	Select Case level$ 
+		Case |0|: 
+			enhLogSetLogErrors  False 
+			enhLogSetActionsIncludeMethodNames False 			
+			
+		Case |300|: 
+			enhLogSetLogWarnings True 
+			 		
+		Case |400|: 
+			enhLogSetLogWarnings True 
+			enhLogSetLogMethodResults True 
+			
+		Case |600|: 
+			enhLogSetLogWarnings True 
+			enhLogSetLogMethodResults True 
+			enhLogSetLogActions True 
+	End Select
+	  
+	localecho$ = getCurrentSession().getEnvironmentString(|ENHLOG_LOCAL_ECHO|, True)
+	extendedInfo(|localecho|) = localecho$
+	
+	If (|1| = localecho$) Then 	enhLogSetLocalEcho True 
+
+	enhLogOutputToNotesLog = True ' write Log content to log.nsf
+ 	Call enhLogReleaseVersionBuild()
+ 
+ 
+ExitPoint: 
+	Exit Sub 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogOutputToNotesLog = True ' write Log content to log.nsf
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Sub
 
 '++LotusScript Development Environment:2:2:InstantiateLog:2:8
 
@@ -6038,6 +6146,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
 
 
 
