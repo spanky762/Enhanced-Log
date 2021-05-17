@@ -239,8 +239,6 @@ Private Const VIEWNAME_LOGS_BYLOGTIME = |lkp-LogsByLogTime|
 Private Const VERSION = |2021.02.28|
 
 
-
-
 %REM ***************************************************************************
  ************************************************************************************
 	LSI_THREAD_xxxxx CONSTANTS  
@@ -6040,6 +6038,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
