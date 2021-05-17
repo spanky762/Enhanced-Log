@@ -1,73 +1,76 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
- replicaid='85258671003806E7'>
-<noteinfo noteid='1ee' unid='562EE858F4591DE685258662004A1473' sequence='13'>
+<view name='($All)' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
+ replicaid='85258671003806E7' hide='web' showinmenu='false' publicaccess='false'
+ designerversion='8.5.3' unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator'
+ headers='simple' opencollapsed='false' showresponsehierarchy='true' showmargin='true'
+ shrinkrows='false' extendlastcolumn='false' showhierarchies='false' unreadcolor='black'
+ rowlinecount='1' headerlinecount='1' rowspacing='1.5' bgcolor='white' totalscolor='#104160'
+ headerbgcolor='gray' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='10px 0px 0px'
+ marginbgcolor='gray' gridstyle='solid' gridcolor='#d2d2d2' uniquekeys='false'>
+<noteinfo noteid='1ee' unid='562EE858F4591DE685258662004A1473' sequence='18'>
 <created><datetime>20210119T082908,99-05</datetime></created>
-<modified><datetime>20210222T073242,22-05</datetime></modified>
-<revised><datetime>20210222T073242,21-05</datetime></revised>
-<lastaccessed><datetime>20210222T073242,21-05</datetime></lastaccessed>
+<modified><datetime dst='true'>20210517T144043,23-04</datetime></modified>
+<revised><datetime dst='true'>20210517T144043,22-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210517T144043,22-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,64-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
-<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>($All)</text></item>
-<item name='$Index' sign='true'><text/></item>
-<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
-egECABQAAgAkMQAAAAAAAAAA8D8DAAIADAACACQ1nwADAAIAMgADACQxMAByAK8AIgAQAAAAAAAA
-AAAAFECuABIAAAAAAAAAAAAAAK4ABAC1AwMAAgAOAAMAJDExAKQAAwABADYADwB2VmFsdWUAa4Na
-APWDJQAABQAKACRVcGRhdGVkQnleAQAAAAAAAAAA8D8QAWsCAwABAG4ADgB2TmFtZQBsg1oA9YMl
-AAUADwB2VmFsdWUAa4NaAPWDJQAApgEAAAAAAAAAAAAADwKvADQAGgAFAA8AdlZhbHVlAGuDWgD1
-gyUAAK4AGgB5AF4BAAAAAAAAAADwPxABawKuAAQAtQMDAAIAKAACACQ3AgAFAAAAAAAAAAUADgB2
-TmFtZQBsg1oA9YMlALQCAwAFADYAMQAIAAIABAACAAMAAwACAAkABAAkMUZvcm0kNSQxMCQxMSQ3
-JENvbmZsaWN0JFJFRgAEAAQAAAAIAGYAAwAHAAoABAAJTDFT
-</formula></item>
-<item name='$Collation' summary='true'>
-<rawitemdata type='2'>
-GwACAABECGYHAAAEAAFmAAQAAwBGb3JtJDEx
-</rawitemdata></item>
-<item name='$Totals' sign='true'><textlist><text>1</text><text>0</text><text
->0</text><text>0</text><text>0</text><text>0</text></textlist></item>
-<item name='$Comment' sign='true'><text/></item>
-<item name='$Flags'><text>Yw</text></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
-<item name='$ViewFormat' sign='true'>
-<rawitemdata type='5'>
-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
-</rawitemdata></item>
-<item name='$V5ACTIONS' sign='true'>
-<rawitemdata type='1'>
-vRwAAAAAAQABAAAARQMAAAAAAAABAAEJIAACAHn/bAABAAAAAAABAAAAAAABAP///wABAO/v7wAC
-ADIAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAASUACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=
-</rawitemdata></item></note>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby><code
+ event='selection'><formula>SELECT @All</formula></code>
+<actionbar bgcolor='black' bordercolor='black'><actionbarstyle height='50px'/>
+<actionbuttonstyle heighttype='fixed' height='32' margintype='fixed' margin='2'
+ bgcolor='none' displayborder='never'/><font size='9pt' color='white'/><border
+ width='0px 0px 1px'/></actionbar>
+<column align='right' totals='total' hidedetailrows='true' itemname='$1' width='9'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><font size='9pt'/><columnheader title='Count'><font size='9pt'
+ color='white'/></columnheader><numberformat format='fixed' punctuated='true'
+ parens='false' percent='false' bytes='false' decimalsym='.' thousandssep=','
+ currencysymtype='custom' currencysym='$' usecustomsym='false'/><code event='value'><formula
+>1</formula></code><twistieimage><imageref database='0000000000000000' name='iTwistie'/></twistieimage></column>
+<column hidedetailrows='false' itemname='$13' width='1' resizable='false'
+ separatemultiplevalues='false' sortnoaccent='true' sortnocase='true' showaslinks='false'><font
+ size='9pt'/><columnheader><font size='9pt' color='white'/></columnheader><numberformat
+ format='fixed' punctuated='true' parens='false' percent='false' bytes='true'
+ decimalsym='.' thousandssep=',' currencysymtype='custom' currencysym='$'
+ usecustomsym='false'/><code event='value'><formula>""</formula></code></column>
+<column sort='ascending' hidedetailrows='false' itemname='Form' width='3'
+ resizable='true' separatemultiplevalues='true' sortnoaccent='true' sortnocase='true'
+ showaslinks='false' categorized='true' twisties='true'><font size='9pt' style='bold'/><columnheader
+ title='Form'><font size='9pt' color='white'/></columnheader><twistieimage
+><imageref database='0000000000000000' name='iTwistie'/></twistieimage></column>
+<column align='right' hidedetailrows='false' itemname='$5' width='5.2500'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><font size='9pt'/><columnheader title='Size'><font size='9pt'
+ color='white'/></columnheader><numberformat format='fixed' punctuated='true'
+ parens='false' percent='false' bytes='true' decimalsym='.' thousandssep=','
+ currencysymtype='custom' currencysym='$' usecustomsym='false'/><code event='value'><formula
+>@DocLength</formula></code></column>
+<column hidedetailrows='false' itemname='$10' width='1' resizable='false'
+ separatemultiplevalues='false' sortnoaccent='true' sortnocase='true' showaslinks='false'
+ showasicons='true'><font size='9pt'/><columnheader><font size='9pt' color='white'/></columnheader><numberformat
+ format='fixed' punctuated='true' parens='false' percent='false' bytes='true'
+ decimalsym='.' thousandssep=',' currencysymtype='custom' currencysym='$'
+ usecustomsym='false'/><code event='value'><formula>@If(@Attachments; 5; 0)</formula></code></column>
+<column align='right' sort='descending' hidedetailrows='false' itemname='$11'
+ width='12' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='false'><font size='9pt'/><columnheader title='Last Modified'><font
+ size='9pt' color='white'/></columnheader><numberformat format='fixed' punctuated='true'
+ parens='false' percent='false' bytes='false' decimalsym='.' thousandssep=','
+ currencysymtype='custom' currencysym='$' usecustomsym='false'/><code event='value'><formula
+>@Modified</formula></code></column>
+<column hidedetailrows='false' itemname='$12' width='1' resizable='false'
+ separatemultiplevalues='false' sortnoaccent='true' sortnocase='true' showaslinks='false'><font
+ size='9pt'/><columnheader><font size='9pt' color='white'/></columnheader><numberformat
+ format='fixed' punctuated='true' parens='false' percent='false' bytes='true'
+ decimalsym='.' thousandssep=',' currencysymtype='custom' currencysym='$'
+ usecustomsym='false'/><code event='value'><formula>""</formula></code></column>
+<column hidedetailrows='false' itemname='$7' width='20' resizable='true' separatemultiplevalues='false'
+ sortnoaccent='true' sortnocase='true' showaslinks='false'><font size='9pt'/><columnheader
+ title='Last Modified By'><font size='9pt' color='white'/></columnheader><numberformat
+ format='fixed' punctuated='true' parens='false' percent='false' bytes='false'
+ decimalsym='.' thousandssep=',' currencysymtype='custom' currencysym='$'
+ usecustomsym='false'/><code event='value'><formula>vValue := @Subset(@Trim($UpdatedBy); -1);
+vName := @If(@Length(vValue) &gt; 0; vValue; @Subset(@Trim(@Author); -1));
+@Name([Abbreviate]; vName)</formula></code></column></view>
 

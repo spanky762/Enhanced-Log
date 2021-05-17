@@ -1,77 +1,59 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note default='true' class='view' xmlns='http://www.lotus.com/dxl' version='11.0'
- maintenanceversion='1.0' replicaid='85258671003806E7'>
-<noteinfo noteid='1fa' unid='DF668089A058A324862577FA00762127' sequence='13'>
+<view name='Logs\by Log Time' alias='lkp-LogsByLogTime' xmlns='http://www.lotus.com/dxl'
+ version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' showinmenu='false'
+ defaultdesign='true' publicaccess='false' designerversion='8.5.3' default='true'
+ unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator' headers='beveled'
+ opencollapsed='false' showresponsehierarchy='true' showmargin='true' shrinkrows='false'
+ extendlastcolumn='false' showhierarchies='false' unreadcolor='black' rowlinecount='1'
+ headerlinecount='1' rowspacing='1' bgcolor='white' altrowcolor='#f7f7f7'
+ totalscolor='black' headerbgcolor='white' boldunreadrows='false' evaluateactions='false'
+ allownewdocuments='false' allowcustomizations='false' hidemarginborder='false'
+ marginwidth='0px' marginbgcolor='white' uniquekeys='false'>
+<noteinfo noteid='1fa' unid='DF668089A058A324862577FA00762127' sequence='18'>
 <created><datetime>20101215T153017,35-06</datetime></created>
-<modified><datetime>20210222T073242,24-05</datetime></modified>
-<revised><datetime>20210222T073242,23-05</datetime></revised>
-<lastaccessed><datetime>20210222T073242,23-05</datetime></lastaccessed>
+<modified><datetime dst='true'>20210517T144043,28-04</datetime></modified>
+<revised><datetime dst='true'>20210517T144043,27-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210517T144043,27-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,70-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
-<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>Logs\by Log Time|lkp-LogsByLogTime</text></item>
-<item name='$Index' sign='true'><text/></item>
-<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
-AAICACAACQBBJExPR1RJTUUABQAJAEEkTE9HVElNRQADAAgAOgAFAAkASGFzRXJyb3JzAK8AJAAS
-AAAAAAAAAADAXEDCAa4AEgAAAAAAAAAAAAAArgAEALUDAwACAD4AAgAkNQUACwBIYXNXYXJuaW5n
-cwCvACIAEAAAAAAAAAAAAF5ArgASAAAAAAAAAAAAAACuAAQAtQMDAAEAJgAPAHZWYWx1ZQBDS1IA
-cHMlAAYFAAoAQSRQUk9HTkFNRQMAAgBqAAMAJDEyAAUADwB2VmFsdWUAQ0tSAHBzJQBgAQABAHwA
-RwKvAD4AIgAFAA8AdlZhbHVlAENLUgBwcyUAYAEAAQB8AGACrgAcAAUADwB2VmFsdWUAQ0tSAHBz
-JQBgrgAEALUDXgEDAAIAIgADACQxMQACAAYAAAAAAAAABQAGAEEkVVNFUrQCAwACABwACABBJFNF
-UlZFUgUACABBJFNFUlZFUgMAAgAgAAkAQSREQlRJVExFAAUACQBBJERCVElUTEUAAwAFAEgAQwAI
-AAkAAgADAAMACAAJAAkABABBJExPR1RJTUUkNSQxMiQxMUEkU0VSVkVSQSREQlRJVExFJENvbmZs
-aWN0JFJFRgAEAAQAAAAeAAUABABGb3JtAQAJAExvZyBFbnRyeQAKAgMABwAOAAgACUwxUzJTM1M=
-</formula></item>
-<item name='$Collation' summary='true'>
-<rawitemdata type='2'>
-FgABAABEAWYAAAAJAEEkTE9HVElNRQ==
-</rawitemdata></item>
-<item name='$Comment' sign='true'><text/></item>
-<item name='$Flags'><text>Yd</text></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
-<item name='$ViewFormat' sign='true'>
-<rawitemdata type='5'>
-AQAGAAEAiAAAAFZDBQAJAAgAIgAAAHgAAQEICAAAAAAAAAAAAAIAAAAgVkPAAAIAAACUAAAACAAB
-AAAJAAAAAAAAAAAAAgIAAABWQwAAAwAMALIAAADwAAEABAgAAAAAAAAAAAACAgAAIFZDAAADAAQA
-LgAAAFAAAQAACAAAAAAAAAAAAAICAAAAVkMAAAgABgAeAAAAeAABAAAIAAAAAAAAAAAAAgIAAABW
-QwAACQAHACIAAAB4AAEAAAgAAAAAAAAAAAACAgAAAEEkTE9HVElNRUxvZyBUaW1lIgACACAACQBB
-JExPR1RJTUUABQAJAEEkTE9HVElNRQADACQ1lAAIADoABQAJAEhhc0Vycm9ycwCvACQAEgAAAAAA
-AAAAwFxAwgGuABIAAAAAAAAAAAAAAK4ABAC1AwMABwAMAAUACTRTOVMAAgA+AAIAJDUFAAsASGFz
-V2FybmluZ3MArwAiABAAAAAAAAAAAABeQK4AEgAAAAAAAAAAAAAArgAEALUDAwAHAA4ABwAJMFI0
-UzZTACQxMlByb2dyYW0gTmFtZbIAAQAmAA8AdlZhbHVlAENLUgBwcyUABgUACgBBJFBST0dOQU1F
-AwAHAAwABQAJMVMyUwACAGoAAwAkMTIABQAPAHZWYWx1ZQBDS1IAcHMlAGABAAEAfABHAq8APgAi
-AAUADwB2VmFsdWUAQ0tSAHBzJQBgAQABAHwAYAKuABwABQAPAHZWYWx1ZQBDS1IAcHMlAGCuAAQA
-tQNeAQMABwAUAA4ACTBSOFMxMVMxNVMxOFMkMTFVc2VyLgACACIAAwAkMTEAAgAGAAAAAAAAAAUA
-BgBBJFVTRVK0AgMABwAKAAMACTRTAEEkU0VSVkVSU2VydmVyHgACABwACABBJFNFUlZFUgUACABB
-JFNFUlZFUgMAQSREQlRJVExFRGJUaXRsZSIAAgAgAAkAQSREQlRJVExFAAUACQBBJERCVElUTEUA
-AwAmAAEAAAABAQAJAQAACgEBDgoAAC8ArSsBAAEAAQAAAAAAAAAAAFdDAQAACQAAAAAAAAAAAAAA
-AAAAAAABAMAAAAAAAP//AAAAAAAAAAAAAAAAAABXQwEAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAD//wAAAAAAAAAAAAAAAAAAV0MBAAAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAAAAAAAA
-AAAAAAAAAFdDAQAACQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABXQwEA
-AAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAAAAAAAAAAV0MBAAAJAAAAAAAAAAAA
-AAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAEIAEAAAAAEA////AAEA9/f3AAEAAAAAAAAA
-AAAAAAAAAQD///8AAQD///8AAAABAAAAAAABAAAAAAABAAAAAAAAAAgAAAAAAAEAWEMADIACAAAA
-AAABAgICAQEBAQcEAwAAAAAAAAAAIC8vOllDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAA=
-</rawitemdata></item>
-<item name='$V5ACTIONS' sign='true'>
-<rawitemdata type='1'>
-vRwRAAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAOzp2AABAAAAAAAJAAAAAAABAOzp2AAA
-AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAC+/yYAAAAFAAAAnQEAAAsAAAAAAAAAQ2F0ZWdvcmlfemUy
-AQBOfL7/KAAAAAUAAACdAQAADgAAAAAAAABfRWRpdCBEb2N1bWVudAIAAgq+/ygAAAAFAAAAnQEA
-AA4AAAAAAAAAX1NlbmQgRG9jdW1lbnQDAAMKvv8iAAAABQAAAJ0BAAAIAAAAAAAAAF9Gb3J3YXJk
-BAAECr7/LAAAAAUAAACdAQAAEgAAAAAAAABfTW92ZSBUbyBGb2xkZXIuLi4FAD18vv8uAAAABQAA
-AJ0BAAATAAAAAAAAAF9SZW1vdmUgRnJvbSBGb2xkZXIABgA+fA==
-</rawitemdata></item>
-<item name='$ACTIONS' sign='true'>
-<rawitemdata type='1'>
-vRwRAAAAAQABAAAAAQAAAAAAAAAAAAAACAACAL7/JgAAAAUAAACdAQAACwAAAAAAAABDYXRlZ29y
-aV96ZQABAE58vv8oAAAABQAAAJ0BAAAOAAAAAAAAAF9FZGl0IERvY3VtZW50AgACCr7/KAAAAAUA
-AACdAQAADgAAAAAAAABfU2VuZCBEb2N1bWVudAMAAwq+/yIAAAAFAAAAnQEAAAgAAAAAAAAAX0Zv
-cndhcmQEAAQKvv8sAAAABQAAAJ0BAAASAAAAAAAAAF9Nb3ZlIFRvIEZvbGRlci4uLgUAPXy+/y4A
-AAAFAAAAnQEAABMAAAAAAAAAX1JlbW92ZSBGcm9tIEZvbGRlcmUGAD58
-</rawitemdata></item></note>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby><code
+ event='selection'><formula>SELECT Form = "Log Entry"</formula></code>
+<actionbar bgcolor='#ece9d8' bordercolor='black'>
+<actionbuttonstyle bgcolor='#ece9d8'/><font color='system'/><border style='solid'
+ width='0px 0px 1px'/>
+<action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
+<action title='_Edit Document' showinbar='false' systemcommand='edit'/>
+<action title='_Send Document' showinbar='false' systemcommand='send'/>
+<action title='_Forward' showinbar='false' systemcommand='forward'/>
+<action title='_Move To Folder...' showinbar='false' systemcommand='movetofolder'/>
+<action title='_Remove From Folder' showinbar='false' systemcommand='removefromfolder'/></actionbar>
+<column sort='descending' hidedetailrows='false' listseparator='comma' itemname='A$LOGTIME'
+ width='15' resizable='true' separatemultiplevalues='false' sortnoaccent='true'
+ sortnocase='true' showaslinks='false' formatdatatype='number'><font size='8pt'
+ color='maroon' style='bold'/><columnheader title='Log Time'><font size='9pt'/></columnheader><datetimeformat
+ show='datetime' date='yearmonthday' fourdigityearfor21stcentury='true' time='hourminutesecond'
+ zone='never' dateformat='weekdaymonthdayyear' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1=' ' dateseparator2='/'
+ dateseparator3='/' timeseparator=':' preference='usersetting'/><numberformat
+ format='general' punctuated='false' parens='false' percent='false' bytes='false'/></column>
+<column hidedetailrows='false' itemname='$5' width='1' resizable='false' separatemultiplevalues='false'
+ sortnoaccent='true' sortnocase='true' showaslinks='false' showasicons='true'><font
+ size='9pt'/><columnheader><font size='9pt'/></columnheader><code event='value'><formula
+>@If(HasErrors; @Return(115); 0);
+@If(HasWarnings; 120; 0)</formula></code></column>
+<column hidedetailrows='false' listseparator='comma' itemname='$12' width='30'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><font size='8pt' color='blue'/><columnheader title='Program Name'><font
+ size='9pt'/></columnheader><code event='value'><formula>vValue := A$PROGNAME;
+@Trim(@If(@Contains(vValue; "|"); @Right(vValue; "|"); vValue))</formula></code></column>
+<column hidedetailrows='false' itemname='$11' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><font
+ size='8pt'/><columnheader title='User'><font size='9pt'/></columnheader><code
+ event='value'><formula>@Name([CN]; A$USER)</formula></code></column>
+<column hidedetailrows='false' itemname='A$SERVER' width='15' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><font
+ size='8pt'/><columnheader title='Server'><font size='9pt'/></columnheader></column>
+<column hidedetailrows='false' itemname='A$DBTITLE' width='15' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><font
+ size='8pt'/><columnheader title='DbTitle'><font size='9pt'/></columnheader></column></view>
 

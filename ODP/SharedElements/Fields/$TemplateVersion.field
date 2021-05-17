@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sharedfield name='$TemplateVersion' xmlns='http://www.lotus.com/dxl' version='11.0'
+ maintenanceversion='1.0' replicaid='85258671003806E7' designerversion='8.5.3'>
+<noteinfo noteid='2f6' unid='0BBCC61BB665BD238525868C0002F4C0' sequence='3'>
+<created><datetime>20210301T193217,28-05</datetime></created>
+<modified><datetime dst='true'>20210517T144028,89-04</datetime></modified>
+<revised><datetime dst='true'>20210517T144028,88-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210517T144028,88-04</datetime></lastaccessed>
+<addedtofile><datetime>20210301T193217,42-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby><field
+ type='text' kind='editable' name='$TemplateVersion'><code event='defaultvalue'><formula
+>"20210228"</formula></code></field>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+</rawitemdata></item></sharedfield>
+

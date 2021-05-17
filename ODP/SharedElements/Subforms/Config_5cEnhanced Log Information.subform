@@ -1,49 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='form' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
- replicaid='85258671003806E7'>
-<noteinfo noteid='1e6' unid='76B2E62B595DC47B852585BD005C2E85' sequence='14'>
+<subform name='Config\Enhanced Log Information' alias='cfg-EnhLogInfo' xmlns='http://www.lotus.com/dxl'
+ version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' designerversion='8.5.3'
+ renderpassthrough='true'>
+<noteinfo noteid='1e6' unid='76B2E62B595DC47B852585BD005C2E85' sequence='19'>
 <created><datetime dst='true'>20200807T124652,21-04</datetime></created>
-<modified><datetime>20210222T073242,20-05</datetime></modified>
-<revised><datetime>20210222T073242,19-05</datetime></revised>
-<lastaccessed><datetime>20210222T073242,19-05</datetime></lastaccessed>
+<modified><datetime dst='true'>20210517T144043,14-04</datetime></modified>
+<revised><datetime dst='true'>20210517T144043,13-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210517T144043,13-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,60-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<item name='$Comment' sign='true'><text/></item>
-<item name='$HTMLCode' sign='true'>
-<rawitemdata type='1'>
-X/8QAAIADwAHAAAAAAAAAA==
-</rawitemdata></item>
-<item name='$TITLE'><textlist><text>Config\Enhanced Log Information</text><text
->cfg-EnhLogInfo</text></textlist></item>
-<item name='$Info' sign='true'>
-<rawitemdata type='1'>
-hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
-</rawitemdata></item>
-<item name='$Flags'><text>CUAx3</text></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
-<item name='$Fonts'>
-<rawitemdata type='1'>
-i/9KAAIABSZBcmlhbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY1Q291cmllciBOZXcAAAAA
-AAAAAAAAAAAAAAAAAAAAAAA=
-</rawitemdata></item>
-<item name='$Script' summary='false' sign='true'><text>'++LotusScript Development Environment:2:5:(Options):0:74
-Option Public
+<globals><code event='options'><lotusscript>Option Public
 Option Explicit
 Use "enhLogClass"
 
 
-'++LotusScript Development Environment:2:5:(Forward):0:1
-Declare Sub updateLogOptionsFromLogConfig(nuidoc As NotesUIDocument) 
-Declare Sub updateLogConfigFromLogOptions(source As NotesDocument) 
-
-'++LotusScript Development Environment:2:5:(Declarations):0:10
-Const SUBFORM_PREFIX_CFG_ENHLOGINFO = |Subform: cfg-EnhLogInfo.|
+</lotusscript></code><code event='declarations'><lotusscript>Const SUBFORM_PREFIX_CFG_ENHLOGINFO = |Subform: cfg-EnhLogInfo.|
 
 
 
-'++LotusScript Development Environment:2:2:updateLogOptionsFromLogConfig:1:8
-Sub updateLogOptionsFromLogConfig(nuidoc As NotesUIDocument) 
+</lotusscript></code><code event='updateLogOptionsFromLogConfig'><lotusscript
+>Sub updateLogOptionsFromLogConfig(nuidoc As NotesUIDocument) 
 	Dim extendedInfo As String
 	On Error Goto ErrorTrap
 	
@@ -74,8 +51,8 @@ ErrorTrap:
 	enhLogException SUBFORM_PREFIX_CFG_ENHLOGINFO, extendedInfo$
 	Resume ExitPoint	
 End Sub ' updateLogOptionsFromLogConfig
-'++LotusScript Development Environment:2:2:updateLogConfigFromLogOptions:1:8
-Sub updateLogConfigFromLogOptions(source As NotesDocument) 
+</lotusscript></code><code event='updateLogConfigFromLogOptions'><lotusscript
+>Sub updateLogConfigFromLogOptions(source As NotesDocument) 
 	Dim extendedInfo As String
 	On Error Goto ErrorTrap
 	
@@ -101,565 +78,393 @@ ErrorTrap:
 	On Error Goto 0
 	enhLogException SUBFORM_PREFIX_CFG_ENHLOGINFO, extendedInfo$
 	Resume ExitPoint	
-End Sub ' updateLogConfigFromLogOptions<break/></text></item>
-<item name='$$Script_O' sign='true'>
-<rawitemdata type='14'>
-AQAAAkxTT0IDABQIZW4AAAQAKAC+AQAAAABQCPAEAAAAAAQAjAGkBQAAAABAAMAANAAAANwAfAFw
-AAAAAAAAAAMAAAAYAHADAAAAAAAAAAAAAAAAAAAAANQA1AAAAAAAAAAAABgAGAAAAAAAAAAAAAAA
-AABwA3ADAAAAAAQAAACUBKwHOAU4BQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKwHrAcAAAAAAAAA
-AAAAAAAAAAAAlAR0BgQAAABEAKQFRACYAQAAAAAAAAAAAAAAAFwCXAIAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAACkBaQFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAEABQBMb3R1cyBQcm9kdWN0AAAAVjAuMAAAAAAAAAAAAAAAAAAA
-AAAAAAAAvgEAAAAAAABQCAAA8AQAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA
-AAUAAABXMzJJJQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAwD0BAAAAABUABcAKABHAEwATwBCAEEATABTACkAQwBGAEcALQBFAE4ASABMAE8ARwBJAE4A
-RgBPAAAAiAADAE4ARQBXAAAAnAAGAEQARQBMAEUAVABFAAAAAAC8AQoASQBOAEkAVABJAEEATABJ
-AFoARQAAAAAApAAJAFQARQBSAE0ASQBOAEEAVABFAAAA4AEGAE8AQgBKAEUAQwBUAAAAAADwAAAA
-AAAAAAQBCwBlAG4AaABMAG8AZwBDAGwAYQBzAHMAAACsAgsARQBOAEgATABPAEcAQwBMAEEAUwBT
-AAAA9AEGAE4AVQBJAEQATwBDAAAAAABEAQYAUwBPAFUAUgBDAEUAAAAAAEACHQBTAFUAQgBGAE8A
-UgBNAF8AUABSAEUARgBJAFgAXwBDAEYARwBfAEUATgBIAEwATwBHAEkATgBGAE8AAADgAhgAUwB1
-AGIAZgBvAHIAbQA6ACAAYwBmAGcALQBFAG4AaABMAG8AZwBJAG4AZgBvAC4AAAAAACwCHQBVAFAA
-RABBAFQARQBMAE8ARwBPAFAAVABJAE8ATgBTAEYAUgBPAE0ATABPAEcAQwBPAE4ARgBJAEcAAAAU
-Ag8ATgBPAFQARQBTAFUASQBEAE8AQwBVAE0ARQBOAFQAAAD//wYAJQBMAFMAWABVAEkAAAAAAMgC
-DABFAFgAVABFAE4ARABFAEQASQBOAEYATwAAAAAAYAIJAEUAUgBSAE8AUgBUAFIAQQBQAAAALAMH
-AEMATwBOAFQARQBYAFQAAAB0Ag0ATgBPAFQARQBTAEQATwBDAFUATQBFAE4AVAAAAJQCBgAlAEwA
-UwBYAEIARQAAAAAA4AMNAE4ATwBUAEUAUwBEAEEAVABBAEIAQQBTAEUAAABEAwkATABPAEcAQwBP
-AE4ARgBJAEcAAAAwBAoARgBJAEUATABEAE4AQQBNAEUAUwAAAAAAYAMIAEUARABJAFQATQBPAEQA
-RQAAAAAA+AIJAEUAWABJAFQAUABPAEkATgBUAAAA//8WAEUATgBIAEwATwBHAEcARQBUAEwATwBH
-AEMATwBOAEYASQBHAFUATgBJAEQAAAAAAAgECABEAE8AQwBVAE0ARQBOAFQAAAAAAJADCwBVAE4A
-SQBWAEUAUgBTAEEATABJAEQAAAD0AxUARQBOAEgATABPAEcARwBFAFQATABPAEcAQwBPAE4ARgBJ
-AEcARABPAEMAAADIAxgARQBOAEgATABPAEcARwBFAFQAQwBPAE4ARgBJAEcASQBUAEUATQBOAEEA
-TQBFAFMAAAAAAFAECABJAFQARQBNAE4AQQBNAEUAAAAAAP//BgBJAHQAZQBtADoAIAAAAAAA//8H
-AEgAQQBTAEkAVABFAE0AAADYBBAAUgBFAFAATABBAEMARQBJAFQARQBNAFYAQQBMAFUARQAAAAAA
-iAQMAEcARQBUAEYASQBSAFMAVABJAFQARQBNAAAAAABkBAcAUgBFAEYAUgBFAFMASAAAAMgEDwBF
-AE4ASABMAE8ARwBFAFgAQwBFAFAAVABJAE8ATgAAAP//HQBVAFAARABBAFQARQBMAE8ARwBDAE8A
-TgBGAEkARwBGAFIATwBNAEwATwBHAE8AUABUAEkATwBOAFMAAAD//wQAUwBBAFYARQAAAAAA//8J
-AE4ATwBUAEUAUwBJAFQARQBNAAAABQBUCAAAAAAqWf/WGAAAAAAAxAAoFUsMAAAAAAAAAAAEABAA
-1AAAAAgBBgAAAAAASAEAAAAAAAAAAAAAAAAAABoAAADkAf//AAAAABAAAACYAZgBwAEAAAAAAAAD
-AAAAaARwBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaAToBHAH
-cAcEFRMp7S5pEL9dAN0BEYa3AAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAAAAAAACADgAAAAA
-AAAAAAAKAAEA//8AAAgAEABwAwAAgAEAAAAAAAAGAAAAbAHMBmwBbAEAAAAAfAFAAwAAAAAAAAAA
-MAMwAwAAAAAAAAAAAAAAAAAAAAAAAAAAIAMgA8wGzAYBAAAAFAAAAAwAAABwAAAAAgAAAFADYAMA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYANgA1ADUAMAAAAAAwABAHwB
-AADgAAkCAABEAAMAAgAgA0AD+AEGAAAAAAAaADgAZAL//wAAAAAQAAQAXAIAAEQCAAAAAAAABQAA
-AAwFHAgAAAAAHAgcCAwHDAdAB0AH3AbcBgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwFDAUAAAAA
-BBQTKe0uaRC/XQDdARGGtwAAAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgCMASgCAABc
-AgAAAgABAP//AAASABQAAAAAAP//CQIAAAAAjQQAAAAAmAGMAf//AAAAAAYAAgAAAAkCmAEJApgB
-CQJcAhkAEAAAAKQFAAB4AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUEyntLmkQv10A3QERhrcAAAAAAAAAAAAAAAAAAAAA
-ZAAAAAAAAAAAAAAAAAAAAAIAjAHsAgAARAAAAAIAAQD//wAAEgAUAAAAAAD//wkCAAAAABIEAAAA
-AFwCjAH//wAAAAAGAAMAAAAJAlwCCQJcAgYIBggZAAMAAgAwAwAAMAIJAhQAmAEDAAIAQAMAAJgC
-CQIYAJgBAwACAMwGAACwAgAAIAAAAA0ACABgAwAA5AIAAM8AGQANAAgAAAAAABgCAADWABkACAAQ
-AAAAAACMBAAAAAAAAAUAAAAIBAwIAAAAAAAAAAAYBDgEAAAAAAAAAAAoBCgEAAAAAAAAAAAAAAAA
-AAAAAAgECAQAAAAADAgMCAEAAAAUAAAA9wAAAGgAAAACAAAASARYBAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABYBFgESARIBAAAAAADAAEAGAQAAPQACQIAAJgBAwACACgE
-OAT4AQYAAAAAAAMAAgA4BAAAmAIJAhQAmAEDAAIADAgAALACAAAYAAAADQAIAFgEAADkAgAAlgEZ
-AA0ACAAAAAAAGAIAAJ0BGQARABAE6AToBMwCAAClBgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhAAQA
-0MQAAAcAQAA4BXQG/AIGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEABgAZABEAEAVwBwAAMAMJAqgGAAAAAAAAAAAAAAAA
-AAAAAAAAAACYAREAEATcBgAASAMGAH0EAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEABABhAAAABwBA
-AHQGAABkAwkCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAEADQAJApgBDQAGAAkCmAEJApgBCQKkBQYAAAAAABkAEAAAAAAAAADc
-BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAUUEyntLmkQv10A3QERhrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAAAAA
-AAIAjAE0BgAAmAEAAAIAAQD//wAAEgAUAAAAAAD//wkCAAAAACgEAAAAAKQFjAH//wAAAAAJAAUA
-AAAJAqQFCQKkBQkKmAEGCAAAgQghAAQAfPYAAAcAQACsBwAAlAMAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAGAAYg
-DQAFAAIAAAAAAMwDAAAwAAAAEgAUAAwHAAD4AwEAAAAAAJIEAAAAAJgBjAH//wAAAAAEAAIAAAAB
-AAkCmAEGCBkAEgAUAEAHAAAMBAmCAAAAAJcEAAAAAJgBjAH//wAAAAAGAAMAAAAJAqQFCQKYAQYI
-AAAZABIAFAAcCAAANAQJggAAAACOBAAAAACYAYwB//8AAAAABQACAAAACQKkBQkCmAEGCBIAFAAA
-AAAAVAQKAAAAAADYBgAAAABEADgA//8AAAAABgAEAAAACgAJAkQAgACAAIAAGQAhAAQAlPAAAAcA
-QAAAAAAAaAQNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAACAAgADQAGAAYADQABAAIABgAGAAUAAgAAAAAAzAMAACgAAAASABQA
-AAAAAMwEAQAAAAAAlAQAAAAAmAGMAf//AAAAAAYABAAAAAEACQKYAQEIAQiBCBkABADCAQAAAAA6
-AAAaBADSqAAdAAAaEwALAAAEAAk6vgAaGQBLbAEtaAQjoDgDADqmABoaACmUBCNLbAEt6AQjLQwF
-I7I4AwA6jQAaHABeMAMpOAWDI6YaHQBKMAOBxTgDADpzABofAF4gA0tsAS3oBCOmGiEAXkADKXQG
-I6UaIgBKQAM1zAY/ABojAF58AX3kA0bMBr+bpRokAEswAyzcBkbMBpsjOBcASyADLAwHRswGm0sw
-AyxAB0bMBpsjIzEaJQA3zAbB/xonAEtsASxwB4sAiwCLACMaKQAaKgAcGisAGiwACgAAGi0AKawH
-fUgBXnwBIzEaLgAP3P8aLwAdGjMACwAABAAJOpoAGjgAKZQEI0sIBC0MBSOyOAMAOn4AGjoAXigE
-KTgFgiOmGjsASigEgcU4AwA6ZAAaPQBeOAQpdAYjpRo+AEo4BDUMCD8AGj8AXhgEfeQDRgwIv5ul
-GkAASwgELNwGRgwImyM4FwBLKAQsDAdGDAibSwgELEAHRgwImyMjMRpBADcMCMH/GkMASygELBwI
-hIWLAiMxGkUAGkYAHBpHABpIAAoAABpJACmsB31IAV4YBCMxGkoAD9z/GksAHQIAAAARABgAAAAA
-AP//AQADAAcAAAALAIABEACMBDAACgAAAA==
-</rawitemdata></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>cfg-EnhLogInfo</text></item>
-<item name='$$FormScript' summary='false' sign='true'><text>'++LotusScript Development Environment:2:5:(Options):0:74
-Option Explicit
+End Sub ' updateLogConfigFromLogOptions</lotusscript></code></globals><code
+ event='options'><lotusscript>Option Explicit
 
-'++LotusScript Development Environment:2:5:(Forward):0:1
-Declare Sub Postopen(Source As Notesuidocument)
-Declare Sub Postmodechange(Source As Notesuidocument)
-Declare Sub Postsave(Source As Notesuidocument)
-
-'++LotusScript Development Environment:2:5:(Declarations):0:2
-
-'++LotusScript Development Environment:2:2:BindEvents:1:129
-Private Sub BindEvents(Byval Objectname_ As String)
-	Static Source As NOTESUIDOCUMENT
-	Set Source = Bind(Objectname_)
-	On Event Postopen From Source Call Postopen
-	On Event Postmodechange From Source Call Postmodechange
-	On Event Postsave From Source Call Postsave
-End Sub
-
-'++LotusScript Development Environment:2:2:Postopen:1:12
-Sub Postopen(Source As Notesuidocument)
+</lotusscript></code><code event='postopen'><lotusscript>Sub Postopen(Source As Notesuidocument)
 	If source.EditMode Then Call updateLogOptionsFromLogConfig(source)
 End Sub
-'++LotusScript Development Environment:2:2:Postmodechange:1:12
-Sub Postmodechange(Source As Notesuidocument)
+</lotusscript></code><code event='postmodechange'><lotusscript>Sub Postmodechange(Source As Notesuidocument)
 	If source.EditMode Then Call updateLogOptionsFromLogConfig(source)
 End Sub
-'++LotusScript Development Environment:2:2:Postsave:1:12
-Sub Postsave(Source As Notesuidocument)
+</lotusscript></code><code event='postsave'><lotusscript>Sub Postsave(Source As Notesuidocument)
 	Call updateLogConfigFromLogOptions(Source.Document)
-End Sub<break/></text></item>
-<item name='$$$FormScript_O' sign='true'>
-<rawitemdata type='14'>
-AQAAAkxTT0IDABQIZW4AAAQAGACAAAQAAABEBtgCAAAAAAQAJAQwBAAAAAAwABABJABEANQBAABg
-AAAAAAAAAAQAAAAYALwCAAAAAAAAAAAAAAAAbAFsARQCFAIAAAAAAAAAALwCvAIAAAAAAAAAAAAA
-AAAAAAAAGAAYAAIAAADAA8AFAAAAAAAAAAAAAAAAAAAAAMADwAMAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAADABcAFAAAAAAMAAADMAPQEzAAwBAAAAAAAAAAAAAAAAPQE9AQAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAEABQBMb3R1cyBQcm9kdWN0AAAAVjAuMAAAAAAAAAAAAAAAAAAA
-AAAEAAAAgAAAAAAAAABEBgAA2AIAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAA
-AAcAAABXMzJJJQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAwDcAgAAAAAsAQ8AJAAkACQARgBPAFIATQBTAEMAUgBJAFAAVABfAE8AAAB4AAMATgBFAFcA
-AACMAAYARABFAEwARQBUAEUAAAAAAJQACgBJAE4ASQBUAEkAQQBMAEkAWgBFAAAAAACEAgkAVABF
-AFIATQBJAE4AQQBUAEUAAABsAQYATwBCAEoARQBDAFQAAAAAAMgAAAAAAAAASAEXACgARwBMAE8A
-QgBBAEwAUwApAEMARgBHAC0ARQBOAEgATABPAEcASQBOAEYATwAAAPwAFwAoAEcAbABvAGIAYQBs
-AHMAKQBjAGYAZwAtAEUAbgBoAEwAbwBnAEkAbgBmAG8AAAD//wYAUwBPAFUAUgBDAEUAAAAAACwC
-CgBCAEkATgBEAEUAVgBFAE4AVABTAAAAAACYAQsATwBCAEoARQBDAFQATgBBAE0ARQBfAAAAgAEP
-AE4ATwBUAEUAUwBVAEkARABPAEMAVQBNAEUATgBUAAAA//8GACUATABTAFgAVQBJAAAAAACkAggA
-UABPAFMAVABPAFAARQBOAAAAAAC8AQ4AUABPAFMAVABNAE8ARABFAEMASABBAE4ARwBFAAAAAADs
-AQgAUABPAFMAVABTAEEAVgBFAAAAAAD//wgARQBEAEkAVABNAE8ARABFAAAAAABsAh0AVQBQAEQA
-QQBUAEUATABPAEcATwBQAFQASQBPAE4AUwBGAFIATwBNAEwATwBHAEMATwBOAEYASQBHAAAA//8d
-AFUAUABEAEEAVABFAEwATwBHAEMATwBOAEYASQBHAEYAUgBPAE0ATABPAEcATwBQAFQASQBPAE4A
-UwAAAP//CABEAE8AQwBVAE0ARQBOAFQAAAAAALgCDQBOAE8AVABFAFMARABPAEMAVQBNAEUATgBU
-AAAA//8GACUATABTAFgAQgBFAAAAAAD//w0ATgBPAFQARQBTAEQAQQBUAEEAQgBBAFMARQAAAAUA
-SAYAAAAAlnjulBgAAAAAAJgAgNhZDAAAAAAAAAAACAAAAGwBAAAUAQAAAAAAAAIAAACwAFwBAAAA
-AAAAAAAAAAAAAAAAALAAsAAAAAAAAAAAAAAAAAAAAAAAAAAAAFwBXAEAAAAAAAAAAAEAAAACAAAA
-BgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAADAAEAXAEAADABBggAAAAAGgAAAHAB//8AAAAAEAAAADAEMARMAQAAAAAAAAIA
-AACUAyAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUAyAGAAAA
-AAQVEyntLmkQv10A3QERhrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAAAAAAAIAwAAAAIQD
-AAAAAAoAAQD//wAAAwAgAAAAAAAAAQkCAADMAAgAAAAUAgAAhAEAAAAAAAABAAAABAIEAgAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgQCAAAAAAAAAAABAAAACAAAAD4A
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAwABAAAAAAAAAQkCAADMAAgAAAC8AgAAnAEAAAAAAAABAAAArAKsAgAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsAqwCAAAAAAAAAAABAAAACAAAAFYAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAwABAAAAAAAAAQkCAADMAAgAAAAAAAAAwAEAAAAAAAABAAAAVANUAwAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABUA1QDAAAAAAAAAAABAAAADwAAAG4AAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAwABAAAAAAAAAQkCAADMABMAAACEAQAAywAAAAAAAAATAGQDnAEAAM4AAAAAAAAAEwB0A8AB
-AADRAAAAAAAAABEAEAQgBiAG2AEAAKUGAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEABADUAAAACABA
-AMAFAADwAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAEACQAJAswABgAJAjAECQIwBAAAAAAZABoAwACoAv//AAAAABAABAD0
-BAAAiAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAEFBMp7S5pEL9dAN0BEYa3AAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAA
-AAAAAAACACQEwAQAAPQEAAACAAEA//8AABIAFAAAAAAA//8JAgAAAACNBAAAAAAwBCQE//8AAAAA
-BgACAAAACQIwBAkCMAQJAvQEGQAQAAAAAAAAALwCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQTKe0uaRC/XQDdARGGtwAA
-AAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgAkBIQFAADMAAAAAgABAP//AAASABQAAAAA
-AP//CQIAAAAAEgQAAAAA9AQkBP//AAAAAAYAAwAAAAkC9AQJAvQEBggGCBkAIQAEAHADAAAIAEAA
-AAAAADACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAQAHAAkCMAQGAAkCMAQAAAAAGQARABAFAAAAAHACCQKoBgAAAAAAAAAA
-AAAAAAAAAAAAAAAAMAQEAIQAAAAAANLMAB0AABoOAFtcAUmwAMrMAKYaDwBHXAHLywAAAGwBGhAA
-R1wBy84AAAAUAhoRAEdcAcvRAAAAvAIaEgAdGhYASwQCLZQDIzgHACnAA10EAiMaFwAdGhoAS6wC
-LZQDIzgHACnAA12sAiMaGwAdGh4AKcAFS1QDLSAGIyMaHwAdAgAAABEAIAAAAAAA//8BAAMABAAA
-AAkAFAELAIQBFACcARgAwAEcAAoAAAA=
-</rawitemdata></item>
-<item name='enhLogEnabled' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogActions' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogIncludeMethodNames' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogErrors' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogStackExceptions' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogWarnings' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogMethodResults' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogLocalEcho' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogAutoSave' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogResumeOnFail' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogEnableMethodProfiling' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogProfileMethodCount' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogEnableScheduledPurge' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
+End Sub</lotusscript></code>
+<body><richtext>
+<pardef id='1' leftmargin='1in' rightmargin='100%' hide='notes web mobile'/>
+<par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par>
+<par def='1'><run><font size='8pt' style='bold' color='green'/> BEGIN Subform Config\Enhanced Log Information | cfg-EnhLogInfo</run></par>
+<par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par>
+<table minrowheight='0.0299in' cellbordercolor='#4181c0' widthtype='fixedleft'
+ rowspacing='0.0299in' columnspacing='0.0299in' refwidth='6.0924in'><tablecolumn
+ width='6.0326in'/>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='3' leftmargin='0.0951in' spaceafter='1.5' hide='read print preview embedded'
+ keepwithnext='true' keeptogether='true'/>
+<par def='3'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='#104160'/></run><run><font size='12pt' color='#104160'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='enhLogEnabled'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ recalconchange='true' columns='1' ui='checkbox'><textlist><text>Enable Logging|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>"Yes"</formula></code><code event='inputtranslation'><formula
+>@Trim(@ThisValue)</formula></code></field></run><run><font size='12pt' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20' color='#104160'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<cellbackground repeat='resize'/>
+<pardef id='4' leftmargin='0.2201in' hide='read print preview embedded' keepwithnext='true'
+ keeptogether='true'/>
+<par def='4'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run><run><font size='8pt' color='navy'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='enhLogActions'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ columns='1' ui='checkbox'><textlist><text>Log Actions|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>"Yes"</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='4'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run><run><font size='8pt' color='navy'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='enhLogIncludeMethodNames'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ columns='1' ui='checkbox'><textlist><text>Include method names|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>"Yes"</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<cellbackground repeat='resize'/>
+<par def='4'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run><run><font size='8pt' color='navy'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='enhLogErrors'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ columns='1' ui='checkbox'><textlist><text>Log Errors|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>"Yes"</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='5' leftmargin='0.2201in' hide='read print preview notes web mobile embedded'
+ keepwithnext='true' keeptogether='true'/>
+<par def='5'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run></par>
+<table widthtype='fitmargins' leftmargin='0.2201in' refwidth='5.8125in'><tablecolumn
+ width='43.0104%'/><tablecolumn width='56.9896%'/>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='6' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
+<par def='6'><run><font size='8pt' color='navy' style='bold' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/><field borderstyle='none'
+ lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' allowmultivalues='true'
+ kind='editable' name='enhLogStackExceptions' listinputseparators='comma'
+ listdisplayseparator='comma'><keywords helperbutton='false' columns='1' ui='checkbox'><textlist
+><text>Log Stack Trace information|Yes</text></textlist></keywords><code event='defaultvalue'><formula
+>""</formula></code><code event='inputtranslation'><formula>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell>
+<tablecell borderwidth='0px' htmlclass='redtext'>
+<pardef id='7' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='red'/>(Development / Testing ONLY - Unstable for Production)</run></par></tablecell></tablerow></table>
+<par def='5'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/>  </run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='4'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run><run><font size='8pt' color='navy'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='enhLogWarnings'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ columns='1' ui='checkbox'><textlist><text>Log Warnings|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>"Yes"</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='4'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run><run><font size='8pt' color='navy'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='enhLogMethodResults'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ columns='1' ui='checkbox'><textlist><text>Log Method Results|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>"Yes"</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='4'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run><run><font size='8pt' color='navy'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='enhLogLocalEcho'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ columns='1' ui='checkbox'><textlist><text>Locally Echo log entries to status bar|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>"Yes"</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='4'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run><run><font size='8pt' color='navy'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><field
+ borderstyle='none' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='keyword' allowmultivalues='true' kind='editable' name='enhLogAutoSave'
+ listinputseparators='comma' listdisplayseparator='comma'><keywords helperbutton='false'
+ columns='1' ui='checkbox'><textlist><text>AutoSave log entries|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>""</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='4'><run><font size='8pt' color='navy' style='bold' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/><field borderstyle='none'
+ lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' allowmultivalues='true'
+ kind='editable' name='enhLogResumeOnFail' listinputseparators='comma' listdisplayseparator='comma'><keywords
+ helperbutton='false' columns='1' ui='checkbox'><textlist><text>Attempt to Resume on Failure|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>""</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='4'><run><font size='8pt' color='navy' style='bold' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/><field borderstyle='none'
+ lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' allowmultivalues='true'
+ kind='editable' name='enhLogEnableMethodProfiling' listinputseparators='comma'
+ listdisplayseparator='comma'><keywords helperbutton='false' recalconchange='true'
+ columns='1' ui='checkbox'><textlist><text>Enable Support for Method Profiling|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>""</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='8' leftmargin='0.2201in' hide='read print preview embedded' keepwithnext='true'
+ keeptogether='true'><code event='hidewhen'><formula>enhLogEnableMethodProfiling != "Yes"</formula></code></pardef>
+<par def='8'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>Profile Method Trigger Counts</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px' htmlclass='warning darkredtext'>
+<pardef id='9' leftmargin='0.2201in' hide='read print preview embedded' keepwithnext='true'
+ keeptogether='true'><code event='hidewhen'><formula>enhLogEnableMethodProfiling != "Yes"</formula></code></pardef>
+<par def='9'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> </run></par>
+<par def='9'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/></run><run><font color='maroon' style='bold'
+ name='Courier New' pitch='fixed' truetype='true' familyid='30'/><field type='text'
+ allowmultivalues='true' kind='editable' name='enhLogProfileMethodCount' listinputseparators='newline'
+ listdisplayseparator='newline' fieldhint='Method Name | Count'><code event='defaultvalue'><formula
+>"Method Name | Count"</formula></code><code event='inputtranslation'><formula
+>@Trim(@ThisValue)</formula></code></field></run><compositedata type='98'
+ prevtype='65513' nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='2'
+ afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font size='8pt' style='bold' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/></run></par>
+<par def='9'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> </run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='4'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/></run><run><font size='8pt' color='navy' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/><field borderstyle='none'
+ lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' allowmultivalues='true'
+ kind='editable' name='enhLogEnableScheduledPurge' listinputseparators='comma'
+ listdisplayseparator='comma'><keywords helperbutton='false' recalconchange='true'
+ columns='1' ui='checkbox'><textlist><text>Purge old Log documents|Yes</text></textlist></keywords><code
+ event='defaultvalue'><formula>""</formula></code><code event='inputtranslation'><formula
+>@If(enhLogEnabled = "Yes"; @ThisValue; "")</formula></code></field></run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par>
+<pardef id='10' leftmargin='0.2201in' hide='read print preview embedded' keepwithnext='true'
+ keeptogether='true'><code event='hidewhen'><formula>enhLogEnableScheduledPurge != "Yes"</formula></code></pardef>
+<par def='10'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>Purge Log documents older than: </run><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/><field type='number' kind='editable' name='enhLogPurgeAge'><numberformat
+ format='general' digits='2' punctuated='false' parens='false' percent='false'
+ bytes='false'/><code event='inputtranslation'><formula>vValue := @ToNumber(@ThisValue);
+@If(@IsError(vValue); 0; vValue)</formula></code></field></run><run><font
+ size='8pt' style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/> days.</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='11' leftmargin='0.2201in' hide='edit previewedit' keepwithnext='true'
+ keeptogether='true'><code event='hidewhen'><formula>enhLogEnabled != "Yes"</formula></code></pardef>
+<par def='11'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='#104160'/>Logging Enabled</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px' htmlclass='redtext'>
+<pardef id='12' leftmargin='0.2201in' hide='edit previewedit' keepwithnext='true'
+ keeptogether='true'><code event='hidewhen'><formula>enhLogEnabled = "Yes"</formula></code></pardef>
+<par def='12'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='red'/>Logging Disabled</run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='13' leftmargin='0.2201in' hide='edit previewedit' keepwithnext='true'
+ keeptogether='true'><code event='hidewhen'><formula>enhLogEnabled != "Yes"</formula></code></pardef>
+<par def='13'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='navy'/></run><computedtext><code event='value'><formula
+>@If(enhLogEnabled = "Yes"; ""; @Return(""));
+
+v1 := @If(enhLogActions = "Yes"; "Log Actions"; "");
+v2 := @If(enhLogIncludeMethodNames = "Yes"; "Include method names"; "");
+v3 := @If(enhLogErrors = "Yes"; "Log Errors"; "");
+v4 := @If(enhLogStackExceptions = "Yes"; "Log Stack Trace information"; "");
+v5 := @If(enhLogWarnings = "Yes"; "Log Warnings"; "");
+v6 := @If(enhLogMethodResults = "Yes"; "Log Method Results"; "");
+v7 := @If(enhLogLocalEcho = "Yes"; "Locally Echo log entries to status bar"; "");
+v8 := @If(enhLogAutoSave = "Yes"; "AutoSave log entries"; "");
+v9 := @If(enhLogResumeOnFail = "Yes"; "Attempt to resume on failure"; "");
+v10 := @If(enhLogEnableMethodProfiling = "Yes"; "Enable Support for Method Profiling"; "");
+v10 := @If((enhLogEnableMethodProfiling = "Yes") &amp; (enhLogProfileMethodCount != ""); "Profile Method Trigger Counts: ":enhLogProfileMethodCount; "");
+v12 := @If(enhLogEnableScheduledPurge = "Yes"; "Purge log documents older than " + @Text(enhLogPurgeAge) + " days."; "");
+
+@Implode(@Trim(v1:v2:v3:v4:v5:v6:v7:v8:v9:v10:v11:v12); @NewLine)</formula></code></computedtext><run
+><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px' htmlclass='redtext'>
+<pardef id='14' leftmargin='0.2201in' spacebefore='1.5' hide='edit previewedit'
+ keepwithnext='true' keeptogether='true'><code event='hidewhen'><formula>enhLogStackExceptions != "Yes"</formula></code></pardef>
+<par def='14'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='red'/>ATTENTION: Log Stack Trace is ENABLED!</run></par></tablecell></tablerow></table>
+<pardef id='15' hide='notes web mobile'/>
+<par def='15'><run><font size='8pt' color='green'/> </run></par>
+<par def='15'><run><font size='8pt' color='green'/> </run></par>
+<table minrowheight='0.0500in' cellbordercolor='black' widthtype='fixedleft'
+ rowspacing='0.0500in' columnspacing='0.0500in' refwidth='6.2125in'><tablecolumn
+ width='0.8875in'/><tablecolumn width='5.1250in'/>
+<tablerow>
+<tablecell columnspan='2' borderwidth='0px'>
+<pardef id='18' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
+<par def='18'><run><font style='bold'/>Target Database</run> where log documents will be created.<run
+><font style='italic'/> </run>  </par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='19' align='right' rightmargin='0.8250in' hide='read preview embedded'
+ keepwithnext='true' keeptogether='true'/>
+<par def='19'><run><font style='bold'/>Target</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<pardef id='20' hide='read preview embedded' keepwithnext='true' keeptogether='true'/>
+<par def='20'><actionhotspot hotspotstyle='none'><code event='click'><formula
+>vTargetServer := @LowerCase(@Name([Canonicalize]; enhLogTargetServer));
+vTargetFilepath := @LowerCase(enhLogTargetFilepath);
+vTarget := @Trim(vTargetServer:vTargetFilepath);
+
+vThisServer := @LowerCase(@Name([Canonicalize]; @Subset(@DbName; 1)));
+vThisFilepath := @LowerCase(@Subset(@DbName; -1));
+vThis := @Trim(vThisServer:vThisFilepath);
+
+@If((@Length(vTarget) &lt; 1) | (vTarget = vThis); @Return(@Prompt([Ok]; "Current Database"; "Log Target is this Database")); "");
+
+@Command( [FileOpenDatabase]; vTarget)</formula></code></actionhotspot>( Leave blank for current) <actionhotspot
+ hotspotstyle='none'><code event='click'><formula>vTargetServer := @LowerCase(@Name([Canonicalize]; enhLogTargetServer));
+vTargetFilepath := @LowerCase(enhLogTargetFilepath);
+vTarget := @Trim(vTargetServer:vTargetFilepath);
+
+vThisServer := @LowerCase(@Name([Canonicalize]; @Subset(@DbName; 1)));
+vThisFilepath := @LowerCase(@Subset(@DbName; -1));
+vThis := @Trim(vThisServer:vThisFilepath);
+
+@If((@Length(vTarget) &lt; 1) | (vTarget = vThis); @Return(@Prompt([Ok]; "Current Database"; "Log Target is this Database")); "");
+
+@Command( [FileOpenDatabase]; vTarget)</formula></code><run><font style='bold'/></run></actionhotspot><run
+><font style='bold'/></run><actionhotspot hotspotstyle='none'> <picture width='21px'
+ height='21px' scaledheight='0.2188in' scaledwidth='0.2188in' align='bottom'><imageref
+ name='actn024.gif'/></picture><run><font style='bold'/></run><code event='options'><lotusscript
+>Option Explicit
+
+</lotusscript></code><code event='declarations'><lotusscript>Const BUTTON_ID = |Log|
+Const REQUIRE_NAB = False
+
+</lotusscript></code><code event='click'><lotusscript>Sub Click(Source As Button)
+	Dim extendedInfo As String
+	On Error Goto ErrorTrap
+	
+	Dim ndb As NotesDatabase 
+	Dim title$
+	Dim msg$
+	Dim fieldnameServer$
+	Dim fieldnameFilepath$
+	
+	title$ = |Enhanced Log Target|
+	msg$ = |Please select the Enhanced Log target database|
+	fieldnameServer$ = |enhLogTargetServer|
+	fieldnameFilepath$ = |enhLogTargetFilepath|
+	
+	Set ndb = uiSelectDatabase(title$, msg$, fieldnameServer$, fieldnameFilepath$)
+	
+ExitPoint:
+	Exit Sub
+ErrorTrap:
+	On Error Goto 0
+	enhLogException SUBFORM_PREFIX_CFG_ENHLOGINFO, extendedInfo$
+	Messagebox Error(), 16, |Error | &amp; Cstr(Err())
+	Resume ExitPoint
+End Sub</lotusscript></code></actionhotspot> </par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<pardef id='21' align='right' leftmargin='0' rightmargin='0.8250in' hide='read preview embedded'
+ keepwithnext='true' keeptogether='true'/>
+<par def='21'><run><font style='bold'/>Server</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<par def='20'><field type='names' kind='editable' name='enhLogTargetServer'><code
+ event='inputtranslation'><formula>@Trim(@ThisValue)</formula></code></field><run
+><font style='bold'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell borderwidth='0px'>
+<par def='21'><run><font style='bold'/>Filepath</run></par></tablecell>
+<tablecell borderwidth='0px'>
+<par def='20'><field type='text' kind='editable' name='enhLogTargetFilepath'><code
+ event='inputtranslation'><formula>@Trim(@ThisValue)</formula></code></field><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata><run><font style='bold'/></run></par></tablecell></tablerow>
+<tablerow>
+<tablecell valign='bottom' borderwidth='0px'>
+<pardef id='22' align='right' leftmargin='0' rightmargin='0.8250in' keepwithnext='true'
+ keeptogether='true'/>
+<par def='22'><run><font style='bold'/>Log Target</run></par></tablecell>
+<tablecell valign='bottom' borderwidth='0px'>
+<pardef id='23' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
+ keepwithnext='true' keeptogether='true'/>
+<par def='23'><computedtext><code event='value'><formula>vValue := @Implode(@Trim(@Name([Abbreviate]; enhLogTargetServer):enhLogTargetFilepath); "!!");
+@If(vValue = ""; "Current Database"; vValue)</formula></code></computedtext>  <actionhotspot
+ hotspotstyle='none'><code event='click'><formula>vTargetServer := @LowerCase(@Name([Canonicalize]; enhLogTargetServer));
+vTargetFilepath := @LowerCase(enhLogTargetFilepath);
+vTarget := @Trim(vTargetServer:vTargetFilepath);
+
+vThisServer := @LowerCase(@Name([Canonicalize]; @Subset(@DbName; 1)));
+vThisFilepath := @LowerCase(@Subset(@DbName; -1));
+vThis := @Trim(vThisServer:vThisFilepath);
+
+@If((@Length(vTarget) &lt; 1) | (vTarget = vThis); @Return(@Prompt([Ok]; "Current Database"; "Log Target is this Database")); "");
+
+@Command( [FileOpenDatabase]; vTarget)</formula></code><picture width='18px'
+ height='14px' scaledheight='0.1458in' scaledwidth='0.1875in'><imageref name='viewlink.gif'/></picture></actionhotspot></par></tablecell></tablerow></table>
+<par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par>
+<par def='1'><run><font size='8pt' style='bold' color='green'/> END Subform Config\Enhanced Log Information | cfg-EnhLogInfo</run></par>
+<par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par></richtext></body>
 <item name='enhLogPurgeAge' summary='false' sign='true'><number>0</number></item>
-<item name='enhLogTargetServer' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='enhLogTargetFilepath' placeholder='true'>
-<rawitemdata type='0'>
-</rawitemdata></item>
-<item name='$Fields'><textlist><text>enhLogTargetFilepath</text><text>enhLogTargetServer</text><text
->enhLogPurgeAge</text><text>enhLogEnableScheduledPurge</text><text>enhLogProfileMethodCount</text><text
->enhLogEnableMethodProfiling</text><text>enhLogResumeOnFail</text><text>enhLogAutoSave</text><text
->enhLogLocalEcho</text><text>enhLogMethodResults</text><text>enhLogWarnings</text><text
->enhLogStackExceptions</text><text>enhLogErrors</text><text>enhLogIncludeMethodNames</text><text
->enhLogActions</text><text>enhLogEnabled</text></textlist></item>
-<item name='$Body' sign='true'>
-<rawitemdata type='1'>
-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
-BAC1AwMABwAQAAkACTNTNFM2UzhTAGVuaExvZ0F1dG9TYXZlAQAYAEF1dG9TYXZlIGxvZyBlbnRy
-aWVzfFllc94GAACK/90GAACF/4X/CAAFAQoI0ggBAAAAgADeBgAAhf+kEgkAywW6JwAAAAIAAAEB
-AACBAoMEBACF/wgAAQAACt0GAACK//7/UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAHgAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsP8UAAAABCAAAAAA
-AAAAAAAAAACK/7YAikIBBQIgAgAAAAAAAAIFAQoIDABQAAAAAAASAAAAJAAMAAAACgABAAAAAwBQ
-AAoABAAAADoABQANAGVuaExvZ0VuYWJsZWQAAQADAFllcwAKAq8AFgAKAPsAMQGuAAwAAQAAAK4A
-BAC1AwMABwAQAAkACTNTNFM2UzhTAGVuaExvZ1Jlc3VtZU9uRmFpbAEAIABBdHRlbXB0IHRvIFJl
-c3VtZSBvbiBGYWlsdXJlfFllc94GAACK/90GAACF/4X/CAAFAQoI0ggBAAAAgADeBgAAhf+kEgoA
-ywW6JwAAAAIAAAEBAACBAoMEBACF/wgAAQAACt0GAACK//7/UAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAHgAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-sP8UAAAABiAAAAAAAAAAAAAAAACK/8YAikIBBQIgAgAAAAAAAAIFAQoIDABQAAAAAAAbAAAAKwAM
-AAAACgABAAAAAwBQAAoABAAAADoABQANAGVuaExvZ0VuYWJsZWQAAQADAFllcwAKAq8AFgAKAPsA
-MQGuAAwAAQAAAK4ABAC1AwMABwAQAAkACTNTNFM2UzhTAGVuaExvZ0VuYWJsZU1ldGhvZFByb2Zp
-bGluZwEAJwBFbmFibGUgU3VwcG9ydCBmb3IgTWV0aG9kIFByb2ZpbGluZ3xZZXPeBgAAiv+F/wgA
-BQEACKQSCwDLBbonAAAAAgAAAQEAAIECgv9aAAgAAAAAAAAAAAAIB7onCAcAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADWKQAAAABUhD0BAAA9AQAAAAAAAAEAAAAFAAAA
-u/9MAAgAAAAmQE8MGEA+AAAAMAAFABsAZW5oTG9nRW5hYmxlTWV0aG9kUHJvZmlsaW5nAAEAAwBZ
-ZXMACwIDAAcADAAFAAkxUzJTAIMECACF/yUABQEACFByb2ZpbGUgTWV0aG9kIFRyaWdnZXIgQ291
-bnRzAKQSDADLBbonAAAAAgAAAQEAAIECgv9aAAkAAAAAAAAAAAAIB7onCAcAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADWKQAAAABUhD0BAAA9AQAAAAAAAAEAAAAFAAAA
-gwQJALwGCAAJAIX/CQAFAQAIIACBAoMECQC8BggACQCF/wgABQEACN0GAACK//7/UAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAiv96AIoAAQUIQAIAAAAAAAACBgEICiAAHgAAAAAAGAAAAAAAIAAAAB4AAQAT
-AE1ldGhvZCBOYW1lIHwgQ291bnQAAwAeAAoABAAAAAwA+wAxAV4BAwAHAAwABQAJMFMwRQBlbmhM
-b2dQcm9maWxlTWV0aG9kQ291bnTp/yIAEwAAAAAAAAAAAE1ldGhvZCBOYW1lIHwgQ291bnQAYg4B
-AIQAAAAAAAAAAADeBgAAiv+F/wgABQEACIECgwQJALwGCAAJAIX/CQAFAQAIIAB7/y4AAAATAAAA
-AAAAAAAAAAAAAAAAAAAAAHdhcm5pbmcgZGFya3JlZHRleHQApBINAMsFuicAAAACAAABAQAAgQKD
-BAQAhf8IAAUBAAjdBgAAiv/+/1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4
-AHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALD/FAAAAAYgAAAAAAAAAAAA
-AAAAiv+6AIpCAQUCIAIAAAAAAAACBQEKCAwAUAAAAAAAGgAAAB8ADAAAAAoAAQAAAAMAUAAKAAQA
-AAA6AAUADQBlbmhMb2dFbmFibGVkAAEAAwBZZXMACgKvABYACgD7ADEBrgAMAAEAAACuAAQAtQMD
-AAcAEAAJAAkzUzRTNlM4UwBlbmhMb2dFbmFibGVTY2hlZHVsZWRQdXJnZQEAGwBQdXJnZSBvbGQg
-TG9nIGRvY3VtZW50c3xZZXMA3gYAAIr/3QYAAIX/hf8IAAUBCgjSCAEAAACAAN4GAACF/4ECgv9a
-AAoAAAAAAAAAAAAIB7onCAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AADWKQAAAABUhD0BAAA9AQAAAAAAAAEAAAAFAAAAu/9KAAoAAAAmQE8MGEA8AAAALgAFABoAZW5o
-TG9nRW5hYmxlU2NoZWR1bGVkUHVyZ2UBAAMAWWVzAAsCAwAHAAwABQAJMVMyUwCDBAoAhf8oAAUB
-AAhQdXJnZSBMb2cgZG9jdW1lbnRzIG9sZGVyIHRoYW46IN0GAACK//7/UAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAiv+eAIoAAAMAMAIAAAAAAAACBQEACAAAbAAAAAAADgAAAAAAbAAKAAQAAQAWAAYAdlZh
-bHVl+wAxAfsBVAEDAAcADAAFAAkxUzJTAAAANgAFAAYAdlZhbHVlWgGvACIAEAAAAAAAAAAAAAAA
-rgASAAUABgB2VmFsdWWuAAQAtQMDAAcADgAHAAkwUjdTOVMAZW5oTG9nUHVyZ2VBZ2XeBgAAiv+F
-/w4ABQEACCBkYXlzLqQSDgDLBbonAAAAAgAAAQEAAIECgv9aAAsAAAAAAAAAAAAIB7onCAcAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACmSQAAAABUhD0BAAA9AQAAAAAA
-AAEAAAAEAAAAu/8+AAsAAAAmQE8MGEAwAAAAIgAFAA0AZW5oTG9nRW5hYmxlZAABAAMAWWVzAAsC
-AwAHAAwABQAJMVMyUwCDBAsA3QYAAIX/hf8XAAUB5wxMb2dnaW5nIEVuYWJsZWQA0ggBABBBYADe
-BgAAhf+kEg8AywW6JwAAAAIAAAEBAACBAoL/WgAMAAAAAAAAAAAACAe6JwgHAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApkkAAAAAVIQ9AQAAPQEAAAAAAAABAAAABAAA
-ALv/PgAMAAAAJkBPDBhAMAAAACIABQANAGVuaExvZ0VuYWJsZWQAAQADAFllcwAKAgMABwAMAAUA
-CTFTMlMAgwQMAN0GAACF/4X/GAAFAQIMTG9nZ2luZyBEaXNhYmxlZNIIAQD/AAAA3gYAAIX/e/8i
-AAAABwAAAAAAAAAAAAAAAAAAAAAAAAByZWR0ZXh0AKQSEADLBbonAAAAAgAAAQEAAIECgv9aAA0A
-AAAAAAAAAAAIB7onCAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm
-SQAAAABUhD0BAAA9AQAAAAAAAAEAAAAEAAAAgwQNALwGCwANAN0GAACF/4X/CAAFAQoI0ggBAAAA
-gADeBgAAhf/dBgAArf+p/7IGAQAYAAQApgamBggAPAAFAA0AZW5oTG9nRW5hYmxlZAABAAMAWWVz
-AAoCrwAYAAoAAQAAAK4ADgABAAAAwgGuAAQAtQMDAAcAEAAJAAkzUzRTNlM4UwABAEoAAgB2MQUA
-DQBlbmhMb2dBY3Rpb25zAAEAAwBZZXMACgKvACIAFgABAAsATG9nIEFjdGlvbnMArgAMAAEAAACu
-AAQAtQMDAAcAGAARAAkwUlIxUzJTNVM2UzhTMTBTAAEAXAACAHYyBQAYAGVuaExvZ0luY2x1ZGVN
-ZXRob2ROYW1lcwEAAwBZZXMACgKvACoAHgABABQASW5jbHVkZSBtZXRob2QgbmFtZXOuAAwAAQAA
-AK4ABAC1AwMABwAWABAACTBSMVMyUzVTNlM4UzEwUwEARgACAHYzBQAMAGVuaExvZ0Vycm9ycwEA
-AwBZZXMACgKvACAAFAABAAoATG9nIEVycm9yc64ADAABAAAArgAEALUDAwAHABYAEAAJMFIxUzJT
-NVM2UzhTMTBTAQBiAAIAdjQFABUAZW5oTG9nU3RhY2tFeGNlcHRpb25zAAEAAwBZZXMACgKvADIA
-JgABABsATG9nIFN0YWNrIFRyYWNlIGluZm9ybWF0aW9uAK4ADAABAAAArgAEALUDAwAHABYAEAAJ
-MFIxUzJTNVM2UzhTMTBTAQBKAAIAdjUFAA4AZW5oTG9nV2FybmluZ3MBAAMAWWVzAAoCrwAiABYA
-AQAMAExvZyBXYXJuaW5nc64ADAABAAAArgAEALUDAwAHABYAEAAJMFIxUzJTNVM2UzhTMTBTAQBW
-AAIAdjYFABMAZW5oTG9nTWV0aG9kUmVzdWx0cwABAAMAWWVzAAoCrwAoABwAAQASAExvZyBNZXRo
-b2QgUmVzdWx0c64ADAABAAAArgAEALUDAwAHABYAEAAJMFIxUzJTNVM2UzhTMTBTAQBmAAIAdjcF
-AA8AZW5oTG9nTG9jYWxFY2hvAAEAAwBZZXMACgKvADwAMAABACYATG9jYWxseSBFY2hvIGxvZyBl
-bnRyaWVzIHRvIHN0YXR1cyBiYXKuAAwAAQAAAK4ABAC1AwMABwAWABAACTBSMVMyUzVTNlM4UzEw
-UwEAUgACAHY4BQAOAGVuaExvZ0F1dG9TYXZlAQADAFllcwAKAq8AKgAeAAEAFABBdXRvU2F2ZSBs
-b2cgZW50cmllc64ADAABAAAArgAEALUDAwAHABYAEAAJMFIxUzJTNVM2UzhTMTBTAQBeAAIAdjkF
-ABIAZW5oTG9nUmVzdW1lT25GYWlsAQADAFllcwAKAq8AMgAmAAEAHABBdHRlbXB0IHRvIHJlc3Vt
-ZSBvbiBmYWlsdXJlrgAMAAEAAACuAAQAtQMDAAcAFgAQAAkwUjFTMlM1UzZTOFMxMFMBAHIAAwB2
-MTAABQAbAGVuaExvZ0VuYWJsZU1ldGhvZFByb2ZpbGluZwABAAMAWWVzAAoCrwA6AC4AAQAjAEVu
-YWJsZSBTdXBwb3J0IGZvciBNZXRob2QgUHJvZmlsaW5nAK4ADAABAAAArgAEALUDAwAHABYAEAAJ
-MFIxUzJTNVM2UzhTMTBTAQC0AAMAdjEwAAUAGwBlbmhMb2dFbmFibGVNZXRob2RQcm9maWxpbmcA
-AQADAFllcwAKAgQABQAYAGVuaExvZ1Byb2ZpbGVNZXRob2RDb3VudAEAAAALAgQAHAKvAFQASAAB
-AB8AUHJvZmlsZSBNZXRob2QgVHJpZ2dlciBDb3VudHM6IAAFABgAZW5oTG9nUHJvZmlsZU1ldGhv
-ZENvdW50HwKuAAwAAQAAAK4ABAC1AwMABwAiABwACTBSMVMyUzZTN1M5UzEwUzEyUzEzUzE2UzIw
-UwEAjgADAHYxMgAFABoAZW5oTG9nRW5hYmxlU2NoZWR1bGVkUHVyZ2UBAAMAWWVzAAoCrwBYAEwA
-AQAfAFB1cmdlIGxvZyBkb2N1bWVudHMgb2xkZXIgdGhhbiAABQAOAGVuaExvZ1B1cmdlQWdlVgEi
-AgEABgAgZGF5cy4iAq4ADAABAAAArgAEALUDAwAHACIAGwAJMFIxUzJTNVM2UzhTOVMxMFMxNFMx
-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
-c0ZpbGVwYXRoAB8CXgEDAAcADgAHAAkwUjFTMlMACACUAAUABwB2VGFyZ2V0AKYBAAAAAAAAAADw
-Pw4CBAAFAAcAdlRhcmdldAAFAAUAdlRoaXMACgIEAB0CrwBUAEgAAgANAAAAAAAAAAEAEABDdXJy
-ZW50IERhdGFiYXNlAQAbAExvZyBUYXJnZXQgaXMgdGhpcyBEYXRhYmFzZQCwA8IBrgAMAAEAAACu
-AAQAtQMDAAcAJgAgAAkwUlI3UzhTMTBTMTFTMTNTMTRTMTdTMjNTMjVTMjlTAAAeAAIAvwsAAAAA
-AAAFAAcAdlRhcmdldADtAgMABwAOAAgACTBSUjJTNFMAAIX/CAABAAAKrgLeBgAArgCF/yMAAQAA
-CiggTGVhdmUgYmxhbmsgZm9yIGN1cnJlbnQpIADdBgAArf+t/4QCAgAcAAEAdgJ2AgEAOgANAHZU
-YXJnZXRTZXJ2ZXIAAgAEAAAAAAAAAAUAEgBlbmhMb2dUYXJnZXRTZXJ2ZXK0AmEBAwAHAA4ABwAJ
-MVMyUzhTAAEAMgAPAHZUYXJnZXRGaWxlcGF0aAAFABQAZW5oTG9nVGFyZ2V0RmlsZXBhdGhhAQMA
-BwAOAAcACTBSMVMyUwABADoABwB2VGFyZ2V0AAUADQB2VGFyZ2V0U2VydmVyAAUADwB2VGFyZ2V0
-RmlsZXBhdGgAHwJeAQMABwAOAAcACTBSMVMyUwABADAACwB2VGhpc1NlcnZlcgACAAQAAAAAAAAA
-iwAAAAAAAAAAAPA/awK0AmEBAwAHABQADQAJMFJSMVMyUzhTMTJTAAEAKAANAHZUaGlzRmlsZXBh
-dGgAiwAAAAAAAAAAAPA/EAFrAmEBAwAHABAACQAJMFIxUzJTOFMAAQA0AAUAdlRoaXMABQALAHZU
-aGlzU2VydmVyAAUADQB2VGhpc0ZpbGVwYXRoAB8CXgEDAAcADgAHAAkwUjFTMlMACACUAAUABwB2
-VGFyZ2V0AKYBAAAAAAAAAADwPw4CBAAFAAcAdlRhcmdldAAFAAUAdlRoaXMACgIEAB0CrwBUAEgA
-AgANAAAAAAAAAAEAEABDdXJyZW50IERhdGFiYXNlAQAbAExvZyBUYXJnZXQgaXMgdGhpcyBEYXRh
-YmFzZQCwA8IBrgAMAAEAAACuAAQAtQMDAAcAJgAgAAkwUlI3UzhTMTBTMTFTMTNTMTRTMTdTMjNT
-MjVTMjlTAAAeAAIAvwsAAAAAAAAFAAcAdlRhcmdldADtAgMABwAOAAgACTBSUjJTNFMAAIX/CAAB
-AQAKrgLeBgAArgCF/wgAAQEACt0GAACt/63/qAQCAAwBAQCaBCcrK0xvdHVzU2NyaXB0IERldmVs
-b3BtZW50IEVudmlyb25tZW50OjI6NTooT3B0aW9ucyk6MDo3NApPcHRpb24gRXhwbGljaXQKCicr
-K0xvdHVzU2NyaXB0IERldmVsb3BtZW50IEVudmlyb25tZW50OjI6NTooRm9yd2FyZCk6MDoxCkRl
-Y2xhcmUgU3ViIENsaWNrKFNvdXJjZSBBcyBCdXR0b24pCgonKytMb3R1c1NjcmlwdCBEZXZlbG9w
-bWVudCBFbnZpcm9ubWVudDoyOjU6KERlY2xhcmF0aW9ucyk6MDoxMApDb25zdCBCVVRUT05fSUQg
-PSB8TG9nfApDb25zdCBSRVFVSVJFX05BQiA9IEZhbHNlCgonKytMb3R1c1NjcmlwdCBEZXZlbG9w
-bWVudCBFbnZpcm9ubWVudDoyOjI6QmluZEV2ZW50czoxOjEyOQpQcml2YXRlIFN1YiBCaW5kRXZl
-bnRzKEJ5dmFsIE9iamVjdG5hbWVfIEFzIFN0cmluZykKCVN0YXRpYyBTb3VyY2UgQXMgQlVUVE9O
-CglTZXQgU291cmNlID0gQmluZChPYmplY3RuYW1lXykKCU9uIEV2ZW50IENsaWNrIEZyb20gU291
-cmNlIENhbGwgQ2xpY2sKRW5kIFN1YgoKJysrTG90dXNTY3JpcHQgRGV2ZWxvcG1lbnQgRW52aXJv
-bm1lbnQ6MjoyOkNsaWNrOjE6MTIKU3ViIENsaWNrKFNvdXJjZSBBcyBCdXR0b24pCglEaW0gZXh0
-ZW5kZWRJbmZvIEFzIFN0cmluZwoJT24gRXJyb3IgR290byBFcnJvclRyYXAKCQoJRGltIG5kYiBB
-cyBOb3Rlc0RhdGFiYXNlIAoJRGltIHRpdGxlJAoJRGltIG1zZyQKCURpbSBmaWVsZG5hbWVTZXJ2
-ZXIkCglEaW0gZmllbGRuYW1lRmlsZXBhdGgkCgkKCXRpdGxlJCA9IHxFbmhhbmNlZCBMb2cgVGFy
-Z2V0fAoJbXNnJCA9IHxQbGVhc2Ugc2VsZWN0IHRoZSBFbmhhbmNlZCBMb2cgdGFyZ2V0IGRhdGFi
-YXNlfAoJZmllbGRuYW1lU2VydmVyJCA9IHxlbmhMb2dUYXJnZXRTZXJ2ZXJ8CglmaWVsZG5hbWVG
-aWxlcGF0aCQgPSB8ZW5oTG9nVGFyZ2V0RmlsZXBhdGh8CgkKCVNldCBuZGIgPSB1aVNlbGVjdERh
-dGFiYXNlKHRpdGxlJCwgbXNnJCwgZmllbGRuYW1lU2VydmVyJCwgZmllbGRuYW1lRmlsZXBhdGgk
-KQoJCkV4aXRQb2ludDoKCUV4aXQgU3ViCkVycm9yVHJhcDoKCU9uIEVycm9yIEdvdG8gMAoJZW5o
-TG9nRXhjZXB0aW9uIFNVQkZPUk1fUFJFRklYX0NGR19FTkhMT0dJTkZPLCBleHRlbmRlZEluZm8k
-CglNZXNzYWdlYm94IEVycm9yKCksIDE2LCB8RXJyb3IgfCAmIENzdHIoRXJyKCkpCglSZXN1bWUg
-RXhpdFBvaW50CkVuZCBTdWIAAACx/wgOAAAAAAAAAAABAAACTFNPQgMAFAhlbgAABAAeAKgABAAA
-ADAG5AQAAAAAtANIBBQFAAAAABwAFAEQADAAAAAgAUwAAAAAAAAABQAAABgAEAY4ADgArAGsAQAA
-AAAAAAAAAAAAAAAAAAAAAAAAEAYQBgAAAAAAAAAAGAAYAAAAAABYAFgAAgAAANADrAUAAAAA0APQ
-AwAAAAAAAAAAAAAAAAAAAAAAAAAArAWsBQAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAwBFAUUBRQF
-AAAAAFQEVAQAAAAAcAJwAgwBDAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAFAExv
-dHVzIFByb2R1Y3QAAABWMC4wAAAAAAAAAAAAAAAAAAAAAAQAAACoAAAAAAAAADAGAADkBAAAAAAA
-AAAAAAABAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAABQAAAFczMkklAwAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAOgEAAAAAKwBBQAkAEIATwBEAFkA
-AABkAAMATgBFAFcAAAB4AAYARABFAEwARQBUAEUAAAAAAIAACgBJAE4ASQBUAEkAQQBMAEkAWgBF
-AAAAAAB0AQkAVABFAFIATQBJAE4AQQBUAEUAAABAAgYATwBCAEoARQBDAFQAAAAAALQAAAAAAAAA
-nAEXACgARwBMAE8AQgBBAEwAUwApAEMARgBHAC0ARQBOAEgATABPAEcASQBOAEYATwAAAOgAFwAo
-AEcAbABvAGIAYQBsAHMAKQBjAGYAZwAtAEUAbgBoAEwAbwBnAEkAbgBmAG8AAAD8AAYAUwBPAFUA
-UgBDAEUAAAAAADQCCQBCAFUAVABUAE8ATgBfAEkARAAAADwBAwBMAG8AZwAAAFgBCwBSAEUAUQBV
-AEkAUgBFAF8ATgBBAEIAAACIAQoAQgBJAE4ARABFAFYARQBOAFQAUwAAAAAASAMLAE8AQgBKAEUA
-QwBUAE4AQQBNAEUAXwAAAPABBgBCAFUAVABUAE8ATgAAAAAA5AEGACUATABTAEkARABFAAAAAADM
-AQUAQwBMAEkAQwBLAAAAHAMMAEUAWABUAEUATgBEAEUARABJAE4ARgBPAAAAAAAQAgkARQBSAFIA
-TwBSAFQAUgBBAFAAAABkAgMATgBEAEIAAADcAw0ATgBPAFQARQBTAEQAQQBUAEEAQgBBAFMARQAA
-ACQCBgAlAEwAUwBYAEIARQAAAAAAuAMFAFQASQBUAEwARQAAAIwCAwBNAFMARwAAALgCDwBGAEkA
-RQBMAEQATgBBAE0ARQBTAEUAUgBWAEUAUgAAADAEEQBGAEkARQBMAEQATgBBAE0ARQBGAEkATABF
-AFAAQQBUAEgAAACgAxMARQBuAGgAYQBuAGMAZQBkACAATABvAGcAIABUAGEAcgBnAGUAdAAAABwE
-LgBQAGwAZQBhAHMAZQAgAHMAZQBsAGUAYwB0ACAAdABoAGUAIABFAG4AaABhAG4AYwBlAGQAIABM
-AG8AZwAgAHQAYQByAGcAZQB0ACAAZABhAHQAYQBiAGEAcwBlAAAAAAB4AxIAZQBuAGgATABvAGcA
-VABhAHIAZwBlAHQAUwBlAHIAdgBlAHIAAAAAAEwEFABlAG4AaABMAG8AZwBUAGEAcgBnAGUAdABG
-AGkAbABlAHAAYQB0AGgAAAAAAP//EABVAEkAUwBFAEwARQBDAFQARABBAFQAQQBCAEEAUwBFAAAA
-AACsBAkARQBYAEkAVABQAE8ASQBOAFQAAACIBA8ARQBOAEgATABPAEcARQBYAEMARQBQAFQASQBP
-AE4AAAD//x0AUwBVAEIARgBPAFIATQBfAFAAUgBFAEYASQBYAF8AQwBGAEcAXwBFAE4ASABMAE8A
-RwBJAE4ARgBPAAAAdAQGAEUAcgByAG8AcgAgAAAAAAD//wsARQBOAEgATABPAEcAQwBMAEEAUwBT
-AAAA//8QAE4ATwBUAEUAUwBVAEkAVwBPAFIASwBTAFAAQQBDAEUAAAAAAP//BgAlAEwAUwBYAFUA
-SQAAAAAA//8PAE4ATwBUAEUAUwBVAEkARABPAEMAVQBNAEUATgBUAAAA//8YAFMAdQBiAGYAbwBy
-AG0AOgAgAGMAZgBnAC0ARQBuAGgATABvAGcASQBuAGYAbwAuAAAAAAAFADQGAAAAAObw49EYAAAA
-AACEAIDYWQzIFkwMBAAAAAQAAAA4AAAAAAEGAAAAAAAYAQAAAAAAAAAAAAAAAAAABAAAAFgAAAAk
-AQ0AAAAAAAAAAAAAAAAACwAAAAAAAAAIAAAArAEAAEABAAAAAAAAAgAAAPAAnAEAAAAAAAAAAAAA
-AAAAAAAA8ADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAnAGcAQAAAAAAAAAAAQAAAAIAAAAGAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAMAAQCcAQAAXAEGCAAAAAAaAAAAjAH//wAAAAAQAAAAcAIAAHgBAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARYTKe0u
-aRC/XQDdARGGtwAAAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgAAAQAApAMAAAAAWgQB
-AP//AAADACAAAAAAAOwACQIAAAwBCAAAABAGAACgAQAAAAAAAAcAAABEAnQDdAN0A1QDVANUAlQC
-AAAAADQDNANEA0QDAAAAAAAAAAAAAAAAAAAAAEQCRAIAAAAAZANkAwEAAAANAAAAJAAAADgAAAAC
-AAAAhAOUAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUA5QDhAOEAwAA
-AAADAAEAVAIAAOwACQIAAAwBAwACADQDAACwAQYAAAAAABoAAAEUAv//AAAAABAAAABUBAAA9AEA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAACFBMp7S5pEL9dAN0BEYa3AAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAAAAAAAC
-AGQCAAMAAAwBAAACAAEA//8AABIAFAAAAAAA//8JAgAAAAASBAAAAABwAmQC//8AAAAABgADAAAA
-CQJwAgkCcAIGCAYIGQADAAIARAMAAOgBCQIUAHACAwACAFQDAAAoAgYAGAAAAAMAAgBkAwAAOAIG
-ABwAAAADAAIAdAMAAEQCBgAgAAAAAwACAAAAAABoAgYAJAAAAA0ACACUAwAApAMAAG8AGQANAAgA
-AAAAANABAAB2ABkAEwAAAKABAADVAAAAAAAAABgAAAAEADQEKBVLDIDYWQwEAAAAIQC0Azy4AAAH
-AEAArAUAAHwDCQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAABAAUAAkCcAIGAAYABgAGAAYACQJwAgkCVAQJAhQFCQJwAgAABgAG
-AAEADQAaAGQCeAT//wAAAAAQAAAAFAUAAFAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhUTKe0uaRC/XQDdARGGtwAAAAAA
-AAAAAAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgBIBOQEAABwAgAACgABAP//AAASABQAAAAAAP//
-CQIAAAAAAAYAAAAAVARIBP//AAAAAAQAAQAAAAkCVAQJAlQEGQAQAAAAAAAAAIwEAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-BBUTKe0uaRC/XQDdARGGtwAAAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgBIBAAAAABU
-BAAACgABAP//AAAhALQDlPAAAAcAQAAAAAAAvAMNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAgADQAGAAYADQABAAIABgAG
-ABkAGQAEAAAAAAAAAOADBgAAAAAAsAQAAAAAAAAAAAAAAAAAAAQArAAAAAAA0rgAHQAAGg4AW5wB
-SfAAygwBphoPAEecAcvVAAAArAEaEAAdGhUACwAABAAJOkYAGh0AXkQDfZACpRoeAF5UA328AqUa
-HwBeZAN9IAOlGiAAXnQDfUwDpRoiAF40AynQA15EA15UA15kA150AyOmGiQAGiUAHBomABonAAoA
-ABooACmsBX2wBF5UAiMxGikAFpObjhB9IAQUm7+bBgcaKgAPy/8aKwAdAgAAABEAGAAAAAAA//8B
-AAMABAAAAAcAQAELAKABEgAKAAAAhf8JAAEAAAogAN0GAQCZAJkAHAAAADsBOwEAAAAAAAAAAAAA
-AAAAAAEAAAB9ABwAAAABABUAFQAAAAAAAAAAAAAAAAAAAAAA3wQFAPb/LQAAAAAAAwATAAsAAAAA
-AAAAAAAAAAAAAAAAAAAAAABhY3RuMDI0LmdpZgDeBgEAmQCF/wgAAQEACq4CX/8QAAEA1QACAAAA
-AAAAAN4GAACuAIX/CQABAAAKIACkEgIA6AXmCgAAAAIAAAEBAACBAoL/WgAVAAEAAAAAAAAA6AWM
-CugFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAliEAAAAAVIAAAAAA
-AAAAAKQEZAABAAAABQAAAIMEFQCF/w4AAQEAClNlcnZlcqQSAgF2C7onAAAAAgAAAQEAAIECgwQU
-AIX/CAABAAAK3QYAAIr//v9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAB4
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK/1QAjgAABQAwAgAAAAAAAAIB
-AAAKAAAeAAAAAAASAAAAAAAeAAoABAAAAAwA+wAxAV4BAwAHAAwABQAJMFMwRQBlbmhMb2dUYXJn
-ZXRTZXJ2ZXLeBgAAiv+F/wgAAQEACqQSAwDoBeYKAAAAAgAAAQEAAIECgwQVAIX/EAABAQAKRmls
-ZXBhdGikEgMBdgu6JwAAAAIAAAEBAACBAoMEFACF/wgAAQAACt0GAACK//7/UAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAiv9WAIoAAAUAMAIAAAAAAAACAQAACgAAHgAAAAAAFAAAAAAAHgAKAAQAAAAMAPsA
-MQFeAQMABwAMAAUACTBTMEUAZW5oTG9nVGFyZ2V0RmlsZXBhdGhiDgEAhAAAAAAAAAAAAN4GAACK
-/4X/CAABAQAKpBIEAOgF5goAAACCAAABAQAAgQKC/1oAFgABAAAAAAAAAOgFjAroBQAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIYBAAAAAFSAAAAAAAAAAACkBGQAAQAA
-AAQAAACDBBYAhf8SAAEBAApMb2cgVGFyZ2V0pBIEAXYLuicAAACCAAABAQAAgQKC/1oAFwAAAAAA
-AAAAAHYLuid2CwgA0AKgBXAIQAsQDuAQsBOAFgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIYBAAAA
-AFSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBBcAhf8IAAEAAArdBgAArf+p/8oAAQAYAAQAvgC+AAEA
-VAAGAHZWYWx1ZQIABQAAAAAAAAAFABIAZW5oTG9nVGFyZ2V0U2VydmVytAIFABQAZW5oTG9nVGFy
-Z2V0RmlsZXBhdGgfAl4BAQACACEhhQIDAAcAEgALAAkxUzJTMTBTMTZTAAAARAAFAAYAdlZhbHVl
-AQAAAAoCrwAsABoAAQAQAEN1cnJlbnQgRGF0YWJhc2WuABIABQAGAHZWYWx1Za4ABAC1AwMABwAS
-AAsACTBSM1M0UzZTOFMAhf8IAAEAAAqqAt4GAACuAIX/CgABAAAKICDdBgAArf+t/4QCAgAcAAEA
-dgJ2AgEAOgANAHZUYXJnZXRTZXJ2ZXIAAgAEAAAAAAAAAAUAEgBlbmhMb2dUYXJnZXRTZXJ2ZXK0
-AmEBAwAHAA4ABwAJMVMyUzhTAAEAMgAPAHZUYXJnZXRGaWxlcGF0aAAFABQAZW5oTG9nVGFyZ2V0
-RmlsZXBhdGhhAQMABwAOAAcACTBSMVMyUwABADoABwB2VGFyZ2V0AAUADQB2VGFyZ2V0U2VydmVy
-AAUADwB2VGFyZ2V0RmlsZXBhdGgAHwJeAQMABwAOAAcACTBSMVMyUwABADAACwB2VGhpc1NlcnZl
-cgACAAQAAAAAAAAAiwAAAAAAAAAAAPA/awK0AmEBAwAHABQADQAJMFJSMVMyUzhTMTJTAAEAKAAN
-AHZUaGlzRmlsZXBhdGgAiwAAAAAAAAAAAPA/EAFrAmEBAwAHABAACQAJMFIxUzJTOFMAAQA0AAUA
-dlRoaXMABQALAHZUaGlzU2VydmVyAAUADQB2VGhpc0ZpbGVwYXRoAB8CXgEDAAcADgAHAAkwUjFT
-MlMACACUAAUABwB2VGFyZ2V0AKYBAAAAAAAAAADwPw4CBAAFAAcAdlRhcmdldAAFAAUAdlRoaXMA
-CgIEAB0CrwBUAEgAAgANAAAAAAAAAAEAEABDdXJyZW50IERhdGFiYXNlAQAbAExvZyBUYXJnZXQg
-aXMgdGhpcyBEYXRhYmFzZQCwA8IBrgAMAAEAAACuAAQAtQMDAAcAJgAgAAkwUlI3UzhTMTBTMTFT
-MTNTMTRTMTdTMjNTMjVTMjlTAAAeAAIAvwsAAAAAAAAFAAcAdlRhcmdldADtAgMABwAOAAgACTBS
-UjJTNFMAAIX/CAABAAAK3QYBAJkAmQAcAAAADgHSAAAAAAAAAAAAAAAAAAAAAQAAAH0AHAAAAAEA
-EgAOAAAAAAAAAAAAAAAAAAAAAAD2/y4AAAAAAAMAEwAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAdmll
-d2xpbmsuZ2lm3gYBAJkAhf8IAAEAAAquAt4GAACuAIX/CAABAAAKpQYAAAAAgQKDBAEA3QYAAIX/
-hf86AAEBCQg9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PdIIAQAAgAAA3gYAAIX/gQKDBAEA3QYAAIX/hf9FAAEBCQggRU5EIFN1YmZvcm0gQ29uZmlnXEVu
-aGFuY2VkIExvZyBJbmZvcm1hdGlvbiB8IGNmZy1FbmhMb2dJbmZvANIIAQAAgAAA3gYAAIX/gQKD
-BAEA3QYAAIX/hf86AAEBCQg9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PdIIAQAAgAAA3gYAAIX/
-</rawitemdata></item></note>
+<item name='$$ScriptName' summary='false' sign='true'><text>cfg-EnhLogInfo</text></item></subform>
 

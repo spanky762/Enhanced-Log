@@ -1,32 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
- replicaid='85258671003806E7'>
-<noteinfo noteid='1da' unid='ACCF7B9CFAFE186E85258662006B7C3B' sequence='13'>
+<sharedcolumn name='DocumentID' xmlns='http://www.lotus.com/dxl' version='11.0'
+ maintenanceversion='1.0' replicaid='85258671003806E7' designerversion='8.5.3'>
+<noteinfo noteid='1da' unid='ACCF7B9CFAFE186E85258662006B7C3B' sequence='18'>
 <created><datetime>20210119T143401,55-05</datetime></created>
-<modified><datetime>20210222T073242,17-05</datetime></modified>
-<revised><datetime>20210222T073242,16-05</datetime></revised>
-<lastaccessed><datetime>20210222T073242,16-05</datetime></lastaccessed>
+<modified><datetime dst='true'>20210517T144043,26-04</datetime></modified>
+<revised><datetime dst='true'>20210517T144043,25-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210517T144043,25-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,54-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<item name='$FormulaClass' sign='true'><text>1</text></item>
-<item name='$TITLE' sign='true'><text>DocumentID</text></item>
-<item name='$Index' sign='true'><text/></item>
-<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
-NAAFACYAIQADAAoACQAEAERvY3VtZW50SUQkQ29uZmxpY3QkUkVGAAQABAAAAAgAZgADAA==
-</formula></item>
-<item name='$Collation' summary='true'>
-<rawitemdata type='2'>
-FwABAABEAGYAAAAKAERvY3VtZW50SUQ=
-</rawitemdata></item>
-<item name='$ViewFormat' summary='true' sign='true'>
-<rawitemdata type='5'>
-AQABAAEACAAAAFZDAQAKAAoAAAAAAIAAAQAACgAAAAAAAAAAAAICAAAARG9jdW1lbnRJRERvY3Vt
-ZW50SUQmAAEAAAABAQAJAQAACgEBDgoAAAEArSsBAAEAAQAAAAAAAAAAAFdDAQEACQAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAABCABAAAAABAP///wAFAP///wABAAAAAAAA
-AAAAAAAAAAEA////AAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAABAA==
-</rawitemdata></item>
-<item name='$Comment' sign='true'><text/></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
-<item name='$Flags'><text>^Y</text></item></note>
+<column sort='ascending' hidedetailrows='false' itemname='DocumentID' width='16'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='true' sortnocase='true'
+ showaslinks='false'><columnheader title='DocumentID'><font size='9pt' style='bold'/></columnheader></column></sharedcolumn>
 

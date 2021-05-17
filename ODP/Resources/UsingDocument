@@ -1,193 +1,319 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note default='true' class='helpusingdocument' xmlns='http://www.lotus.com/dxl'
- version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7'>
-<noteinfo noteid='21a' unid='E5AD462E797701AA852573700050055E' sequence='15'>
+<helpusingdocument xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
+ replicaid='85258671003806E7' publicaccess='false' designerversion='8.5.3'
+ default='true' renderpassthrough='true'>
+<noteinfo noteid='21a' unid='E5AD462E797701AA852573700050055E' sequence='20'>
 <created><datetime dst='true'>20071010T103402,54-04</datetime></created>
-<modified><datetime>20210222T073242,29-05</datetime></modified>
-<revised><datetime>20210222T073242,28-05</datetime></revised>
-<lastaccessed><datetime>20210222T073242,28-05</datetime></lastaccessed>
+<modified><datetime dst='true'>20210517T144028,76-04</datetime></modified>
+<revised><datetime dst='true'>20210517T144028,75-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210517T144028,75-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,90-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<item name='$HTMLCode' sign='true'>
-<rawitemdata type='1'>
-</rawitemdata></item>
-<item name='$Info' sign='true'>
-<rawitemdata type='1'>
-hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
-</rawitemdata></item>
-<item name='$Flags'><text>R</text></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
-<item name='$Fonts'>
-<rawitemdata type='1'>
-i/9sAAMABRZUaW1lcyBOZXcgUm9tYW4AAAAAAAAAAAAAAAAAAAAAAAYmQXJpYWwAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAHRkNvbWljIFNhbnMgTVMAAAAAAAAAAAAAAAAAAAAAAAAA
-</rawitemdata></item>
-<item name='$Body' sign='true'>
-<rawitemdata type='1'>
-gQKC/1oAAQADAAAAAAAAAKAFAACgBQAAzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM
-zMzMzMzMzAABAAAAAJSEoAUIAKAFCAAAAAAAAQAAAAQAAACDBAEA3QYAAIX/hf8IAAUACxjSCAEA
-gACAAN4GAACF/4ECgwQBAN0GAACF/4X/DgAGAAoYVXNpbmcg0ggBAAAAgADeBgAAhf/dBgAArf+p
-/xYAAQAYAAQACgAKAAAACACcAAMA3QYAAIX/hf8IAAYAChjSCAEAAACAAN4GAACF/6oC3gYAAK4A
-3QYAAIX/hf8IAAYAChjSCAEAAACAAN4GAACF/4ECgv9aAAIAAAAAAAAAAACgBQAAoAUAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAACUhwAAAAAAAAAAAAAAAAEA
-AAAEAAAAgwQCAIX/CAABAAAK3QYBAJkAmQAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAH0AHAAA
-AAIAlACNAAAAAAAAAAAAAAAAAAAAAAD8/zoAAAAAAAAAAAAAAAAAAAAAAAAAAQAMAAAAAAAAAAAA
-AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA4AQBAPb/KgAAAAAAAwATAAgAAAAAAAAAAAAAAAAAAAAA
-AAAAAABpY29uLmpwZ94GAQCZAIX/TgAGAAAMAExvZyBFbnRyaWVzIGFyZSBjcmVhdGVkIGJ5IHBy
-b2dyYW1zIGFuZCBzdG9yZWQgaW4gZG9jdW1lbnRzIHVzaW5nIHRoZYX/EgAGAQAMIExvZyBFbnRy
-eYX/LgEGAAAMIGZvcm0uAABUaGUgTG9nIEVudHJ5IGZvcm0gaXMgYmFzZWQgb24gdGhlIExvdHVz
-LXByb3ZpZGVkIExvZyBFbnRyeSBmb3JtOyBpdCB1c2VzIHRoZSBzYW1lIHByaW1hcnkgZmllbGQg
-bmFtZXMgdG8gbWFpbnRhaW4gY29tcGF0aWJpbGl0eSB3aXRoIHRoZSBMb3R1cy1wcm92aWRlZCB0
-ZW1wbGF0ZSAoYWxvZzQubnRmKS4AAFRoaXMgZW5oYW5jZWQgdmVyc2lvbiBpbmNvcnBvcmF0ZXMg
-YSBtdWNoIHJpY2hlciBzZXQgb2YgbG9nZ2luZyBjYXBhYmlsaXRpZXMgdGhhbiB0aGUgTG90dXMt
-cHJvdmlkZWQgdGVtcGxhdGUugQKDBAIAhf8IAAYAAAyBAoMEAgCF/xcABgAADFdoZW4gYW4gRXZl
-bnQgKACF/w4ABgEADEFjdGlvboX/CgAGAAAMLCCF/xgABgEADEV4dGVuZGVkIENvbnRlbnSF/w0A
-BgAADCwgb3IgAIX/EQAGAQAMRXhjZXB0aW9uAIX/3AAGAAAMKSBpcyBsb2dnZWQgdGhlIGluZm9y
-bWF0aW9uIGFib3V0IHRoZSBldmVudCBpcyB3cml0dGVuIHRvIGEgTG9nIEVudHJ5IGRvY3VtZW50
-LiAgT25lIGRvY3VtZW50IGlzIGNyZWF0ZWQgcGVyIFByb2dyYW1tYXRpYyBTZXNzaW9uLiAgTXVs
-dGlwbGUgZXZlbnRzIGFyZSBsb2dnZWQgKGFsb25nIHdpdGggYSB0aW1lc3RhbXApIHRvIHRoZSB0
-aGlzIHNpbmdsZSBkb2N1bWVudC6BAoMEAgCF/wgABgAADIECgwQCAIX/EwAGAQAMTWluaW11bSBB
-Q0wAhf+SAAYAAAwgc2V0dGluZ3MgZm9yIHRhcmdldCBsb2cgZGF0YWJhc2VzICh0aG9zZSB3aXRo
-aW4gd2hpY2ggbG9nIGRvY3VtZW50cyB3aWxsIGJlIGNyZWF0ZWQpIGlzIEFVVEhPUiwgd2l0aCB0
-aGUgYWJpbGl0eSB0byBDcmVhdGUgTmV3IGRvY3VtZW50cy6BAoMEAgCF/wgABgAADIECgwQCAIX/
-UgAGAAAMVGhlIGZvbGxvd2luZyBkZXNpZ24gZWxlbWVudHMgc2hvdWxkIGJlIGNvcGllZCB1bmRl
-ciB0aGUgbm90ZWQgY29uZGl0aW9uczqBAoMEAgCF/y4ABgEADERhdGFiYXNlcyB3aGljaCB3aWxs
-IHBlcmZvcm0gbG9nZ2luZzoggQKC/1oAAwAAAAAAAAAAAHAIAABwCAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAAAJSEcAgAAHAIAAAAAAAAAQAAAAQAAACDBAMA
-hf8TAAYBAAplbmhMb2dDbGFzcwCF/4MABgAACiBTY3JpcHQgTGlicmFyeTogVGhpcyBpcyB0aGUg
-Y29yZSBjb2RlIGZvciB0aGUgRW5oYW5jZWRMb2cuICBDb3B5IHRoaXMgbGlicmFyeSB0byBhbGwg
-ZGF0YWJhc2VzIHdoaWNoIHdpbGwgcGVyZm9ybSBsb2dnaW5nLgCBAoMEAwCF/xYABgEACmNmZy1F
-bmhMb2dJbmZvhf9RAAYAAAogU3ViZm9ybTogQ29weSB0aGlzIHN1YmZvcm0gdG8gYWxsIGRhdGFi
-YXNlcyB3aGljaCB3aWxsIHBlcmZvcm0gbG9nZ2luZy4gAIECgwQDAIX/FAAGAQAKZW5oTG9nQ29u
-Zmlnhf+VAAYAAAogRm9ybTogQ29weSB0aGlzIGZvcm0gdG8gYWxsIGRhdGFiYXNlcyB3aGljaCB3
-aWxsIHBlcmZvcm0gbG9nZ2luZy4gIFVzZSB0aGlzIGZvcm0gdG8gY3JlYXRlIHRoZSBMb2cgQ29u
-ZmlndXJhdGlvbiBkb2N1bWVudCBmb3IgdGhlIGRhdGFiYXNlLiAAgQKDBAMAhf8YAAYBAAp1aS1P
-cGVuTG9nQ29uZmlnhf+BAAYAAAogQWdlbnQ6IENvcHkgdGhpcyBhZ2VudCB0byBhbGwgZGF0YWJh
-c2VzIHdoaWNoIHdpbGwgcGVyZm9ybSBsb2dnaW5nIEFORCBmb3Igd2hpY2ggeW91IHdhbnQgdG8g
-Y29uZmlndXJlIHRoZSBMb2cgb3B0aW9ucy4gAIECgwQCAIX/CAAGAAAKgQKDBAIAhf9CAAYBAAxU
-YXJnZXQgRGF0YWJhc2VzICh0aG9zZSB3aXRoaW4gd2hpY2ggbG9ncyB3aWxsIGJlIGNyZWF0ZWQp
-gQKDBAIA3QYAAIX/hf8PAAYBAgxFaXRoZXIgANIIAQD/AAAA3gYAAIX/gQKDBAIAhf8jAAYAAAwg
-IENyZWF0ZSBhIGRhdGFiYXNlIHRhcmdldCAAhf8bAAYBAAx1c2luZyB0aGlzIHRlbXBsYXRlAIX/
-FwAGAAAMIGFzIHRoZSBkZXNpZ24gAIECgwQCAN0GAACF/4X/CgAGAQIMT1LSCAEA/wAAAN4GAACF
-/4ECgwQCAIX/DgAGAQAMICBDb3B5hf8/AAYAAAwgdGhlIGZvbGxvd2luZyBkZXNpZ24gZWxlbWVu
-dHMgdG8gdGhlIHRhcmdldCBkYXRhYmFzZTogAIECgv9aAAQAAAAAAAAAAADYCQAA2AkAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQAAAACUhNgJAADYCQAAAAAAAAEA
-AAAEAAAAgwQEAIX/GgAGAQAKbGtwLUxvZ3NCeUxvZ1RpbWUghf9SAAYAAApWaWV3OiBDb3B5IHRo
-aXMgdmlldyB0byBhbGwgZGF0YWJhc2VzIHdoZXJlIExvZyBkb2N1bWVudHMgd2lsbCBiZSBjcmVh
-dGVkLoECgwQEAIX/EQAGAQAKTG9nIEVudHJ5AIX/XgAGAAAKIEZvcm06IENvcHkgdGhpcyBmb3Jt
-IHRvIGFsbCBkYXRhYmFzZXMgd2hlcmUgTG9nIGRvY3VtZW50cyB3aWxsIGJlIGNyZWF0ZWQgYW5k
-IHZpZXdlZC6BAoMEBACF/xoABgEACkV4cG9ydCBMb2cgRW50cmllc4X/pAAGAAAKIEFnZW50OiBD
-b3B5IHRoaXMgYWdlbnQgKG1vZGlmeSBhcyBuZWNlc3NhcnkpIHRvIGFsbCBkYXRhYmFzZXMgd2hl
-cmUgTG9nIGRvY3VtZW50cyB3aWxsIGJlIGNyZWF0ZWQsIGFuZCBmcm9tIHdoaWNoIHlvdSB3aXNo
-IHRvIGV4cG9ydCB0byBhbm90aGVyIHJlcG9zaXRvcnkugQKC/1oABQAAAAAAAAAAAKAFAACgBQAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAJSEoAUAAKAFAAAA
-AAAAAQAAAAQAAACDBAUAhf8IAAYAAAyBAoMEBQDdBgAAhf+F/xEABgECDElNUE9SVEFOVADSCAEA
-/wAAAN4GAACF/4X/eAAGAAAMOiBJbiBvcmRlciBmb3IgdGhlIEVuaGFuY2VkTG9nIENsYXNzIHRv
-IHdvcmsgcHJvcGVybHksIGFsbCBkYXRhYmFzZXMgd2l0aGluIHdoaWNoIExvZyBkb2N1bWVudHMg
-d2lsbCBiZSBjcmVhdGVkIIX/DAAGAQAMbXVzdIX/WQAGAAAMIGhhdmUgYSBkZWZhdWx0IGRhdGFi
-YXNlIHZpZXcuICBJdCBkb2VzIG5vdCBtYXR0ZXIgd2hpY2ggdmlldyB5b3Ugc2V0IGFzIGRlZmF1
-bHQuAIECgwQCAIX/CAAGAAAMgQKDBAIAhf8jAAYAAAxGb3IgdGhpcyByZWxlYXNlLCBvbmx5IHRo
-ZSAAhf8UAAYBAAxMb3R1c1NjcmlwdCCF/0IABgAADGxhbmd1YWdlIGlzIHN1cHBvcnRlZDsgcHJv
-Z3JhbXMgY29kZSB3aWxsIG1ha2UgdXNlIG9mIHRoZSCF/xQABgEADEVuaGFuY2VkTG9nIIX/NQAG
-AAAMY2xhc3MgdG8gaGFuZGxlIGFsbCBuZWNlc3NhcnkgbG9nZ2luZyB0YXNrcy4gAIECgwQCAIX/
-CAAGAAAMgQKDBAIAhf+nAAYAAAxMb2cgRW50cnkgZG9jdW1lbnRzIGFyZSBjcmVhdGVkIGJ5IGRl
-ZmF1bHQgaW4gdGhlIE5vdGVzIERhdGFiYXNlIHdpdGhpbiB3aGljaCB0aGUgZ2l2ZW4gYWdlbnQg
-Y29kZSBpcyBydW5uaW5nLiAgVGhpcyBiZWhhdmlvciBjYW4gYmUgb3ZlcnJpZGRlbiBieSBjYWxs
-aW5nIHRoZSAA3QYAAIX/hf8RAAYCCgxPcGVuTG9nKCkA0ggBAAAAgADeBgAAhf+F/9cABgAADCBt
-ZXRob2QuICBGcm9tIGEgcGVyZm9ybWFuY2Ugc3RhbmRwb2ludCB0aGlzIGlzIG5vdCByZWNvbW1l
-bmRlZDsgaXQgaXMgbW9yZSBlZmZpY2llbnQgdG8gdXNlIHRoZSAiY3VycmVudCIgZGF0YWJhc2Ug
-dGhhbiB0byBvcGVuIGEgY2VudHJhbCBkYXRhYmFzZSBldmVyeSB0aW1lIGFuIGFnZW50IHJ1bnMu
-ICBUaGlzIHRlbXBsYXRlIGluY2x1ZGVzIGFuIGFnZW50IADdBgAAhf+F/yAABgIKDChzY2hlZC1F
-eHBvcnRMb2dFbnRyaWVzKdIIAQAAAIAA3gYAAIX/hf8SAAYAAAwgYW5kIHZpZXcg3QYAAIX/hf8b
-AAYCCgwobGtwLUxvZ3NCeUxvZ1RpbWUpANIIAQAAAIAA3gYAAIX/hf+pAAYAAAwgdGhhdCBjYW4g
-YmUgYWRkZWQgdG8gYW55IGRhdGFiYXNlICh3aXRoIG5lY2Vzc2FyeSBtb2RpZmljYXRpb25zKSB3
-aGljaCB3aWxsIGV4cG9ydCB0aGUgTG9nIEVudHJ5IGRvY3VtZW50cyB0byBhIHNwZWNpZmllZCBj
-ZW50cmFsIEVuaGFuY2VkIEFnZW50IExvZyByZXBvc2l0b3J5LgCBAoMEAgCF/wgABgAADIECgwQC
-AIX/cgAGAAAMRGV2ZWxvcGVycyBjYW4gbWFrZSB1c2Ugb2YgdGhlIEVuaGFuY2VkTG9nIGNsYXNz
-IGJ5IGluY2x1ZGluZyB0aGUgYXBwcm9wcmlhdGUgbGlicmFyaWVzIHdpdGhpbiB0aGVpciBjb2Rl
-LoECgwQCAIX/CAAGAAAMgQKC/1oABgAAAAAAAAAAAOwEAADsBAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAJSE7AQAAOwEAAAAAAAAAQAAAAQAAACDBAYAhf8I
-AAYAAAzdBgAArf+t/wwADAAIAAAAAADdBgAArP+s/x4AAAAABAYAAA4NAExvdHVzU2NyaXB0IHVz
-ZQDSCAEAAICAAN4GAACs/4X/CAAGAAAMgQKDBAIAhf8IAAYAAAyBAoL/WgAHAAAAAAAAAAAACAcA
-AAgHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAlIQIBwAA
-CAcAAAAAAAABAAAABAAAAIMEBwCF/yQABgAADEFkZCB0aGUgTG90dXNTY3JpcHQgTGlicmFyeSDd
-BgAAhf+F/xMABgEKDGVuaExvZ0NsYXNzANIIAQAAAIAA3gYAAIX/hf8aAAYAAAwgdG8geW91ciBk
-YXRhYmFzZS6BAoMEBwCF/xgABgAADEFkZCB0aGUgY29tbWFuZCCF/xkABgEADFVzZSAiZW5oTG9n
-Q2xhc3MiAIX/MQAGAAAMIHRvIHRoZSBnbG9iYWwgb3B0aW9ucyBhcmVhIG9mIHlvdXIgY29kZS4A
-gQKDBAcAhf8IAAYAAAyBAoMEBwCF/x8ABgAADFRvIGxvZyBhbiBBY3Rpb24sIGNhbGwgAIX/FQAG
-AQAMZW5oTG9nQWN0aW9uIACF/ywABgAADGFuZCBwYXNzIHRoZSBhcHByb3ByaWF0ZSBwYXJhbWV0
-ZXJzLoECgwQHAIX/JgAGAAAMVG8gbG9nIEV4dGVuZGVkIENvbnRlbnQsIGNhbGwghf8eAAYBAAxl
-bmhMb2dFeHRlbmRlZENvbnRlbnQghf8sAAYAAAxhbmQgcGFzcyB0aGUgYXBwcm9wcmlhdGUgcGFy
-YW1ldGVycy6BAoMEBwCF/x4ABgAADFRvIGxvZyBhbiBFcnJvciwgY2FsbCCF/xgABgEADGVuaExv
-Z0V4Y2VwdGlvbiCF/ywABgAADGFuZCBwYXNzIHRoZSBhcHByb3ByaWF0ZSBwYXJhbWV0ZXJzLoEC
-gwQHAIX/CAAGAAAMgQKDBAcAhf9qAAYAAAxUaGUgTG9nIEVudHJ5IGRvY3VtZW50IHdpbGwgYXV0
-b21hdGljYWxseSBiZSBjcmVhdGVkIGFuZCBzYXZlZCBmb3IgeW91LiAgWW91IG5lZWQgdG8gbm90
-aGluZyBlbHNlLoECgwQHAIX/CAAGAAAMgQKDBAcAhf8IAAYAAAzdBgAArf+t/wwADAAIAAAAAADd
-BgAArP+s/zoAAAAABAYBAAoLAFByaW1hcnkgTWV0aG9kIFNpZ25hdHVyZXMgYW5kIEZ1bmN0aW9u
-YWxpdHkA0ggBAIAAgADeBgAArP+F/wgABgAADIECgv9aAAgAAAAAAAAAAABwCAAAcAgIANACoAVw
-CEALEA7gELATgBYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAACUhHAICgBwCAoAAABkAAEA
-AAAEAAAAgwQIAN0GAACF/4X/FwAHAQQKUHVibGljIEZ1bmN0aW9uANIIAQAAAP8A3gYAAIX/hf8W
-AAcBAAogZW5oTG9nQWN0aW9uIN0GAACF/4X/CQAHAQQKKADSCAEAAAD/AN4GAACF/4X/DwAHAQAK
-cHJlZml4JADdBgAAhf+F/wkABwEECiwA0ggBAAAA/wDeBgAAhf+F/xUABwEACiBkZXNjcmlwdGlv
-biQA3QYAAIX/hf8JAAcBBAopANIIAQAAAP8A3gYAAIX/hf8JAAcBAAogAN0GAACF/4X/EgAHAQQK
-QXMgSW50ZWdlctIIAQAAAP8A3gYAAIX/gQKDBAgA3QYAAIX/hf80AAcACQpXcml0ZXMgYW4gYWN0
-aW9uIHRvIHRoZSBjdXJyZW50RGJMb2cgb2JqZWN0LtIIAQAAgAAA3gYAAIX/gQKDBAgA3QYAAIX/
-hf9LAAcACQpBbiBhY3Rpb24gY29uc2lzdHMgb2YgYSBtZXRob2QgbmFtZSBmb2xsb3dlZCBieSBh
-IHRleHQgZGVzY3JpcHRpb24uANIIAQAAgAAA3gYAAIX/gQKDBAgA3QYAAIX/hf8SAAcBCQpQYXJh
-bWV0ZXJz0ggBAACAAADeBgAAhf/dBgAAhf+F/wkABwAJCjoA0ggBAACAAADeBgAAhf+BAoMECADd
-BgAAhf+F/zYABwAJCglwcmVmaXgkCVRoZSBwcmVmaXggdG8gYWRkIHRvIHRoZSBtZXRob2QgbmFt
-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
-CAAHAAkK0ggBAACAAADeBgAAhf+BAoMECACF/wgABgAADIECgwQIAIX/CAAGAAAMgQKDBAcAhf+M
-AAYAAAxBZGRpdGlvbmFsIGNhcGFiaWxpdGllcyBhcmUgb2YgY291cnNlIGluY2x1ZGVkLiAgRm9y
-IGZ1bGwgZGV0YWlscyBwbGVhc2UgY29uc3VsdCB0aGUgZnVsbHkgY29tbWVudGVkIExvdHVzU2Ny
-aXB0IHNvdXJjZSBjb2RlIGluIHRoZSDdBgAAhf+F/xMABgEKDGVuaExvZ0NsYXNzANIIAQAAAIAA
-3gYAAIX/hf8JAAYBAAwgAIX/FwAGAAAMc2NyaXB0IGxpYnJhcnkuAIECgwQHAIX/CAAGAAAMgQKD
-BAcAhf8IAAYAAAyuAt4GAACuAIX/CAAGAAAMgQKC/1oACQAAAAAAAAAAADgEAAA4BAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAJSEOAQAADgEAAAAAAAAAQAA
-AAQAAACDBAkAhf8IAAYAAAyBAoMEAgCF/wgABgAADIECgv9aAAoAAAAAAAAAAACgBQAAoAUIANAC
-oAVwCEALEA7gELATgBYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAACUhKAFCgCgBQoAAABk
-AAEAAAAEAAAAgwQKAIX/LQAGAAAJQ29weXJpZ2h0IDIwMDIgLSAyMDIyLCBEZXZpbiBTLiBPbHNv
-bgCBAoMECgCF/wgABgAACd0GAACt/37/DAAgAAgAAAAAAPb/LwAAAAAAAQAAABUAAAAAAAAAAAAA
-AAAAd3d3LmF6bGlnaHRob3VzZS5jb20AAK3/IQALAAgQAAAVAHd3dy5hemxpZ2h0aG91c2UuY29t
-AADdBgAAhf+F/xwABgQECXd3dy5hemxpZ2h0aG91c2UuY29t0ggBAAAA/wDeBgAAhf+uAt4GAACu
-AIX/CAAGAAAJgQKDBAoAhf8IAAYAAAmBAoMECgCF/z4ABgAACUF1dGhvcjogRGV2aW4gUy4gT2xz
-b24gIChkZXZpbi5vbHNvbkBhemxpZ2h0aG91c2UuY29tKYECgwQKAIX/CAAGBAAJ3QYAAK3/fv8M
-ACAACAAAAAAA9v81AAAAAAABAAAAGwAAAAAAAAAAAAAAAABodHRwOi8vd3d3LmRldmlub2xzb24u
-bmV0LwAArf8nAAsACBAAABsAaHR0cDovL3d3dy5kZXZpbm9sc29uLm5ldC8AAN0GAACF/4X/GgAG
-BAQJd3d3LmRldmlub2xzb24ubmV00ggJAAAA/wDeBgAAhf+uAt4GAACuAIX/CAAGBAAJgQKDBAoA
-hf8dAAYAAAlMYXN0IHVwZGF0ZWQ6IDAyLzIwMjEAgQKDBAIAhf8IAAYAAAmBAoMEAgCF/wgABgAA
-DIECgwQCAIX/CAAGAAAMgQKDBAIAhf8IAAYAAAyBAoMEAgCF/wgABgAADIECgwQCAIX/CAABAAAK
-</rawitemdata></item></note>
+<body><richtext>
+<pardef id='1' align='center' leftmargin='1in'/>
+<par def='1'><run><font size='24pt' name='Times New Roman' pitch='variable'
+ truetype='true' familyid='10' color='purple'/></run></par>
+<par def='1'><run><font size='24pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/>Using </run><run><font size='24pt' name='Arial'
+ pitch='variable' truetype='true' familyid='20' color='navy'/><computedtext
+><code event='value'><formula>@DbTitle</formula></code></computedtext></run><run
+><font size='24pt' name='Arial' pitch='variable' truetype='true' familyid='20'
+ color='navy'/></run></par>
+<pardef id='2'/>
+<par def='2'><picture width='148px' height='141px' align='left'><border dropshadow='true'/><imageref
+ name='icon.jpg'/></picture><run><font size='12pt' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/><break/>Log Entries are created by programs and stored in documents using the</run><run
+><font size='12pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/> Log Entry</run><run><font size='12pt' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> form.<break/><break/>The Log Entry form is based on the Lotus-provided Log Entry form; it uses the same primary field names to maintain compatibility with the Lotus-provided template (alog4.ntf).<break
+/><break/>This enhanced version incorporates a much richer set of logging capabilities than the Lotus-provided template.</run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>When an Event (</run><run><font size='12pt' style='bold' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/>Action</run><run><font size='12pt'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>, </run><run
+><font size='12pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Extended Content</run><run><font size='12pt' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/>, or </run><run><font size='12pt'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/>Exception</run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/>) is logged the information about the event is written to a Log Entry document.  One document is created per Programmatic Session.  Multiple events are logged (along with a timestamp) to the this single document.</run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>Minimum ACL</run><run><font size='12pt' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/> settings for target log databases (those within which log documents will be created) is AUTHOR, with the ability to Create New documents.</run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>The following design elements should be copied under the noted conditions:</run></par>
+<par def='2'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>Databases which will perform logging: </run></par>
+<pardef id='3' leftmargin='1.5000in' list='bullet'/>
+<par def='3'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>enhLogClass</run><run><font name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> Script Library: This is the core code for the EnhancedLog.  Copy this library to all databases which will perform logging.</run></par>
+<par def='3'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>cfg-EnhLogInfo</run><run><font name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> Subform: Copy this subform to all databases which will perform logging. </run></par>
+<par def='3'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>enhLogConfig</run><run><font name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> Form: Copy this form to all databases which will perform logging.  Use this form to create the Log Configuration document for the database. </run></par>
+<par def='3'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>ui-OpenLogConfig</run><run><font name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> Agent: Copy this agent to all databases which will perform logging AND for which you want to configure the Log options. </run></par>
+<par def='2'><run><font name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>Target Databases (those within which logs will be created)</run></par>
+<par def='2'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='red'/>Either </run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>  Create a database target </run><run><font size='12pt' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>using this template</run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/> as the design </run></par>
+<par def='2'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='red'/>OR</run></par>
+<par def='2'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>  Copy</run><run><font size='12pt' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/> the following design elements to the target database: </run></par>
+<pardef id='4' leftmargin='1.7500in' list='bullet'/>
+<par def='4'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>lkp-LogsByLogTime </run><run><font name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>View: Copy this view to all databases where Log documents will be created.</run></par>
+<par def='4'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Log Entry</run><run><font name='Arial' pitch='variable' truetype='true'
+ familyid='20'/> Form: Copy this form to all databases where Log documents will be created and viewed.</run></par>
+<par def='4'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Export Log Entries</run><run><font name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> Agent: Copy this agent (modify as necessary) to all databases where Log documents will be created, and from which you wish to export to another repository.</run></par>
+<pardef id='5' leftmargin='1in'/>
+<par def='5'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='5'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='red'/>IMPORTANT</run><run><font size='12pt'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>: In order for the EnhancedLog Class to work properly, all databases within which Log documents will be created </run><run
+><font size='12pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>must</run><run><font size='12pt' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/> have a default database view.  It does not matter which view you set as default.</run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>For this release, only the </run><run><font size='12pt' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>LotusScript </run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/>language is supported; programs code will make use of the </run><run
+><font size='12pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>EnhancedLog </run><run><font size='12pt' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>class to handle all necessary logging tasks. </run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Log Entry documents are created by default in the Notes Database within which the given agent code is running.  This behavior can be overridden by calling the </run><run
+><font size='12pt' style='italic' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/>OpenLog()</run><run><font size='12pt' name='Arial'
+ pitch='variable' truetype='true' familyid='20'/> method.  From a performance standpoint this is not recommended; it is more efficient to use the "current" database than to open a central database every time an agent runs.  This template includes an agent </run><run
+><font size='12pt' style='italic' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/>(sched-ExportLogEntries)</run><run><font size='12pt'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/> and view </run><run
+><font size='12pt' style='italic' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/>(lkp-LogsByLogTime)</run><run><font size='12pt'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/> that can be added to any database (with necessary modifications) which will export the Log Entry documents to a specified central Enhanced Agent Log repository.</run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Includes support for method profiling  -refer to methods </run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'
+ color='blue'/>enhLogProfileMethodStart</run><run><font size='12pt' name='Arial'
+ pitch='variable' truetype='true' familyid='20' color='blue'/>()</run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/> and </run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'
+ color='blue'/>enhLogProfileMethodFinish</run><run><font size='12pt' name='Arial'
+ pitch='variable' truetype='true' familyid='20' color='blue'/>()</run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Developers can make use of the EnhancedLog class by including the appropriate libraries within their code.</run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<pardef id='6' leftmargin='0.8750in'/>
+<section><sectiontitle pardef='6' borderstyle='shadow' color='teal'><font
+ size='14pt' name='Arial' pitch='variable' truetype='true' familyid='20'/><text
+>LotusScript use</text></sectiontitle>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<pardef id='7' leftmargin='1.2500in'/>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Add the LotusScript Library </run><run><font size='12pt' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20' color='navy'/>enhLogClass</run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/> to your database.</run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Add the command </run><run><font size='12pt' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>Use "enhLogClass"</run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/> to the global options area of your code.</run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>To log an Action, call </run><run><font size='12pt' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>enhLogAction </run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/>and pass the appropriate parameters.</run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>To log Extended Content, call </run><run><font size='12pt'
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/>enhLogExtendedContent </run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/>and pass the appropriate parameters.</run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>To log an Error, call </run><run><font size='12pt' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/>enhLogException </run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/>and pass the appropriate parameters.</run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>The Log Entry document will automatically be created and saved for you.  You need to nothing else.</run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<section><sectiontitle pardef='7' borderstyle='shadow' color='purple'><font
+ style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><text
+>Primary Method Signatures and Functionality</text></sectiontitle>
+<pardef id='8' leftmargin='1.5000in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='8'><run><font style='bold' name='Comic Sans MS' pitch='variable'
+ truetype='true' familyid='40' color='blue'/>Public Function</run><run><font
+ style='bold' name='Comic Sans MS' pitch='variable' truetype='true' familyid='40'/> enhLogAction </run><run
+><font style='bold' name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='blue'/>(</run><run><font style='bold' name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40'/>prefix$</run><run><font style='bold'
+ name='Comic Sans MS' pitch='variable' truetype='true' familyid='40' color='blue'/>,</run><run
+><font style='bold' name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40'/> description$</run><run><font style='bold' name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40' color='blue'/>)</run><run
+><font style='bold' name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40'/> </run><run><font style='bold' name='Comic Sans MS' pitch='variable'
+ truetype='true' familyid='40' color='blue'/>As Integer</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>Writes an action to the currentDbLog object.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>An action consists of a method name followed by a text description.</run></par>
+<par def='8'><run><font style='bold' name='Comic Sans MS' pitch='variable'
+ truetype='true' familyid='40' color='green'/>Parameters</run><run><font name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40' color='green'/>:</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>	prefix$	The prefix to add to the method name.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>	description$	The description of the action.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/></run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/></run></par>
+<par def='8'><run><font style='bold' name='Comic Sans MS' pitch='variable'
+ truetype='true' familyid='40' color='blue'/>Public Function </run><run><font
+ style='bold' name='Comic Sans MS' pitch='variable' truetype='true' familyid='40'/>enhLogExtendedContent </run><run
+><font style='bold' name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='blue'/>(</run><run><font style='bold' name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40'/>prefix$</run><run><font style='bold'
+ name='Comic Sans MS' pitch='variable' truetype='true' familyid='40' color='blue'/>, </run><run
+><font style='bold' name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40'/>description$</run><run><font style='bold' name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40' color='blue'/>, </run><run
+><font style='bold' name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40'/>content$</run><run><font style='bold' name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40' color='blue'/>) As Integer</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>Writes extended content to the currentDbLog object.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>Extended content consists of a method name followed by a text description, </run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>followed by the actual content.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/></run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>If the text description is excluded, then only the content will be written to the </run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>log (no method name will be included).</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/></run></par>
+<par def='8'><run><font style='bold' name='Comic Sans MS' pitch='variable'
+ truetype='true' familyid='40' color='green'/>Parameters</run><run><font name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40' color='green'/>:</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>	prefix$	The prefix to add to the method name.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>	description$	The description of the action.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>	content$	The extended content to write.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/></run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/></run></par>
+<par def='8'><run><font style='bold' name='Comic Sans MS' pitch='variable'
+ truetype='true' familyid='40' color='blue'/>Public Function enhLogException (</run><run
+><font style='bold' name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40'/>prefix$</run><run><font style='bold' name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40' color='blue'/>, </run><run
+><font style='bold' name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40'/>extendedMsg$</run><run><font style='bold' name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40' color='blue'/>) As Integer</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>Writes an error to the currentDbLog object.</run></par>
+<par def='8'><run><font style='bold' name='Comic Sans MS' pitch='variable'
+ truetype='true' familyid='40' color='green'/>Parameters</run><run><font name='Comic Sans MS'
+ pitch='variable' truetype='true' familyid='40' color='green'/>:</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>	prefix$	The prefix to add to the method name.</run></par>
+<par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
+ familyid='40' color='green'/>	extendedMsg$	The extended description of the error.</run><run
+><font name='Comic Sans MS' pitch='variable' truetype='true' familyid='40'
+ color='green'/></run></par></section>
+<par def='8'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='8'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Additional capabilities are of course included.  For full details please consult the fully commented LotusScript source code in the </run><run
+><font size='12pt' style='bold' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='navy'/>enhLogClass</run><run><font size='12pt' style='bold'
+ name='Arial' pitch='variable' truetype='true' familyid='20'/> </run><run
+><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/>script library.</run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run><run><font size='12pt' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/></run></par></section>
+<pardef id='9' leftmargin='0.7500in'/>
+<par def='9'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<pardef id='10' leftmargin='1in' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'/>
+<par def='10'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Copyright 2002 - 2022, Devin S. Olson</run></par>
+<par def='10'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run><urllink showborder='false' href='www.azlighthouse.com'><run
+><font size='9pt' style='underline' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='blue'/>www.azlighthouse.com</run></urllink><run><font
+ size='9pt' name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par>
+<par def='10'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='10'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Author: Devin S. Olson  (devin.olson@azlighthouse.com)</run></par>
+<par def='10'><run><font size='9pt' style='underline' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/></run><urllink showborder='false' href='http://www.devinolson.net/'><run
+><font size='9pt' style='underline' name='Arial' pitch='variable' truetype='true'
+ familyid='20' color='system'/>www.devinolson.net</run></urllink><run><font
+ size='9pt' style='underline' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='10'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/>Last updated: 05/2021</run></par>
+<par def='2'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
+<par def='2'/></richtext></body></helpusingdocument>
 
