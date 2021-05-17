@@ -1,136 +1,54 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='filter' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
- replicaid='85258671003806E7'>
-<noteinfo noteid='16e' unid='E2EE1C0A5371C50185258662006BB649' sequence='6'>
+<agent name='Edit DbConfig' alias='editDbConfig' xmlns='http://www.lotus.com/dxl'
+ version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
+ publicaccess='false' designerversion='8.5.3' comment='Opens the DbConfig document for editing'>
+<noteinfo noteid='16e' unid='E2EE1C0A5371C50185258662006BB649' sequence='8'>
 <created><datetime>20210119T143630,17-05</datetime></created>
-<modified><datetime>20210210T081929,11-05</datetime></modified>
-<revised><datetime>20210210T081929,10-05</datetime></revised>
-<lastaccessed><datetime>20210210T081929,10-05</datetime></lastaccessed>
+<modified><datetime dst='true'>20210517T143212,77-04</datetime></modified>
+<revised><datetime dst='true'>20210517T143212,76-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210517T143212,76-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051202,66-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name
 >CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<item name='$TITLE' sign='true'><text>Edit DbConfig|editDbConfig</text></item>
-<item name='$AssistType' sign='true'><number>65413</number></item>
-<item name='$AssistLastRun' sign='true'>
-<rawitemdata type='400'>
-AAAAAAAAAAA=
-</rawitemdata></item>
-<item name='$AssistDocCount' sign='true'><number>0</number></item>
-<item name='$Comment' sign='true'><text>Opens the DbConfig document for editing</text></item>
-<item name='$FlagsExt' sign='true'><text/></item>
-<item name='$AssistFlags' sign='true'><text>Es</text></item>
-<item name='$AssistTrigger' sign='true'><text>4</text></item>
-<item name='$AssistInfo' sign='true'>
-<rawitemdata type='11'>
-AQAEAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-</rawitemdata></item>
-<item name='$AssistQuery' sign='true'>
-<rawitemdata type='f'>
-gQYAAAAA
-</rawitemdata></item>
-<item name='$Restricted' sign='true'><number>1</number></item>
-<item name='$Flags'><text>fL3</text></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
-<item name='$AssistRunInfo' summary='true'>
-<rawitemdata type='3'>
-BgAAAgAACABqAQAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAUHNqAGKGJYVmPnYAXoYlhQAAAAAAAAAAAAAAAAAAAAAAAAAAqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqq
-</rawitemdata></item>
-<item name='$AssistAction' sign='true'>
-<rawitemdata type='10'>
-gQKF/w4DAAAAAAIDAAAnKytMb3R1c1NjcmlwdCBEZXZlbG9wbWVudCBFbnZpcm9ubWVudDoyOjU6
-KE9wdGlvbnMpOjA6NzQKJVJFTQoJQWdlbnQgRWRpdCBEYkNvbmZpZwolRU5EIFJFTQpPcHRpb24g
-UHVibGljCk9wdGlvbiBFeHBsaWNpdCAKClVzZSAiZW5oTG9nQ2xhc3MiIAoKIAoKCgonKytMb3R1
-c1NjcmlwdCBEZXZlbG9wbWVudCBFbnZpcm9ubWVudDoyOjU6KEZvcndhcmQpOjA6MQpEZWNsYXJl
-IFN1YiBJbml0aWFsaXplCgonKytMb3R1c1NjcmlwdCBEZXZlbG9wbWVudCBFbnZpcm9ubWVudDoy
-OjU6KERlY2xhcmF0aW9ucyk6MDoyCgonKytMb3R1c1NjcmlwdCBEZXZlbG9wbWVudCBFbnZpcm9u
-bWVudDoyOjI6SW5pdGlhbGl6ZToxOjEwClN1YiBJbml0aWFsaXplCglPbiBFcnJvciBHb1RvIEVy
-cm9yVHJhcAoJCgkKCURpbSBudWl3c3AgQXMgTm90ZXNVSVdvcmtzcGFjZQoJRGltIG51aWRvYyBB
-cyBOb3Rlc1VJRG9jdW1lbnQgCglEaW0gbmRvYyBBcyBOb3Rlc0RvY3VtZW50IAoJCgkKCQoJU2V0
-IG5kb2MgPSBnZXREYkNvbmZpZ0RvYyh8RGJDb25maWd8LCB8RmFsc2V8KSAKCUlmIE5vdCAobmRv
-YyBJcyBOb3RoaW5nKSBUaGVuIAoJCVNldCBudWl3c3AgPSBOZXcgTm90ZXNVSVdvcmtzcGFjZSgp
-IAoJCUNhbGwgbnVpd3NwLkVkaXREb2N1bWVudChUcnVlLCBuZG9jKSAKCUVuZCBJZgoJCgkKRXhp
-dFBvaW50OiAKCUV4aXQgU3ViIApFcnJvclRyYXA6CglPbiBFcnJvciBHb1RvIDAKCWVuaExvZ0V4
-Y2VwdGlvbiB8fCwgfHwKCVJlc3VtZSBFeGl0UG9pbnQgCQpFbmQgU3ViAA==
-</rawitemdata></item>
-<item name='$AssistAction_Ex' sign='true'>
-<rawitemdata type='14'>
-gQKF/6QMAAAAAJgMAAABAAACTFNPQgUAFAhlbgAABAAXAIAAAAAAAPwGyAIYAAAABAAsApAFAAAA
-ACwArAAgAEAAAAD0AFwAAAAAAAAAAQAAABgAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-GAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAPgDnAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAA+AOcBgAAAAAAAAAAAAAAAAAAAAAAAAAABwAAALwAkAWMATgCAAAAALwAvAAAAAAA/AIABQAA
-AAAAAAAAAAAAAAAAAAAAAAAAcARwBJAFkAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAFAExvdHVzIFByb2R1Y3QAAABWMC4w
-AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAPwGAADIAgAAAAAAAAAAAAABAAAAAAAAAAAAAAAA
-AAAAAQAAAAAAAAAAAAAABAAAAFczMkklAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAIAAgAAAAAAMgCAAADAMwCAAAAADABDQAkAEEAUwBTAEkAUwBUAEEA
-QwBUAEkATwBOAAAAdAADAE4ARQBXAAAAiAAGAEQARQBMAEUAVABFAAAAAADIAAoASQBOAEkAVABJ
-AEEATABJAFoARQAAAAAAkAAJAFQARQBSAE0ASQBOAEEAVABFAAAAHAEGAE8AQgBKAEUAQwBUAAAA
-AAA4AgAAAAAAAOAACwBlAG4AaABMAG8AZwBDAGwAYQBzAHMAAAD//wsARQBOAEgATABPAEcAQwBM
-AEEAUwBTAAAARAEJAEUAUgBSAE8AUgBUAFIAQQBQAAAAeAEGAE4AVQBJAFcAUwBQAAAAAABoARAA
-TgBPAFQARQBTAFUASQBXAE8AUgBLAFMAUABBAEMARQAAAAAAzAEGACUATABTAFgAVQBJAAAAAAD/
-/wYATgBVAEkARABPAEMAAAAAAJgBDwBOAE8AVABFAFMAVQBJAEQATwBDAFUATQBFAE4AVAAAAIwC
-BABOAEQATwBDAAAAAACsAQ0ATgBPAFQARQBTAEQATwBDAFUATQBFAE4AVAAAAAgCBgAlAEwAUwBY
-AEIARQAAAAAA8AENAE4ATwBUAEUAUwBEAEEAVABBAEIAQQBTAEUAAAD//w4ARwBFAFQARABCAEMA
-TwBOAEYASQBHAEQATwBDAAAAAAB0AggARABiAEMAbwBuAGYAaQBnAAAAAAAYAgUARgBhAGwAcwBl
-AAAAUAIMAEUARABJAFQARABPAEMAVQBNAEUATgBUAAAAAAD//wkARQBYAEkAVABQAE8ASQBOAFQA
-AAD//w8ARQBOAEgATABPAEcARQBYAEMARQBQAFQASQBPAE4AAAD//wkATgBPAFQARQBTAFYASQBF
-AFcAAACwAg8ATgBPAFQARQBTAFYASQBFAFcAQwBPAEwAVQBNAE4AAAD//wkATgBPAFQARQBTAEkA
-VABFAE0AAAANAAgAAAAAAPwGAAAFAAAHAAAAAGwus3AYAAAAAACwACjuWQwAAAAAAAAAAAgAAAAA
-AAAARAAAAAAAAAADAAAAfAHAAxwCHAIAAAAAfAF8AQAAAAAAAAAAAAAAAAAAAAAAAAAAwAPAAwAA
-AAAAAAAAAAAAAAAAAAAAAAAADwAAAAwAAAAsAAAAAgAAANAD4AMAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAA4APgA9AD0AMAAAAAGgAAACAB//8AAAAAEAAAAIwBAAD4AAAA
-AAAAAAEAAABYBlgGAAAAAFgGWAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAIVEyntLmkQv10A3QERhrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAAAAAAAIA
-sABMAQAAAAAAAAoAAQD//wAAEgAUAAAAAAD//wkCAAAAAAAGAAAAALwAsAD//wAAAAAEAAEAAAAJ
-ArwACQK8ABkAAwACABwCAADkAAkCEAC8ABAAAAA4AjgCSAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEFRMp7S5pEL9dAN0B
-EYa3AAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAAAAAAACALAAAAAAALwAAAAKAAEA//8AAAMA
-AgDAAwAANAEJAhQAjAEaALAAnAH//wAAAAAQAAQA/AIAAHwBAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBQTKe0uaRC/XQDd
-ARGGtwAAAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgAsAsgCAAD8AgAAAgABAP//AAAS
-ABQAAAAAAP//CQIAAAAAjQQAAAAAOAIsAv//AAAAAAYAAgAAAAkCOAIJAjgCCQL8AhkAEAAAAHAE
-AAWwAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAIUEyntLmkQv10A3QERhrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAA
-AAAAAAIALAKMAwAAjAEAAAIAAQD//wAAEgAUAAAAAAD//wkCAAAAABIEAAAAAPwCLAL//wAAAAAG
-AAMAAAAJAvwCCQL8AgYIBggZAAMAAgAAAAAAbAEJAhgAOAINAAgA4AMAADwCAABYABkADQAIAAAA
-AADMAAAAXwAZACEABAAE0gAABwBAAJwGnAbQAQkCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAFAAJAjgCBggNAAYACQI4AgkC
-cAQJAgAFCQI4AgkCkAUGAAYABgAGAA0AEAAAAAAFAAB4AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMUEyntLmkQv10A3QER
-hrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAAAAAAAIALAIAAAAAOAIAAAIAAQD//wAAEAAA
-AJAFAACQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAA8UEyntLmkQv10A3QERhrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAA
-AAAAAAAAAAIALAIAAAAAcAQAAAIAAQD//wAAEAAAAAAAAAC0AgAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUUEyntLmkQv10A
-3QERhrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAAAAAAAIALAIgBgAAAAUAAAIAAQD//wAA
-EgAUAAAAAAD//wkCAAAAACgEAAAAAJAFLAL//wAAAAAJAAUAAAAJApAFCQKQBQkKOAIGCAAAgQgS
-ABQAAAAAABwCCYIAAAAA+wUAAAAAvACwAP//AAAAAAoABwAAAAkCjAEJArwAgAiACIAIpgiACIAI
-GQAhAAQAlPAAAAcAQAAAAAAAVAINAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAgADQAGAAYADQABAAIABgAGAAQAhAAAAAAA
-OgAAGggA0pQAHQAAGhUACwAAAAAJOkcAGh4AXsADKfgDffQBgyOmGh8ASsADgcWgOCIAGiAAXnwB
-K7wAJKYaIQBLfAEsWAaCSsADiwCLCIsAiwAjMRoiABolABomABwaJwAaKAAKAAAaKQApnAZ9jAB9
-jAAjMRoqAA/c/xorAB0CAAAAEQAUAAAAAAD//wEAAwAOAAAAEQBEABMACgAAAA==
-</rawitemdata></item>
-<item name='$AssistVersion'><datetime>20210210T081929,00-05</datetime></item></note>
+<designchange><datetime dst='true'>20210517T143212,74-04</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent Edit DbConfig
+%END REM
+Option Public
+Option Explicit 
+
+Use "enhLogClass" 
+
+ 
+
+
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	On Error GoTo ErrorTrap
+	
+	
+	Dim nuiwsp As NotesUIWorkspace
+	Dim nuidoc As NotesUIDocument 
+	Dim ndoc As NotesDocument 
+	
+	
+	
+	Set ndoc = getDbConfigDoc(|DbConfig|, |False|) 
+	If Not (ndoc Is Nothing) Then 
+		Set nuiwsp = New NotesUIWorkspace() 
+		Call nuiwsp.EditDocument(True, ndoc) 
+	End If
+	
+	
+ExitPoint: 
+	Exit Sub 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException ||, ||
+	Resume ExitPoint 	
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20210119T142243,36-05</datetime></agentmodified></rundata></agent>
 

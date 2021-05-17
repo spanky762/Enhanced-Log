@@ -1,139 +1,52 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note class='filter' xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
- replicaid='85258671003806E7'>
-<noteinfo noteid='176' unid='DCE7B884CEE72DB3862577FA007653DC' sequence='6'>
+<agent name='Log Config' alias='ui-OpenLogConfig' xmlns='http://www.lotus.com/dxl'
+ version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
+ publicaccess='false' designerversion='8.5.3'>
+<noteinfo noteid='176' unid='DCE7B884CEE72DB3862577FA007653DC' sequence='10'>
 <created><datetime>20101215T153227,16-06</datetime></created>
-<modified><datetime>20210210T081928,59-05</datetime></modified>
-<revised><datetime>20210210T081928,58-05</datetime></revised>
-<lastaccessed><datetime>20210210T081928,58-05</datetime></lastaccessed>
+<modified><datetime dst='true'>20210517T143212,78-04</datetime></modified>
+<revised><datetime dst='true'>20210517T143212,77-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210517T143212,77-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051202,68-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name
->CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<item name='$AssistType' sign='true'><number>65413</number></item>
-<item name='$AssistLastRun' sign='true'>
-<rawitemdata type='400'>
-AAAAAAAAAAA=
-</rawitemdata></item>
-<item name='$AssistDocCount' sign='true'><number>0</number></item>
-<item name='$FlagsExt' sign='true'><text/></item>
-<item name='$AssistFlags' sign='true'><text>Es</text></item>
-<item name='$AssistTrigger' sign='true'><text>4</text></item>
-<item name='$AssistInfo' sign='true'>
-<rawitemdata type='11'>
-AQAEAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-</rawitemdata></item>
-<item name='$AssistQuery' sign='true'>
-<rawitemdata type='f'>
-gQYAAAAA
-</rawitemdata></item>
-<item name='$Restricted' sign='true'><number>1</number></item>
-<item name='$Flags'><text>fL3</text></item>
-<item name='$AssistRunInfo' summary='true'>
-<rawitemdata type='3'>
-BgAAAgAACAByAQAAAAAAAAUAAAAwAAAAAAAAAAAAAAAAAAAAtAAAAAAAAAAAAAAAAAAAABAAAAAA
-AAAAsAN1AO53JYUAAAAACQB1AO53JYXZIFAA7HclhQAAAAAAAAAAAAAAAAAAAAAAAAAAU3RhcnRl
-ZCBydW5uaW5nIGFnZW50ICdMb2cgQ29uZmlnfHVpLU9wZW5Mb2dDb25maWcnIG9uIDEyLzAzLzIw
-MTAgMDQ6MTg6MDYgUE0NClJhbiBMb3R1c1NjcmlwdCBjb2RlDQpEb25lIHJ1bm5pbmcgYWdlbnQg
-J0xvZyBDb25maWd8dWktT3BlbkxvZ0NvbmZpZycgb24gMTIvMDMvMjAxMCAwNDoxODowNiBQTQ0K
-AA0KWvgz34SGtpmZA3UA7nclhaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqq
-</rawitemdata></item>
-<item name='$AssistAction' sign='true'>
-<rawitemdata type='10'>
-gQKF/+ADAAAAANQDAAAnKytMb3R1c1NjcmlwdCBEZXZlbG9wbWVudCBFbnZpcm9ubWVudDoyOjU6
-KE9wdGlvbnMpOjA6NzQKJVJFTQoJQWdlbnQgTG9nIENvbmZpZwoJQ3JlYXRlZCBOb3YgMjgsIDIw
-MTAgYnkgRGV2aW4gT2xzb24vYXpsaWdodGhvdXNlCglEZXNjcmlwdGlvbjogQ29tbWVudHMgZm9y
-IEFnZW50CiVFTkQgUkVNCk9wdGlvbiBQdWJsaWMKT3B0aW9uIEV4cGxpY2l0ClVzZSAiZW5oTG9n
-Q2xhc3MiCgoKJysrTG90dXNTY3JpcHQgRGV2ZWxvcG1lbnQgRW52aXJvbm1lbnQ6Mjo1OihGb3J3
-YXJkKTowOjEKRGVjbGFyZSBTdWIgSW5pdGlhbGl6ZSgpCgonKytMb3R1c1NjcmlwdCBEZXZlbG9w
-bWVudCBFbnZpcm9ubWVudDoyOjU6KERlY2xhcmF0aW9ucyk6MDoyCgonKytMb3R1c1NjcmlwdCBE
-ZXZlbG9wbWVudCBFbnZpcm9ubWVudDoyOjI6SW5pdGlhbGl6ZTozOjEwCgoKU3ViIEluaXRpYWxp
-emUoKQoJRGltIGV4dGVuZGVkSW5mbyBBcyBTdHJpbmcKCU9uIEVycm9yIEdvVG8gRXJyb3JUcmFw
-CgkKCURpbSBudWl3c3AgQXMgTmV3IE5vdGVzVUlXb3Jrc3BhY2UoKQoJRGltIG5kb2MgQXMgTm90
-ZXNEb2N1bWVudAoJCgllbmhMb2dTZXRMb2dTdGFja0V4Y2VwdGlvbnMgVHJ1ZQoJCglTZXQgbmRv
-YyA9IGVuaExvZ0dldExvZ0NvbmZpZ0RvYyhUcnVlKQoJSWYgKG5kb2MgSXMgTm90aGluZykgVGhl
-biBHb1RvIEV4aXRQb2ludAoKCUNhbGwgbnVpd3NwLkVkaXREb2N1bWVudChGYWxzZSwgbmRvYykK
-CQpFeGl0UG9pbnQ6CglFeGl0IFN1YgpFcnJvclRyYXA6CglPbiBFcnJvciBHb1RvIDAKCWVuaExv
-Z0V4Y2VwdGlvbiB8fCwgZXh0ZW5kZWRJbmZvJAoJTWVzc2FnZUJveCBFcnJvcigpICYgQ2hyKDEw
-KSAmIGV4dGVuZGVkSW5mbyQgJiBDaHIoMTApICYgfFBsZWFzZSBjb25zdWx0IHRoZSBsb2cgZm9y
-IGFkZGl0aW9uYWwgaW5mb3JtYXRpb24ufCwgMTYsIHxFcnJvciAjfCAmIENTdHIoRXJyKCkpCglS
-ZXN1bWUgRXhpdFBvaW50CQpFbmQgU3ViAA==
-</rawitemdata></item>
-<item name='$POID'><datetime>20101203T153715,30-05</datetime></item>
-<item name='$TITLE' sign='true'><text>Log Config|ui-OpenLogConfig</text></item>
-<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item>
-<item name='$AssistAction_Ex' sign='true'>
-<rawitemdata type='14'>
-gQKF/1gMAAAAAEwMAAABAAACTFNPQgMAFAhlbgAABAAWAKsAAAAAACwGOAMYAAAABACcATQFAAAA
-ACwArAAgAEAAAAAUAVwAAAAAAAAAAQAAABgAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-GAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAGgDzAXEA8QDAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAaAPMBQAAAAAAAAAAAAAAAAAAAAAAAAAABQAAAMwANAWoATQFAAAAAMwAzAAAAAAAbAJsAgAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAADAEMAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAFAExvdHVzIFByb2R1Y3QAAABWMC4w
-AAAAAAAAAAAAAAAAAAAAAAAAAACrAAAAAAAAACwGAAA4AwAAAAAAAAAAAAABAAAAAAAAAAAAAAAA
-AAAAAQAAAAAAAAAAAAAABAAAAFczMkklAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAADADwDAAAAAMgADQAkAEEAUwBTAEkAUwBUAEEAQwBUAEkATwBOAAAA
-dAADAE4ARQBXAAAAiAAGAEQARQBMAEUAVABFAAAAAADoAAoASQBOAEkAVABJAEEATABJAFoARQAA
-AAAAkAAJAFQARQBSAE0ASQBOAEEAVABFAAAAPAEGAE8AQgBKAEUAQwBUAAAAAAC0AQAAAAAAAAAB
-CwBlAG4AaABMAG8AZwBDAGwAYQBzAHMAAAB8AgsARQBOAEgATABPAEcAQwBMAEEAUwBTAAAA8AEM
-AEUAWABUAEUATgBEAEUARABJAE4ARgBPAAAAAACAAQkARQBSAFIATwBSAFQAUgBBAFAAAABgAQYA
-TgBVAEkAVwBTAFAAAAAAAFABEABOAE8AVABFAFMAVQBJAFcATwBSAEsAUwBQAEEAQwBFAAAAAAD/
-/wYAJQBMAFMAWABVAEkAAAAAAPwCBABOAEQATwBDAAAAAACUAQ0ATgBPAFQARQBTAEQATwBDAFUA
-TQBFAE4AVAAAADgCBgAlAEwAUwBYAEIARQAAAAAA//8NAE4ATwBUAEUAUwBEAEEAVABBAEIAQQBT
-AEUAAAAgAhsARQBOAEgATABPAEcAUwBFAFQATABPAEcAUwBUAEEAQwBLAEUAWABDAEUAUABUAEkA
-TwBOAFMAAADoAhUARQBOAEgATABPAEcARwBFAFQATABPAEcAQwBPAE4ARgBJAEcARABPAEMAAAD/
-/wkARQBYAEkAVABQAE8ASQBOAFQAAABYAgwARQBEAEkAVABEAE8AQwBVAE0ARQBOAFQAAAAAABQD
-DwBFAE4ASABMAE8ARwBFAFgAQwBFAFAAVABJAE8ATgAAAP//MgBQAGwAZQBhAHMAZQAgAGMAbwBu
-AHMAdQBsAHQAIAB0AGgAZQAgAGwAbwBnACAAZgBvAHIAIABhAGQAZABpAHQAaQBvAG4AYQBsACAA
-aQBuAGYAbwByAG0AYQB0AGkAbwBuAC4AAAAAAP//BwBFAHIAcgBvAHIAIAAjAAAA//8JAE4ATwBU
-AEUAUwBJAFQARQBNAAAA//8PAE4ATwBUAEUAUwBVAEkARABPAEMAVQBNAEUATgBUAAAABQAwBgAA
-AABchVL0GAAAAAAAsACAMmMMAAAAAAAAAAAIAAAAAAAAAEQAAAAAAAAAAwAAALAAMAMAAAAAAAAA
-ALAAjAEAAAAAAAAAAAAAAAAAAAAAAAAAADADMAMAAAAAAAAAAAAAAAAAAAAAAAAAAA8AAAAMAAAA
-LAAAAAIAAABAA1ADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFADUANA
-A0ADAAAAAAMAAgCMAYwBzAAGAAAAAAAaAAAAQAH//wAAAAAQAAAAqAEAABgBAAAAAAAAAQAAAPgE
-+AQAAAAA+AT4BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhUT
-Ke0uaRC/XQDdARGGtwAAAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgDAAFwBAAAAAAAA
-CgABAP//AAASABQAAAAAAP//CQIAAAAAAAYAAAAAzADAAP//AAAAAAQAAQAAAAkCzAAJAswAGQAD
-AAIAMAMAAAQBCQIUAMwAGgDAAIQB//8AAAAAEAAEAGwCNAVkAQAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQUEyntLmkQv10A
-3QERhrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAAAAAAAIAnAE4AgAAbAIAAAIAAQD//wAA
-EgAUAAAAAAD//wkCAAAAAI0EAAAAAKgBnAH//wAAAAAGAAIAAAAJAqgBCQKoAQkCbAIZABAAAAAw
-BAAAmAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAACFBMp7S5pEL9dAN0BEYa3AAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAA
-AAAAAAACAJwB/AIAAMwAAAACAAEA//8AABIAFAAAAAAA//8JAgAAAAASBAAAAABsApwB//8AAAAA
-BgADAAAACQJsAgkCbAIGCAYIGQADAAIAAAAAAFQBCQIYAKgBDQAIAFADAAAkAgAAXAAZAA0ACAAA
-AAAA7AAAAGMAGQAhAAQAfgAAAAgAQADEA8wFuAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAEADQAZACEABABhAAAABwBA
-AMwFAAD0AQkCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAEADQAJAqgBDQAGAAkCqAEJAqgBCQIwBAYAAAAAABkAEAAAADQFAAAA
-AwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAUUEyntLmkQv10A3QERhrcAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAAAAA
-AAIAnAHABAAAqAEAAAIAAQD//wAAEgAUAAAAAAD//wkCAAAAACgEAAAAADAEnAH//wAAAAAJAAUA
-AAAJAjAECQIwBAkKqAEGCAAAgQgSABQAAAAAADwCCYIAAAAA+wUAAAAAzADAAP//AAAAAAoABwAA
-AAkCNAUJAswAgAiACIAIpgiACIAIGQAQAAAAAAAAABgDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBUTKe0uaRC/XQDdARGG
-twAAAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAAAAAAAAgDAAAAAAAAwBAAACgABAP//AAAhAAQA
-lPAAAAcAQAAAAAAAXAINAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAgADQAGAAYADQABAAIABgAGAAQArwAAAAAAOgAAGgkA
-0pQAHQAAGhYACwAABAAJOksAGhgAXowBK8wAJKYaGwApaAOCIxodAF4wAynEA4IjphoeAEowA4HF
-OAMAOhcAGiAAS4wBLPgEg0owA4sAiwiLAIsAIzEaIgAaIwAcGiQAGiUACgAAGiYAKcwFfYwAXrAA
-IzEaJwAWk48KAwZCk79KsAC/jwoDBkKTv32AAr+bjhB97AIUm7+bBgcaKAAPtf8aKQAdAgAAABEA
-FAAAAAAA//8BAAMADAAAAA8ARAARAAoAAABo
-</rawitemdata></item>
-<item name='$AssistVersion'><datetime>20210210T081928,54-05</datetime></item></note>
+<designchange><datetime dst='true'>20210517T143212,77-04</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='runonce'/><code event='options'><lotusscript>%REM
+	Agent Log Config
+	Created Nov 28, 2010 by Devin Olson/azlighthouse
+	Description: Comments for Agent
+%END REM
+Option Public
+Option Explicit
+Use "enhLogClass"
+
+
+</lotusscript></code><code event='initialize'><lotusscript>
+
+Sub Initialize()
+	Dim extendedInfo As String
+	On Error GoTo ErrorTrap
+	
+	Dim nuiwsp As New NotesUIWorkspace()
+	Dim ndoc As NotesDocument
+	
+	enhLogSetLogStackExceptions True
+	
+	Set ndoc = enhLogGetLogConfigDoc(True)
+	If (ndoc Is Nothing) Then GoTo ExitPoint
+
+	Call nuiwsp.EditDocument(False, ndoc)
+	
+ExitPoint:
+	Exit Sub
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException ||, extendedInfo$
+	MessageBox Error() &amp; Chr(10) &amp; extendedInfo$ &amp; Chr(10) &amp; |Please consult the log for additional information.|, 16, |Error #| &amp; CStr(Err())
+	Resume ExitPoint	
+End Sub</lotusscript></code>
+<rundata processeddocs='0' exitcode='0'>
+<agentmodified><datetime>20210301T193436,19-05</datetime></agentmodified></rundata>
+<item name='$POID'><datetime>20101203T153715,30-05</datetime></item></agent>
 

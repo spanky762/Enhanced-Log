@@ -9,7 +9,7 @@
 
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2021.02.18
+	Version 2021.02.28
 
 	Last updated: 02/2021
 
@@ -100,16 +100,19 @@ Declare Private Sub InstantiateLoggingSession()
 Declare Public Sub enhLogSetLogWarnings (source As Boolean)
 Declare Public Sub enhLogSetUserNameAbbrev (source$)
 Declare Public Function uiSelectDatabase(title$, msg$, fieldnameServer$, fieldnameFilepath$) As NotesDatabase 
+Declare Public Sub enhLogReleaseVersionBuild() 
 Declare Public Function strEndsWith(searchin$, searchfor$) As Boolean 
 Declare Public Function enhLogStackTrace(prefix$, extendedMsg$) As Boolean
 Declare Public Sub enhLogSetActionsIncludeMethodNames (source As Boolean)
 Declare Private Function getScalar(source As Variant) As Variant	
+Declare Public Property Set enhLogOutputToNotesLog As Boolean 
 Declare Public Function enhLogExceptionWithLink (prefix$, extendedMsg$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
 Declare Public Function enhLogGetCachedErrorTimestamp() As String
 Declare Public Sub enhLogDumpContent (prefix$, filepath$)
 Declare Public Sub enhLogSetResumeOnLoggingFailure (source As Boolean)
 Declare Function getHashedValue(source$, clearCache As Boolean) As String
 Declare Public Function enhLogAction(prefix$, description$) As Boolean
+Declare Public Property Get enhLogOutputToNotesLog As Boolean 
 Declare Public Function enhLogGetLogConfigUNID() As String
 Declare Public Function enhLogGetCachedErrorExtended() As String
 Declare Public Function getDocumentByUNID(ByVal universalID$) As NotesDocument 	
@@ -124,12 +127,14 @@ Declare Public Sub enhLogSetOverwriteFile (source As Boolean)
 Declare Public Function getListTags(source As Variant) As Variant  
 Declare Public Function enhLogProfileMethodStart(ByVal classname$, ByVal operation$) As Double 
 Declare Public Function enhLogWarningWithLink (prefix$, description$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
+Declare Public Property Set enhLogContentToNotesLog As Boolean 
 Declare Public Function getDbConfigDoc(ByVal source$, clearCache As Boolean) As NotesDocument
 Declare Public Function fileExists (filepath$) As Boolean
 Declare Public Function enhLogGetTaggedMilliseconds(tag$) As Double
 Declare Public Function enhLogTicksPerSecond() As Long 
 Declare Public Function enhLogGetLogConfigDb() As NotesDatabase 
 Declare Private Function initializeProfiledMethod(modulename$, classname$, methodname$, operation$, target As ProfiledMethod) As Boolean
+Declare Public Property Get enhLogContentToNotesLog As Boolean 
 Declare Public Function isBlankString(source$) As Boolean 
 Declare Public Sub enhLogSetUserName (source As NotesName)
 Declare Public Function getScalarString(source As Variant) As String 
@@ -175,6 +180,7 @@ Declare Public Function enhLogMethodResultWithLink (prefix$, description$, linkt
 Declare Public Function getFormPrefixForLogging(subform_prefix$) As String 
 Declare Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesName, userroles As Variant, start As NotesDateTime, progname$, server$, title$, filepath$, subject$, notesversion$, resumeonfail As Boolean) As NotesDocument
 Declare Public Function enhLogGetCachedErrorMethod() As String
+Declare Sub enhLogInstantiateNotesLog() 
 Declare Private Sub InstantiateLog (programName$) 
 Declare Private Function getCallingUIobjectName() As String
 Declare Public Sub TrimString (target$)
@@ -188,9 +194,7 @@ Declare Public Function enhLogExtendedContentWithLink (prefix$, description$, co
 Declare Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
 Declare Public Function enhLogActionWithLink (prefix$, description$, linkTo As Variant, ByVal comment$, ByVal HotSpotText$) As Boolean
 Declare Public Sub enhLogSetLocalEcho (source As Boolean)
-Declare Public Property Set enhLogContentToNotesLog As Boolean 
 Declare Public Function getCurrentSession() As NotesSession
-Declare Public Property Get enhLogContentToNotesLog As Boolean 
 Declare Public Sub enhLogSetLogStackExceptions (source As Boolean)
 Declare Public Sub enhLogClearCachedError()
 Declare Public Sub enhLogSetLogMethodResults (source As Boolean)
@@ -234,9 +238,9 @@ Private Const PROFILENAME_ENHANCEDLOG = |enhLogOptionsProfile|
 
 Private Const VIEWNAME_LOGS_BYLOGTIME = |lkp-LogsByLogTime|
 
-Private Const VERSION = |2021.02.18|
-
-
+Private Const VERSION = 		|1.9|
+Private Const BUILD = 			|1.B4F|
+Private Const RELEASE_DATE = 	|01 May 2021|
 
 
 %REM ***************************************************************************
@@ -355,7 +359,7 @@ Private g_errCode As Integer
 Private singletonSaveRecursions As Integer
 Private enhLogExists As Boolean
 Private singletonExists As Boolean
-Private doLogContentToNotesLog As Boolean 
+Private doLogOutputToNotesLog As Boolean 
 
 %REM ***************************************************************************
  ************************************************************************************
@@ -403,6 +407,15 @@ Private enhLog As EnhancedLog
 Private genhl_ProfiledMethods As ProfiledMethodList 
 Private genhl_dbConfigDocCache List As NotesDocument
 Private genhl_ProfileMethodStarts List As Integer    
+
+
+
+
+
+
+
+
+
 
 
   
@@ -3310,6 +3323,21 @@ ErrorTrap:
 	Resume Prompt
 End Function
 
+'++LotusScript Development Environment:2:2:enhLogReleaseVersionBuild:6:8
+
+%REM
+	Sub enhLogReleaseVersionBuild
+	Writes the Enhanced Log Release, Version, and Build number to the log. 
+%END REM
+Public Sub enhLogReleaseVersionBuild() 
+	enhLogExtendedContent ||, ||, _ 
+	|Enhanced Log, | & RELEASE_DATE _ 
+	& |, Version: | & VERSION _ 
+	& |, Build: | & BUILD
+End Sub
+
+
+
 '++LotusScript Development Environment:2:1:strEndsWith:9:8
 %REM
 	Function strEndsWith
@@ -3421,6 +3449,20 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+'++LotusScript Development Environment:2:4:enhLogOutputToNotesLog Set:6:8
+
+%REM
+	Property Set enhLogOutputToNotesLog
+	Specifies if log activity should be recorded using the Events form in the Notes Log (log.nsf by default) 
+%END REM
+Public Property Set enhLogOutputToNotesLog As Boolean 
+	doLogOutputToNotesLog = enhLogOutputToNotesLog 
+
+	If Not enhLogExists Then Call InstantiateLog(||)
+	
+	enhLog.OpenNotesLog getCurrentDb().Server, |log.nsf|	
+End Property
 
 '++LotusScript Development Environment:2:1:enhLogExceptionWithLink:19:8
 
@@ -3620,6 +3662,15 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, ||
 	Resume ExitPoint	
 End Function 
+
+'++LotusScript Development Environment:2:3:enhLogOutputToNotesLog Get:5:8
+%REM
+	Property Get enhLogOutputToNotesLog
+	Indicates if log activity should be recorded using the Events form in the Notes Log (log.nsf by default) 
+%END REM
+Public Property Get enhLogOutputToNotesLog As Boolean 
+	enhLogOutputToNotesLog = doLogOutputToNotesLog
+End Property
 
 '++LotusScript Development Environment:2:1:enhLogGetLogConfigUNID:2:8
 
@@ -3835,7 +3886,7 @@ End Function
 	Description
 %END REM
 Public Function enhLogGetNotesLogForm() As String 
-	If doLogContentToNotesLog Then 
+	If doLogOutputToNotesLog Then 
 		enhLogGetNotesLogForm = FORMALIAS_EVENTS  
 	Else 
 		enhLogGetNotesLogForm = |Log Entry|
@@ -4083,6 +4134,24 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, ||
 	Resume ExitPoint	
 End Function 
+
+'++LotusScript Development Environment:2:4:enhLogContentToNotesLog Set:8:8
+%REM
+	Property Set enhLogContentToNotesLog
+	Specifies if log activity should be recorded using the Events form in the Notes Log (log.nsf by default) 
+		
+	@deprecated - use enhLogOutputToNotesLog 
+	@see enhLogOutputToNotesLog
+%END REM
+Public Property Set enhLogContentToNotesLog As Boolean 
+'	doLogContentToNotesLog = enhLogContentToNotesLog 
+'
+'	If Not enhLogExists Then Call InstantiateLog(||)
+'	
+'	enhLog.OpenNotesLog getCurrentDb().Server, |log.nsf|
+
+	enhLogOutputToNotesLog = enhLogContentToNotesLog 	
+End Property
 
 '++LotusScript Development Environment:2:1:getDbConfigDoc:13:8
 
@@ -4351,6 +4420,18 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+'++LotusScript Development Environment:2:3:enhLogContentToNotesLog Get:8:8
+%REM
+	Property Get enhLogContentToNotesLog
+	Indicates if log activity should be recorded using the Events form in the Notes Log (log.nsf by default) 
+	
+	@deprecated - use enhLogOutputToNotesLog 
+	@see enhLogOutputToNotesLog
+%END REM
+Public Property Get enhLogContentToNotesLog As Boolean 
+	enhLogContentToNotesLog = doLogOutputToNotesLog
+End Property
 
 '++LotusScript Development Environment:2:1:isBlankString:5:8
 %REM
@@ -5500,6 +5581,7 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 		Set nnam = New NotesName(getCurrentSession().EffectiveUserName) 
 		Set nitm = result.replaceItemValue(|StartTime|, start) 
 		Set nitm = result.replaceItemValue(|Server|, nnam.Abbreviated) ' poor choice of field names 
+		Set nitm = result.replaceItemValue(|ExcludeFromView|, |A|) 
 	End If
 	
 	' set all the items as summay
@@ -5538,6 +5620,89 @@ Public Function enhLogGetCachedErrorMethod() As String
 	enhLogGetCachedErrorMethod = ||
 	If enhLogExists Then enhLogGetCachedErrorMethod = enhLog.CachedErrorMethod
 End Function 
+
+'++LotusScript Development Environment:2:2:enhLogInstantiateNotesLog:19:8
+
+%REM
+	Sub enhLogInstantiateNotesLog
+	Instantiates sets the properties (as specified in azlwConstants) for logging to log.nsf
+	
+	LOG OPTIONS controlled by Notes INI Variables
+		
+	ENHLOG_LOG_LEVEL
+		OFF = 0  		<<< MUST EXPLICTLY SET 
+		ERROR = 200 	<< DEFAULT : Logs Exceptions
+		WARN = 300		: Logs Warnings and Exceptions
+		INFO = 400 		: Logs Method Results, Warnings, and Exceptions
+		TRACE = 600		: Logs Actions, Extended Content, Method Results, Warnings, and Exceptions 
+	
+	ENHLOG_LOCAL_ECHO=1 
+		Causes all Log events to be echoed to the Notes Client status bar
+	
+%END REM
+Sub enhLogInstantiateNotesLog() 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	Dim level$
+	Dim localecho$ 
+	
+	
+	' BEGIN CODE 
+	enhLogSetLogErrors  True 
+	enhLogSetActionsIncludeMethodNames True 
+	enhLogSetLogWarnings False 		
+	enhLogSetLogMethodResults False
+	enhLogSetLogActions False
+	enhLogSetLocalEcho False
+
+	level$ = getCurrentSession().getEnvironmentString(|ENHLOG_LOG_LEVEL|, True)
+	extendedInfo(|Level|) = level$ 
+	Select Case level$ 
+		Case |0|: 
+			enhLogSetLogErrors  False 
+			enhLogSetActionsIncludeMethodNames False 			
+			
+		Case |300|: 
+			enhLogSetLogWarnings True 
+			 		
+		Case |400|: 
+			enhLogSetLogWarnings True 
+			enhLogSetLogMethodResults True 
+			
+		Case |600|: 
+			enhLogSetLogWarnings True 
+			enhLogSetLogMethodResults True 
+			enhLogSetLogActions True 
+	End Select
+	  
+	localecho$ = getCurrentSession().getEnvironmentString(|ENHLOG_LOCAL_ECHO|, True)
+	extendedInfo(|localecho|) = localecho$
+	
+	If (|1| = localecho$) Then 	enhLogSetLocalEcho True 
+
+	enhLogOutputToNotesLog = True ' write Log content to log.nsf
+ 	Call enhLogReleaseVersionBuild()
+ 
+ 
+ExitPoint: 
+	Exit Sub 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogOutputToNotesLog = True ' write Log content to log.nsf
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Sub
 
 '++LotusScript Development Environment:2:2:InstantiateLog:2:8
 
@@ -5899,19 +6064,6 @@ Public Sub enhLogSetLocalEcho (source As Boolean)
 	enhLog.LocalEcho = source
 End Sub 
 
-'++LotusScript Development Environment:2:4:enhLogContentToNotesLog Set:5:8
-%REM
-	Property Set enhLogContentToNotesLog
-	Specifies if log activity should be recorded using the Events form in the Notes Log (log.nsf by default) 
-%END REM
-Public Property Set enhLogContentToNotesLog As Boolean 
-	doLogContentToNotesLog = enhLogContentToNotesLog 
-
-	If Not enhLogExists Then Call InstantiateLog(||)
-	
-	enhLog.OpenNotesLog getCurrentDb().Server, |log.nsf|	
-End Property
-
 '++LotusScript Development Environment:2:1:getCurrentSession:6:8
 
 %REM
@@ -5933,15 +6085,6 @@ ErrorTrap:
 	Set result = Nothing
 	Resume ExitPoint
 End Function 
-
-'++LotusScript Development Environment:2:3:enhLogContentToNotesLog Get:5:8
-%REM
-	Property Get enhLogContentToNotesLog
-	Indicates if log activity should be recorded using the Events form in the Notes Log (log.nsf by default) 
-%END REM
-Public Property Get enhLogContentToNotesLog As Boolean 
-	enhLogContentToNotesLog = doLogContentToNotesLog
-End Property
 
 '++LotusScript Development Environment:2:2:enhLogSetLogStackExceptions:2:8
 
@@ -6003,6 +6146,10 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
 
 
 
