@@ -149,6 +149,9 @@ Const MSG_INTERNAL_NORECOVER = |Internal Error in EnhancedLog object.  ResumeOnL
 Const ERR_OBJECT_CREATE_FAILED = 1208
 Const MSG_OBJECT_CREATE_FAILED = |Failed to create an Object.  |
 
+Const ERR_PARENT_METHOD_NOT_ALLOWED = 1100
+Const MSG_PARENT_METHOD_NOT_ALLOWED = |Method must be overriden in child class.  |
+
 Const ERR_PARAMETER_BLANK = 1199
 Const MSG_PARAMETER_BLANK = |A required parameter is blank or missing.  |
 
