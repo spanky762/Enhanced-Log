@@ -8,18 +8,18 @@
  altrowcolor='#f7f7f7' totalscolor='black' headerbgcolor='white' boldunreadrows='false'
  evaluateactions='false' allownewdocuments='false' allowcustomizations='false'
  hidemarginborder='false' marginwidth='0px' marginbgcolor='white' uniquekeys='false'>
-<noteinfo noteid='1f6' unid='5D19A55F113717E185258662004A1475' sequence='18'>
+<noteinfo noteid='1f6' unid='5D19A55F113717E185258662004A1475' sequence='21'>
 <created><datetime>20210119T082909,01-05</datetime></created>
-<modified><datetime dst='true'>20210517T144043,33-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144043,32-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144043,32-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203245,31-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203245,30-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203245,30-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,68-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby><code
  event='selection'><formula>SELECT (Form = "Log Entry") &amp; HasErrors</formula></code>
 <actionbar bgcolor='#ece9d8' bordercolor='black'>
-<actionbuttonstyle bgcolor='#ece9d8'/><font color='system'/><border style='solid'
- width='0px 0px 1px'/>
+<actionbuttonstyle bgcolor='#ece9d8'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px'/>
 <action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
 <action title='_Edit Document' showinbar='false' systemcommand='edit'/>
 <action title='_Send Document' showinbar='false' systemcommand='send'/>

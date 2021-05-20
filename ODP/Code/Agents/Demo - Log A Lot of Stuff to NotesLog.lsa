@@ -2,15 +2,15 @@
 <agent name='Demo - Log A Lot of Stuff to NotesLog' xmlns='http://www.lotus.com/dxl'
  version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
  publicaccess='false' designerversion='8.5.3'>
-<noteinfo noteid='28e' unid='21CAF0D82650A01B85258680006D4B94' sequence='19'>
+<noteinfo noteid='28e' unid='21CAF0D82650A01B85258680006D4B94' sequence='22'>
 <created><datetime>20210218T145347,72-05</datetime></created>
-<modified><datetime dst='true'>20210517T144043,06-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144043,05-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144043,05-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203245,00-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203244,99-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203244,99-04</datetime></lastaccessed>
 <addedtofile><datetime>20210218T145349,99-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime dst='true'>20210517T144043,05-04</datetime></designchange>
+<designchange><datetime dst='true'>20210519T203244,99-04</datetime></designchange>
 <trigger type='actionsmenu'/>
 <documentset type='runonce'/><code event='options'><lotusscript>%REM ***************************************************************************
  ************************************************************************************
@@ -40,14 +40,7 @@ Sub Initialize
 End Sub
 
 </lotusscript></code><code event='terminate'><lotusscript>Sub Terminate
-	MessageBox |Agent Finished!|, 64, |Complete|
+	Messagebox |Agent Finished!|, 64, |Complete|
 End Sub</lotusscript></code>
-<rundata processeddocs='0' exitcode='0' agentdata='1E67650AA44BB9EF852586800074A71B'>
-<agentmodified><datetime>20210218T161108,41-05</datetime></agentmodified>
-<agentrun><datetime>20210218T161501,21-05</datetime></agentrun>
-<runlog>Started running agent 'Demo - Log A Lot of Stuff to NotesLog' on 02/18/2021 04:14:09 PM
-Ran LotusScript code
-Done running agent 'Demo - Log A Lot of Stuff to NotesLog' on 02/18/2021 04:15:01 PM
-</runlog></rundata>
 <item name='$POID'><datetime>20101203T153715,28-05</datetime></item></agent>
 

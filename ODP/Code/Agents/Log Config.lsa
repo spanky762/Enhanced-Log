@@ -2,15 +2,15 @@
 <agent name='Log Config' alias='ui-OpenLogConfig' xmlns='http://www.lotus.com/dxl'
  version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
  publicaccess='false' designerversion='8.5.3'>
-<noteinfo noteid='176' unid='DCE7B884CEE72DB3862577FA007653DC' sequence='12'>
+<noteinfo noteid='176' unid='DCE7B884CEE72DB3862577FA007653DC' sequence='15'>
 <created><datetime>20101215T153227,16-06</datetime></created>
-<modified><datetime dst='true'>20210517T144043,09-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144043,08-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144043,08-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203245,05-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203245,04-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203245,04-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051202,68-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime dst='true'>20210517T144043,08-04</datetime></designchange>
+<designchange><datetime dst='true'>20210519T203245,04-04</datetime></designchange>
 <trigger type='actionsmenu'/>
 <documentset type='runonce'/><code event='options'><lotusscript>%REM
 	Agent Log Config
@@ -26,7 +26,7 @@ Use "enhLogClass"
 
 Sub Initialize()
 	Dim extendedInfo As String
-	On Error GoTo ErrorTrap
+	On Error Goto ErrorTrap
 	
 	Dim nuiwsp As New NotesUIWorkspace()
 	Dim ndoc As NotesDocument
@@ -34,19 +34,17 @@ Sub Initialize()
 	enhLogSetLogStackExceptions True
 	
 	Set ndoc = enhLogGetLogConfigDoc(True)
-	If (ndoc Is Nothing) Then GoTo ExitPoint
+	If (ndoc Is Nothing) Then Goto ExitPoint
 
 	Call nuiwsp.EditDocument(False, ndoc)
 	
 ExitPoint:
 	Exit Sub
 ErrorTrap:
-	On Error GoTo 0
+	On Error Goto 0
 	enhLogException ||, extendedInfo$
-	MessageBox Error() &amp; Chr(10) &amp; extendedInfo$ &amp; Chr(10) &amp; |Please consult the log for additional information.|, 16, |Error #| &amp; CStr(Err())
+	Messagebox Error() &amp; Chr(10) &amp; extendedInfo$ &amp; Chr(10) &amp; |Please consult the log for additional information.|, 16, |Error #| &amp; Cstr(Err())
 	Resume ExitPoint	
 End Sub</lotusscript></code>
-<rundata processeddocs='0' exitcode='0'>
-<agentmodified><datetime>20210301T193436,19-05</datetime></agentmodified></rundata>
 <item name='$POID'><datetime>20101203T153715,30-05</datetime></item></agent>
 
