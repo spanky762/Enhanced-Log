@@ -18,7 +18,7 @@
 
 Option Public
 Option Explicit
-Use "enhLogClass"
+Use "azlwAppUtils"
 
 '++LotusScript Development Environment:2:5:(Forward):0:1
 Declare Public Class Wabe
@@ -40,16 +40,23 @@ Const ALPHANUMERIC = NUMBERCHARS & ALPHACHARS
 
 Public Class Wabe
 	Private CLASS_PREFIX As String
-	Private manxome As Integer
+	Private manxome_ As Integer
+	Private vorpal_ As Integer 
 	
 	Public Sub New()
-		CLASS_PREFIX = LIB_PREFIX + |Class: Wabe.|
-		Me.manxome = 0
+		CLASS_PREFIX = |Wabe.|
+		me.manxome = -1
 	End Sub ' New
 	
 	Sub gyre (source As EnhancedLog, pos&)
-		Me.gimble source, pos&
-	End Sub ' gyre
+		enhLogProfileMethodStart CLASS_PREFIX, ||
+		If (pos& < 200) Then 
+			me.gyre source, pos& + 20
+		Else 
+			me.gimble source, pos&	
+		End If
+		enhLogProfileMethodFinish CLASS_PREFIX, ||
+	End Sub 
 	
 	Sub gimble (source As EnhancedLog, pos&)
 %REM  DEVELOPERS NOTE
@@ -59,6 +66,7 @@ Public Class Wabe
 	logging is available through the enhLogXXXX wrapper methods.
 %END REM
 		
+		enhLogProfileMethodStart CLASS_PREFIX, ||
 		Dim description As String
 		Dim extendedInfo As String
 		Dim idx As Integer
@@ -79,6 +87,9 @@ Public Class Wabe
 			Case 209: enhLogWarning CLASS_PREFIX, |raths|
 			Case 210: enhLogWarning CLASS_PREFIX, |outgrabe.|
 			End Select ' Case pos&
+			
+			If (pos& < 250) Then me.vorpal = pos&
+
 		End If ' (pos& > 200)
 		
 		For idx% = 1 To 36
@@ -98,56 +109,82 @@ Public Class Wabe
 				enhLogExtendedContent ||, ||, |I am extended content 5|
 				enhLogExtendedContent ||, ||, ||
 				
-				If (pos& > 200) Then Me.vorpal(pos&)
-				
 			End If ' (((idxEntry + idxAlphaChars%) Mod 11) = 0)
 		Next idx%		
 		
-ExitPoint:
+	ExitPoint:
+		enhLogProfileMethodFinish CLASS_PREFIX, || 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		enhLogException CLASS_PREFIX, extendedInfo$
 		Resume ExitPoint
 	End Sub ' gimble
 	
 	
-	Public Sub vorpal(pos&)
+	Property Set manxome As Integer 
+		enhLogProfileMethodStart CLASS_PREFIX, |Set|
+		me.manxome_ = manxome
+		enhLogProfileMethodFinish CLASS_PREFIX, |Set|
+	End Property 
+	
+	Property Get manxome As Integer 
+		enhLogProfileMethodStart CLASS_PREFIX, |Get|
 		
-		Dim extendedInfo As String
+		Select Case me.manxome_
+			Case 0:
+				me.manxome_ = 1
+				enhLogWarning CLASS_PREFIX, |Beware the Jabberwock, my son! |  
+				
+			Case 1:
+				me.manxome_ = 2
+				enhLogWarning CLASS_PREFIX, |The jaws that bite, the claws that catch!|
+				
+			Case 2:
+				me.manxome_ = 3
+				enhLogWarning CLASS_PREFIX, |Beware the Jubjub bird, and shun|
+				
+			Case Else:
+				me.manxome_ = 0
+				enhLogWarning CLASS_PREFIX, |The frumious Bandersnatch!| 
+		End Select 
 		
+		manxome = me.manxome_
+			
+		enhLogProfileMethodFinish CLASS_PREFIX, |Get|
+	End Property 
+	
+	
+	
+	Property Set vorpal As Long 
+		enhLogProfileMethodStart CLASS_PREFIX, |Set| 		
 		On Error GoTo ErrorTrap
 		
-		Select Case Me.manxome
-		Case 0:
-			Me.manxome = 1
-			extendedInfo$ = |Beware the Jabberwock, my son!| 
-			
-		Case 1:
-			Me.manxome = 2
-			extendedInfo$ = |The jaws that bite, the claws that catch!|
-			
-		Case 2:
-			Me.manxome = 3
-			extendedInfo$ = |Beware the Jubjub bird, and shun|
-			
-		Case Else:
-			Me.manxome = 0
-			extendedInfo$ = |The frumious Bandersnatch!|
-		End Select ' Case Me.manxome
+		Dim m As Integer
 		
+		me.vorpal_ = vorpal
+		m = me.manxome
 		
-		enhLogAction CLASS_PREFIX, |Now forcing an error|
-		extendedInfo$ = extendedInfo$ & Chr(10) & _ 
-		|Attempted to divide | & CStr(pos&) & | by zero.|
+		enhLogExtendedContent CLASS_PREFIX, ||, CStr(me.vorpal)
+		enhLogExtendedContent ||, ||, |divided by| 
+		enhLogExtendedContent ||, ||, CStr(m) 
+		enhLogExtendedContent ||, ||, |returns|
+		enhLogExtendedContent ||, ||, CStr(me.vorpal / m) 
 		
-		enhLogAction CLASS_PREFIX, CStr(pos& / 0)
-		
-ExitPoint:
-		Exit Sub
-ErrorTrap:
-		enhLogException CLASS_PREFIX, extendedInfo$
+	ExitPoint:
+		enhLogProfileMethodFinish CLASS_PREFIX, |Set|
+		Exit Property
+	ErrorTrap:
+		enhLogException CLASS_PREFIX, ||
 		Resume ExitPoint
-	End Sub ' vorpal
+	End Property 
+	
+	
+	Property Get vorpal As Long 
+		enhLogProfileMethodStart CLASS_PREFIX, |Get|
+		vorpal = me.vorpal_
+		enhLogProfileMethodFinish CLASS_PREFIX, |Get|
+	End Property 
+	
 End Class 
 '++LotusScript Development Environment:2:2:logalotofstuff:5:8
 %REM
@@ -155,8 +192,10 @@ End Class
 	Logs a Lot of Stuff 
 %END REM
 Sub logalotofstuff()  
+	enhLogProfileMethodStart ||, ||
 	
 	Dim config As NotesDocument 
+	Dim nvw As NotesView 
 	Dim myWabe As Wabe
 	
 	Dim myLogObject_1 As EnhancedLog ' NEVER REQUIRED - USED HERE FOR EXAMPLE PURPOSES ONLY
@@ -213,7 +252,22 @@ Sub logalotofstuff()
 	logActionToEnhancedLogObject myLogObject_1, |This is a direct call to myLogObject_1's LogAction Method|
 	
 	proxyLogWarning |This is what logging a warning looks like.|
-
+	
+	
+	enhLogActionWithLink LIB_PREFIX, |It is also possible to include links, such as this link to the config document.|, config, |Document|, || 
+	
+	Set nvw = getCachedView(|lkp-Config|) 
+	enhLogExtendedContentWithLink ||, ||, |Extended Content can also include links, such as this link to the config view.|, nvw, |View|, ||
+	
+	enhLogMethodResultWithLink LIB_PREFIX, _ 
+	|In fact, links can be included with all of the enhLogXXXX methods | & _ 
+	|(enhLogAction, enhLogExtendedContent, enhLogWarning, enhLogException, and enhLogMethodResult)|, _ 
+	config, |Document|, || 
+	
+	enhLogExtendedContent ||, ||, || 
+	enhLogExtendedContent ||, ||, || 
+	
+	
 	enhLogExtendedContent LIB_PREFIX, _ 
 	|The Demo agent will now create another new object instance handle to the EnhancedLog object:|, _ 
 	|Set myLogObject_2 = New EnhancedLog("")|
@@ -241,8 +295,13 @@ Sub logalotofstuff()
 	enhLogWarning LIB_PREFIX, |**************************************************************************************************************|
 	enhLogExtendedContent ||, ||, ||
 
-	For idx& = 1 To 220
+	
+
+
+	For idx& = 100 To 300
 		enhLogSetLogStackExceptions ((idx& Mod 2) = 0) ' Logs stack exceptions on for even values of idx&
+		
+		enhLogAction LIB_PREFIX, |Vorpal: | & CStr(myWabe.vorpal) 
 		
 		If ((idx& Mod 3) = 0) Then
 			myWabe.gyre myLogObject_3, idx&
@@ -250,12 +309,13 @@ Sub logalotofstuff()
 			myWabe.gyre myLogObject_2, idx&
 		Else
 			myWabe.gyre myLogObject_1, idx&
-		End If ' ((idx& Mod 3) = 0)
+		End If 
 
 	Next idx&
 	
 ExitPoint:
 	enhLogMethodResult LIB_PREFIX, |This is the what a method result looks like|
+	enhLogProfileMethodFinish ||, || 
 	Exit Sub	
 ErrorTrap:
 	enhLogException LIB_PREFIX, ||
@@ -285,6 +345,12 @@ Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
 %END REM
 	source.LogAction description$
 End Sub ' logActionToEnhancedLogObject
+
+
+
+
+
+
 
 
 
