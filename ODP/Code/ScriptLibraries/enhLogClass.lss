@@ -9,9 +9,9 @@
 
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2021.02.28
+	Version 2021.05.20
 
-	Last updated: 02/2021
+	Last updated: 05/2021
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -238,9 +238,9 @@ Private Const PROFILENAME_ENHANCEDLOG = |enhLogOptionsProfile|
 
 Private Const VIEWNAME_LOGS_BYLOGTIME = |lkp-LogsByLogTime|
 
-Private Const VERSION = 		|1.9|
-Private Const BUILD = 			|1.D05|
-Private Const RELEASE_DATE = 	|19 May 2021|
+Private Const VERSION = 		|1.95|
+Private Const BUILD = 			|1.D15|
+Private Const RELEASE_DATE = 	|20 May 2021|
 
 
 %REM ***************************************************************************
@@ -1132,7 +1132,7 @@ ExitPoint:
 	
 	Public Sub Close()
 		If (Me.HasEntries Or Me.logType = LOGTYPE_AGENT) Then 
-			Me.LogProfiledMethodSummary
+			Call Me.LogProfiledMethodSummary()
 			Me.LogAction |LotusScript Finished|
 			If (Me.logType = LOGTYPE_MAIL) Then
 				Me.Send				
@@ -1698,9 +1698,9 @@ ErrorTrap:
 			End If 
 		End If 
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error(), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
@@ -6135,12 +6135,10 @@ Public Function enhLogIsProfilingEnabled() As Boolean
 
 	Static isChecked As Boolean 
 	
-	If isChecked Then GoTo ExitPoint 
-	If (Not enhLogIsLogDisabled()) Then 
-		result = (|YES| = UCase$(enhLogGetLogConfigText(ITEMNAME_ENHLOG_YN_PROFILINGENABLED)))	
-		If result And (genhl_ProfiledMethods Is Nothing) Then Set genhl_ProfiledMethods = New ProfiledMethodList() 
-	End If 
-
+	If isChecked Then GoTo ExitPoint
+	If (genhl_ProfiledMethods Is Nothing) Then Set genhl_ProfiledMethods = New ProfiledMethodList() 
+	If (Not enhLogIsLogDisabled()) Then result = (|YES| = UCase$(enhLogGetLogConfigText(ITEMNAME_ENHLOG_YN_PROFILINGENABLED)))
+	
 	isChecked = True
 
 ExitPoint:
@@ -6152,6 +6150,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
