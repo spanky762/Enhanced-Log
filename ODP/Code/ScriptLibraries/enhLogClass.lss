@@ -1101,18 +1101,18 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		If (Not (configdoc Is Nothing)) Then 
 			Me.LogActions = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOGACTIONS))
 			Me.LogActions = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOGACTIONS))
-			Me.LogErrors = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_LOGERRORS))
-			Me.LogMethodResults = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_LOGMETHODRESULTS))
-			Me.LogStackExceptions = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_LOGSTACKEXCEPTIONS))
-			Me.LocalEcho = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_LOCALECHO))
-			Me.AutoSave = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_AUTOSAVE))
-			Me.OverwriteFile = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_OVERWRITE))
-			Me.ResumeOnLoggingFailure = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_RESUMEONFAIL))
-			Me.ActionsIncludeMethodNames = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_INCLUDEMETHODNAMES))
-			Me.LogWarnings = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_LOGWARNINGS))
-			Me.Enabled = (|Yes| = getDocItemText(configdoc,ITEMNAME_ENHLOG_YN_LOGENABLED))
-			targetserver$ = getDocItemText(configdoc,ITEMNAME_ENHLOG_TARGET_SERVER)
-			targetfilepath$ = getDocItemText(configdoc,ITEMNAME_ENHLOG_TARGET_FILEPATH)
+			Me.LogErrors = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOGERRORS))
+			Me.LogMethodResults = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOGMETHODRESULTS))
+			Me.LogStackExceptions = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOGSTACKEXCEPTIONS))
+			Me.LocalEcho = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOCALECHO))
+			Me.AutoSave = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_AUTOSAVE))
+			Me.OverwriteFile = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_OVERWRITE))
+			Me.ResumeOnLoggingFailure = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_RESUMEONFAIL))
+			Me.ActionsIncludeMethodNames = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_INCLUDEMETHODNAMES))
+			Me.LogWarnings = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOGWARNINGS))
+			Me.Enabled = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOGENABLED))
+			targetserver$ = getDocItemText(configdoc, ITEMNAME_ENHLOG_TARGET_SERVER)
+			targetfilepath$ = getDocItemText(configdoc, ITEMNAME_ENHLOG_TARGET_FILEPATH)
 			If ((Len(targetserver$) + Len(targetfilepath$)) > 0) Then Set Me.myTargetDb = getOpenDatabase(targetserver$, targetfilepath$) 
 			If (Me.myTargetDb Is Nothing) Then Set Me.myTargetDb = getCurrentDb()
 			Me.hasLogConfigDoc = True
@@ -6150,6 +6150,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
