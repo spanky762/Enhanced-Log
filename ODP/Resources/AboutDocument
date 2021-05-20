@@ -2,11 +2,11 @@
 <helpaboutdocument xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
  replicaid='85258671003806E7' publicaccess='false' designerversion='8.5.3'
  default='true' renderpassthrough='true'>
-<noteinfo noteid='216' unid='C102C898FB7300E885257370004FE586' sequence='19'>
+<noteinfo noteid='216' unid='C102C898FB7300E885257370004FE586' sequence='22'>
 <created><datetime dst='true'>20071010T103241,02-04</datetime></created>
-<modified><datetime dst='true'>20210517T144028,75-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144028,74-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144028,74-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203149,14-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203149,13-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203149,13-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,88-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
@@ -264,10 +264,8 @@ Sm7BGgWbgtrUcY0tGMAbJthmPexhDRc+KITx9FdAAAA7
 <pardef id='8' tabs='L0.5000in L1in'/>
 <par def='8'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
  truetype='true' familyid='20' color='blue'/></run></par>
-<par def='8'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
- truetype='true' familyid='20' color='blue'/></run><attachmentref name='license.txt'
- displayname='license.txt'><picture height='34px' width='73px'><notesbitmap
->
+<par def='8'><attachmentref name='license.txt' displayname='license.txt'><picture
+ height='34px' width='73px'><notesbitmap>
 lQAmAAAAAAAAAAAAAAABAAAAAAAAAEkAIgAIAAEACAABADMABACWACMDAAAAAAAAAAAAACIAEQNA
 CQABAEAJAAEAQAkAAQBACQABAEADAMIAAQjCDAENwwwCExfCDAIcD8IMBQcZDCkqQAMAwwBAAwDC
 ABUIEQ0HGAAYHxgAAR8RDgUKDQUDDB5AAwDCAEADAMIAFwgRHA0RAAgTDQARCA0DBQoxBQMnFx4F
@@ -292,11 +290,8 @@ BgYGLhbd3Zz9AQAMGwAA/v///w==
 ><font size='12pt' style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='blue'/>  </run></par>
 <par def='8'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
- familyid='20'/></run><run><font size='12pt' name='Arial' pitch='variable'
- truetype='true' familyid='20'/></run></par></section>
+ familyid='20'/></run></par></section>
 <pardef id='9' leftmargin='1in'/>
-<par def='9'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
- familyid='20'/></run></par>
 <section><sectiontitle pardef='9' borderstyle='shadow' color='teal'><font
  size='12pt' color='maroon' style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20'/><text>NOTICE</text></sectiontitle>
@@ -321,7 +316,7 @@ BgYGLhbd3Zz9AQAMGwAA/v///w==
 <par def='10'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
  truetype='true' familyid='20'/>azlighthouse works, llc.</run></par>
 <par def='10'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
- familyid='20'/></run><urllink showborder='false' href='http://www.azlighthouse.com'><run
+ familyid='20'/></run><urllink showborder='false' href='http://www.azlighthouse.com/'><run
 ><font size='12pt' style='underline' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='blue'/>http://www.azlighthouse.com</run></urllink><run
 ><font size='12pt' name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par>
@@ -379,8 +374,7 @@ BgYGLhbd3Zz9AQAMGwAA/v///w==
  familyid='20'/>WITH THE SOFTWARE.    </run></par>
 <par def='10'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
-<par def='10'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
- familyid='20'/></run><attachmentref name='notice.txt' displayname='notice.txt'><picture
+<par def='10'><attachmentref name='notice.txt' displayname='notice.txt'><picture
  height='34px' width='67px'><notesbitmap>
 lQAmAAAAAAAAAAAAAAABAAAAAAAAAEMAIgAIAAEACAABADMABACWAPkCAAAAAAAAAAAAACIA5wJA
 CADDAEAIAMMAQAgAwwBACADDAEACAMcAAQjCDAENwwwCExfCDAIcD8IMBQcZDCkqQAMAQAIAxwAV
@@ -404,10 +398,7 @@ AAAAXGRldmluXERlc2t0b3BcbgICAgICAgICdABaACgAAAAUHgEABQAAAAEBAQEBAQEBQATd3UAE
 </notesbitmap><caption>notice.txt</caption></picture></attachmentref><run
 ><font style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par>
 <par def='2'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
- familyid='20' color='navy'/></run><run><font style='bold' name='Arial' pitch='variable'
- truetype='true' familyid='20'/></run></par></section>
-<par def='9'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
- familyid='20'/></run></par>
+ familyid='20'/></run></par></section>
 <section><sectiontitle pardef='9' borderstyle='shadow' color='teal'><font
  style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/><text
 >LICENSE TRANSLATION</text></sectiontitle>
@@ -425,8 +416,7 @@ AAAAXGRldmluXERlc2t0b3BcbgICAgICAgICdABaACgAAAAUHgEABQAAAAEBAQEBAQEBQATd3UAE
 <par def='2'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
 <par def='5'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
- truetype='true' familyid='20'/>It's a pretty simple: don't be a jerk and claim you wrote the code.</run><run
-><font style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par></section>
+ truetype='true' familyid='20'/>It's a pretty simple: don't be a jerk and claim you wrote the code.</run></par></section>
 <par def='2'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
 <par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'

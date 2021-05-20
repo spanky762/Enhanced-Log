@@ -239,8 +239,8 @@ Private Const PROFILENAME_ENHANCEDLOG = |enhLogOptionsProfile|
 Private Const VIEWNAME_LOGS_BYLOGTIME = |lkp-LogsByLogTime|
 
 Private Const VERSION = 		|1.9|
-Private Const BUILD = 			|1.B4F|
-Private Const RELEASE_DATE = 	|01 May 2021|
+Private Const BUILD = 			|1.D05|
+Private Const RELEASE_DATE = 	|19 May 2021|
 
 
 %REM ***************************************************************************
@@ -6152,6 +6152,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 

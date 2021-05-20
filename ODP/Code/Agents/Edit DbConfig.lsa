@@ -2,16 +2,15 @@
 <agent name='Edit DbConfig' alias='editDbConfig' xmlns='http://www.lotus.com/dxl'
  version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
  publicaccess='false' designerversion='8.5.3' comment='Opens the DbConfig document for editing'>
-<noteinfo noteid='16e' unid='E2EE1C0A5371C50185258662006BB649' sequence='9'>
+<noteinfo noteid='16e' unid='E2EE1C0A5371C50185258662006BB649' sequence='12'>
 <created><datetime>20210119T143630,17-05</datetime></created>
-<modified><datetime dst='true'>20210517T144043,08-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144043,07-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144043,07-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203245,03-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203245,02-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203245,02-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051202,66-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name
->CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime dst='true'>20210517T144043,07-04</datetime></designchange>
+<designchange><datetime dst='true'>20210519T203245,02-04</datetime></designchange>
 <trigger type='actionsmenu'/>
 <documentset type='runonce'/><code event='options'><lotusscript>%REM
 	Agent Edit DbConfig
@@ -26,7 +25,7 @@ Use "enhLogClass"
 
 
 </lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
-	On Error GoTo ErrorTrap
+	On Error Goto ErrorTrap
 	
 	
 	Dim nuiwsp As NotesUIWorkspace
@@ -45,10 +44,8 @@ Use "enhLogClass"
 ExitPoint: 
 	Exit Sub 
 ErrorTrap:
-	On Error GoTo 0
+	On Error Goto 0
 	enhLogException ||, ||
 	Resume ExitPoint 	
-End Sub</lotusscript></code>
-<rundata processeddocs='0' exitcode='0'>
-<agentmodified><datetime>20210119T142243,36-05</datetime></agentmodified></rundata></agent>
+End Sub</lotusscript></code></agent>
 
