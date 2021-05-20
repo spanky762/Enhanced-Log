@@ -2,11 +2,11 @@
 <helpusingdocument xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
  replicaid='85258671003806E7' publicaccess='false' designerversion='8.5.3'
  default='true' renderpassthrough='true'>
-<noteinfo noteid='21a' unid='E5AD462E797701AA852573700050055E' sequence='20'>
+<noteinfo noteid='21a' unid='E5AD462E797701AA852573700050055E' sequence='21'>
 <created><datetime dst='true'>20071010T103402,54-04</datetime></created>
-<modified><datetime dst='true'>20210517T144028,76-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144028,75-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144028,75-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T202258,78-04</datetime></modified>
+<revised><datetime dst='true'>20210519T202258,77-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T202258,77-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,90-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
@@ -48,6 +48,8 @@
  familyid='20'/></run></par>
 <par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
  familyid='20'/>The following design elements should be copied under the noted conditions:</run></par>
+<par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
+ familyid='20'/></run></par>
 <par def='2'><run><font size='12pt' style='bold' name='Arial' pitch='variable'
  truetype='true' familyid='20'/>Databases which will perform logging: </run></par>
 <pardef id='3' leftmargin='1.5000in' list='bullet'/>

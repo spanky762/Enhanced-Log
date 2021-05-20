@@ -2,11 +2,11 @@
 <subform name='Config\Enhanced Log Information' alias='cfg-EnhLogInfo' xmlns='http://www.lotus.com/dxl'
  version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' designerversion='8.5.3'
  renderpassthrough='true'>
-<noteinfo noteid='1e6' unid='76B2E62B595DC47B852585BD005C2E85' sequence='19'>
+<noteinfo noteid='1e6' unid='76B2E62B595DC47B852585BD005C2E85' sequence='24'>
 <created><datetime dst='true'>20200807T124652,21-04</datetime></created>
-<modified><datetime dst='true'>20210517T144043,14-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144043,13-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144043,13-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203245,11-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203245,10-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203245,10-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,60-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
@@ -89,7 +89,8 @@ End Sub
 End Sub
 </lotusscript></code><code event='postsave'><lotusscript>Sub Postsave(Source As Notesuidocument)
 	Call updateLogConfigFromLogOptions(Source.Document)
-End Sub</lotusscript></code>
+End Sub
+</lotusscript></code>
 <body><richtext>
 <pardef id='1' leftmargin='1in' rightmargin='100%' hide='notes web mobile'/>
 <par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par>
@@ -165,8 +166,8 @@ End Sub</lotusscript></code>
  width='43.0104%'/><tablecolumn width='56.9896%'/>
 <tablerow>
 <tablecell borderwidth='0px'>
-<pardef id='6' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
-<par def='6'><run><font size='8pt' color='navy' style='bold' name='Arial'
+<pardef id='7' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
+<par def='7'><run><font size='8pt' color='navy' style='bold' name='Arial'
  pitch='variable' truetype='true' familyid='20'/><field borderstyle='none'
  lookupeachchar='false' lookupaddressonrefresh='false' type='keyword' allowmultivalues='true'
  kind='editable' name='enhLogStackExceptions' listinputseparators='comma'
@@ -176,8 +177,8 @@ End Sub</lotusscript></code>
 ><font size='8pt' style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/></run></par></tablecell>
 <tablecell borderwidth='0px' htmlclass='redtext'>
-<pardef id='7' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
-<par def='7'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<pardef id='8' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
+<par def='8'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='red'/>(Development / Testing ONLY - Unstable for Production)</run></par></tablecell></tablerow></table>
 <par def='5'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
  truetype='true' familyid='20' color='navy'/>  </run></par></tablecell></tablerow>
@@ -258,14 +259,16 @@ End Sub</lotusscript></code>
  familyid='20'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px'>
-<pardef id='8' leftmargin='0.2201in' hide='read print preview embedded' keepwithnext='true'
- keeptogether='true'><code event='hidewhen'><formula>enhLogEnableMethodProfiling != "Yes"</formula></code></pardef>
-<par def='8'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
- truetype='true' familyid='20'/>Profile Method Trigger Counts</run></par></tablecell></tablerow>
+<pardef id='9' leftmargin='0.2201in' hide='read print preview notes web mobile embedded'
+ keepwithnext='true' keeptogether='true'><code event='hidewhen'><formula>enhLogEnableMethodProfiling != "Yes"</formula></code></pardef>
+<par def='9'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/></run></par>
+<par def='9'><run><font size='14pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20' color='green'/>DEVELOPER NOTE: PROFILE METHOD TRIGGER COUNTS NOT YET COMPLETED</run></par>
+<par def='9'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+ truetype='true' familyid='20'/>Profile Method Trigger Counts  </run></par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px' htmlclass='warning darkredtext'>
-<pardef id='9' leftmargin='0.2201in' hide='read print preview embedded' keepwithnext='true'
- keeptogether='true'><code event='hidewhen'><formula>enhLogEnableMethodProfiling != "Yes"</formula></code></pardef>
 <par def='9'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
  truetype='true' familyid='20'/> </run></par>
 <par def='9'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
@@ -275,7 +278,7 @@ End Sub</lotusscript></code>
  listdisplayseparator='newline' fieldhint='Method Name | Count'><code event='defaultvalue'><formula
 >"Method Name | Count"</formula></code><code event='inputtranslation'><formula
 >@Trim(@ThisValue)</formula></code></field></run><compositedata type='98'
- prevtype='65513' nexttype='222' afterparcount='8' containertype='65418' aftercontainercount='2'
+ prevtype='65513' nexttype='222' afterparcount='7' containertype='65418' aftercontainercount='2'
  afterbegincount='4'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font size='8pt' style='bold' name='Arial'
@@ -420,7 +423,8 @@ ErrorTrap:
 	enhLogException SUBFORM_PREFIX_CFG_ENHLOGINFO, extendedInfo$
 	Messagebox Error(), 16, |Error | &amp; Cstr(Err())
 	Resume ExitPoint
-End Sub</lotusscript></code></actionhotspot> </par></tablecell></tablerow>
+End Sub
+</lotusscript></code></actionhotspot> </par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px'>
 <pardef id='21' align='right' leftmargin='0' rightmargin='0.8250in' hide='read preview embedded'
@@ -436,7 +440,7 @@ End Sub</lotusscript></code></actionhotspot> </par></tablecell></tablerow>
 <tablecell borderwidth='0px'>
 <par def='20'><field type='text' kind='editable' name='enhLogTargetFilepath'><code
  event='inputtranslation'><formula>@Trim(@ThisValue)</formula></code></field><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font style='bold'/></run></par></tablecell></tablerow>
@@ -465,6 +469,6 @@ vThis := @Trim(vThisServer:vThisFilepath);
 <par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par>
 <par def='1'><run><font size='8pt' style='bold' color='green'/> END Subform Config\Enhanced Log Information | cfg-EnhLogInfo</run></par>
 <par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par></richtext></body>
-<item name='enhLogPurgeAge' summary='false' sign='true'><number>0</number></item>
+<item name='enhLogPurgeAge' summary='false'><number>0</number></item>
 <item name='$$ScriptName' summary='false' sign='true'><text>cfg-EnhLogInfo</text></item></subform>
 

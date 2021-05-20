@@ -2,16 +2,15 @@
 <agent name='Archive Log Entries' alias='sched-ArchiveLogEntries' xmlns='http://www.lotus.com/dxl'
  version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
  publicaccess='false' designerversion='8.5.3' activatable='false' enabled='false'>
-<noteinfo noteid='15e' unid='BCE8F62199434CFF862577FA007653DA' sequence='9'>
+<noteinfo noteid='15e' unid='BCE8F62199434CFF862577FA007653DA' sequence='12'>
 <created><datetime>20101215T153227,14-06</datetime></created>
-<modified><datetime dst='true'>20210517T144043,03-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144043,02-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144043,02-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203244,94-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203244,93-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203244,93-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051202,62-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name
->CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime dst='true'>20210517T144043,02-04</datetime></designchange>
+<designchange><datetime dst='true'>20210519T203244,93-04</datetime></designchange>
 <trigger type='scheduled'>
 <schedule type='daily' runlocation='choose'>
 <starttime><datetime>T010000,00</datetime></starttime></schedule></trigger><code
@@ -47,7 +46,7 @@ Use "enhLogClass"
 
 </lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
 	Dim extendedInfo As String
-	On Error GoTo ErrorTrap
+	On Error Goto ErrorTrap
 	
 
 	Dim nses As New NotesSession()
@@ -60,20 +59,18 @@ Use "enhLogClass"
 	extendedInfo$ = |Server: | &amp; ndb.Server &amp; Chr(10) &amp; _  
 	|LOG_FILEPATH: | &amp; LOG_FILEPATH &amp; _
 	|VIEWNAME: | &amp; VIEWNAME &amp; _
-	|MAX_TO_ARCHIVE: | &amp; CStr(MAX_TO_ARCHIVE) &amp; _
-	|PURGE: | &amp; CStr(PURGE) 	
+	|MAX_TO_ARCHIVE: | &amp; Cstr(MAX_TO_ARCHIVE) &amp; _
+	|PURGE: | &amp; Cstr(PURGE) 	
 	
 	Call enhLogArchiveDocuments(ndb.Server, LOG_FILEPATH, VIEWNAME, MAX_TO_ARCHIVE, PURGE, countArchived&amp;, countPurged&amp;)
 	
 ExitPoint:
-	enhLogMethodResult ||, |Archived | &amp; CStr(countArchived&amp;) &amp; | documents.  Purged | &amp; CStr(countPurged&amp;) &amp; | documents.|
+	enhLogMethodResult ||, |Archived | &amp; Cstr(countArchived&amp;) &amp; | documents.  Purged | &amp; Cstr(countPurged&amp;) &amp; | documents.|
 	Exit Sub
 ErrorTrap:
-	On Error GoTo 0
+	On Error Goto 0
 	enhLogException ||, extendedInfo$
 	Resume ExitPoint	
 End Sub ' Initialize</lotusscript></code>
-<rundata processeddocs='0' exitcode='0'>
-<agentmodified><datetime>20171226T063703,67-05</datetime></agentmodified></rundata>
 <item name='$POID'><datetime>20101203T153715,23-05</datetime></item></agent>
 

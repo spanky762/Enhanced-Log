@@ -9,18 +9,18 @@
  totalscolor='black' headerbgcolor='white' boldunreadrows='false' evaluateactions='false'
  allownewdocuments='false' allowcustomizations='false' hidemarginborder='false'
  marginwidth='0px' marginbgcolor='white' uniquekeys='false'>
-<noteinfo noteid='1fa' unid='DF668089A058A324862577FA00762127' sequence='18'>
+<noteinfo noteid='1fa' unid='DF668089A058A324862577FA00762127' sequence='21'>
 <created><datetime>20101215T153017,35-06</datetime></created>
-<modified><datetime dst='true'>20210517T144043,28-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144043,27-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144043,27-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203245,27-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203245,26-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203245,26-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,70-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby><code
  event='selection'><formula>SELECT Form = "Log Entry"</formula></code>
 <actionbar bgcolor='#ece9d8' bordercolor='black'>
-<actionbuttonstyle bgcolor='#ece9d8'/><font color='system'/><border style='solid'
- width='0px 0px 1px'/>
+<actionbuttonstyle bgcolor='#ece9d8'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px'/>
 <action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
 <action title='_Edit Document' showinbar='false' systemcommand='edit'/>
 <action title='_Send Document' showinbar='false' systemcommand='send'/>

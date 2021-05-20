@@ -2,16 +2,15 @@
 <agent name='Purge Old Logs' alias='sch-PurgeOldLogs' xmlns='http://www.lotus.com/dxl'
  version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
  publicaccess='false' designerversion='8.5.3' activatable='false' enabled='false'>
-<noteinfo noteid='17e' unid='01100F469BFD81AD862577FA007653DD' sequence='9'>
+<noteinfo noteid='17e' unid='01100F469BFD81AD862577FA007653DD' sequence='12'>
 <created><datetime>20101215T153227,17-06</datetime></created>
-<modified><datetime dst='true'>20210517T144043,11-04</datetime></modified>
-<revised><datetime dst='true'>20210517T144043,10-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210517T144043,10-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210519T203245,08-04</datetime></modified>
+<revised><datetime dst='true'>20210519T203245,07-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210519T203245,07-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051202,70-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/O=HCLTechSW</name><name
->CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime dst='true'>20210517T144043,10-04</datetime></designchange>
+<designchange><datetime dst='true'>20210519T203245,07-04</datetime></designchange>
 <trigger type='scheduled'>
 <schedule type='daily' runlocation='choose'>
 <starttime><datetime>T010000,00</datetime></starttime></schedule></trigger>
@@ -45,7 +44,7 @@ Dim purgeEnabled As Boolean
 
 </lotusscript></code><code event='initialize'><lotusscript>
 Sub Initialize()
-	On Error GoTo ErrorTrap
+	On Error Goto ErrorTrap
 
 	Dim configdoc As NotesDocument 
 
@@ -59,21 +58,21 @@ Sub Initialize()
 	Set configdoc = enhLogGetLogConfigDoc(False)
 	If (configdoc Is Nothing) Then
 		enhLogWarning ||, |Enhanced Log Configuration document not available.|
-		GoTo ExitPoint
+		Goto ExitPoint
 	End If 
 	
 	If Not (configdoc.hasItem(ITEMNAME_CONFIG_PURGEENABLED) And configdoc.hasItem(ITEMNAME_CONFIG_PURGEAGEDAYS)) Then
 		enhLogWarning ||, |Purge | &amp; PURGE_TARGET_DESCRIPTION &amp; | documents NOT configured.|
-		GoTo ExitPoint 
+		Goto ExitPoint 
 	End If
 	
-	If Not getPurgeUNIDs(configdoc).hasContent Then GoTo ExitPoint 
+	If Not getPurgeUNIDs(configdoc).hasContent Then Goto ExitPoint 
 
 	enhLogAction ||, |Purging | &amp; Format$(getPurgeUNIDs(configdoc).size, FORMAT_WHOLE_THOUSANDS) &amp; | documents.|
 	
 	unids = getPurgeUNIDs(configdoc).Values 	
-	ForAll element In unids
-		universalID$ = CStr(element) 
+	Forall element In unids
+		universalID$ = Cstr(element) 
 		If deleteDocByUNID(universalID$) Then
 			deleted&amp; = deleted&amp; + 1
 		Else
@@ -81,7 +80,7 @@ Sub Initialize()
 		End If 
 		
 		If ((deleted&amp; Mod LOG_EVERY_X_DOCS) = 0) Then enhLogAction ||, |Purged | &amp; Format$(deleted&amp;, FORMAT_WHOLE_THOUSANDS) &amp; | documents.|
-	End ForAll 	
+	End Forall 	
 	
 	
 	failures&amp; = failureUNIDs.size 
@@ -91,28 +90,28 @@ Sub Initialize()
 		| all target documents|, |Remaing UNIDs:|
 		
 		unids = failureUNIDs.Values 
-		ForAll element In unids
-			enhLogExtendedContent ||, ||, CStr(element)			
-		End ForAll 
+		Forall element In unids
+			enhLogExtendedContent ||, ||, Cstr(element)			
+		End Forall 
 	End If 
 	
 ExitPoint:
 	Exit Sub
 ErrorTrap:
-	On Error GoTo 0
+	On Error Goto 0
 	enhLogException ||, ||
 	Resume ExitPoint
 End Sub
 
 </lotusscript></code><code event='terminate'><lotusscript>Sub Terminate()
-	On Error GoTo ErrorTrap
+	On Error Goto ErrorTrap
 	
 	If purgeEnabled Then enhLogMethodResult ||, |Purged | &amp; Format$(deleted&amp;, FORMAT_WHOLE_THOUSANDS)  &amp; | documents.|
 	
 ExitPoint:
 	Exit Sub
 ErrorTrap:
-	On Error GoTo 0
+	On Error Goto 0
 	enhLogException ||, ||
 	Resume ExitPoint
 End Sub
@@ -120,7 +119,7 @@ End Sub
 </lotusscript></code><code event='getPurgeUNIDs'><lotusscript>
 Function getPurgeUNIDs(configdoc As NotesDocument) As StringSet
 	If (configdoc Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK &amp; |Config document is Nothing.  |
-	On Error GoTo ErrorTrap
+	On Error Goto ErrorTrap
 	
 	Static result As StringSet 
 
@@ -140,9 +139,9 @@ Function getPurgeUNIDs(configdoc As NotesDocument) As StringSet
 		
 		purgeEnabled = (("1" = configdoc.getFirstItem(ITEMNAME_CONFIG_PURGEENABLED).Text) _ 
 		Or ("Yes" = configdoc.getFirstItem(ITEMNAME_CONFIG_PURGEENABLED).Text) )
-		purgeAge% = Abs(CInt(configdoc.getFirstItem(ITEMNAME_CONFIG_PURGEAGEDAYS).Text))
+		purgeAge% = Abs(Cint(configdoc.getFirstItem(ITEMNAME_CONFIG_PURGEAGEDAYS).Text))
 
-		If Not purgeEnabled Then GoTo ExitPoint 
+		If Not purgeEnabled Then Goto ExitPoint 
 		
 		enhLogAction ||, |Purging | &amp; PURGE_TARGET_DESCRIPTION &amp; | documents older than | &amp;  Format$(purgeAge%, FORMAT_WHOLE_THOUSANDS) &amp; | days.|
 		
@@ -152,11 +151,11 @@ Function getPurgeUNIDs(configdoc As NotesDocument) As StringSet
 			If (count&amp; + 1 &gt; MAX_DOCS_TO_PURGE) Then 
 				enhLogWarning ||, |Maximum docs to purge exceeded.  | &amp; Chr(10) &amp; _ 
 				|Purging | &amp; Format$(MAX_DOCS_TO_PURGE, FORMAT_WHOLE_THOUSANDS) &amp; | documents.|
-				GoTo ExitPoint
+				Goto ExitPoint
 			End If 
 			
 			Set ndt = ndoc.getFirstItem(ITEMNAME_TIMESTAMP).DateTimeValue
-			days% = CInt(Round((ndtKey.TimeDifferenceDouble(ndt) / SECONDS_IN_DAY), 0))
+			days% = Cint(Round((ndtKey.TimeDifferenceDouble(ndt) / SECONDS_IN_DAY), 0))
 			If (days% &gt; purgeAge%) Then 
 				result.add(ndoc.UniversalID)
 				count&amp; = count&amp; + 1
@@ -172,7 +171,7 @@ ExitPoint:
 	Set getPurgeUNIDs = result
 	Exit Function
 ErrorTrap:
-	On Error GoTo 0
+	On Error Goto 0
 	enhLogException ||, ||
 	Resume ExitPoint	
 End Function 
@@ -182,26 +181,23 @@ End Function
 Function deleteDocByUNID(unid$) As Boolean
 	Dim extendedInfo As String
 	Dim result As Boolean
-	On Error GoTo ErrorTrap
+	On Error Goto ErrorTrap
 	
 	Dim ndoc As NotesDocument
 	
 	extendedInfo$ = |UNID = "| &amp; unid$ &amp; |"|
 	Set ndoc = getDocumentByUNID(unid$)
-	If (ndoc Is Nothing) Then GoTo ExitPoint 
+	If (ndoc Is Nothing) Then Goto ExitPoint 
 	result = ndoc.Remove(True)
 	
 ExitPoint:
 	deleteDocByUNID = result
 	Exit Function
 ErrorTrap:
-	On Error GoTo 0
+	On Error Goto 0
 	enhLogException ||, extendedInfo$
 	result = False
 	Resume ExitPoint	
-End Function ' deleteDocByUNID
-</lotusscript></code>
-<rundata processeddocs='0' exitcode='0'>
-<agentmodified><datetime dst='true'>20200807T125343,52-04</datetime></agentmodified></rundata>
+End Function ' deleteDocByUNID</lotusscript></code>
 <item name='$POID'><datetime>20101203T153715,32-05</datetime></item></agent>
 
