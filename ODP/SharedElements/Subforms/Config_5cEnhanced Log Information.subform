@@ -2,11 +2,11 @@
 <subform name='Config\Enhanced Log Information' alias='cfg-EnhLogInfo' xmlns='http://www.lotus.com/dxl'
  version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' designerversion='8.5.3'
  renderpassthrough='true'>
-<noteinfo noteid='1e6' unid='76B2E62B595DC47B852585BD005C2E85' sequence='27'>
+<noteinfo noteid='1e6' unid='76B2E62B595DC47B852585BD005C2E85' sequence='28'>
 <created><datetime dst='true'>20200807T124652,21-04</datetime></created>
-<modified><datetime dst='true'>20210520T115912,21-04</datetime></modified>
-<revised><datetime dst='true'>20210520T115912,20-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210520T115912,20-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210520T121422,74-04</datetime></modified>
+<revised><datetime dst='true'>20210520T121422,72-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210520T121422,73-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,60-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
@@ -322,9 +322,7 @@ Yg4BAIQAAAAAAAAAAAA=
  truetype='true' familyid='20' color='red'/>Logging Disabled</run></par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px'>
-<pardef id='13' leftmargin='0.2201in' hide='edit previewedit' keepwithnext='true'
- keeptogether='true'><code event='hidewhen'><formula>enhLogEnabled != "Yes"</formula></code></pardef>
-<par def='13'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
+<par def='11'><run><font size='8pt' style='bold' name='Arial' pitch='variable'
  truetype='true' familyid='20' color='navy'/></run><computedtext><code event='value'><formula
 >@If(enhLogEnabled = "Yes"; ""; @Return(""));
 
@@ -338,7 +336,9 @@ v7 := @If(enhLogLocalEcho = "Yes"; "Locally Echo log entries to status bar"; "")
 v8 := @If(enhLogAutoSave = "Yes"; "AutoSave log entries"; "");
 v9 := @If(enhLogResumeOnFail = "Yes"; "Attempt to resume on failure"; "");
 v10 := @If(enhLogEnableMethodProfiling = "Yes"; "Enable Support for Method Profiling"; "");
-v10 := @If((enhLogEnableMethodProfiling = "Yes") &amp; (enhLogProfileMethodCount != ""); "Profile Method Trigger Counts: ":enhLogProfileMethodCount; "");
+REM { v11 := @If((enhLogEnableMethodProfiling = "Yes") &amp; (enhLogProfileMethodCount != ""); "Profile Method Trigger Counts: ":enhLogProfileMethodCount; "");
+};
+
 v12 := @If(enhLogEnableScheduledPurge = "Yes"; "Purge log documents older than " + @Text(enhLogPurgeAge) + " days."; "");
 
 @Implode(@Trim(v1:v2:v3:v4:v5:v6:v7:v8:v9:v10:v11:v12); @NewLine)</formula></code></computedtext><run
@@ -346,29 +346,29 @@ v12 := @If(enhLogEnableScheduledPurge = "Yes"; "Purge log documents older than "
  familyid='20' color='navy'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px' htmlclass='redtext'>
-<pardef id='14' leftmargin='0.2201in' spacebefore='1.5' hide='edit previewedit'
+<pardef id='13' leftmargin='0.2201in' spacebefore='1.5' hide='edit previewedit'
  keepwithnext='true' keeptogether='true'><code event='hidewhen'><formula>enhLogStackExceptions != "Yes"</formula></code></pardef>
-<par def='14'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='13'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='red'/>ATTENTION: Log Stack Trace is ENABLED!</run></par></tablecell></tablerow></table>
-<pardef id='15' hide='notes web mobile'/>
-<par def='15'><run><font size='8pt' color='green'/> </run></par>
-<par def='15'><run><font size='8pt' color='green'/> </run></par>
+<pardef id='14' hide='notes web mobile'/>
+<par def='14'><run><font size='8pt' color='green'/> </run></par>
+<par def='14'><run><font size='8pt' color='green'/> </run></par>
 <table minrowheight='0.0500in' cellbordercolor='black' widthtype='fixedleft'
  rowspacing='0.0500in' columnspacing='0.0500in' refwidth='6.2125in'><tablecolumn
  width='0.8875in'/><tablecolumn width='5.1250in'/>
 <tablerow>
 <tablecell columnspan='2' borderwidth='0px'>
-<pardef id='18' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
-<par def='18'><run><font style='bold'/>Target Database</run> where log documents will be created.<run
+<pardef id='16' hide='read print preview embedded' keepwithnext='true' keeptogether='true'/>
+<par def='16'><run><font style='bold'/>Target Database</run> where log documents will be created.<run
 ><font style='italic'/> </run>  </par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px'>
-<pardef id='19' align='right' rightmargin='0.8250in' hide='read preview embedded'
+<pardef id='17' align='right' rightmargin='0.8250in' hide='read preview embedded'
  keepwithnext='true' keeptogether='true'/>
-<par def='19'><run><font style='bold'/>Target</run></par></tablecell>
+<par def='17'><run><font style='bold'/>Target</run></par></tablecell>
 <tablecell borderwidth='0px'>
-<pardef id='20' hide='read preview embedded' keepwithnext='true' keeptogether='true'/>
-<par def='20'><actionhotspot hotspotstyle='none'><code event='click'><formula
+<pardef id='18' hide='read preview embedded' keepwithnext='true' keeptogether='true'/>
+<par def='18'><actionhotspot hotspotstyle='none'><code event='click'><formula
 >vTargetServer := @LowerCase(@Name([Canonicalize]; enhLogTargetServer));
 vTargetFilepath := @LowerCase(enhLogTargetFilepath);
 vTarget := @Trim(vTargetServer:vTargetFilepath);
@@ -427,32 +427,32 @@ End Sub
 </lotusscript></code></actionhotspot> </par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px'>
-<pardef id='21' align='right' leftmargin='0' rightmargin='0.8250in' hide='read preview embedded'
+<pardef id='19' align='right' leftmargin='0' rightmargin='0.8250in' hide='read preview embedded'
  keepwithnext='true' keeptogether='true'/>
-<par def='21'><run><font style='bold'/>Server</run></par></tablecell>
+<par def='19'><run><font style='bold'/>Server</run></par></tablecell>
 <tablecell borderwidth='0px'>
-<par def='20'><field type='names' kind='editable' name='enhLogTargetServer'><code
+<par def='18'><field type='names' kind='editable' name='enhLogTargetServer'><code
  event='inputtranslation'><formula>@Trim(@ThisValue)</formula></code></field><run
 ><font style='bold'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px'>
-<par def='21'><run><font style='bold'/>Filepath</run></par></tablecell>
+<par def='19'><run><font style='bold'/>Filepath</run></par></tablecell>
 <tablecell borderwidth='0px'>
-<par def='20'><field type='text' kind='editable' name='enhLogTargetFilepath'><code
+<par def='18'><field type='text' kind='editable' name='enhLogTargetFilepath'><code
  event='inputtranslation'><formula>@Trim(@ThisValue)</formula></code></field><compositedata
- type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font style='bold'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell valign='bottom' borderwidth='0px'>
-<pardef id='22' align='right' leftmargin='0' rightmargin='0.8250in' keepwithnext='true'
+<pardef id='20' align='right' leftmargin='0' rightmargin='0.8250in' keepwithnext='true'
  keeptogether='true'/>
-<par def='22'><run><font style='bold'/>Log Target</run></par></tablecell>
+<par def='20'><run><font style='bold'/>Log Target</run></par></tablecell>
 <tablecell valign='bottom' borderwidth='0px'>
-<pardef id='23' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
+<pardef id='21' tabs='L0.5000in L1in L1.5000in L2in L2.5000in L3in L3.5000in L4in'
  keepwithnext='true' keeptogether='true'/>
-<par def='23'><computedtext><code event='value'><formula>vValue := @Implode(@Trim(@Name([Abbreviate]; enhLogTargetServer):enhLogTargetFilepath); "!!");
+<par def='21'><computedtext><code event='value'><formula>vValue := @Implode(@Trim(@Name([Abbreviate]; enhLogTargetServer):enhLogTargetFilepath); "!!");
 @If(vValue = ""; "Current Database"; vValue)</formula></code></computedtext>  <actionhotspot
  hotspotstyle='none'><code event='click'><formula>vTargetServer := @LowerCase(@Name([Canonicalize]; enhLogTargetServer));
 vTargetFilepath := @LowerCase(enhLogTargetFilepath);
@@ -469,6 +469,6 @@ vThis := @Trim(vThisServer:vThisFilepath);
 <par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par>
 <par def='1'><run><font size='8pt' style='bold' color='green'/> END Subform Config\Enhanced Log Information | cfg-EnhLogInfo</run></par>
 <par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par></richtext></body>
-<item name='enhLogPurgeAge' summary='false'><number>0</number></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>cfg-EnhLogInfo</text></item></subform>
+<item name='$$ScriptName' summary='false' sign='true'><text>cfg-EnhLogInfo</text></item>
+<item name='enhLogPurgeAge' summary='false'><number>0</number></item></subform>
 
