@@ -97,13 +97,8 @@ Public Class Wabe
 			enhLogAction CLASS_PREFIX, |(| & CStr(pos&) & |.| & CStr(idx%) & |) | & description$
 			If (((pos& + idx%) Mod 11) = 0) Then 
 				
-				source.LocalEcho = True ' use object explicit notation to activate local echo	
-				
 				enhLogExtendedContent CLASS_PREFIX, |I am the content. |, |I am extended content 1.|				
 				enhLogExtendedContent ||, ||, |I am extended content 2|
-				
-				enhLogSetLocalEcho False ' use method notation to deactivate local echo
-				
 				enhLogExtendedContent ||, ||, |I am extended content 3|
 				enhLogExtendedContent ||, ||, |I am extended content 4|
 				enhLogExtendedContent ||, ||, |I am extended content 5|
@@ -345,6 +340,7 @@ Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
 %END REM
 	source.LogAction description$
 End Sub ' logActionToEnhancedLogObject
+
 
 
 
