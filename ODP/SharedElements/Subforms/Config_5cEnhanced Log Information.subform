@@ -2,11 +2,11 @@
 <subform name='Config\Enhanced Log Information' alias='cfg-EnhLogInfo' xmlns='http://www.lotus.com/dxl'
  version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' designerversion='8.5.3'
  renderpassthrough='true'>
-<noteinfo noteid='1e6' unid='76B2E62B595DC47B852585BD005C2E85' sequence='28'>
+<noteinfo noteid='1e6' unid='76B2E62B595DC47B852585BD005C2E85' sequence='29'>
 <created><datetime dst='true'>20200807T124652,21-04</datetime></created>
-<modified><datetime dst='true'>20210520T121422,74-04</datetime></modified>
-<revised><datetime dst='true'>20210520T121422,72-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210520T121422,73-04</datetime></lastaccessed>
+<modified><datetime dst='true'>20210521T112747,02-04</datetime></modified>
+<revised><datetime dst='true'>20210521T112747,01-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20210521T112747,01-04</datetime></lastaccessed>
 <addedtofile><datetime>20210203T051203,60-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
@@ -469,6 +469,6 @@ vThis := @Trim(vThisServer:vThisFilepath);
 <par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par>
 <par def='1'><run><font size='8pt' style='bold' color='green'/> END Subform Config\Enhanced Log Information | cfg-EnhLogInfo</run></par>
 <par def='1'><run><font size='8pt' style='bold' color='green'/>==================================================</run></par></richtext></body>
-<item name='$$ScriptName' summary='false' sign='true'><text>cfg-EnhLogInfo</text></item>
-<item name='enhLogPurgeAge' summary='false'><number>0</number></item></subform>
+<item name='enhLogPurgeAge' summary='false'><number>0</number></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>cfg-EnhLogInfo</text></item></subform>
 
