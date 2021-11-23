@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <agent name='Demo - Log A Lot of Stuff to NotesLog' xmlns='http://www.lotus.com/dxl'
- version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
- publicaccess='false' designerversion='8.5.3'>
-<noteinfo noteid='28e' unid='21CAF0D82650A01B85258680006D4B94' sequence='27'>
+ version='12.0' replicaid='85258796005A152A' hide='v3' publicaccess='false'
+ designerversion='8.5.3'>
+<noteinfo noteid='18a' unid='21CAF0D82650A01B85258680006D4B94' sequence='2'>
 <created><datetime>20210218T145347,72-05</datetime></created>
-<modified><datetime dst='true'>20210521T114644,69-04</datetime></modified>
-<revised><datetime dst='true'>20210521T114644,68-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210521T114644,68-04</datetime></lastaccessed>
-<addedtofile><datetime>20210218T145349,99-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20211123T112402,05-05</datetime></modified>
+<revised><datetime>20211123T112402,04-05</datetime></revised>
+<lastaccessed><datetime>20211123T112402,04-05</datetime></lastaccessed>
+<addedtofile><datetime>20211123T112402,03-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime dst='true'>20210521T114644,68-04</datetime></designchange>
+<designchange><datetime>20211123T112402,02-05</datetime></designchange>
 <trigger type='actionsmenu'/>
 <documentset type='runonce'/><code event='options'><lotusscript>%REM ***************************************************************************
  ************************************************************************************

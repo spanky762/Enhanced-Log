@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='11.0'
- maintenanceversion='1.0' replicaid='85258671003806E7'>
-<noteinfo noteid='11e' unid='357125677E91D06885258671003806EB' sequence='25'>
-<created><datetime>20210203T051157,87-05</datetime></created>
-<modified><datetime>20210222T073241,84-05</datetime></modified>
-<revised><datetime>20210222T073241,83-05</datetime></revised>
-<lastaccessed><datetime>20210222T073241,83-05</datetime></lastaccessed>
-<addedtofile><datetime>20210203T051157,87-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='12.0'
+ replicaid='85258796005A152A'>
+<noteinfo noteid='11e' unid='FB7670A98BC606C185258796005A152D' sequence='11'>
+<created><datetime>20211123T112356,61-05</datetime></created>
+<modified><datetime>20211123T114629,75-05</datetime></modified>
+<revised><datetime>20211123T114629,74-05</datetime></revised>
+<lastaccessed><datetime>20211123T114629,74-05</datetime></lastaccessed>
+<addedtofile><datetime>20211123T112356,62-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name='IconBitmap' summary='true' sign='true'>
 <rawitemdata type='6'>
@@ -27,9 +27,9 @@ ERERERERERERERER//////D/////D////////w/w8P///wDwAA/wDwD////w8PD///8A8PD/8A8A
 <item name='$Daos' sign='true'><text>0</text></item>
 <item name='$LargeSummary' sign='true'><text>0</text></item>
 <item name='$DefaultFrameset' sign='true'><text>notes-main</text></item>
+<item name='$LaunchXPageRunOnServer' sign='true'><text>0</text></item>
 <item name='$TITLE'><text>Enhanced Log Template
 #1Enhanced Log Template</text></item>
 <item name='$Flags'><text>7c</text></item>
-<item name='$LaunchXPageRunOnServer' sign='true'><text>0</text></item>
-<item name='$FlagsNoRefresh' sign='true'><text>trv</text></item></note>
+<item name='$FlagsNoRefresh'><text>trv</text></item></note>
 
