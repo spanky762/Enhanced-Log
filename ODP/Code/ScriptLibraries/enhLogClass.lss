@@ -315,10 +315,14 @@ Private Const MSG_VIEW_NOT_FOUND = |Could not find the specified view.  |
  ************************************************************************************
 %END REM *********************************************************************
 
-Public Const FORMALIAS_EVENTS = |Events|
 
+
+
+
+
+
+Public Const FORMALIAS_EVENTS = |Events|
 Public Const FORMNAME_ENHANCEDLOGCONFIG = |enhLogConfig|
-'Public Const FORMNAME_LOGENTRY = |Log Entry|
 Public Const FORMNAME_MEMO = |Memo|
 
 Public Const ITEMNAME_ENHLOG_HTMLVIEWERSOURCE = |enhLog_HTMLviewerSource|
@@ -1121,7 +1125,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 
 		Me.exists = True
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
 	End Sub 
 	
@@ -1195,9 +1199,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		' If here then no error occurred
 		result = True
 
-	ExitPoint:
+ExitPoint:
 		Exit Function
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		result = False
 		Call Me.LogException(Err(), Error() & Chr(10), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
@@ -1252,9 +1256,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Me.countActions& = Me.countActions& + 1
 		If Me.LocalEcho Then Print |LogAction: | & description$
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
@@ -1276,9 +1280,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 
 		Call Me.LogAction(description$)
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
@@ -1356,9 +1360,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		
 		Call Me.nLog.LogEvent(message$, queuename$, eventType%, severity%)
 		
-	ExitPoint:
+ExitPoint:
 		Exit Sub
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		enhLogException CLASS_PREFIX, |("| & 	message$ & |", "| & queuename$ & _ 
 		|", "| & CStr(eventType%) & |, | & CStr(severity%) & |)|
@@ -1458,7 +1462,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			If (extendedMsg$ <> ||) Then Print |LogException (extended): | & extendedMsg$
 		End If 
 		
-	ExitPoint:
+ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
@@ -2031,12 +2035,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	End Property 
 	
 	Public Property Get NotesLogForm As String
-		If Me.doLogContentToNotesLog Then 
-			NotesLogForm = FORMALIAS_EVENTS  
-		Else 
-			'			NotesLogForm = FORMNAME_LOGENTRY
-			NotesLogForm = |Log Entry|
-		End If  
+		NotesLogForm = FORMALIAS_EVENTS 
 	End Property
 	
 	
@@ -2846,7 +2845,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	End Function 
 	
 End Class 	
-
 '++LotusScript Development Environment:2:2:Initialize:2:10
 
 Sub Initialize
@@ -3901,14 +3899,10 @@ End Function
 '++LotusScript Development Environment:2:1:enhLogGetNotesLogForm:5:8
 %REM
 	Function enhLogGetNotesLogForm
-	Description
+	Gets the name of the form used for logging
 %END REM
 Public Function enhLogGetNotesLogForm() As String 
-	If doLogOutputToNotesLog Then 
 		enhLogGetNotesLogForm = FORMALIAS_EVENTS  
-	Else 
-		enhLogGetNotesLogForm = |Log Entry|
-	End If  
 End Function
 
 '++LotusScript Development Environment:2:1:enhLogGetTaggedTicks:9:8
@@ -6162,6 +6156,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
