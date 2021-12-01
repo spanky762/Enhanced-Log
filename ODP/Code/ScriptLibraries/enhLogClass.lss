@@ -103,6 +103,7 @@ Declare Public Sub enhLogSetLogWarnings (source As Boolean)
 Declare Public Sub enhLogSetUserNameAbbrev (source$)
 Declare Public Function uiSelectDatabase(title$, msg$, fieldnameServer$, fieldnameFilepath$) As NotesDatabase 
 Declare Public Sub enhLogReleaseVersionBuild() 
+Declare Private Function initializeEnhancedLogEntry(logtype%, ByVal prefix$, ByVal description$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$, target As EnhancedLogEntry) As Boolean
 Declare Public Function strEndsWith(searchin$, searchfor$) As Boolean 
 Declare Public Function enhLogStackTrace(prefix$, description$) As Boolean
 Declare Public Sub enhLogSetActionsIncludeMethodNames (source As Boolean)
@@ -201,7 +202,6 @@ Declare Public Sub enhLogSetLogStackExceptions (source As Boolean)
 Declare Public Sub enhLogClearCachedError()
 Declare Public Sub enhLogSetLogMethodResults (source As Boolean)
 Declare Public Function enhLogIsProfilingEnabled() As Boolean 
-Declare Private Function initializeEnhancedLogEntry(logtype%, prefix$, description$, extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$, target As EnhancedLogEntry) As Boolean
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
 
@@ -410,9 +410,9 @@ Private Type EnhancedLogEntry
 	
 	prefix As String 
 	description As String  
-	extendedContent As String  
-	linkComment As String  
-	hotspotText As String
+	extendedcontent As String  
+	linkcomment As String  
+	hotspottext As String
 	
 	logentrytype As Integer 
 End Type 
@@ -3060,7 +3060,6 @@ Private Class EnhancedLogEntryList
 	End Property
 
 End Class
-
 '++LotusScript Development Environment:2:2:Initialize:2:10
 
 Sub Initialize
@@ -3558,6 +3557,48 @@ Public Sub enhLogReleaseVersionBuild()
 	& |, Version: | & VERSION _ 
 	& |, Build: | & BUILD
 End Sub
+
+'++LotusScript Development Environment:2:1:initializeEnhancedLogEntry:14:8
+
+%REM
+	Function initializeProfiledMethod
+	Sets initialization values of a ProfiledMethod.
+	
+	@param modulename: modulename for the ProfiledMethod
+	@param classname: classname for the ProfiledMethod
+	@param methodname: methodname for the ProfiledMethod
+	@param operation: operation for the ProfiledMethod
+	@param target: ProfiledMethod [IN-OUT]
+	 
+	@return Flag indicating success of operation
+%END REM
+Private Function initializeEnhancedLogEntry(logtype%, ByVal prefix$, ByVal description$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$, target As EnhancedLogEntry) As Boolean
+	Dim extendedInfo As String
+	Dim result As Boolean
+	
+	On Error GoTo ErrorTrap
+
+ 	target.timestamp = Now 
+	target.logentrytype = logtype% 
+	target.prefix = prefix$ 
+	target.description = description$ 
+	target.extendedcontent = extendedcontent$
+	target.linkcomment = linkcomment$ 
+	target.hotspottext = hotspottext$ 
+	target.linkto = linkTo 
+	
+	' success!
+	result = True
+
+ExitPoint:
+	initializeEnhancedLogEntry = result
+	Exit Function
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedInfo$
+	result = False
+	Resume ExitPoint
+End Function 
 
 '++LotusScript Development Environment:2:1:strEndsWith:11:8
 
@@ -6391,44 +6432,3 @@ End Function
 
 
 
-
-'++LotusScript Development Environment:2:1:initializeEnhancedLogEntry:14:8
-
-%REM
-	Function initializeProfiledMethod
-	Sets initialization values of a ProfiledMethod.
-	
-	@param modulename: modulename for the ProfiledMethod
-	@param classname: classname for the ProfiledMethod
-	@param methodname: methodname for the ProfiledMethod
-	@param operation: operation for the ProfiledMethod
-	@param target: ProfiledMethod [IN-OUT]
-	 
-	@return Flag indicating success of operation
-%END REM
-Private Function initializeEnhancedLogEntry(logtype%, prefix$, description$, extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$, target As EnhancedLogEntry) As Boolean
-	Dim extendedInfo As String
-	Dim result As Boolean
-	
-	On Error GoTo ErrorTrap
-
-
-
-'	Private Const LOGENTRY_TYPE_EXCEPTION = 	1
-'	Private Const LOGENTRY_TYPE_WARNING = 		2
-'	Private Const LOGENTRY_TYPE_EXTENDED = 		4
-'	Private Const LOGENTRY_TYPE_METHODRESULT = 	8
-'	Private Const LOGENTRY_TYPE_ACTION = 		16 
-	
-	' success!
-	result = True
-
-ExitPoint:
-	initializeEnhancedLogEntry = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	result = False
-	Resume ExitPoint
-End Function 
