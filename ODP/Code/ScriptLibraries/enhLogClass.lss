@@ -9,9 +9,9 @@
 
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2021.07.14
+	Version 2021.12.15
 
-	Last updated: 07/2021
+	Last updated: 12/2021
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -92,6 +92,8 @@ Declare Private Class NestedProfiledMethodList As enhLogListCarrier
 Declare Private Class EnhancedLogEntryList As enhLogListCarrier
 Declare Private Class EnhancedLogEntryBuffer
 Declare Private Class EnhancedLogEntry 
+Declare Private Class NotesLink 
+Declare Private Class StackTrace 
 Declare Sub Initialize
 Declare Sub Terminate	
 Declare Public Function enhLogGetLogConfigText(itemname$) As String
@@ -225,7 +227,8 @@ Private Const ITEMNAME_HASERRORS = |HasErrors|
 Private Const ITEMNAME_HASWARNINGS = |HasWarnings|
 Private Const ITEMNAME_XMLCONTENT = |xmlContent|
 
-Private Const LOGENTRY_BUFFER_MAX_COUNT = 	100
+Private Const LOGENTRY_BUFFER_MAX_COUNT = 	100 ' Maximum number of EnhancedLogEntry objects allowed in the buffer 
+Private Const LOGENTRY_BUFFER_MAX_BYTES = 	5000 ' Maximum size (in bytes) of the EnhancedLogeEntry buffer 
 
 Private Const LOGENTRY_TYPE_EXCEPTION = 	1
 Private Const LOGENTRY_TYPE_WARNING = 		2
@@ -244,9 +247,9 @@ Private Const PROFILENAME_ENHANCEDLOG = |enhLogOptionsProfile|
 
 Private Const VIEWNAME_LOGS_BYLOGTIME = |lkp-LogsByLogTime|
 
-Private Const VERSION = 		|1.95|
-Private Const BUILD = 			|1.D2D|
-Private Const RELEASE_DATE = 	|20 May 2021|
+Private Const VERSION = 		|1.96|
+Private Const BUILD = 			|1.1F61|
+Private Const RELEASE_DATE = 	|01 DEC 2021|
 
 
 %REM ***************************************************************************
@@ -401,16 +404,14 @@ Public Type ProfiledMethod
 End Type 
 
 
-	%REM ***************************************************************************
+%REM ***************************************************************************
  ************************************************************************************
 	TYPE DEFINITION: LogEntry
  ************************************************************************************
 %END REM *********************************************************************
 Private Type LogEntry 
 	logtime As Variant ' Variant of DataType 7 (Date/Time).
-	linkTo As Variant 
 	
-	prefix As String 
 	message As String  
 	extendedcontent As String  
 	linkcomment As String  
@@ -419,8 +420,20 @@ Private Type LogEntry
 	logentrytype As Integer 
 End Type 
 
+%REM ***************************************************************************
+ ************************************************************************************
+	TYPE DEFINITION: StackTraceElement
+ ************************************************************************************
+%END REM *********************************************************************
+Private Type StackTraceElement 
+	module As String 
+	linenumber As String 
+	message As String 
+End Type 
 
-	%REM ***************************************************************************
+
+
+%REM ***************************************************************************
  ************************************************************************************
 	Private Instance Objects 
  ************************************************************************************
@@ -430,7 +443,15 @@ Private enhLog As EnhancedLog
 
 Private genhl_ProfiledMethods As ProfiledMethodList 
 Private genhl_dbConfigDocCache List As NotesDocument
-Private genhl_ProfileMethodStarts List As Integer     
+Private genhl_ProfileMethodStarts List As Integer      
+
+
+
+
+
+
+
+
 
 
 
@@ -502,7 +523,7 @@ Public Class EnhancedLog
 	
 	Public Sub LogExceptionWithLink (code%, errMsg$, errline&, methodname$, description$, linkTo As Variant, ByVal linklinkcomment$, ByVal HotSpotText$) 
 		If Not singletonExists Then Call Me.Instantiate(||)
-		singleton.LogExceptionWithLink code%, errMsg$, errline&, methodname$, description$,linkTo, linklinkcomment$, HotSpotText$
+		singleton.LogExceptionWithLink code%, errMsg$, errline&, methodname$, description$, linkTo, linklinkcomment$, HotSpotText$
 	End Sub 
 	
 	Public Sub LogExtendedContent (description$, extendedcontent$)
@@ -882,7 +903,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	Private nnamUser As NotesName
 	Private ndtStartTime As NotesDateTime
 	
-	Private cachedErrors List As ErrorInfo
+	Private cachedErrors List As ErrorInfo  
+	
+	Private buffer As EnhancedLogEntryBuffer
 
 	Private myLinkTo As Variant 
 	
@@ -984,6 +1007,8 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Dim targetfilepath As String
 		
 		If Me.isInstantiating Then GoTo ExitPoint
+		
+		Set me.buffer = New EnhancedLogEntryBuffer() 
 		
 		Me.isInstantiating = True
 		Me.myNotesVersion = Join(Split(getCurrentSession.NotesVersion, "|"), "; ") & |; Build | & CStr(getCurrentSession().NotesBuildVersion)
@@ -1112,9 +1137,9 @@ ExitPoint:
 		' If here then no error occurred
 		result = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		Call Me.LogException(Err(), Error() & Chr(10), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
@@ -1134,6 +1159,9 @@ ErrorTrap:
 		
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
+		
+		
+		
 		
 		If (Me.logType = LOGTYPE_FILE) Then
 			Me.nLog.LogAction description$		
@@ -2757,6 +2785,85 @@ ErrorTrap:
 		Resume ExitPoint
 	End Function 
 	
+	
+	
+	%REM
+		Sub dumpBuffer
+		Dumps the buffer contents to the appropriate ouput target and clears the buffer. 
+	%END REM
+	Private Sub dumpBuffer 
+		On Error GoTo ErrorTrap
+		
+		
+		Dim entry As EnhancedLogEntry 
+		
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		
+		' BEGIN CODE 
+		Set entry = me.buffer.FirstEntry 
+		While Not (entry Is Nothing) 
+			
+			
+			
+			Set entry = me.buffer.NextEntry 
+		Wend
+		
+		Call me.buffer.Clear 		
+		
+	ExitPoint: 
+		Exit Sub 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Sub
+	
+	
+	%REM
+		Sub writeEntry
+		Writes the entry to the appropriate output target. 
+		
+		@param entry EnhancedLogEntry to be written to the output target.
+	%END REM
+	Private Sub writeEntry(entry As EnhancedLogEntry) 
+		On Error GoTo ErrorTrap
+		
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		
+		' BEGIN CODE 
+		If entry Is Nothing Then GoTo ExitPoint 
+		
+		
+		
+	ExitPoint: 
+		Exit Sub 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Sub
+	
+	
 End Class 	
 
 
@@ -3058,8 +3165,8 @@ End Class
 %END REM
 Private Class EnhancedLogEntryBuffer
 	Private content(LOGENTRY_BUFFER_MAX_COUNT) As EnhancedLogEntry
-	Private count As Integer 
-	Private index As Integer 
+	Private count_ As Integer 
+	Private index_ As Integer 
 	
 	Public Sub New()
 	End Sub
@@ -3094,8 +3201,8 @@ Private Class EnhancedLogEntryBuffer
 			Set me.content(idx%) = Nothing
 		Next
 
-		me.count = 0
-		me.index = 0
+		me.count_ = 0
+		me.index_ = 0
 		
 	ExitPoint: 
 		Exit Sub 
@@ -3111,6 +3218,16 @@ Private Class EnhancedLogEntryBuffer
 		enhLogException CLASS_PREFIX, msg$
 		Resume ExitPoint		
 	End Sub
+
+
+	%REM
+ 		Property Get count
+ 		 
+ 		@return Number of entries in the buffer 
+	%END REM
+	Property Get count As Integer 
+		count = me.count_ 
+	End Property
 
 	%REM
 		Property Get NextEntry
@@ -3129,9 +3246,9 @@ Private Class EnhancedLogEntryBuffer
 		Dim result As EnhancedLogEntry
 	
 		' BEGIN CODE
-		extendedinfo(|Index|) = me.index 
-		Set result = me.content(me.index) 
-		If (me.index <= me.count) Then me.index = me.index + 1 
+		extendedinfo(|Index|) = me.index_ 
+		Set result = me.content(me.index_) 
+		If (me.index_ <= me.count_) Then me.index_ = me.index_ + 1 
 	
 	ExitPoint: 
 		Set NextEntry = result
@@ -3165,7 +3282,7 @@ Private Class EnhancedLogEntryBuffer
 		Dim result As EnhancedLogEntry
 	
 		' BEGIN CODE
-		me.index = 0 
+		me.index_ = 0 
 		Set result = me.NextEntry 
 	
 	ExitPoint: 
@@ -3200,13 +3317,17 @@ Private Class EnhancedLogEntryBuffer
 		Dim result As EnhancedLogEntry
 		
 		' BEGIN CODE
-		me.index = 0 
+		If (me.count_ > 0) Then 
+			me.index_ = me.count_ -1
+		Else 
+			me.index_ = 0
+		End If
 		Set result = me.NextEntry 
 		
-ExitPoint: 
+	ExitPoint: 
 		Set LastEntry = result
 		Exit Property 
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		ForAll s In extendedinfo
 			If isBlankString(msg$) Then 
@@ -3217,7 +3338,71 @@ ErrorTrap:
 		End ForAll
 		enhLogException CLASS_PREFIX, msg$
 		Resume ExitPoint
+	End Property  
+	
+	
+	%REM
+		Sub addEntry
+		Adds an entry to the buffer 
+	%END REM
+	Sub addEntry(source As EnhancedLogEntry) 
+		On Error GoTo ErrorTrap
+		
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		
+		' BEGIN CODE  
+		Set me.content(me.count_) = source
+		me.count_ = me.count_ + 1 
+		
+	ExitPoint: 
+		Exit Sub 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Sub
+
+	%REM
+		Property Get size
+		Size (in bytes) of the object 
+		
+		@return number of bytes used by the object. 
+	%END REM
+	Property Get size As Long 
+		On Error GoTo ErrorTrap
+		
+		Dim entry As EnhancedLogEntry 
+		Dim result As Long 
+
+		Dim idx% 
+
+		' BEGIN CODE
+		For idx% = 0 To Me.count
+			Set entry = me.content(idx%) 
+			If Not (entry Is Nothing) Then 
+				result = result + entry.size 
+			End If 
+		Next
+		
+	ExitPoint: 
+		size = result
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX, ||
+		Resume ExitPoint
 	End Property
+
 
 End Class
 %REM
@@ -3226,7 +3411,9 @@ End Class
 %END REM
 Private Class EnhancedLogEntry 
 
-	Private content As LogEntry 
+	Private content_ As LogEntry
+	Private link_ As NotesLink
+	Private stacktrace_ As StackTrace 
 
 	Private Property Get CLASS_PREFIX As String 
 		CLASS_PREFIX = LIB_PREFIX & |EnhancedLogEntry.|
@@ -3236,15 +3423,15 @@ Private Class EnhancedLogEntry
 		Constructor
 		
 		@param logtype% LOGENTRY_TYPE_XXX (Exception, Warning, etc.)
-		@param prefix$ Prefix information 
 		@param message$ information to be written to the log. 
 		@param extendedcontent$ Extended Content to be written. 
 		@param linkTo Object for which to include a Link in the log
 		@param linkcomment$ Comment for the link
-		@param HotSpotText$ HotSpotText for the link
+		@param hotspottext$ HotSpotText for the link 
+		@param st StackTrace information for the entry 
 		
 	%END REM 
-	Sub New(logtype%, ByVal prefix$, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$) 
+	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, st As stackTrace) 
 
 		' exception variables
 		Dim extendedinfo List As String 
@@ -3255,16 +3442,24 @@ Private Class EnhancedLogEntry
 		
 		On Error GoTo ErrorTrap
 		
+		
 		' BEGIN CODE 
-
-		me.content.logtime = Now 
-		me.content.logentrytype = logtype% 
-		me.content.prefix = prefix$ 
-		me.content.message = message$ 
-		me.content.extendedcontent = extendedcontent$
-		me.content.linkcomment = linkcomment$ 
-		me.content.hotspottext = hotspottext$ 
-		me.content.linkto = linkTo 
+		me.content_.logtime = Now 
+		me.content_.logentrytype = logtype% 
+		me.content_.message = message$ 
+		me.content_.extendedcontent = extendedcontent$
+		
+		
+		extendedinfo(|Log Entry Type|) = CStr(logtype%) 
+		If Not isBlankString(message$) Then extendedinfo(|Message|) = message$
+		If Not isBlankString(extendedcontent$) Then extendedinfo(|Extended Content|) = extendedcontent$ 
+		If Not isBlankString(linkcomment$) Then extendedinfo(|Link Comment|) = linkcomment$
+		If Not isBlankString(hotspottext$) Then extendedinfo(|Hot Spot Text|) = hotspottext$
+		Set me.stacktrace_ = st 
+		
+		If (linkTo Is Nothing) Then GoTo ExitPoint
+		
+		Set me.link_ = New NotesLink(linkTo) 
 		
 	ExitPoint: 
 		If (0 <> errcode%) Then Error errcode%, errmsg$ & | at line | & CStr(errline%) & | in | & CLASS_PREFIX & |New() Constructor| 
@@ -3291,22 +3486,22 @@ Private Class EnhancedLogEntry
  		@return Date/Time of the log entry, Variant of DataType 7 (Date/Time).
 	%END REM
 	Property Get LogTime As Variant ' Variant of DataType 7 (Date/Time).
-		LogTime = me.content.logtime
+		LogTime = me.content_.logtime
 	End Property
 
 	%REM
  		Property Get LinkTo
- 		@return Object for which to include a Link in the log.
+ 		@return NotesLink for which to include a Link in the log.
 	%END REM
-	Property Get LinkTo As Variant 
-		LinkTo = me.content.linkto
+	Property Get LinkTo As NotesLink 
+		Set LinkTo = me.link_ 
 	End Property
 
 	%REM
  		Property Get LogEntryType
 	%END REM
 	Property Get LogEntryType As Integer 
-		LogEntryType = me.content.logentrytype
+		LogEntryType = me.content_.logentrytype
 	End Property
 
 	%REM
@@ -3314,23 +3509,16 @@ Private Class EnhancedLogEntry
  		@return text representation of the logtime 
 	%END REM
 	Property Get TimeStamp As String 
-		TimeStamp = Format$(me.content.logtime, |yyyy/mm/dd hh:mm:ss|)
+		TimeStamp = Format$(me.content_.logtime, |yyyy/mm/dd hh:mm:ss|)
 	End Property
 
-	%REM
- 		Property Get Prefix
- 		@return Prefix for the entry 
-	%END REM
-	Property Get Prefix As String 
-		Prefix = me.content.prefix
-	End Property
 
 	%REM
  		Property Get Message
  		@return Message for the entry 
 	%END REM
 	Property Get Message As String 
-		Message = me.content.message
+		Message = me.content_.message
 	End Property
 
 	%REM
@@ -3338,7 +3526,7 @@ Private Class EnhancedLogEntry
  		@return ExtendedContent for the entry 
 	%END REM
 	Property Get ExtendedContent As String 
-		ExtendedContent = me.content.extendedcontent
+		ExtendedContent = me.content_.extendedcontent
 	End Property
 
 	%REM
@@ -3346,7 +3534,7 @@ Private Class EnhancedLogEntry
  		@return LinkComment for the entry 
 	%END REM
 	Property Get LinkComment As String 
-		LinkComment = me.content.linkcomment
+		LinkComment = me.content_.linkcomment
 	End Property
 
 	%REM
@@ -3354,7 +3542,7 @@ Private Class EnhancedLogEntry
  		@return HotSpotText for the entry 
 	%END REM
 	Property Get HotSpotText As String 
-		HotSpotText = me.content.hotspottext
+		HotSpotText = me.content_.hotspottext
 	End Property
 
 	%REM
@@ -3362,7 +3550,386 @@ Private Class EnhancedLogEntry
  		@return Flag indicating if the object has a link
 	%END REM
 	Property Get hasLink As Boolean 
-		hasLink = Not IsEmpty(me.content.linkto) 
+		hasLink = Not (me.link_ Is Nothing)  
+	End Property
+
+
+	%REM
+		Property Get size
+		Size (in bytes) of the object 
+		
+		@return number of bytes used by the object. 
+	%END REM
+	Property Get size As Long 
+		On Error GoTo ErrorTrap
+	
+		Dim result As Long 
+	
+		' BEGIN CODE
+		result = LenB(me.TimeStamp) _
+			+ LenB(me.content_.message) _ 
+			+ LenB(me.content_.extendedcontent) _ 
+			+ LenB(me.content_.linkcomment) _ 
+			+ LenB(me.content_.hotspottext) _ 
+			+ Len(me.content_.logentrytype) 
+		
+		If me.hasLink Then result = result + me.link_.size 
+		If Not (me.stacktrace_ Is Nothing) Then result = result + me.stacktrace_.size 
+		
+	ExitPoint: 
+		size = result
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX, ||
+		Resume ExitPoint
+	End Property
+
+
+
+
+End Class
+%REM
+	Class NotesLink
+	Represents a NotesLink to a Database, View, or Document 
+%END REM
+Private Class NotesLink 
+	Private notesurl_ As String 
+	Private server_ As String 
+	Private filepath_ As String 
+	Private viewname_ As String
+	Private replicaid_ As String 
+	Private universalid_ As String 
+	  
+	
+	Private Property Get CLASS_PREFIX As String 
+		CLASS_PREFIX = LIB_PREFIX & |NotesLink.|
+	End Property 
+
+	%REM
+		Constructor 
+		@param source NotesDatabase, NotesView, or NotesDocument to be represented by this object. 
+	%END REM 
+	Sub New(linkTo As Variant) 
+		On Error GoTo ErrorTrap
+		
+		Dim ndb As NotesDatabase
+		Dim nvw As NotesView
+		Dim ndoc As NotesDocument 
+		
+		Dim linkToType$ 
+
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		Dim errmsg$
+		Dim errcode%
+		Dim errline%
+		
+		
+		' BEGIN CODE 
+		
+		If (linkTo Is Nothing) Then GoTo ExitPoint
+		
+		linkToType$ = TypeName(linkTo)
+		extendedInfo(|LinkTo Type|) = linkToType$ 
+		Select Case linkToType$
+			Case |NOTESDATABASE|:
+				Set ndb = linkTo
+				
+			Case |NOTESVIEW|:
+				Set nvw = linkTo
+				If Not IsEmpty(nvw.Aliases) Then
+					ForAll viewalias In nvw.Aliases 
+						Me.viewname_ = Trim$(viewalias)
+						Exit ForAll 
+					End ForAll 
+				End If
+				If isBlankString (Me.viewname_) Then me.viewname_ = nvw.Name 
+
+				Set ndb = nvw.Parent 
+				
+			Case |NOTESDOCUMENT|:
+				Set ndoc = linkTo 
+				Me.universalid_ = ndoc.Universalid 
+				
+				Set ndb = ndoc.Parentdatabase 
+
+			Case Else
+				Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID & |Invalid LinkTo Type| 
+		End Select 	
+
+		Me.server_ = ndb.Server 
+		Me.filepath_ = ndb.Filepath 
+		Me.replicaid_ = ndb.Replicaid 
+		
+
+	ExitPoint: 
+		If (0 <> errcode%) Then Error errcode%, errmsg$ & | at line | & CStr(errline%) & | in | & CLASS_PREFIX & |New() Constructor| 
+		Exit Sub 
+	ErrorTrap:
+		On Error GoTo 0
+		errcode% = Err() 
+		errmsg$ = Error() 
+		errline% = Erl()
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Sub 
+
+	%REM
+ 		Property Get NotesURL
+ 		@return NotesURL for the entry 
+	%END REM
+	Property Get NotesURL As String 
+		NotesURL = me.notesurl_
+	End Property
+
+	%REM
+ 		Property Get Server
+ 		@return Server for the entry 
+	%END REM
+	Property Get Server As String 
+		Server = me.server_
+	End Property
+
+	%REM
+ 		Property Get Filepath
+ 		@return Filepath for the entry 
+	%END REM
+	Property Get Filepath As String 
+		Filepath = me.server_
+	End Property
+
+	%REM
+ 		Property Get ReplicaID
+ 		@return ReplicaID for the entry 
+	%END REM
+	Property Get ReplicaID As String 
+		ReplicaID = me.server_
+	End Property
+
+	%REM
+ 		Property Get Viewname
+ 		@return Viewname for the entry 
+	%END REM
+	Property Get Viewname As String 
+		Viewname = me.server_
+	End Property
+
+	%REM
+ 		Property Get UniversalID
+ 		@return UniversalID for the entry 
+	%END REM
+	Property Get UniversalID As String 
+		UniversalID = me.server_
+	End Property
+
+
+	%REM
+		Property Get LinkText
+		Text representation if the NotesLink object. 
+	%END REM
+	Property Get LinkText As String 
+		On Error GoTo ErrorTrap
+	
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+	
+	
+		Dim result As String
+	
+		' BEGIN CODE
+		result$ = Me.notesurl_
+		If IsBlankString(me.viewname_) Then 
+			result$ = result$ & |/0/| & me.universalid_ 
+		Else
+			result$ = result$ & |/| & me.viewname_
+		End If
+		
+	ExitPoint: 
+		LinkText = result
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Property
+	
+	
+	%REM
+		Property Get size
+		Size (in bytes) of the object 
+		
+		@return number of bytes used by the object. 
+	%END REM
+	Property Get size As Long 
+		On Error GoTo ErrorTrap
+		
+		Dim result As Long 
+		
+		' BEGIN CODE
+		With Me 
+			result = LenB(.notesurl_) _
+				+ LenB(.server) _ 
+				+ LenB(.filepath_) _ 
+				+ LenB(.viewname_) _ 
+				+ LenB(.replicaid_) _ 
+				+ LenB(.universalid_) 
+		End With
+		
+		
+	ExitPoint: 
+		size = result
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX, ||
+		Resume ExitPoint
+	End Property
+
+
+
+
+End Class
+%REM
+	Class StackTrace
+	Represents a Stack Trace
+%END REM
+Private Class StackTrace 
+	Private module_ As String 
+	Public Content() As StackTraceElement
+
+	
+	Private Property Get CLASS_PREFIX As String 
+		CLASS_PREFIX = LIB_PREFIX & |StackTrace.|
+	End Property 
+
+	%REM
+		Constructor
+	%END REM 
+	Sub New() 
+		On Error GoTo ErrorTrap
+		
+		Dim ste As StackTraceElement 
+		
+		Dim stackinfo As Variant 
+		Dim stackelement As Variant
+		
+		Dim idx%
+		
+		Dim isStackStarted As Boolean 
+
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		Dim errmsg$
+		Dim errcode%
+		Dim errline%
+		
+		
+		' BEGIN CODE 
+		me.module_ = GetThreadInfo(LIB_LSI_THREAD_MODULE)
+		stackinfo =  Split(LSI_Info(LIB_LSI_THREAD_STACKINFO), Chr(10))
+		ReDim me.Content(0) As StackTraceElement 
+		
+		ForAll element In stackinfo
+			idx% = UBound(me.Content) 
+			stackelement = Split(element, |,|)
+			If (UBound(stackelement) > 1) Then
+				If isStackStarted Then
+					ReDim Preserve me.Content(idx% + 1) As StackTraceElement
+					ste.module = stackelement(0)
+					ste.message = stackelement(1) 
+					ste.linenumber = stackelement(2) 
+					me.Content(idx%) = ste
+				Else
+					Select Case Trim$(stackelement(1))
+					Case |LOGSTACKTRACE|, |LOGEXCEPTION|, |LOGEXCEPTIONWITHLINK|, |ENHLOGEXCEPTION|, |ENHLOGSTACKTRACE|
+						isStackStarted = (Trim$(stackelement(0)) <> me.module_)
+					Case Else
+						isStackStarted = True
+				End Select 	
+					
+					If isStackStarted Then
+						ReDim Preserve me.Content(idx% + 1) As StackTraceElement
+						ste.module = stackelement(0)
+						ste.message = stackelement(1) 
+						ste.linenumber = stackelement(2) 
+						me.Content(idx%) = ste
+					End If 	
+				End If 
+			End If
+		End ForAll 
+
+
+	ExitPoint: 
+		If (0 <> errcode%) Then Error errcode%, errmsg$ & | at line | & CStr(errline%) & | in | & CLASS_PREFIX & |New() Constructor| 
+		Exit Sub 
+	ErrorTrap:
+		On Error GoTo 0
+		errcode% = Err() 
+		errmsg$ = Error() 
+		errline% = Erl()
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Sub 
+
+
+	%REM
+ 		Property Get Module
+ 		@return Module from which the Stack Trace was triggered
+	%END REM
+	Property Get Module As String  
+		Module = me.module_
+	End Property
+
+
+	%REM
+		Property Get size
+		Size (in bytes) of the object 
+		
+		@return number of bytes used by the object. 
+	%END REM
+	Property Get size As Long 
+		On Error GoTo ErrorTrap
+		
+		Dim result As Long 
+		
+		' BEGIN CODE
+		result = LenB(me.module_) 
+		ForAll ste In me.Content 
+			result = result + LenB(ste.linenumber) + LenB(ste.message) + LenB(ste.module) 
+		End ForAll
+		
+	ExitPoint: 
+		size = result
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX, ||
+		Resume ExitPoint
 	End Property
 
 End Class
@@ -6680,6 +7247,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
 
 
 
