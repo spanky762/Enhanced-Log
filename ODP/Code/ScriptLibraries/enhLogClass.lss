@@ -299,6 +299,9 @@ Private Const MSG_DOC_NOT_SAVED = |The document could not be saved.  |
 Private Const ERR_FORMULA_INVALID = 1336
 Private Const MSG_FORMULA_INVALID = |The Formula syntax is invalid.  |
 
+Private Const ERR_INTERNAL = 1900
+Private Const MSG_INTERNAL = |Internal Error in EnhancedLog object.  |
+
 Private Const ERR_INTERNAL_MAXRECOVER = 1910
 Private Const MSG_INTERNAL_MAXRECOVER = |Internal Error in EnhancedLog object.  Maximum allowed recovery attempts exceeded.  |
 
@@ -313,6 +316,9 @@ Private Const MSG_PARAMETER_BLANK = |A required parameter is blank or missing.  
 
 Private Const ERR_PARAMETER_INVALID = 1195
 Private Const MSG_PARAMETER_INVALID = |A passed parameter is invalid.  |
+
+Private Const ERR_DOCUMENT_NOT_FOUND = 1020
+Private Const MSG_DOCUMENT_NOT_FOUND = |Could not find the specified document.  |
 
 Private Const ERR_VIEW_NOT_FOUND = 1039
 Private Const MSG_VIEW_NOT_FOUND = |Could not find the specified view.  |
@@ -487,9 +493,9 @@ Public Class EnhancedLog
 		If singletonExists Then Call singleton.Close()
 	End Sub 
 	
-	Public Function AppendAsDocLink (source As NotesDocument, fieldname$, linklinkcomment$, hotspottext$) As Boolean
+	Public Function AppendAsDocLink (source As NotesDocument, fieldname$, linkcomment$, hotspottext$) As Boolean
 		If Not singletonExists Then Call Me.Instantiate(||)
-		AppendAsDocLink = singleton.AppendAsDocLink (source, fieldname$, linklinkcomment$, hotspottext$)
+		AppendAsDocLink = singleton.AppendAsDocLink (source, fieldname$, linkcomment$, hotspottext$)
 	End Function 
 
 	Public Sub ClearCachedError()
@@ -502,9 +508,9 @@ Public Class EnhancedLog
 		singleton.LogAction description$
 	End Sub 
 	
-	Public Sub LogActionWithLink (description$,  linkTo As Variant, ByVal linklinkcomment$, ByVal HotSpotText$)
+	Public Sub LogActionWithLink (description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
 		If Not singletonExists Then Call Me.Instantiate(||)
-		singleton.LogActionWithLink description$, linkTo, linklinkcomment$, HotSpotText$
+		singleton.LogActionWithLink description$, linkTo, linkcomment$, HotSpotText$
 	End Sub 
 	
 
@@ -526,9 +532,9 @@ Public Class EnhancedLog
 	End Sub 
 	
 	
-	Public Sub LogExceptionWithLink (code%, errMsg$, errline&, methodname$, description$, linkTo As Variant, ByVal linklinkcomment$, ByVal HotSpotText$) 
+	Public Sub LogExceptionWithLink (code%, errMsg$, errline&, methodname$, description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$) 
 		If Not singletonExists Then Call Me.Instantiate(||)
-		singleton.LogExceptionWithLink code%, errMsg$, errline&, methodname$, description$, linkTo, linklinkcomment$, HotSpotText$
+		singleton.LogExceptionWithLink code%, errMsg$, errline&, methodname$, description$, linkTo, linkcomment$, HotSpotText$
 	End Sub 
 	
 	Public Sub LogExtendedContent (description$, extendedcontent$)
@@ -536,9 +542,9 @@ Public Class EnhancedLog
 		singleton.LogExtendedContent description$, extendedcontent$
 	End Sub 
 	
-	Public Sub LogExtendedContentWithLink (description$, extendedcontent$,  linkTo As Variant, ByVal linklinkcomment$, ByVal HotSpotText$)
+	Public Sub LogExtendedContentWithLink (description$, extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
 		If Not singletonExists Then Call Me.Instantiate(||)
-		singleton.LogExtendedContentWithLink description$, extendedcontent$, linkTo, linklinkcomment$, HotSpotText$
+		singleton.LogExtendedContentWithLink description$, extendedcontent$, linkTo, linkcomment$, HotSpotText$
 	End Sub 
 	
 	Public Sub LogMethodResult (description$)
@@ -547,9 +553,9 @@ Public Class EnhancedLog
 	End Sub 		
 
 	
-	Public Sub LogMethodResultWithLink (description$,  linkTo As Variant, ByVal linklinkcomment$, ByVal HotSpotText$)
+	Public Sub LogMethodResultWithLink (description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
 		If Not singletonExists Then Call Me.Instantiate(||)
-		singleton.LogMethodResultWithLink description$, linkTo, linklinkcomment$, HotSpotText$
+		singleton.LogMethodResultWithLink description$, linkTo, linkcomment$, HotSpotText$
 	End Sub 
 	
 	
@@ -565,9 +571,9 @@ Public Class EnhancedLog
 	End Sub 
 	
 	
-	Public Sub LogWarningWithLink (description$,  linkTo As Variant, ByVal linklinkcomment$, ByVal HotSpotText$)
+	Public Sub LogWarningWithLink (description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
 		If Not singletonExists Then Call Me.Instantiate(||)
-		singleton.LogWarningWithLink description$, linkTo, linklinkcomment$, HotSpotText$
+		singleton.LogWarningWithLink description$, linkTo, linkcomment$, HotSpotText$
 	End Sub 
 	
 	
@@ -1097,7 +1103,7 @@ ExitPoint:
 	End Sub 
 	
 	
-	Public Function AppendAsDocLink (source As NotesDocument, ByVal fieldname$, linklinkcomment$, hotspottext$) As Boolean
+	Public Function AppendAsDocLink (source As NotesDocument, ByVal fieldname$, linkcomment$, hotspottext$) As Boolean
 		
 		Dim body As Variant		
 		Dim extendedInfo As String
@@ -1134,17 +1140,17 @@ ExitPoint:
 		End If 
 		
 		If (Len(Trim$(hotspottext)) = |0|) Then
-			body.AppendDocLink Me.ndoc, linklinkcomment$
+			body.AppendDocLink Me.ndoc, linkcomment$
 		Else
-			body.AppendDocLink Me.ndoc, linklinkcomment$, hotspottext$
+			body.AppendDocLink Me.ndoc, linkcomment$, hotspottext$
 		End If 
 		
 		' If here then no error occurred
 		result = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		Call Me.LogException(Err(), Error() & Chr(10), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
@@ -1162,69 +1168,89 @@ ErrorTrap:
 		Dim nitm As NotesItem
 		On Error GoTo ErrorTrap
 		
+		Dim entry As EnhancedLogEntry 
+		
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 		
+		If me.buffer.isFull Then Call me.dumpBuffer() 
 		
-		
-		
-		If (Me.logType = LOGTYPE_FILE) Then
-			Me.nLog.LogAction description$		
-			
-		Else
-			
-			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
-			Call Me.SizeCheck()
-			
-			If Not Me.HasActions Then
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
-				nitm.IsSummary = True
-				
-				If Not Me.HasErrors Then 
-					Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
-					nitm.IsSummary = True
-				End If 
-				
-			End If 
-			
-			Me.AddTimestamp Me.nrtstyleTimestampNormal
-			Me.nrti.AppendStyle Me.nrtstyleAction
-			Me.nrti.AppendText description$
-			If Me.myHasLinkInfo Then 
-				Me.nrti.AddTab 1
-				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
-			End If
-			
-			Me.nrti.AddNewLine 1	
-			If Me.AutoSave Then Me.Save False, False
-		End If 
-		
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
+		Call me.buffer.addEntry(entry)
 		Me.countActions& = Me.countActions& + 1
-		If Me.LocalEcho Then Print |LogAction: | & description$
+		
+		' 	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
+		
+		
+'		If (Me.logType = LOGTYPE_FILE) Then
+'			Me.nLog.LogAction description$		
+'			
+'		Else
+'			
+'			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+'			Call Me.SizeCheck()
+'			
+'			If Not Me.HasActions Then
+'				Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
+'				nitm.IsSummary = True
+'				
+'				If Not Me.HasErrors Then 
+'					Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
+'					nitm.IsSummary = True
+'				End If 
+'				
+'			End If 
+'			
+'			Me.AddTimestamp Me.nrtstyleTimestampNormal
+'			Me.nrti.AppendStyle Me.nrtstyleAction
+'			Me.nrti.AppendText description$
+'			If Me.myHasLinkInfo Then 
+'				Me.nrti.AddTab 1
+'				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
+'			End If
+'			
+'			Me.nrti.AddNewLine 1	
+'			If Me.AutoSave Then Me.Save False, False
+'		End If 
+		
+'		Me.countActions& = Me.countActions& + 1
+'		If Me.LocalEcho Then Print |LogAction: | & description$
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
 	End Sub 
 	
 	
-	Public Sub LogActionWithLink (description$,  linkTo As Variant, ByVal linklinkcomment$, ByVal HotSpotText$)
+	Public Sub LogActionWithLink (description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
 		On Error GoTo ErrorTrap
 		
+		Dim entry As EnhancedLogEntry 
+
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If (Not (linkTo Is Nothing)) Then 
-			Set Me.myLinkTo = linkTo
-			Me.myLinkComment = linklinkcomment$
-			Me.myLinkHotspotText = HotSpotText$
-			Me.myHasLinkInfo = True
-		End If 
+		If me.buffer.isFull Then Call me.dumpBuffer() 
+		
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
+		Call me.buffer.addEntry(entry)
+		Me.countActions& = Me.countActions& + 1
+		
+		' 	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
+		
 
-		Call Me.LogAction(description$)
+
+'		If (Not (linkTo Is Nothing)) Then 
+'			Set Me.myLinkTo = linkTo
+'			Me.myLinkComment = linkcomment$
+'			Me.myLinkHotspotText = HotSpotText$
+'			Me.myHasLinkInfo = True
+'		End If 
+'
+'		Call Me.LogAction(description$)
 
 ExitPoint:
 		Exit Sub
@@ -1306,9 +1332,9 @@ ErrorTrap:
 		
 		Call Me.nLog.LogEvent(message$, queuename$, eventType%, severity%)
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException CLASS_PREFIX, |("| & 	message$ & |", "| & queuename$ & _ 
 		|", "| & CStr(eventType%) & |, | & CStr(severity%) & |)|
@@ -1317,125 +1343,168 @@ ErrorTrap:
 	
 	
 	Public Sub LogException (code%, errMsg$, errline&, methodname$, description$)
-		Dim nitm As NotesItem
-		Dim temp As String
-		
-		Dim hasCode As Boolean
-		Dim hasMsg As Boolean
-		Dim hasLine As Boolean
-		Dim hasMethod As Boolean
-		
+
+		Dim entry As EnhancedLogEntry 
+		Dim stacktrace As EnhancedLogStackTrace 
+
 		On Error GoTo ErrorTrap
 		
 		If (Not Me.exists) Then GoTo ExitPoint
-		If (Not Me.LogErrors) Then GoTo ExitPoint
-		
-		Call Me.SetCachedError(code%, errMsg$, errline&, methodname$, description$)
-		
-		If (Me.logType = LOGTYPE_FILE) Then
-			temp$ = methodname$ & | (Line | & CStr(errline&) & |): | & errMsg$
-			If (Len(Trim$(description$)) > 0) Then temp$ = temp$ & description$
-			
-			Me.nLog.LogError code%, temp$
-			
-		Else
-			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
-			Call Me.SizeCheck()
-			
-			If Not Me.HasErrors Then 
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Error|)
-				nitm.IsSummary = True
-				
-				Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_HASERRORS, 1)
-				nitm.IsSummary = True
-			End If 
-			
-			' Set the error information items
-			Set nitm = Me.ndoc.ReplaceItemValue(|A$ERRCODE|, CStr(code%))
-			nitm.IsSummary = True
-			
-			Set nitm = Me.ndoc.ReplaceItemValue(|A$ERRMSG|, errMsg$)
-			nitm.IsSummary = True
-			
-			Set nitm = Me.ndoc.ReplaceItemValue(|A$description|, description$)
-			nitm.IsSummary = True
-			
-			hasCode = (code% > 0)
-			hasMsg = (Len(errMsg$) > 0)
-			hasLine = (errline& > 0)
-			hasMethod = (Len(methodname$) > 0)
-			
-			' Append the Error information to the RichTextItem
-			If (hasCode Or hasMsg) Then Me.AddTimestamp Me.nrtstyleTimestampError
-			
-			Me.nrti.AppendStyle Me.nrtstyleError
-			
-			If hasCode Then Me.nrti.AppendText |Error #| & CStr(code%) & |: |			
-			If hasMsg Then Me.nrti.AppendText errMsg$		
-			
-			If Me.myHasLinkInfo Then 
-				Me.nrti.AddTab 1
-				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
-			End If 
-			
-			If (hasLine Or hasMethod) Then  Call Me.nrti.AddNewLine(1)
-			
-			If (hasMethod) Then Me.nrti.AppendText(methodname$ & |();  |)
-			If (hasLine) Then Me.nrti.AppendText(|line #| & CStr(errline&))
-			
-			Call Me.nrti.AddNewLine(1)
-			
-			If (Len(description$) > 0) Then
-				Me.nrti.AppendStyle Me.nrtstyleErrorExtended
-				Me.nrti.AppendText description$
-				Call Me.nrti.AddNewLine(1)
-			Else
-				Me.nrti.AppendText |No extended information available.|
-			End If 
-			
-			Me.nrti.AppendStyle Me.nrtstyleError
-			Call Me.nrti.AddNewLine(1)
-			Call Me.LogStackTrace()
+		If (Not Me.LogActions) Then GoTo ExitPoint
 
-			If Me.AutoSave Then Me.Save False, False
-			
-		End If 
+		If me.buffer.isFull Then Call me.dumpBuffer()
 		
-		Me.countErrors& = Me.countErrors + 1
+		Set stackTrace = Nothing 
+		If Me.LogStackExceptions Then Set stackTrace = New EnhancedLogStackTrace() 
 		
-		If Me.LocalEcho Then 
-			Print |LogException: | & errMsg$
-			If (description$ <> ||) Then Print |LogException (extended): | & description$
-		End If 
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, Nothing, ||, ||, code%, errMsg$, errline&, methodname$, stacktrace)
+		Call me.buffer.addEntry(entry)
+		Me.countErrors& = Me.countErrors& + 1
 		
-ExitPoint:
+		' 	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
+
+
+
+
+
+'		Dim nitm As NotesItem
+'		Dim temp As String
+'		
+'		Dim hasCode As Boolean
+'		Dim hasMsg As Boolean
+'		Dim hasLine As Boolean
+'		Dim hasMethod As Boolean
+'		
+'		On Error GoTo ErrorTrap
+'		
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		If (Not Me.LogErrors) Then GoTo ExitPoint
+'		
+'		Call Me.SetCachedError(code%, errMsg$, errline&, methodname$, description$)
+'		
+'		If (Me.logType = LOGTYPE_FILE) Then
+'			temp$ = methodname$ & | (Line | & CStr(errline&) & |): | & errMsg$
+'			If (Len(Trim$(description$)) > 0) Then temp$ = temp$ & description$
+'			
+'			Me.nLog.LogError code%, temp$
+'			
+'		Else
+'			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+'			Call Me.SizeCheck()
+'			
+'			If Not Me.HasErrors Then 
+'				Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Error|)
+'				nitm.IsSummary = True
+'				
+'				Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_HASERRORS, 1)
+'				nitm.IsSummary = True
+'			End If 
+'			
+''			 Set the error information items
+'			Set nitm = Me.ndoc.ReplaceItemValue(|A$ERRCODE|, CStr(code%))
+'			nitm.IsSummary = True
+'			
+'			Set nitm = Me.ndoc.ReplaceItemValue(|A$ERRMSG|, errMsg$)
+'			nitm.IsSummary = True
+'			
+'			Set nitm = Me.ndoc.ReplaceItemValue(|A$description|, description$)
+'			nitm.IsSummary = True
+'			
+'			hasCode = (code% > 0)
+'			hasMsg = (Len(errMsg$) > 0)
+'			hasLine = (errline& > 0)
+'			hasMethod = (Len(methodname$) > 0)
+'			
+''			 Append the Error information to the RichTextItem
+'			If (hasCode Or hasMsg) Then Me.AddTimestamp Me.nrtstyleTimestampError
+'			
+'			Me.nrti.AppendStyle Me.nrtstyleError
+'			
+'			If hasCode Then Me.nrti.AppendText |Error #| & CStr(code%) & |: |			
+'			If hasMsg Then Me.nrti.AppendText errMsg$		
+'			
+'			If Me.myHasLinkInfo Then 
+'				Me.nrti.AddTab 1
+'				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
+'			End If 
+'			
+'			If (hasLine Or hasMethod) Then  Call Me.nrti.AddNewLine(1)
+'			
+'			If (hasMethod) Then Me.nrti.AppendText(methodname$ & |();  |)
+'			If (hasLine) Then Me.nrti.AppendText(|line #| & CStr(errline&))
+'			
+'			Call Me.nrti.AddNewLine(1)
+'			
+'			If (Len(description$) > 0) Then
+'				Me.nrti.AppendStyle Me.nrtstyleErrorExtended
+'				Me.nrti.AppendText description$
+'				Call Me.nrti.AddNewLine(1)
+'			Else
+'				Me.nrti.AppendText |No extended information available.|
+'			End If 
+'			
+'			Me.nrti.AppendStyle Me.nrtstyleError
+'			Call Me.nrti.AddNewLine(1)
+'			Call Me.LogStackTrace()
+'
+'			If Me.AutoSave Then Me.Save False, False
+'			
+'		End If 
+'		
+'		Me.countErrors& = Me.countErrors + 1
+'		
+'		If Me.LocalEcho Then 
+'			Print |LogException: | & errMsg$
+'			If (description$ <> ||) Then Print |LogException (extended): | & description$
+'		End If 
+		
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint
 	End Sub 
 	
 	
-	Public Sub LogExceptionWithLink (code%, errMsg$, errline&, methodname$, description$, linkTo As Variant, ByVal linklinkcomment$, ByVal HotSpotText$) 
+	Public Sub LogExceptionWithLink (code%, errMsg$, errline&, methodname$, description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$) 
+		Dim entry As EnhancedLogEntry 
+		Dim stacktrace As EnhancedLogStackTrace 
+
+		On Error GoTo ErrorTrap
 		
 		If (Not Me.exists) Then GoTo ExitPoint
-		If (Not Me.LogErrors) Then GoTo ExitPoint
+		If (Not Me.LogActions) Then GoTo ExitPoint
+
+		If me.buffer.isFull Then Call me.dumpBuffer()
 		
-		If (Not (linkTo Is Nothing)) Then 
-			Set Me.myLinkTo = linkTo
-			Me.myLinkComment = linklinkcomment$
-			Me.myLinkHotspotText = HotSpotText$
-			Me.myHasLinkInfo = True
-		End If 
+		Set stackTrace = Nothing 
+		If Me.LogStackExceptions Then Set stackTrace = New EnhancedLogStackTrace() 
 		
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, linkTo, linkcomment$, HotSpotText$, code%, errMsg$, errline&, methodname$, stacktrace)
+		Call me.buffer.addEntry(entry)
+		Me.countErrors& = Me.countErrors& + 1
 		
-		Call Me.LogException(code%, errMsg$, errline&, methodname$, description$)
+		' 	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
+
 		
-ExitPoint:
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		If (Not Me.LogErrors) Then GoTo ExitPoint
+'		
+'		If (Not (linkTo Is Nothing)) Then 
+'			Set Me.myLinkTo = linkTo
+'			Me.myLinkComment = linkcomment$
+'			Me.myLinkHotspotText = HotSpotText$
+'			Me.myHasLinkInfo = True
+'		End If 
+'		
+'		
+'		Call Me.LogException(code%, errMsg$, errline&, methodname$, description$)
+		
+	ExitPoint:
 		Me.myHasLinkInfo = False
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint
@@ -1444,85 +1513,114 @@ ErrorTrap:
 	
 	
 	Public Sub LogExtendedContent (description$, extendedcontent$)
-		On Error GoTo ErrorTrap
 		Dim nitm As NotesItem
+		On Error GoTo ErrorTrap
+		
+		Dim entry As EnhancedLogEntry 
 		
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 		
-		If (Me.logType = LOGTYPE_FILE) Then
-			Me.nLog.LogAction description$ & | | & extendedcontent$	
-			
-		Else
-			
-			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
-			Call Me.SizeCheck()
-			
-			If (description$ <> ||) Then
-				If Not Me.HasActions Then
-					
-					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
-					nitm.IsSummary = True
-					
-					If Not Me.HasErrors Then 
-						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
-						nitm.IsSummary = True
-					End If 
-					
-					Me.countActions& = Me.countActions& + 1
-					
-				End If 
-				
-				Me.AddTimestamp Me.nrtstyleTimestampExtended
-				Me.nrti.AppendStyle Me.nrtstyleExtendedContent
-				Me.nrti.AppendText description$
-				Call Me.nrti.AddNewLine(1)
-			End If 
-			
-			Me.nrti.AppendStyle Me.nrtstyleExtendedContent
-			If Me.myHasLinkInfo Then 
-				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
-				Me.nrti.AddTab 1
-			End If 
-			
-			Me.nrti.AppendText extendedcontent$ 
-			Call Me.nrti.AddNewLine(1)
-			
-			If Me.AutoSave Then Me.Save False, False
-		End If 
+		If me.buffer.isFull Then Call me.dumpBuffer() 
 		
-		If Me.LocalEcho Then			
-			If (description$ <> ||) Then Print |LogExtendedContent: | & description$
-			Print |LogExtendedContent: | & extendedcontent$
-		End If 
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXTENDED, description$, extendedcontent$, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
+		Call me.buffer.addEntry(entry)
 
-ExitPoint:
+
+
+
+'		On Error GoTo ErrorTrap
+'		Dim nitm As NotesItem
+'		
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		If (Not Me.LogActions) Then GoTo ExitPoint
+'		
+'		If (Me.logType = LOGTYPE_FILE) Then
+'			Me.nLog.LogAction description$ & | | & extendedcontent$	
+'			
+'		Else
+'			
+'			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+'			Call Me.SizeCheck()
+'			
+'			If (description$ <> ||) Then
+'				If Not Me.HasActions Then
+'					
+'					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
+'					nitm.IsSummary = True
+'					
+'					If Not Me.HasErrors Then 
+'						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
+'						nitm.IsSummary = True
+'					End If 
+'					
+'					Me.countActions& = Me.countActions& + 1
+'					
+'				End If 
+'				
+'				Me.AddTimestamp Me.nrtstyleTimestampExtended
+'				Me.nrti.AppendStyle Me.nrtstyleExtendedContent
+'				Me.nrti.AppendText description$
+'				Call Me.nrti.AddNewLine(1)
+'			End If 
+'			
+'			Me.nrti.AppendStyle Me.nrtstyleExtendedContent
+'			If Me.myHasLinkInfo Then 
+'				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
+'				Me.nrti.AddTab 1
+'			End If 
+'			
+'			Me.nrti.AppendText extendedcontent$ 
+'			Call Me.nrti.AddNewLine(1)
+'			
+'			If Me.AutoSave Then Me.Save False, False
+'		End If 
+'		
+'		If Me.LocalEcho Then			
+'			If (description$ <> ||) Then Print |LogExtendedContent: | & description$
+'			Print |LogExtendedContent: | & extendedcontent$
+'		End If 
+
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
 	End Sub 
 	
 	
-	Public Sub LogExtendedContentWithLink (description$, extendedcontent$,  linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
+	Public Sub LogExtendedContentWithLink (description$, extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
 		On Error GoTo ErrorTrap
 		
+		Dim entry As EnhancedLogEntry 
+
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If (Not (linkTo Is Nothing)) Then 
-			Set Me.myLinkTo = linkTo
-			Me.myLinkComment = linkcomment$
-			Me.myLinkHotspotText = HotSpotText$
-			Me.myHasLinkInfo = True
-		End If 
+		If me.buffer.isFull Then Call me.dumpBuffer() 
+		
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXTENDED, description$, extendedcontent$, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
+		Call me.buffer.addEntry(entry)
 
-		Call Me.LogExtendedContent(description$, extendedcontent$)
 
-ExitPoint:
+'		On Error GoTo ErrorTrap
+'		
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		If (Not Me.LogActions) Then GoTo ExitPoint
+'
+'		If (Not (linkTo Is Nothing)) Then 
+'			Set Me.myLinkTo = linkTo
+'			Me.myLinkComment = linkcomment$
+'			Me.myLinkHotspotText = HotSpotText$
+'			Me.myHasLinkInfo = True
+'		End If 
+'
+'		Call Me.LogExtendedContent(description$, extendedcontent$)
+
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
@@ -1534,71 +1632,99 @@ ErrorTrap:
 	
 	Public Sub LogMethodResult (description$)
 		On Error GoTo ErrorTrap
-		Dim nitm As NotesItem
 		
-		If (Not Me.exists) Then GoTo ExitPoint
-		If (Not Me.LogMethodResults) Then GoTo ExitPoint
-		
-		If (Me.logType = LOGTYPE_FILE) Then
-			Me.nLog.LogAction description$		
-		Else
-			
-			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
-			Call Me.SizeCheck()
-			
-			If Not Me.HasActions Then
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
-				nitm.IsSummary = True
-				
-				If Not Me.HasErrors Then 
-					Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
-					nitm.IsSummary = True
-				End If 
-			End If 
-			
-			Me.AddTimestamp Me.nrtstyleTimestampNormal
-			Me.nrti.AppendStyle Me.nrtstyleMethodResult
-			Me.nrti.AppendText description$
-			If Me.myHasLinkInfo Then 
-				Me.nrti.AddTab 1
-				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
-			End If 
-			Me.nrti.AddNewLine(1)	
-			
-			If Me.AutoSave Then Me.Save False, False
-		End If 
-		
-		If Me.LocalEcho Then Print |LogMethodResult: | & description$
-		Me.countActions& = Me.countActions& + 1
+		Dim entry As EnhancedLogEntry 
 
-ExitPoint:
+		If (Not Me.exists) Then GoTo ExitPoint
+		If (Not Me.LogActions) Then GoTo ExitPoint
+
+		If me.buffer.isFull Then Call me.dumpBuffer() 
+		
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_METHODRESULT, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
+		Call me.buffer.addEntry(entry)
+		Me.countActions& = Me.countActions& + 1
+		
+		
+		
+'		On Error GoTo ErrorTrap
+'		Dim nitm As NotesItem
+'		
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		If (Not Me.LogMethodResults) Then GoTo ExitPoint
+'		
+'		If (Me.logType = LOGTYPE_FILE) Then
+'			Me.nLog.LogAction description$		
+'		Else
+'			
+'			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+'			Call Me.SizeCheck()
+'			
+'			If Not Me.HasActions Then
+'				Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
+'				nitm.IsSummary = True
+'				
+'				If Not Me.HasErrors Then 
+'					Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
+'					nitm.IsSummary = True
+'				End If 
+'			End If 
+'			
+'			Me.AddTimestamp Me.nrtstyleTimestampNormal
+'			Me.nrti.AppendStyle Me.nrtstyleMethodResult
+'			Me.nrti.AppendText description$
+'			If Me.myHasLinkInfo Then 
+'				Me.nrti.AddTab 1
+'				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
+'			End If 
+'			Me.nrti.AddNewLine(1)	
+'			
+'			If Me.AutoSave Then Me.Save False, False
+'		End If 
+'		
+'		If Me.LocalEcho Then Print |LogMethodResult: | & description$
+'		Me.countActions& = Me.countActions& + 1
+
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
 	End Sub 
 	
 
-	Public Sub LogMethodResultWithLink (description$,  linkTo As Variant, ByVal 	linkcomment$, ByVal HotSpotText$)
-		On Error GoTo ErrorTrap	
+	Public Sub LogMethodResultWithLink (description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
+		On Error GoTo ErrorTrap
 		
+		Dim entry As EnhancedLogEntry 
+
 		If (Not Me.exists) Then GoTo ExitPoint
-		If (Not Me.LogMethodResults) Then GoTo ExitPoint
-		If (Not Me.exists) Then GoTo ExitPoint
+		If (Not Me.LogActions) Then GoTo ExitPoint
+
+		If me.buffer.isFull Then Call me.dumpBuffer() 
 		
-		If (Not (linkTo Is Nothing)) Then 
-			Set Me.myLinkTo = linkTo
-			Me.myLinkComment = linkcomment$
-			Me.myLinkHotspotText = HotSpotText$
-			Me.myHasLinkInfo = True
-		End If 
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_METHODRESULT, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
+		Call me.buffer.addEntry(entry)
+		Me.countActions& = Me.countActions& + 1
+		
+'		On Error GoTo ErrorTrap	
+'		
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		If (Not Me.LogMethodResults) Then GoTo ExitPoint
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		
+'		If (Not (linkTo Is Nothing)) Then 
+'			Set Me.myLinkTo = linkTo
+'			Me.myLinkComment = linkcomment$
+'			Me.myLinkHotspotText = HotSpotText$
+'			Me.myHasLinkInfo = True
+'		End If 
+'
+'		Call Me.LogMethodResult(description$)
 
-		Call Me.LogMethodResult(description$)
-
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
@@ -1622,7 +1748,7 @@ ErrorTrap:
 		If (Not enhLogIsProfilingEnabled()) _ 
 		Or (Not genhl_ProfiledMethods.hasContent) _  
 		Or (Me.isSpanningLogDocs _ 
-		Or (Me.logType = LOGTYPE_FILE)) _  
+		Or (Me.logType <> LOGTYPE_NOTES)) _  
 		Then GoTo ExitPoint 
 		
 		
@@ -1660,73 +1786,107 @@ ErrorTrap:
 
 	Public Sub LogWarning (description$)
 		On Error GoTo ErrorTrap
-		Dim nitm As NotesItem
 		
-		If (Not Me.exists) Then GoTo ExitPoint
-		If Not Me.LogWarnings Then Exit Sub
-		
-		If (Me.logType = LOGTYPE_FILE) Then
-			Me.nLog.LogAction description$		
-			
-		Else
-			
-			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
-			Call Me.SizeCheck()
-			
-			If Not Me.HasWarnings Then 
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
-				nitm.IsSummary = True
-				
-				Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_HASWARNINGS, 1)
-				nitm.IsSummary = True
-				
-				If Not Me.HasErrors Then 
-					Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Warning|)
-					nitm.IsSummary = True
-				End If 
-			End If 
-			
-			Me.AddTimestamp Me.nrtstyleTimestampWarning
-			Me.nrti.AppendStyle Me.nrtstyleWarning
-			Me.nrti.AppendText |Warning: | & description$
-			If Me.myHasLinkInfo Then 
-				Me.nrti.AddTab 1
-				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
-			End If 
-			Me.nrti.AddNewLine(1)	
-			
-			If Me.AutoSave Then Me.Save False, False
-		End If 
-		
-		Me.countWarnings& = Me.countWarnings& + 1
-		If Me.LocalEcho Then Print |LogWarning: | & description$
+		Dim entry As EnhancedLogEntry 
 
-ExitPoint:
+		If (Not Me.exists) Then GoTo ExitPoint
+		If (Not Me.LogActions) Then GoTo ExitPoint
+
+		If me.buffer.isFull Then Call me.dumpBuffer() 
+		
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_WARNING, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
+		Call me.buffer.addEntry(entry)
+		Me.countWarnings& = Me.countWarnings& + 1
+		
+		
+		
+		
+'		On Error GoTo ErrorTrap
+'		Dim nitm As NotesItem
+'		
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		If Not Me.LogWarnings Then Exit Sub
+'		
+'		If (Me.logType = LOGTYPE_FILE) Then
+'			Me.nLog.LogAction description$		
+'			
+'		Else
+'			
+'			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+'			Call Me.SizeCheck()
+'			
+'			If Not Me.HasWarnings Then 
+'				Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
+'				nitm.IsSummary = True
+'				
+'				Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_HASWARNINGS, 1)
+'				nitm.IsSummary = True
+'				
+'				If Not Me.HasErrors Then 
+'					Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Warning|)
+'					nitm.IsSummary = True
+'				End If 
+'			End If 
+'			
+'			Me.AddTimestamp Me.nrtstyleTimestampWarning
+'			Me.nrti.AppendStyle Me.nrtstyleWarning
+'			Me.nrti.AppendText |Warning: | & description$
+'			If Me.myHasLinkInfo Then 
+'				Me.nrti.AddTab 1
+'				Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
+'			End If 
+'			Me.nrti.AddNewLine(1)	
+'			
+'			If Me.AutoSave Then Me.Save False, False
+'		End If 
+'		
+'		Me.countWarnings& = Me.countWarnings& + 1
+'		If Me.LocalEcho Then Print |LogWarning: | & description$
+
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
 	End Sub 
 
-	Public Sub LogWarningWithLink (description$,  linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
+
+	Public Sub LogWarningWithLink (description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)
 		On Error GoTo ErrorTrap
 		
+		Dim entry As EnhancedLogEntry 
+
 		If (Not Me.exists) Then GoTo ExitPoint
-		If Not Me.LogWarnings Then Exit Sub
+		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If (Not (linkTo Is Nothing)) Then 
-			Set Me.myLinkTo = linkTo
-			Me.myLinkComment = linkcomment$
-			Me.myLinkHotspotText = HotSpotText$
-			Me.myHasLinkInfo = True
-		End If 
+		If me.buffer.isFull Then Call me.dumpBuffer() 
+		
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_WARNING, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
+		Call me.buffer.addEntry(entry)
+		Me.countWarnings& = Me.countWarnings& + 1
+		
+		
+		
+		
+		
+'		On Error GoTo ErrorTrap
+'		
+'		If (Not Me.exists) Then GoTo ExitPoint
+'		If Not Me.LogWarnings Then Exit Sub
+'
+'		If (Not (linkTo Is Nothing)) Then 
+'			Set Me.myLinkTo = linkTo
+'			Me.myLinkComment = linkcomment$
+'			Me.myLinkHotspotText = HotSpotText$
+'			Me.myHasLinkInfo = True
+'		End If 
+'
+'		Call Me.LogWarning(description$)
 
-		Call Me.LogWarning(description$)
-
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint				
@@ -2810,9 +2970,7 @@ ErrorTrap:
 		' BEGIN CODE 
 		Set entry = me.buffer.FirstEntry 
 		While Not (entry Is Nothing) 
-			
-			
-			
+			Me.writeEntry entry 
 			Set entry = me.buffer.NextEntry 
 		Wend
 		
@@ -2845,6 +3003,7 @@ ErrorTrap:
 	Sub writeEntry_NotesLog(entry As EnhancedLogEntry) 
 		On Error GoTo ErrorTrap
 		
+		Dim linkTo As NotesLink
 		Dim st As EnhancedLogStackTrace 
 		Dim ste As StackTraceElement
 		
@@ -2864,6 +3023,12 @@ ErrorTrap:
 				
 				Me.nLog.LogError entry.ErrorCode, temp$
 				
+				If entry.hasLink Then 
+					Me.nrti.AddTab 1
+					Set linkTo = entry.LinkTo 
+					Me.nlog.LogAction entry.LinkComment & | | & linkTo.NotesURL 
+				End If 
+
 				' STACK TRACE
 				If Me.LogStackExceptions Then 
 					If Not (entry.StackTrace Is Nothing) Then 
@@ -2885,7 +3050,15 @@ ErrorTrap:
 			Case Else: 
 				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
 				Me.nLog.LogAction entry.Message & | | & entry.ExtendedContent	
+				
+				If entry.hasLink Then 
+					Me.nrti.AddTab 1
+					Set linkTo = entry.LinkTo 
+					Me.nlog.LogAction entry.LinkComment & | | & linkTo.NotesURL 
+				End If 
 		End Select
+
+	
 	ExitPoint: 
 		Exit Sub 
 	ErrorTrap:
@@ -2916,6 +3089,7 @@ ErrorTrap:
 		Dim nrtstyleMessage As NotesRichTextStyle 
 		Dim nrtstyleExtended As NotesRichTextStyle 
 		
+		Dim linkTo As NotesLink
 		Dim st As EnhancedLogStackTrace 
 		Dim ste As StackTraceElement
 		
@@ -2934,7 +3108,7 @@ ErrorTrap:
 		If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
 		Call Me.SizeCheck()
 		
-		
+
 		' First select case sets the paragraph styles only
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_ACTION:
@@ -3004,9 +3178,10 @@ ErrorTrap:
 				If hasCode Then Me.nrti.AppendText |Error #| & CStr(entry.ErrorCode) & |: |			
 				If hasMsg Then Me.nrti.AppendText entry.ErrorMessage		
 				
-				If Me.myHasLinkInfo Then 
+				If entry.hasLink Then 
 					Me.nrti.AddTab 1
-					Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
+					Set linkTo = entry.LinkTo 
+					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
 				
 				If (hasLine Or hasMethod) Then  Call Me.nrti.AddNewLine(1)
@@ -3072,11 +3247,13 @@ ErrorTrap:
 				Me.AddTimestamp nrtstyleTimestamp
 				Me.nrti.AppendStyle nrtstyleMessage
 				Me.nrti.AppendText |Warning: | & entry.Message
-				If Me.myHasLinkInfo Then 
+				
+				If entry.hasLink Then 
 					Me.nrti.AddTab 1
-					Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
+					Set linkTo = entry.LinkTo 
+					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
-
+				
 				
 			Case LOGENTRY_TYPE_EXTENDED: 
 				If (entry.Message <> ||) Then
@@ -3096,7 +3273,15 @@ ErrorTrap:
 					
 					Me.AddTimestamp nrtstyleTimestamp
 					Me.nrti.AppendStyle nrtstyleExtended
-					Me.nrti.AppendText entry.Message
+					Me.nrti.AppendText entry.Message 
+					
+					
+					If entry.hasLink Then 
+						Me.nrti.AddTab 1
+						Set linkTo = entry.LinkTo 
+						Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
+					End If 
+					
 				End If 
 				
 				
@@ -3115,9 +3300,11 @@ ErrorTrap:
 				Me.AddTimestamp nrtstyleTimestamp
 				Me.nrti.AppendStyle nrtstyleMessage
 				Me.nrti.AppendText entry.Message
-				If Me.myHasLinkInfo Then 
+				
+				If entry.hasLink Then 
 					Me.nrti.AddTab 1
-					Call Me.AppendDocLink(Me.myLinkTo, Me.myLinkComment, Me.myLinkHotspotText)
+					Set linkTo = entry.LinkTo 
+					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
 				
 		End Select
@@ -3551,6 +3738,47 @@ Private Class EnhancedLogEntryBuffer
 
 
 	%REM
+		Property Get isFull
+		Indicates if the buffer is full.
+		
+		A full buffer either has LOGENTRY_BUFFER_MAX_COUNT (or more) entries, 
+		or has a size greater or equal to LOGENTRY_BUFFER_MAX_BYTES
+		
+		@return Flag indicating if the buffer is full. 
+	%END REM
+	Property Get isFull As Boolean 
+		On Error GoTo ErrorTrap
+	
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		
+		Dim result As Boolean
+		
+		
+		' BEGIN CODE
+		result = (me.count => LOGENTRY_BUFFER_MAX_COUNT)
+		If Not result Then result = (me.size => LOGENTRY_BUFFER_MAX_BYTES) 
+		
+		ExitPoint: 
+			isFull = result
+			Exit Property 
+		ErrorTrap:
+			On Error GoTo 0
+			ForAll s In extendedinfo
+				If isBlankString(msg$) Then 
+					msg$ = ListTag(s) & |: | & s
+				Else 
+					msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+				End If
+			End ForAll
+			enhLogException CLASS_PREFIX, msg$
+			Resume ExitPoint
+	End Property
+
+
+	%REM
  		Property Get count
  		 
  		@return Number of entries in the buffer 
@@ -3684,8 +3912,10 @@ Private Class EnhancedLogEntryBuffer
 		
 		
 		' BEGIN CODE  
+		If me.isFull Then Error ERR_INTERNAL, MSG_INTERNAL & |Buffer is full.  Additional entries cannot be added.  |
 		Set me.content(me.count_) = source
 		me.count_ = me.count_ + 1 
+		
 		
 	ExitPoint: 
 		Exit Sub 
@@ -3765,7 +3995,7 @@ Private Class EnhancedLogEntry
 		@param st StackTrace information for the entry 
 		
 	%END REM 
-	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline& , errormethod$, st As EnhancedLogStackTrace) 
+	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
 
 		' exception variables
 		Dim extendedinfo List As String 
@@ -4187,6 +4417,74 @@ Private Class NotesLink
 
 
 
+
+
+
+
+	%REM
+		Property Get NotesObject
+		Notes Object (NotesDatabase, NotesView, or NotesDocument) represented by this NotesLink object. 
+		
+		@return Notes Object for the link.
+	%END REM
+	Property Get NotesObject As Variant 
+		On Error GoTo ErrorTrap
+	
+		Dim ndb As NotesDatabase 
+		Dim nvw As NotesView 
+		Dim ndoc As NotesDocument 
+	
+	
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+	
+		Dim result As Variant 
+	
+	
+		' BEGIN CODE
+		Set result = Nothing 
+		extendedinfo(|Filepath|) = me.Filepath 
+		extendedinfo(|LinkText|) = me.LinkText 
+		extendedinfo(|NotesURL|) = me.NotesURL 
+		extendedinfo(|ReplicaID|) = me.ReplicaID 
+		extendedinfo(|Server|) = me.Server 
+		extendedinfo(|UniversalID|) = me.UniversalID 
+		extendedinfo(|ViewName|) = me.ViewName 
+		
+		Set ndb = getCurrentSession().getDatabase(me.Server, me.Filepath, False) 
+		If isBlankString(me.UniversalID) Then 
+			' Not a NotesDocument 
+			If isBlankString(me.Viewname) Then 
+				' Not a view, return the Database 
+				Set result = ndb 
+			Else 
+				' return a View 
+				Set result = ndb.GetView(Viewname) 
+				If (result Is Nothing) Then Error ERR_VIEW_NOT_FOUND, MSG_VIEW_NOT_FOUND 
+			End If
+		Else 
+ 			' return a Document 
+ 			Set result = ndb.getDocumentByUNID(me.UniversalID) 
+			If (result Is Nothing) Then Error ERR_DOCUMENT_NOT_FOUND, MSG_DOCUMENT_NOT_FOUND 
+		End If	
+		
+			
+	ExitPoint: 
+		Set NotesObject = result
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Property
 
 End Class
 %REM
