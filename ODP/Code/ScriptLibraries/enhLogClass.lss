@@ -439,7 +439,7 @@ End Type
 Private Type StackTraceElement 
 	module As String 
 	linenumber As String 
-	message As String 
+	methodname As String 
 End Type 
 
 
@@ -938,9 +938,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	Private myLinkHotspotText As String 
 	Private myNotesVersion As String 
 	
-	Private countActions As Long
-	Private countErrors As Long
-	Private countWarnings As Long
+'	Private countActions As Long
+'	Private countErrors As Long
+'	Private countWarnings As Long
 	Private countCachedErrors As Long
 	
 	Private acl As Integer
@@ -1038,9 +1038,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 
 		Set Me.ndtStartTime = New NotesDateTime(Now)
 
-		Me.countActions& = 0
-		Me.countErrors& = 0
-		
+'		Me.countActions& = 0
+'		Me.countErrors& = 0
+'		
 		Set Me.myTargetDb = getCurrentDb()
 		Set Me.nagt = getCurrentSession().CurrentAgent
 		If (Me.nagt Is Nothing) Then
@@ -1148,9 +1148,9 @@ ExitPoint:
 		' If here then no error occurred
 		result = True
 
-	ExitPoint:
+ExitPoint:
 		Exit Function
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		result = False
 		Call Me.LogException(Err(), Error() & Chr(10), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
@@ -1177,21 +1177,21 @@ ExitPoint:
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
-		Me.countActions& = Me.countActions& + 1
+'		Me.countActions& = Me.countActions& + 1
 		
 		' 	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
 		
 		
-'		If (Me.logType = LOGTYPE_FILE) Then
-'			Me.nLog.LogAction description$		
-'			
-'		Else
-'			
-'			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
-'			Call Me.SizeCheck()
-'			
-'			If Not Me.HasActions Then
-'				Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
+		'		If (Me.logType = LOGTYPE_FILE) Then
+		'			Me.nLog.LogAction description$		
+		'			
+		'		Else
+		'			
+		'			If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+		'			Call Me.SizeCheck()
+		'			
+		'			If Not Me.HasActions Then
+		'				Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, description$)
 '				nitm.IsSummary = True
 '				
 '				If Not Me.HasErrors Then 
@@ -1237,7 +1237,7 @@ ExitPoint:
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
-		Me.countActions& = Me.countActions& + 1
+'		Me.countActions& = Me.countActions& + 1
 		
 		' 	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
 		
@@ -1359,7 +1359,7 @@ ErrorTrap:
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, Nothing, ||, ||, code%, errMsg$, errline&, methodname$, stacktrace)
 		Call me.buffer.addEntry(entry)
-		Me.countErrors& = Me.countErrors& + 1
+'		Me.countErrors& = Me.countErrors& + 1
 		
 		' 	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
 
@@ -1483,7 +1483,7 @@ ErrorTrap:
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, linkTo, linkcomment$, HotSpotText$, code%, errMsg$, errline&, methodname$, stacktrace)
 		Call me.buffer.addEntry(entry)
-		Me.countErrors& = Me.countErrors& + 1
+'		Me.countErrors& = Me.countErrors& + 1
 		
 		' 	Sub New(logtype%, ByVal message$, ByVal extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal hotspottext$, errorcode%, errormessage$, errorline&, errormethod$, st As EnhancedLogStackTrace) 
 
@@ -1642,7 +1642,7 @@ ErrorTrap:
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_METHODRESULT, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
-		Me.countActions& = Me.countActions& + 1
+'		Me.countActions& = Me.countActions& + 1
 		
 		
 		
@@ -1705,7 +1705,7 @@ ErrorTrap:
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_METHODRESULT, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
-		Me.countActions& = Me.countActions& + 1
+'		Me.countActions& = Me.countActions& + 1
 		
 '		On Error GoTo ErrorTrap	
 '		
@@ -1796,7 +1796,7 @@ ErrorTrap:
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_WARNING, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
-		Me.countWarnings& = Me.countWarnings& + 1
+'		Me.countWarnings& = Me.countWarnings& + 1
 		
 		
 		
@@ -1864,7 +1864,7 @@ ErrorTrap:
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_WARNING, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
-		Me.countWarnings& = Me.countWarnings& + 1
+'		Me.countWarnings& = Me.countWarnings& + 1
 		
 		
 		
@@ -2097,7 +2097,7 @@ ErrorTrap:
 	End Property 
 	
 	Public Property Get HasActions As Boolean
-		HasActions = (Me.countActions& > 0)
+		HasActions = me.buffer.hasACTION
 	End Property 
 	
 	Public Property Get HasCachedError As Boolean
@@ -2105,15 +2105,21 @@ ErrorTrap:
 	End Property 
 	
 	Public Property Get HasEntries As Boolean
-		HasEntries = (Me.HasActions Or Me.HasErrors Or Me.HasWarnings)
+		Dim result As Boolean 
+		
+		result = Me.buffer.hasACTION
+		If Not result Then result = Me.buffer.hasEXCEPTION 
+		If Not result Then result = Me.buffer.hasWARNING 
+		
+		HasEntries = result 
 	End Property 
 	
 	Public Property Get HasErrors As Boolean
-		HasErrors = (Me.countErrors& > 0)
+		HasErrors = Me.buffer.hasEXCEPTION
 	End Property 
 	
 	Public Property Get HasWarnings As Boolean
-		HasWarnings = (Me.countWarnings& > 0)
+		HasWarnings = Me.buffer.hasWARNING
 	End Property 
 	
 	Public Property Get LocalEcho As Boolean
@@ -2146,15 +2152,15 @@ ErrorTrap:
 	
 	
 	Public Property Get NumActions As Long
-		NumActions = Me.countActions&
+		NumActions = Me.buffer.countACTION
 	End Property 
 	
 	Public Property Get NumErrors As Long
-		NumErrors = Me.countErrors&	
+		NumErrors = Me.buffer.countEXCEPTION
 	End Property 
 	
 	Public Property Get NumWarnings As Long
-		NumWarnings = Me.countWarnings&
+		NumWarnings = Me.buffer.countWARNING
 	End Property 
 	
 	Public Property Get OverwriteFile As Boolean
@@ -2372,10 +2378,10 @@ ErrorTrap:
 		End If 
 		Me.nrti.AppendText | |
 		
-ExitPoint:
+	ExitPoint:
 		Me.myHasLinkInfo = False
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException CLASS_PREFIX, ||
 		If Me.ResumeOnLoggingFailure Then Resume ExitPoint
@@ -2510,19 +2516,19 @@ ErrorTrap:
 					
 					Set Me.ndtStartTime = New NotesDateTime(Now)
 					
-					Me.countActions& = 0
-					Me.countErrors& = 0
-					Me.countWarnings& = 0
+'					Me.countActions& = 0
+'					Me.countErrors& = 0
+'					Me.countWarnings& = 0
 				End If 
 		End Select 	
 		
 		Me.logType = newLogType
 		result = True
 		
-ExitPoint:
+	ExitPoint:
 		ChangeLogType = result
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		%REM
 			Explicity change to LOGTYPE_NOTES to ensure that this exception is logged for later analysis.
 		%END REM
@@ -2552,14 +2558,14 @@ CriticalError:
 		Me.Subject = subject$
 		
 		Call Me.SetBody	
-		Me.countActions& = 0
-		Me.countErrors& = 0
-		Me.countWarnings& = 0		
+'		Me.countActions& = 0
+'		Me.countErrors& = 0
+'		Me.countWarnings& = 0		
 		If Me.AutoSave Then enhLogAction CLASS_PREFIX, |Created Log Doc (AutoSave: True)|
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint		
 	End Sub 
@@ -3039,7 +3045,7 @@ ErrorTrap:
 							
 							ForAll stackentry In st.Content 
 								ste = stackentry 
-								Me.nLog.LogAction Chr(9) & ste.module & |() | & ste.message & |, Line #| & ste.linenumber & |  |
+								Me.nLog.LogAction Chr(9) & ste.methodname & |()  Line #| & ste.linenumber & |  |
 							End ForAll
 						End If
 					Else
@@ -3206,21 +3212,19 @@ ErrorTrap:
 				' STACK TRACE
 				If Me.LogStackExceptions Then 
 					If Not (entry.StackTrace Is Nothing) Then 
-						If Me.LogStackExceptions Then
-							Me.nrti.AppendText |Method Stack:|
-							Call Me.nrti.AddNewLine(1)
-							Me.nrti.AppendStyle Me.nrtstyleErrorExtended 
-							Set st = entry.StackTrace 
-							
-							ForAll stackentry In st.Content 
-								ste = stackentry 
-								Me.nrti.AddTab 1	
-								Me.nrti.AppendText ste.module & |() | & ste.message & |, Line #| & ste.linenumber & |  |
-								Call Me.nrti.AddNewLine(1)								
-							End ForAll
+						Me.nrti.AppendText |Method Stack:|
+						Call Me.nrti.AddNewLine(1)
+						Me.nrti.AppendStyle Me.nrtstyleErrorExtended 
+						Set st = entry.StackTrace 
+						
+						ForAll stackentry In st.Content 
+							ste = stackentry 
+							Me.nrti.AddTab 1	
+							Me.nrti.AppendText ste.methodname & |()  Line #| & ste.linenumber & |  |
+							Call Me.nrti.AddNewLine(1)								
+						End ForAll
 
-							Me.nrti.AddNewLine 1
-						End If
+						Me.nrti.AddNewLine 1
 					Else
 						Me.nrti.AppendText |Stack Logging is Disabled| 
 						Me.nrti.AddNewLine 2
@@ -3238,6 +3242,7 @@ ErrorTrap:
 					Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_HASWARNINGS, 1)
 					nitm.IsSummary = True
 					
+					Stop
 					If Not Me.HasErrors Then 
 						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Warning|)
 						nitm.IsSummary = True
@@ -3262,12 +3267,12 @@ ErrorTrap:
 						Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
 						nitm.IsSummary = True
 						
-						If Not Me.HasErrors Then 
+						If Not (Me.HasErrors Or Me.HasWarnings) Then 
 							Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
 							nitm.IsSummary = True
 						End If 
 						
-						Me.countActions& = Me.countActions& + 1
+'						Me.countActions& = Me.countActions& + 1
 						
 					End If 
 					
@@ -3963,6 +3968,180 @@ Private Class EnhancedLogEntryBuffer
 		Resume ExitPoint
 	End Property
 
+	%REM
+		Function hasLogEntryCount
+		Indicates if EnhancedLogEntries for the specified Enhanced Log Entry Type are contained in the buffer 
+		
+		@param logtype% LOGENTRY_TYPE_XXX (Exception, Warning, etc.)
+		
+		@return Flat indicating if EnhancedLogEntry objects which have Log Entry Type equal to logtype% exist in the buffer  
+	%END REM
+	Function hasLogEntryCount(logtype%) As Integer  
+		On Error GoTo ErrorTrap
+		
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		Dim i% 
+		Dim ele As EnhancedLogEntry 
+		
+		Dim result%
+		
+		' BEGIN CODE
+		If me.count_ > 0 Then 
+			For i% = 0 To me.count_ 
+				Set ele = me.content(i%) 
+				If (ele Is Nothing) Then GoTo ExitPoint
+				If (ele.LogEntryType And logtype%) Then  ' logical bitwise comparison
+					result = True 
+					GoTo ExitPoint  
+				End If 
+			Next
+		End If 
+		
+	ExitPoint: 
+		hasLogEntryCount = result
+		Exit Function 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Function
+
+	%REM
+ 		Property Get hasACTION
+ 		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, or LOGENTRY_TYPE_EXTENDED exist in the buffer
+	%END REM
+	Property Get hasACTION As Boolean 
+		hasACTION = me.hasLogEntryCount(LOGENTRY_TYPE_ACTION + LOGENTRY_TYPE_METHODRESULT + LOGENTRY_TYPE_EXTENDED)
+	End Property
+
+	%REM
+ 		Property Get hasMETHODRESULT
+ 		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_METHODRESULT exist in the buffer
+ 	%END REM
+	Property Get hasMETHODRESULT As Boolean 
+		hasMETHODRESULT = me.hasLogEntryCount(LOGENTRY_TYPE_METHODRESULT)
+	End Property
+
+	%REM
+ 		Property Get hasEXTENDED
+  		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_EXTENDED exist in the buffer
+ 	%END REM
+	Property Get hasEXTENDED As Boolean 
+		hasEXTENDED = me.hasLogEntryCount(LOGENTRY_TYPE_EXTENDED)
+	End Property
+
+	%REM
+ 		Property Get hasWARNING
+  		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_WARNING exist in the buffer
+ 	%END REM
+	Property Get hasWARNING As Boolean 
+		hasWARNING = me.hasLogEntryCount(LOGENTRY_TYPE_WARNING)
+	End Property
+
+	%REM
+ 		Property Get hasEXCEPTION
+ 		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_EXCEPTION exist in the buffer
+ 	%END REM
+	Property Get hasEXCEPTION As Boolean 
+		hasEXCEPTION = me.hasLogEntryCount(LOGENTRY_TYPE_EXCEPTION)
+	End Property
+
+
+	%REM
+		Function getEntryCount
+		Count of EnhancedLogEntries for the specified Enhanced Log Entry Type 
+		
+		@param logtype% LOGENTRY_TYPE_XXX (Exception, Warning, etc.)
+		
+		@return Number of EnhancedLogEntry objects which have Log Entry Type equal to logtype% 
+	%END REM
+	Function getLogEntryCount(logtype%) As Integer  
+		On Error GoTo ErrorTrap
+		
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+		
+		Dim i% 
+		Dim ele As EnhancedLogEntry 
+		
+		Dim result%
+		
+		' BEGIN CODE
+		If me.count_ > 0 Then 
+			For i% = 0 To me.count_ 
+				Set ele = me.content(i%) 
+				If (ele Is Nothing) Then GoTo ExitPoint
+				If (ele.LogEntryType And logtype%) Then result% = result% + 1 ' logical bitwise comparison
+			Next
+		End If 
+		
+	ExitPoint: 
+		getLogEntryCount = result
+		Exit Function 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Function
+
+	%REM
+ 		Property Get countACTION
+ 		@return count of EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, or LOGENTRY_TYPE_EXTENDED
+	%END REM
+	Property Get countACTION As Integer 
+		countACTION = me.getLogEntryCount(LOGENTRY_TYPE_ACTION + LOGENTRY_TYPE_METHODRESULT + LOGENTRY_TYPE_EXTENDED)
+	End Property
+
+	%REM
+ 		Property Get countMETHODRESULT
+ 		@return count of EnhancedLogEntry objects with LogEntryType = LOGENTRY_TYPE_METHODRESULT
+	%END REM
+	Property Get countMETHODRESULT As Integer 
+		countMETHODRESULT = me.getLogEntryCount(LOGENTRY_TYPE_METHODRESULT)
+	End Property
+
+	%REM
+ 		Property Get countEXTENDED
+ 		@return count of EnhancedLogEntry objects with LogEntryType = LOGENTRY_TYPE_EXTENDED
+	%END REM
+	Property Get countEXTENDED As Integer 
+		countEXTENDED = me.getLogEntryCount(LOGENTRY_TYPE_EXTENDED)
+	End Property
+
+	%REM
+ 		Property Get countWARNING
+ 		@return count of EnhancedLogEntry objects with LogEntryType = LOGENTRY_TYPE_WARNING
+	%END REM
+	Property Get countWARNING As Integer 
+		countWARNING = me.getLogEntryCount(LOGENTRY_TYPE_WARNING)
+	End Property
+
+	%REM
+ 		Property Get countEXCEPTION
+ 		@return count of EnhancedLogEntry objects with LogEntryType = LOGENTRY_TYPE_EXCEPTION
+	%END REM
+	Property Get countEXCEPTION As Integer 
+		countEXCEPTION = me.getLogEntryCount(LOGENTRY_TYPE_EXCEPTION)
+	End Property
+
 
 End Class
 %REM
@@ -4317,7 +4496,7 @@ Private Class NotesLink
  		@return Filepath for the entry 
 	%END REM
 	Property Get Filepath As String 
-		Filepath = me.server_
+		Filepath = me.filepath_
 	End Property
 
 	%REM
@@ -4325,7 +4504,7 @@ Private Class NotesLink
  		@return ReplicaID for the entry 
 	%END REM
 	Property Get ReplicaID As String 
-		ReplicaID = me.server_
+		ReplicaID = me.replicaid_
 	End Property
 
 	%REM
@@ -4333,7 +4512,7 @@ Private Class NotesLink
  		@return Viewname for the entry 
 	%END REM
 	Property Get Viewname As String 
-		Viewname = me.server_
+		Viewname = me.viewname_
 	End Property
 
 	%REM
@@ -4341,7 +4520,7 @@ Private Class NotesLink
  		@return UniversalID for the entry 
 	%END REM
 	Property Get UniversalID As String 
-		UniversalID = me.server_
+		UniversalID = me.universalid_
 	End Property
 
 
@@ -4452,7 +4631,7 @@ Private Class NotesLink
 		extendedinfo(|UniversalID|) = me.UniversalID 
 		extendedinfo(|ViewName|) = me.ViewName 
 		
-		Set ndb = getCurrentSession().getDatabase(me.Server, me.Filepath, False) 
+		Set ndb = getOpenDatabase(me.Server, me.Filepath) 		
 		If isBlankString(me.UniversalID) Then 
 			' Not a NotesDocument 
 			If isBlankString(me.Viewname) Then 
@@ -4511,6 +4690,10 @@ Private Class EnhancedLogStackTrace
 		Dim stackinfo As Variant 
 		Dim stackelement As Variant
 		
+		Dim steModule$
+		Dim steMethodname$
+		Dim steLinenumber$
+		
 		Dim idx%
 		
 		Dim isStackStarted As Boolean 
@@ -4530,28 +4713,32 @@ Private Class EnhancedLogStackTrace
 		
 		ForAll element In stackinfo
 			idx% = UBound(me.Content) 
-			stackelement = Split(element, |,|)
-			If (UBound(stackelement) > 1) Then
+			stackelement = Split(element, |,|) 
+			steModule$ = Trim$(stackelement(0))
+			If (UBound(stackelement) >= 1) Then steMethodname$ = Trim$(stackelement(1)) Else steMethodname$ = ||
+			If (UBound(stackelement) >= 2) Then steLinenumber$ = Trim$(CStr(stackelement(2))) Else steLinenumber$ = ||
+			
+			If Not isBlankString(steMethodname$) Then 
 				If isStackStarted Then
-					ReDim Preserve me.Content(idx% + 1) As StackTraceElement
-					ste.module = stackelement(0)
-					ste.message = stackelement(1) 
-					ste.linenumber = stackelement(2) 
-					me.Content(idx%) = ste
+					ReDim Preserve me.Content(UBound(me.Content) + 1) As StackTraceElement
+					ste.module = steModule$
+					ste.methodname = steMethodname$
+					ste.linenumber = steLinenumber$ 
+					me.Content(UBound(me.Content) + 1) = ste
 				Else
-					Select Case Trim$(stackelement(1))
-					Case |LOGSTACKTRACE|, |LOGEXCEPTION|, |LOGEXCEPTIONWITHLINK|, |ENHLOGEXCEPTION|, |ENHLOGSTACKTRACE|
-						isStackStarted = (Trim$(stackelement(0)) <> me.module_)
-					Case Else
-						isStackStarted = True
-				End Select 	
-					
+					Select Case steMethodname$
+						Case |LOGSTACKTRACE|, |LOGEXCEPTION|, |LOGEXCEPTIONWITHLINK|, |ENHLOGEXCEPTION|, |ENHLOGSTACKTRACE|
+							isStackStarted = (Trim$(stackelement(0)) <> me.module_)
+						Case Else
+							isStackStarted = True
+					End Select 	
+						
 					If isStackStarted Then
-						ReDim Preserve me.Content(idx% + 1) As StackTraceElement
-						ste.module = Trim$(stackelement(0))
-						ste.message = Trim$(stackelement(1))
-						ste.linenumber = Trim$(CStr(stackelement(2))) 
-						me.Content(idx%) = ste
+						ReDim Preserve me.Content(UBound(me.Content) + 1) As StackTraceElement
+						ste.module = steModule$
+						ste.methodname = steMethodname$
+						ste.linenumber = steLinenumber$ 
+						me.Content(UBound(me.Content) + 1) = ste
 					End If 	
 				End If 
 			End If
@@ -4601,13 +4788,13 @@ Private Class EnhancedLogStackTrace
 		' BEGIN CODE
 		result = LenB(me.module_) 
 		ForAll ste In me.Content 
-			result = result + LenB(ste.linenumber) + LenB(ste.message) + LenB(ste.module) 
+			result = result + LenB(ste.linenumber) + LenB(ste.methodname) + LenB(ste.module) 
 		End ForAll
 		
-	ExitPoint: 
+ExitPoint: 
 		size = result
 		Exit Property 
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		enhLogException CLASS_PREFIX, ||
 		Resume ExitPoint
@@ -7080,7 +7267,7 @@ Public Function getOpenDatabase(server$, filepath$) As NotesDatabase
 	If (Not result.isOpen) Then Error ERR_DATABASE_NOTOPEN, MSG_DATABASE_NOTOPEN
 	
 ExitPoint:
-	If (result Is Nothing) Then 	nonDbs(sfKey$) = True
+	If (result Is Nothing) Then nonDbs(sfKey$) = True
 	Set getOpenDatabase = result
 	Exit Function
 ErrorTrap:
@@ -7928,6 +8115,14 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
+
+
+
+
 
 
 
