@@ -223,11 +223,11 @@ Private Const FORMAT_WHOLE_THOUSANDS = |###,###,###,###,##0|
 
 Private Const ITEMNAME_BODY = |Body|
 Private Const ITEMNAME_FORM = |Form|
-Private Const ITEMNAME_HASERRORS = |HasErrors|
-Private Const ITEMNAME_HASWARNINGS = |HasWarnings|
+Private Const ITEMNAME_HASERRORS = |hasErrors|
+Private Const ITEMNAME_HASWARNINGS = |hasWarnings|
 Private Const ITEMNAME_XMLCONTENT = |xmlContent|
 
-Private Const LOGENTRY_BUFFER_MAX_COUNT = 	100 ' Maximum number of EnhancedLogEntry objects allowed in the buffer 
+Private Const LOGENTRY_BUFFER_MAX_COUNT = 	500 ' Maximum number of EnhancedLogEntry objects allowed in the buffer 
 Private Const LOGENTRY_BUFFER_MAX_BYTES = 	5000 ' Maximum size (in bytes) of the EnhancedLogeEntry buffer 
 
 Private Const LOGENTRY_TYPE_EXCEPTION = 	1
@@ -654,24 +654,24 @@ Public Class EnhancedLog
 		Filepath = singleton.Filepath$
 	End Property 
 	
-	Public Property Get HasActions As Boolean
+	Public Property Get hasActions As Boolean
 		If Not singletonExists Then Call Me.Instantiate(||)
-		HasActions = singleton.HasActions
+		hasActions = singleton.hasActions
 	End Property 
 	
-	Public Property Get HasCachedError As Boolean
+	Public Property Get hasCachedError As Boolean
 		If Not singletonExists Then Call Me.Instantiate(||)
-		HasCachedError = singleton.HasCachedError
+		hasCachedError = singleton.hasCachedError
 	End Property 
 	
-	Public Property Get HasEntries As Boolean
+	Public Property Get hasEntries As Boolean
 		If Not singletonExists Then Call Me.Instantiate(||)
-		HasEntries = singleton.HasEntries
+		hasEntries = singleton.hasEntries
 	End Property 
 	
-	Public Property Get HasErrors As Boolean
+	Public Property Get hasErrors As Boolean
 		If Not singletonExists Then Call Me.Instantiate(||)
-		HasErrors = singleton.HasErrors
+		hasErrors = singleton.hasErrors
 	End Property 
 	
 	Public Property Get LocalEcho As Boolean
@@ -859,34 +859,6 @@ Public Class EnhancedLog
 	End Sub 
 End Class 	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Private Class LogSingleton 	' Declaring as Private allows for Singleton functionality.
 	Private myTargetDb As NotesDatabase
 	Private ndoc As NotesDocument
@@ -957,7 +929,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	Private doAutoSave As Boolean
 	Private doOverwriteFile As Boolean
 	Private doResumeOnLoggingFailure As Boolean
-	Private doLogContentToNotesLog As Boolean 
 	Private hasLogConfigDoc As Boolean
 	Private isLogEnabled As Boolean
 	Private isLogTypeChanged As Boolean
@@ -965,6 +936,10 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	Private isInstantiating As Boolean
 	Private exists As Boolean
 	Private myHasLinkInfo As Boolean  
+	Private hasLoggedAction As Boolean 
+	Private hasLoggedException As Boolean 
+	Private hasLoggedWarning As Boolean 
+	
 	
 	Private Property Get CLASS_PREFIX As String 
 		CLASS_PREFIX = LIB_PREFIX & |LogSingleton.|
@@ -1069,7 +1044,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 
 		Me.exists = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
 	End Sub 
 	
@@ -1080,9 +1055,19 @@ ExitPoint:
 	
 	
 	Public Sub Close()
-		If (Me.HasEntries Or Me.logType = LOGTYPE_AGENT) Then 
+		If (Me.hasEntries Or Me.logType = LOGTYPE_AGENT) Then 
+			Call me.dumpBuffer() 
+
+			Me.nrti.AddNewLine 1
+			Me.nrti.AppendParagraphStyle nrtparastyle
+			Me.nrti.AppendStyle Me.nrtstyleMethodResult
+			Me.nrti.AppendText Format$(Now, |yyyy/mm/dd hh:mm:ss|) & | |
+			Me.nrti.AddTab 2 
+			Me.nrti.AppendText |LotusScript Finished|
+			Me.nrti.AddNewLine 2 
+			
 			Call Me.LogProfiledMethodSummary()
-			Me.LogAction |LotusScript Finished|
+			
 			If (Me.logType = LOGTYPE_MAIL) Then
 				Me.Send				
 			Else
@@ -1117,7 +1102,7 @@ ExitPoint:
 		
 		If (Len(Trim$(fieldname$)) = 0) Then fieldname$ = ITEMNAME_BODY
 		
-		If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+		If (Me.ndoc Is Nothing) Then Call Me.createLogDoc()
 		If (Not Me.Save(True, False)) Then 
 			extendedInfo$ = |Could not save Log Document.|
 			Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
@@ -1143,9 +1128,9 @@ ExitPoint:
 		' If here then no error occurred
 		result = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		Call Me.LogException(Err(), Error() & Chr(10), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
@@ -1195,9 +1180,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
@@ -1446,14 +1431,15 @@ ErrorTrap:
 		Dim nitm As NotesItem 
 		Dim stream As NotesStream 
 		
-		If (Not enhLogIsProfilingEnabled()) _ 
+		If doLogOutputToNotesLog _ 
+		Or (Not enhLogIsProfilingEnabled()) _ 
 		Or (Not genhl_ProfiledMethods.hasContent) _  
 		Or (Me.isSpanningLogDocs _ 
 		Or (Me.logType <> LOGTYPE_NOTES)) _  
 		Then GoTo ExitPoint 
 		
 		
-		If Me.spawnLogDocument(|Profiled Method Summary  |, _ 
+		If Me.spanLogDocument(|Log document.  |, _ 
 		|Link to Previous document.  |, _ 
 		|A Profiled Method Summary has been generated.  |, _ 
 		|Link to Profiled Method Summary document.  |) Then  
@@ -1476,9 +1462,9 @@ ErrorTrap:
 			End If 
 		End If 
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Call Me.LogException(Err(), Error(), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		Resume ExitPoint		
@@ -1549,12 +1535,12 @@ ErrorTrap:
 		
 		result = Me.ChangeLogType(LOGTYPE_FILE, ||, path$)
 		
-ExitPoint:
+	ExitPoint:
 		OpenFileLog = result
 		On Error GoTo 0
 		If (g_errCode% = ERR_PARAMETER_BLANK) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException CLASS_PREFIX, ||
 		g_errCode%  = Err()
@@ -1582,10 +1568,10 @@ ErrorTrap:
 			Me.varSendTo = recipients
 		End If 
 		
-ExitPoint:
+	ExitPoint:
 		OpenMailLog = result
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		enhLogException LIB_PREFIX, extendedInfo$
 		Resume ExitPoint	
 	End Function 
@@ -1606,16 +1592,16 @@ ErrorTrap:
 		' success!	
 		result = True
 		
-ExitPoint:		
+	ExitPoint:		
 		OpenNotesLog = result	
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo CriticalError
 		result = False
 		If (Me.myTargetDb Is Nothing) Then Set Me.myTargetDb = getCurrentDb()
 		enhLogException CLASS_PREFIX, extendedInfo$
 		Resume ExitPoint
-CriticalError:
+	CriticalError:
 		result = False
 		On Error GoTo 0
 		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint
@@ -1651,11 +1637,11 @@ CriticalError:
 				result = Me.ndoc.Save(force, createResponse)
 		End Select 
 		
-ExitPoint:
+	ExitPoint:
 		If isRecursive Then singletonSaveRecursions% = singletonSaveRecursions% - 1
 		Save = result
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		Me.LogStackExceptions = False
@@ -1732,30 +1718,32 @@ ErrorTrap:
 		Filepath = Me.dbFilepath$
 	End Property 
 	
-	Public Property Get HasActions As Boolean
-		HasActions = me.buffer.hasACTION
+	Public Property Get hasActions As Boolean
+		hasActions = me.buffer.hasACTION
 	End Property 
 	
-	Public Property Get HasCachedError As Boolean
-		HasCachedError = IsElement(Me.cachedErrors(Me.countCachedErrors))
+	Public Property Get hasCachedError As Boolean
+		hasCachedError = IsElement(Me.cachedErrors(Me.countCachedErrors))
 	End Property 
 	
-	Public Property Get HasEntries As Boolean
+	Public Property Get hasEntries As Boolean
 		Dim result As Boolean 
+	
+		Stop
 		
 		result = Me.buffer.hasACTION
 		If Not result Then result = Me.buffer.hasEXCEPTION 
 		If Not result Then result = Me.buffer.hasWARNING 
 		
-		HasEntries = result 
+		hasEntries = result 
 	End Property 
 	
-	Public Property Get HasErrors As Boolean
-		HasErrors = Me.buffer.hasEXCEPTION
+	Public Property Get hasErrors As Boolean
+		hasErrors = Me.buffer.hasEXCEPTION
 	End Property 
 	
-	Public Property Get HasWarnings As Boolean
-		HasWarnings = Me.buffer.hasWARNING
+	Public Property Get hasWarnings As Boolean
+		hasWarnings = Me.buffer.hasWARNING
 	End Property 
 	
 	Public Property Get LocalEcho As Boolean
@@ -1842,10 +1830,10 @@ ErrorTrap:
 		
 		If (Me.myTargetDb Is Nothing) Then Error ERR_MISSING_DATABASE, MSG_MISSING_DATABASE
 		
-ExitPoint:
+	ExitPoint:
 		Set TargetDatabase = Me.myTargetDb
 		Exit Property
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Set Me.myTargetDb = getCurrentDb()
 		enhLogException CLASS_PREFIX, ||
@@ -1930,7 +1918,7 @@ ErrorTrap:
 	
 	Public Property Set ProgramName As String
 		Dim nitm As NotesItem
-		If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+		If (Me.ndoc Is Nothing) Then Call Me.createLogDoc()
 		Me.progName$ = ProgramName
 		Set nitm = Me.ndoc.ReplaceItemValue(|A$PROGNAME|, Me.progName$)
 	End Property 
@@ -1957,7 +1945,7 @@ ErrorTrap:
 	Public Property Set Subject As String
 		Dim nitm As NotesItem
 		
-		If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+		If (Me.ndoc Is Nothing) Then Call Me.createLogDoc()
 		Set nitm = Me.ndoc.ReplaceItemValue(|Subject|, Subject)
 		nitm.IsSummary = True
 		Me.mySubject$ = Subject		
@@ -2085,7 +2073,7 @@ ErrorTrap:
 
 		
 		' Close the previous log
-		If Me.HasEntries Then 
+		If Me.hasEntries Then 
 			enhLogAction CLASS_PREFIX, |Changing from  | & _ 
 			lstrLogTypes(Me.logType) & | to | & lstrLogTypes(newLogType) & |.|
 
@@ -2098,20 +2086,20 @@ ErrorTrap:
 			Case LOGTYPE_AGENT
 				If Not (Me.nLog Is Nothing) Then Me.nLog.Close
 				Set Me.nLog = Nothing
-				If Me.HasEntries Then Me.Save False, False
+				If Me.hasEntries Then Me.Save False, False
 				
 			Case LOGTYPE_FILE
 				If Not (Me.nLog Is Nothing) Then Me.nLog.Close
 				Set Me.nLog = Nothing
 				
 			Case LOGTYPE_MAIL
-				If Me.HasEntries Then Me.Send
+				If Me.hasEntries Then Me.Send
 				
 			Case LOGTYPE_NOTES
 				' Notes Log document and database are intentionally NOT closed here.
 				' This is so exceptions can be logged if something goes horribly wrong 
 				' when opening the new log type.
-				If Me.HasEntries Then Me.Save False, False
+				If Me.hasEntries Then Me.Save False, False
 		End Select 	
 		
 		
@@ -2144,7 +2132,7 @@ ErrorTrap:
 					If (ndbNew Is Nothing) Then GoTo ExitPoint
 					
 					Set Me.myTargetDb = ndbNew
-					Call Me.CreateLogDoc()
+					Call Me.createLogDoc()
 					
 					server$ = Me.TargetDatabase.Server 
 					If isBlankString(server$) Then server$ = |[LocalClient]| 
@@ -2172,7 +2160,7 @@ ErrorTrap:
 		Me.ndoc.Form = enhLogGetNotesLogForm()
 		enhLogException CLASS_PREFIX, |Forced Log Type change to | & lstrLogTypes(LOGTYPE_NOTES) & |.|
 		Resume ExitPoint
-CriticalError:
+	CriticalError:
 		result = False
 		On Error GoTo 0
 		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint		
@@ -2187,9 +2175,13 @@ CriticalError:
 		Set Me.ndoc = generateLogDoc(Me.acl, Me.TargetDatabase, Me.UserName, Me.UserRoles, Me.StartTime, Me.progName$, Me.dbServer$, Me.dbTitle$, Me.dbFilepath$, subject$, Me.myNotesVersion$, Me.ResumeOnLoggingFailure) 
 		If (Me.ndoc Is Nothing) Then Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
 
+		me.hasLoggedAction = False 
+		me.hasLoggedException = False 
+		me.hasLoggedWarning = False 	
+
 		Me.Subject = subject$
 		
-		Call Me.SetBody	
+		Call Me.setBody() 
 		If Me.AutoSave Then enhLogAction CLASS_PREFIX, |Created Log Doc (AutoSave: True)|
 		
 	ExitPoint:
@@ -2200,10 +2192,7 @@ CriticalError:
 	End Sub 
 	
 	
-	Private Sub initialzeRTStyles()
-		Const STARTPOS = RULER_ONE_INCH * 2.5
-		Const INTERVAL = RULER_ONE_CENTIMETER
-		
+	Private Sub initializeRTStyles()
 		Dim ses As NotesSession
 
 		If (Me.nrtstyleTimestampNormal Is Nothing) Then _ 
@@ -2260,8 +2249,9 @@ CriticalError:
 		
 		If (Me.nrtparastyle Is Nothing) Then 
 			Set ses = getCurrentSession() 
-			Set Me.nrtparastyle = ses.CreateRichTextParagraphStyle()
-			nrtparastyle.SetTabs 6, STARTPOS, INTERVAL, TAB_DECIMAL
+			Set Me.nrtparastyle = ses.CreateRichTextParagraphStyle() 
+			Me.nrtparastyle.Alignment = ALIGN_LEFT 
+			nrtparastyle.SetTabs 6, RULER_ONE_INCH * 2.5, RULER_ONE_CENTIMETER, TAB_DECIMAL
 			nrtparastyle.SpacingAbove = SPACING_SINGLE
 		End If 
 	End Sub 
@@ -2270,7 +2260,7 @@ CriticalError:
 	Private Sub ResetDocument (target As NotesDocument)
 		If (target Is Nothing) Then Exit Sub
 		Set Me.ndoc = target
-		Call Me.SetBody()
+		Call Me.setBody()
 	End Sub 
 	
 	
@@ -2297,15 +2287,15 @@ CriticalError:
 		
 		Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_FORM, FORMNAME_MEMO)
 		
-		If Me.HasEntries Then enhLogAction CLASS_PREFIX, |Sending | & _ 
+		If Me.hasEntries Then enhLogAction CLASS_PREFIX, |Sending | & _ 
 		lstrLogTypes(Me.logType)
 		
 		Me.Subject = Me.mySubject$
 		Me.ndoc.Send False, Me.varSendTo
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		%REM
 			Explicity change (instead of calling ChangeLogType methodname) to LOGTYPE_NOTES 
 			to ensure that this exception is logged for later analysis.
@@ -2428,33 +2418,33 @@ ErrorTrap:
 
 	
 	
-	Private Sub SetBody()
-		Call Me.initialzeRTStyles()
+	Private Sub setBody()
+		Call Me.initializeRTStyles()
 		
 		If Me.ndoc.HasItem(ITEMNAME_BODY) Then
 			Set Me.nrti = Me.ndoc.GetFirstItem(ITEMNAME_BODY)
+			Me.nrti.AppendParagraphStyle nrtparastyle
+
 		Else
 			Set Me.nrti = New NotesRichTextItem(Me.ndoc, ITEMNAME_BODY)
 			
 			If enhLogContentToNotesLog Then Call Me.AddBodyHeader()
-			
+			Me.nrti.AppendParagraphStyle nrtparastyle
+
 			If Not Me.isSpanningLogDocs Then
 				Me.nrti.AppendParagraphStyle nrtparastyle
-				Me.nrti.AppendStyle Me.nrtstyleTimestampNormal
-				
-				Me.nrti.AppendText Format$(Me.StartTiMe.LSLocalTime, _ 
-				|yyyy/mm/dd hh:mm:ss|) & | |
-				
-				Me.nrti.AppendStyle Me.nrtstyleAction
+				Me.nrti.AppendStyle Me.nrtstyleMethodResult
+				Me.nrti.AppendText Format$(Now, |yyyy/mm/dd hh:mm:ss|) & | |
+				Me.nrti.AddTab 2 
 				Me.nrti.AppendText |LotusScript Started|
-				Call Me.nrti.AddNewLine(1)
+				Me.nrti.AddNewLine 2 				
 			End If 
 		End If 
 	End Sub 
 	
 	
 	Private Sub SetXMLcontent()
-		Call Me.initialzeRTStyles()
+		Call Me.initializeRTStyles()
 		
 		If Me.ndoc.HasItem(ITEMNAME_XMLCONTENT) Then
 			Set Me.xmlnrti = Me.ndoc.GetFirstItem(ITEMNAME_XMLCONTENT)
@@ -2484,13 +2474,13 @@ ErrorTrap:
 		Or (Me.logType = LOGTYPE_FILE)) _ 
 		Or (Me.ndoc.Size <= LOG_DOC_MAX_SIZE) Then Exit Sub
 		
-		Call Me.spawnLogDocument(|Previous Log document exceeds maximum size.  |, _ 
+		Call Me.spanLogDocument(|Previous Log document exceeds maximum size.  |, _ 
 		|Link to Previous Log document.  |, _ 
 		|This log document exceeds maximum size.  |, _ 
 		|Link to Next Log document.  |)
 	End Sub 
 	
-	Private Function spawnLogDocument(descripPrev$, commentPrev$, descripNext$, commentNext$) As Boolean
+	Private Function spanLogDocument(descripPrev$, commentPrev$, descripNext$, commentNext$) As Boolean
 		Dim result As Boolean 
 		On Error GoTo ErrorTrap
 		
@@ -2511,7 +2501,7 @@ ErrorTrap:
 			Call Me.Save(False, False)
 			Set ndocTempOld = Me.ndoc
 			Sleep(1) ' Forces a timestamp difference of 1 second between logs
-			Call Me.CreateLogDoc()
+			Call Me.createLogDoc()
 			Call Me.nrti.AddNewLine(1)
 			Set ele = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, descripPrev$, ||, ndocTempOld, commentPrev$, ||, 0, ||, 0, ||, Nothing)
 			me.writeEntry_NotesDocument ele 
@@ -2534,9 +2524,8 @@ ErrorTrap:
 		Me.isSpanningLogDocs = False
 		result = True
 		
-
 	ExitPoint:
-		spawnLogDocument = result
+		spanLogDocument = result
 		Exit Function
 	ErrorTrap:
 		On Error GoTo 0
@@ -2697,7 +2686,7 @@ ErrorTrap:
 				End If 
 		End Select
 
-	
+		
 	ExitPoint: 
 		Exit Sub 
 	ErrorTrap:
@@ -2746,7 +2735,7 @@ ErrorTrap:
 		
 		
 		' BEGIN CODE 
-		If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
+		If (Me.ndoc Is Nothing) Then Call Me.createLogDoc()
 		Call Me.SizeCheck()
 		
 		writecount = me.writecount_ + 1
@@ -2789,8 +2778,8 @@ ErrorTrap:
 
 		' Second select case handles various log types
 		Select Case entry.LogEntryType 
-			Case LOGENTRY_TYPE_EXCEPTION: 
-				If Not Me.HasErrors Then 
+			Case LOGENTRY_TYPE_EXCEPTION:
+				If Not Me.hasLoggedException Then 
 					Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Error|)
 					nitm.IsSummary = True
 					
@@ -2867,19 +2856,17 @@ ErrorTrap:
 					End If 					
 				End If
 				
+				Me.hasLoggedException = True
 				
 			Case LOGENTRY_TYPE_WARNING: 
-				If (Me.ndoc Is Nothing) Then Call Me.CreateLogDoc()
-				Call Me.SizeCheck()
-				
-				If Not Me.HasWarnings Then 
+				If Not Me.hasLoggedWarning Then 
 					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
 					nitm.IsSummary = True
 					
 					Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_HASWARNINGS, 1)
 					nitm.IsSummary = True
 					
-					If Not Me.HasErrors Then 
+					If Not Me.hasErrors Then 
 						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Warning|)
 						nitm.IsSummary = True
 					End If 
@@ -2895,44 +2882,47 @@ ErrorTrap:
 					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
 				
+				Me.hasLoggedWarning = True
 				
 			Case LOGENTRY_TYPE_EXTENDED: 
-					If Not Me.HasActions Then
-						Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
-						nitm.IsSummary = True
-						
-						If Not (Me.HasErrors Or Me.HasWarnings) Then 
-							Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
-							nitm.IsSummary = True
-						End If 
-					End If 
-
-					If Not isBlankString(entry.Message) Then 					
-						Me.AddTimestamp nrtstyleTimestamp
-						Me.nrti.AppendStyle nrtstyleExtended
-						Me.nrti.AppendText entry.Message
-						If Not isBlankString(entry.ExtendedContent) Then Call Me.nrti.AddNewLine(1)
-					End If
-					
-					If entry.hasLink Then 
-						Me.nrti.AddTab 1
-						Set linkTo = entry.LinkTo 
-						Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
-					End If 
-					
-					If Not isBlankString(entry.ExtendedContent) Then
-						Me.nrti.AddTab 1
-						Me.nrti.AppendStyle nrtstyleExtended
-						Me.nrti.AppendText entry.ExtendedContent
-					End If 
-				
-			Case Else: 
-				' LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
-				If Not Me.HasActions Then
+				If Not Me.hasLoggedAction Then
 					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
 					nitm.IsSummary = True
 					
-					If Not Me.HasErrors Then 
+					If Not (Me.hasErrors Or Me.hasWarnings) Then 
+						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
+						nitm.IsSummary = True
+					End If 
+				End If 
+
+				If Not isBlankString(entry.Message) Then 					
+					Me.AddTimestamp nrtstyleTimestamp
+					Me.nrti.AppendStyle nrtstyleExtended
+					Me.nrti.AppendText entry.Message
+					If Not isBlankString(entry.ExtendedContent) Then Call Me.nrti.AddNewLine(1)
+				End If
+				
+				If entry.hasLink Then 
+					Me.nrti.AddTab 1
+					Set linkTo = entry.LinkTo 
+					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
+				End If 
+				
+				If Not isBlankString(entry.ExtendedContent) Then
+					Me.nrti.AddTab 2
+					Me.nrti.AppendStyle nrtstyleExtended
+					Me.nrti.AppendText entry.ExtendedContent
+				End If 
+
+				Me.hasLoggedAction = True
+				
+			Case Else: 
+				' LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
+				If Not Me.hasLoggedAction Then
+					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
+					nitm.IsSummary = True
+					
+					If Not Me.hasErrors Then 
 						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
 						nitm.IsSummary = True
 					End If 
@@ -2947,7 +2937,11 @@ ErrorTrap:
 					Set linkTo = entry.LinkTo 
 					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
+				
+				Me.hasLoggedAction = True
+				
 		End Select
+
 
 		Call Me.nrti.AddNewLine(1)
 		
@@ -2977,12 +2971,12 @@ ErrorTrap:
 	%END REM
 	Private Sub writeEntry(entry As EnhancedLogEntry) 
 		On Error GoTo ErrorTrap
-				
+		
 		' exception variables
 		Dim extendedinfo List As String 
 		Dim msg$
 		
-	
+		
 		
 		' BEGIN CODE 
 		If entry Is Nothing Then GoTo ExitPoint 
@@ -2990,7 +2984,7 @@ ErrorTrap:
 		Select Case Me.logType 
 			Case LOGTYPE_NOTES: 
 				Me.writeEntry_NotesDocument entry
-			
+				
 			Case Else: 
 				' LOGTYPE_FILE, LOGTYPE_AGENT, LOGTYPE_MAIL
 				Me.writeEntry_NotesLog entry 
@@ -3002,7 +2996,7 @@ ErrorTrap:
 			If (Len(entry.Message) > 0) Then Print entry.Message
 			If (Len(entry.ExtendedContent) > 0) Then Print entry.ExtendedContent
 		End If 
-	
+		
 	ExitPoint: 
 		Exit Sub 
 	ErrorTrap:
@@ -4442,7 +4436,7 @@ End Sub
 
 Sub Terminate	
 	If enhLogExists And (Not (enhLog Is Nothing)) Then
-		If enhLog.HasEntries Then enhLog.Save False, False
+		If enhLog.hasEntries Then enhLog.Save False, False
 		Delete enhLog
 		Set enhLog = Nothing
 		enhLogExists = False
@@ -4468,7 +4462,7 @@ Public Function enhLogGetLogConfigText(itemname$) As String
 	extendedInfo$ = |Item Name: | & itemname$
 	result = getDocItemText(enhLogGetLogConfigDoc(False), itemname$)
 	
-ExitPoint:
+	ExitPoint:
 	enhLogGetLogConfigText = result
 	Exit Function
 ErrorTrap:
@@ -4603,7 +4597,7 @@ PURGE:
 	' if here then the archive (and purge if requested) worked.
 	If result Then Call enhLog.Save(False, False)
 	
-ExitPoint:
+	ExitPoint:
 	On Error GoTo 0
 	enhLogArchiveDocuments = result
 	enhLogMethodResult LIB_PREFIX, |Archived | & Format$(archived&, FORMAT_WHOLE_THOUSANDS) & | documents.|
@@ -4673,7 +4667,7 @@ Public Function enhLogProfileMethodFinish(ByVal classname$, ByVal operation$) As
 		End If  
 	End If 
 		
-ExitPoint:
+	ExitPoint:
 	enhLogProfileMethodFinish = result#
 	Exit Function
 ErrorTrap:
@@ -4814,7 +4808,7 @@ End Function
 %END REM
 Public Sub enhLogCloseLog() 
 	If enhLogExists And (Not (enhLog Is Nothing)) Then
-		If enhLog.HasEntries Then enhLog.Save False, False
+		If enhLog.hasEntries Then enhLog.Save False, False
 		Delete enhLog
 		Set enhLog = Nothing
 		enhLogExists = False
@@ -5741,12 +5735,6 @@ End Function
 	@see enhLogOutputToNotesLog
 %END REM
 Public Property Set enhLogContentToNotesLog As Boolean 
-'	doLogContentToNotesLog = enhLogContentToNotesLog 
-'
-'	If Not enhLogExists Then Call InstantiateLog(||)
-'	
-'	enhLog.OpenNotesLog getCurrentDb().Server, |log.nsf|
-
 	enhLogOutputToNotesLog = enhLogContentToNotesLog 	
 End Property
 
@@ -6027,7 +6015,7 @@ End Function
 	@see enhLogOutputToNotesLog
 %END REM
 Public Property Get enhLogContentToNotesLog As Boolean 
-	enhLogContentToNotesLog = doLogOutputToNotesLog
+	enhLogContentToNotesLog = enhLogOutputToNotesLog
 End Property
 
 '++LotusScript Development Environment:2:1:isBlankString:5:8
@@ -6087,7 +6075,7 @@ End Function
 
 Public Function enhLogHasCachedError() As Boolean
 	enhLogHasCachedError = False
-	If enhLogExists Then enhLogHasCachedError = enhLog.HasCachedError
+	If enhLogExists Then enhLogHasCachedError = enhLog.hasCachedError
 End Function 
 
 '++LotusScript Development Environment:2:1:safeEvaluate:11:8
@@ -6471,7 +6459,7 @@ Public Function enhLogHasErrors() As Boolean
 	
 	On Error GoTo ErrorTrap
 	result = False
-	If enhLogExists Then result = enhLog.HasErrors
+	If enhLogExists Then result = enhLog.hasErrors
 	
 ExitPoint:	
 	enhLogHasErrors = result
@@ -6754,7 +6742,7 @@ Public Function enhLogHasEntries() As Boolean
 	
 	On Error GoTo ErrorTrap
 	result = False
-	If enhLogExists Then result = enhLog.HasEntries
+	If enhLogExists Then result = enhLog.hasEntries
 	
 ExitPoint:	
 	enhLogHasEntries = result
@@ -7282,7 +7270,7 @@ Sub enhLogInstantiateNotesLog()
 	
 	If (|1| = localecho$) Then 	enhLogSetLocalEcho True 
 
-	enhLogOutputToNotesLog = True ' write Log content to log.nsf
+	doLogOutputToNotesLog = True ' write Log content to log.nsf
  	Call enhLogReleaseVersionBuild()
  
  
@@ -7744,6 +7732,16 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
+
+
+
+
+
+
 
 
 
