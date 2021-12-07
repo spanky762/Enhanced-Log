@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <agent name='Archive Log Entries' alias='sched-ArchiveLogEntries' xmlns='http://www.lotus.com/dxl'
- version='11.0' maintenanceversion='1.0' replicaid='85258671003806E7' hide='v3'
- publicaccess='false' designerversion='8.5.3' activatable='false' enabled='false'>
-<noteinfo noteid='15e' unid='BCE8F62199434CFF862577FA007653DA' sequence='17'>
+ version='12.0' replicaid='85258796005A152A' hide='v3' publicaccess='false'
+ designerversion='8.5.3' activatable='false' enabled='false'>
+<noteinfo noteid='182' unid='BCE8F62199434CFF862577FA007653DA' sequence='2'>
 <created><datetime>20101215T153227,14-06</datetime></created>
-<modified><datetime dst='true'>20210521T114644,63-04</datetime></modified>
-<revised><datetime dst='true'>20210521T114644,62-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210521T114644,62-04</datetime></lastaccessed>
-<addedtofile><datetime>20210203T051202,62-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20211123T112402,02-05</datetime></modified>
+<revised><datetime>20211123T112402,01-05</datetime></revised>
+<lastaccessed><datetime>20211123T112402,01-05</datetime></lastaccessed>
+<addedtofile><datetime>20211123T112402,00-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime dst='true'>20210521T114644,62-04</datetime></designchange>
+<designchange><datetime>20211123T112401,94-05</datetime></designchange>
 <trigger type='scheduled'>
 <schedule type='daily' runlocation='choose'>
 <starttime><datetime>T010000,00</datetime></starttime></schedule></trigger><code
