@@ -142,7 +142,6 @@ Declare Public Function enhLogGetLogConfigDb() As NotesDatabase
 Declare Public Property Get enhLogContentToNotesLog As Boolean 
 Declare Public Function isBlankString(source$) As Boolean 
 Declare Public Sub enhLogSetUserName (source As NotesName)
-Declare Private Function zzz_initializeProfiledMethod(modulename$, classname$, methodname$, operation$, target As ProfiledMethod) As Boolean
 Declare Public Function getScalarString(source As Variant) As String 
 Declare Public Function enhLogHasCachedError() As Boolean
 Declare Public Function safeEvaluate(ByVal formula$, context As Variant, failValue As Variant) As Variant
@@ -6220,47 +6219,6 @@ Public Sub enhLogSetUserName (source As NotesName)
 	Set enhLog.UserName = source
 End Sub 
 
-'++LotusScript Development Environment:2:1:zzz_initializeProfiledMethod:14:8
-
-%REM
-	Function initializeProfiledMethod
-	Sets initialization values of a ProfiledMethod.
-	
-	@param modulename: modulename for the ProfiledMethod
-	@param classname: classname for the ProfiledMethod
-	@param methodname: methodname for the ProfiledMethod
-	@param operation: operation for the ProfiledMethod
-	@param target: ProfiledMethod [IN-OUT]
-	 
-	@return Flag indicating success of operation	
-%END REM
-Private Function zzz_initializeProfiledMethod(modulename$, classname$, methodname$, operation$, target As ProfiledMethod) As Boolean
-	Dim extendedInfo As String
-	Dim result As Boolean
-	On Error GoTo ErrorTrap
-
-	If (target Is Nothing) Then 
-		Set target = New ProfiledMethod(modulename$, classname$, methodname$, operation$, GetThreadInfo(LIB_LSI_THREAD_TICKS))
-	Else 
-		target.Operation = operation$
-		target.Ticks = GetThreadInfo(LIB_LSI_THREAD_TICKS)	
-	End If  
-	
-
-	
-	' success!
-	result = True
-
-ExitPoint:
-	zzz_initializeProfiledMethod = result
-	Exit Function
-ErrorTrap:
-	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
-	result = False
-	Resume ExitPoint
-End Function 
-
 '++LotusScript Development Environment:2:1:getScalarString:9:8
 %REM
 	Function getScalarString
@@ -7949,6 +7907,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
