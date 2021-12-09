@@ -215,7 +215,7 @@ Public Class DocumentObject
 	Private isdirty_ As Boolean 
 	
 	Private Property Get CLASS_PREFIX As String  
-		CLASS_PREFIX = LIB_PREFIX & |Class: DocumentObject.|
+		CLASS_PREFIX = LIB_PREFIX & |DocumentObject.|
 	End Property
 	
 	
