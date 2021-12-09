@@ -82,7 +82,6 @@
  
 Option Public
 Option Explicit
-Use "enhLogClass"
 Use "azlwConstants"
 Use "azlwListsCollections"
 
@@ -2562,6 +2561,7 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, |Viewname: | & viewname$ & Chr(10) & |Column #: | & CStr(colnum%) 
 	Resume ExitPoint 
 End Function
+
 
 
 
