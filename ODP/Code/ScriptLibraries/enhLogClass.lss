@@ -2328,53 +2328,31 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Me.LogException code%, description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||
 	End Sub 
 
-	
+	%REM
+		Adds a StackTace to the log. 
+	%END REM
 	Public Sub LogStackTrace
-		Dim stackinfo As Variant 
-		Dim thismodule As String
-		Dim stackelement As Variant 
-		Dim isStackStarted As Boolean 
-		
-		If Me.LogStackExceptions Then
-			Me.nrti.AppendText |Method Stack:|
-			Call Me.nrti.AddNewLine(1)
-			Me.nrti.AppendStyle Me.nrtstyleErrorExtended
-			
-			thismodule$ = GetThreadInfo(LIB_LSI_THREAD_MODULE)
-			stackinfo =  Split(LSI_Info(LIB_LSI_THREAD_STACKINFO), Chr(10))
-			ForAll element In stackinfo
-				stackelement = Split(element, |,|)
-				If (UBound(stackelement) > 1) Then
-					If isStackStarted Then
-						Me.nrti.AddTab 1	
-						Me.nrti.AppendText Trim$(stackelement(1)) & |(), Line #| & _ 
-						Trim$(stackelement(2)) & |  |
-						Call Me.nrti.AddNewLine(1)
-					Else
-						Select Case Trim$(stackelement(1))
-						Case |LOGSTACKTRACE|, |LOGEXCEPTION|, |LOGEXCEPTIONWITHLINK|, |ENHLOGEXCEPTION|, |ENHLOGSTACKTRACE|
-							isStackStarted = (Trim$(stackelement(0)) <> thismodule$)
-						Case Else
-							isStackStarted = True
-					End Select 	
-						
-						If isStackStarted Then
-							Me.nrti.AddTab 1	
-							Me.nrti.AppendText Trim$(stackelement(1)) & |(), Line #| & _ 
-							Trim$(stackelement(2)) & |  |
-							Call Me.nrti.AddNewLine(1)
-						End If 	
-					End If 
-				End If
-			End ForAll 
-			
-			Me.nrti.AddNewLine 1
-		Else
-			Me.nrti.AppendText |Stack Logging is Disabled| 
-			Me.nrti.AddNewLine 2
-		End If 
 
+		Dim entry As EnhancedLogEntry 
+		Dim stacktrace As New EnhancedLogStackTrace()
+
+		On Error GoTo ErrorTrap
+		
+		If (Not Me.exists) Then GoTo ExitPoint
+
+		If me.buffer.isFull Then Call me.dumpBuffer()
+		
+		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, ||, ||, Nothing, ||, ||, 0, ||, 0, ||, stacktrace)
+		Call me.buffer.addEntry(entry)
+		
+	ExitPoint:
+		Exit Sub
+	ErrorTrap:
+		On Error GoTo 0
+		Me.LogStackExceptions = False
+		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint		
 	End Sub 
+	
 	
 	%REM 
 		Sub LogEvent 
@@ -2383,23 +2361,23 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		@param message$ 	The message to send to the network.
 		@param queuename$	The name of the queue. Domino picks a queue if you send an empty string ("").
 		@param type% 		Indicates the kind of event being logged. May be any of the following: 
-				 			EV_ALARM (8)
-							EV_COMM (1)
-							EV_MAIL (3)
-							EV_MISC (6)
-							EV_REPLICA (4)
-							EV_RESOURCE (5)
-							EV_SECURITY (2)
-							EV_SERVER (7)
-							EV_UNKNOWN (0)
-							EV_UPDATE (9)
+				 			EV_ALARM 		(8)
+							EV_COMM 		(1)
+							EV_MAIL 		(3)
+							EV_MISC 		(6)
+							EV_REPLICA 		(4)
+							EV_RESOURCE 	(5)
+							EV_SECURITY 	(2)
+							EV_SERVER 		(7)
+							EV_UNKNOWN 		(0)
+							EV_UPDATE 		(9)
 							
 		@param severity% 	Indicates the severity of the event being logged. May be any of the following:
-							SEV_FAILURE (2)
-							SEV_FATAL (1)
-							SEV_NORMAL (5)
-							SEV_WARNING1 (3)
-							SEV_WARNING2 (4)
+							SEV_FAILURE 	(2)
+							SEV_FATAL 		(1)
+							SEV_NORMAL 		(5)
+							SEV_WARNING1 	(3)
+							SEV_WARNING2 	(4)
 	%END REM
 	Public Sub LogEvent (message$, queuename$, eventType%, severity%)
 		On Error GoTo ErrorTrap
@@ -2887,9 +2865,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	
 	Public Property Get hasEntries As Boolean
 		Dim result As Boolean 
-	
-		Stop
-		
+
 		result = Me.buffer.hasACTION
 		If Not result Then result = Me.buffer.hasEXCEPTION 
 		If Not result Then result = Me.buffer.hasWARNING 
@@ -3708,17 +3684,18 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			Set ndocTempOld = Me.ndoc
 			Sleep(1) ' Forces a timestamp difference of 1 second between logs
 			Call Me.createLogDoc()
-			Call Me.nrti.AddNewLine(1)
+			Me.nrti.AddNewLine 1
 			Set ele = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, descripPrev$, ||, ndocTempOld, commentPrev$, ||, 0, ||, 0, ||, Nothing)
 			me.writeEntry_NotesDocument ele 
-			Call Me.nrti.AddNewLine(1)
-			
+			Me.nrti.AddNewLine 1
+						
 			Call Me.Save(False, False)
 			
 			Set ndocTempNew = Me.ndoc
 			Call Me.ResetDocument(ndocTempOld)
 			Set Me.nrti = Me.ndoc.getFirstItem(ITEMNAME_BODY)
-			Call Me.nrti.AddNewLine(1)
+			Me.nrti.AddNewLine 1
+
 			Set ele = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, descripNext$, ||, ndocTempNew, commentNext$, ||, 0, ||, 0, ||, Nothing)
 			me.writeEntry_NotesDocument ele 
 			
@@ -3867,7 +3844,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 					If Not (entry.StackTrace Is Nothing) Then 
 						If Me.LogStackExceptions Then
 							Me.nLog.LogAction |Method Stack:|
-							Call Me.nrti.AddNewLine(1)
 							Set st = entry.StackTrace 
 							
 							ForAll stackentry In st.Content 
@@ -4021,47 +3997,26 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
 				
-				If (hasLine Or hasMethod) Then  Call Me.nrti.AddNewLine(1)
+				If (hasLine Or hasMethod) Then Me.nrti.AddNewLine 1
 				
 				If (hasMethod) Then Me.nrti.AppendText(entry.ErrorMethod & |();  |)
 				If (hasLine) Then Me.nrti.AppendText(|line #| & CStr(entry.ErrorLine))
 				
-				Call Me.nrti.AddNewLine(1)
-				
+				Me.nrti.AddNewLine 1
+								
 				If (Len(entry.Message) > 0) Then
 					Me.nrti.AppendStyle nrtstyleExtended
 					Me.nrti.AppendText entry.Message
-					Call Me.nrti.AddNewLine(1)
+					Me.nrti.AddNewLine 1
 				Else
 					Me.nrti.AppendText |No extended information available.|
 				End If 
 				
 				Me.nrti.AppendStyle nrtstyleExtended
-				Call Me.nrti.AddNewLine(1)
-				
-				' STACK TRACE
-				If Me.LogStackExceptions Then 
-					If Not (entry.StackTrace Is Nothing) Then 
-						Me.nrti.AppendText |Method Stack:|
-						Call Me.nrti.AddNewLine(1)
-						Me.nrti.AppendStyle Me.nrtstyleErrorExtended 
-						Set st = entry.StackTrace 
-						
-						ForAll stackentry In st.Content 
-							ste = stackentry 
-							Me.nrti.AddTab 1	
-							Me.nrti.AppendText ste.methodname & |()  Line #| & ste.linenumber & |  |
-							Call Me.nrti.AddNewLine(1)								
-						End ForAll
-
-						Me.nrti.AddNewLine 1
-					Else
-						Me.nrti.AppendText |Stack Logging is Disabled| 
-						Me.nrti.AddNewLine 2
-					End If 					
-				End If
+				Me.nrti.AddNewLine 1
 				
 				Me.hasLoggedException = True
+
 				
 			Case LOGENTRY_TYPE_WARNING: 
 				If Not Me.hasLoggedWarning Then 
@@ -4104,7 +4059,8 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 					Me.AddTimestamp nrtstyleTimestamp
 					Me.nrti.AppendStyle nrtstyleExtended
 					Me.nrti.AppendText entry.Message
-					If Not isBlankString(entry.ExtendedContent) Then Call Me.nrti.AddNewLine(1)
+					If Not isBlankString(entry.ExtendedContent) Then Me.nrti.AddNewLine 1
+					
 				End If
 				
 				If entry.hasLink Then 
@@ -4113,12 +4069,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
 				
-				If Not isBlankString(entry.ExtendedContent) Then
-					Me.nrti.AddTab 2
-					Me.nrti.AppendStyle nrtstyleExtended
-					Me.nrti.AppendText entry.ExtendedContent
-				End If 
-
 				Me.hasLoggedAction = True
 				
 			Case Else: 
@@ -4144,13 +4094,45 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				End If 
 				
 				Me.hasLoggedAction = True
-				
 		End Select
 
 
-		Call Me.nrti.AddNewLine(1)
+		' STACK TRACE
+		If Not (entry.StackTrace Is Nothing) Then 
+			Me.nrti.AppendStyle Me.nrtstyleErrorExtended 
+			If Me.LogStackExceptions Then 
+				Me.nrti.AppendText |Method Stack:|
+				Me.nrti.AddNewLine 1 
+				Me.nrti.AppendStyle Me.nrtstyleErrorExtended 
+				Set st = entry.StackTrace 
+				
+				ForAll stackentry In st.Content 
+					ste = stackentry 
+					Me.nrti.AddTab 1	
+					Me.nrti.AppendText ste.methodname & |()  Line #| & ste.linenumber & |  |
+					Me.nrti.AddNewLine 1								
+				End ForAll
+
+				Me.nrti.AddNewLine 1
+			Else
+				Me.nrti.AppendText |Stack Logging is Disabled| 
+				Me.nrti.AddNewLine 2
+			End If 					
+		End If
 		
+		
+		' EXTENDED CONTENT 
+		If Not isBlankString(entry.ExtendedContent) Then
+			Me.nrti.AddTab 2
+			Me.nrti.AppendStyle nrtstyleExtended
+			Me.nrti.AppendText entry.ExtendedContent
+			Me.nrti.AddNewLine 1
+		End If 
+
+
+		Me.nrti.AddNewLine 1
 		If Me.AutoSave Then Me.Save False, False				
+
 
 	ExitPoint: 
 		Exit Sub 
@@ -7988,6 +7970,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
 
 
 
