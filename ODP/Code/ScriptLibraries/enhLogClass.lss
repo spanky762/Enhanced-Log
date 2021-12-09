@@ -3824,7 +3824,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Dim temp$
 		
 		
-		
 		' BEGIN CODE 
 		If (Me.nLog Is Nothing) Then Call Me.OpenFileLog(FILEPATH_LOGS)
 		Select Case entry.LogEntryType 
@@ -3978,8 +3977,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 					Me.nrti.AppendText entry.Message
 					Me.nrti.AddNewLine 1
 				End If 
-				
-				Me.nrti.AddNewLine 1
 				
 				Me.hasLoggedException = True
 
@@ -5923,6 +5920,7 @@ End Function
 	@see enhLogOutputToNotesLog
 %END REM
 Public Property Set enhLogContentToNotesLog As Boolean 
+	enhLogWarning LIB_PREFIX, |DEPRECATED - use enhLogOutputToNotesLog|
 	enhLogOutputToNotesLog = enhLogContentToNotesLog 	
 End Property
 
@@ -6169,6 +6167,7 @@ End Function
 	@see enhLogOutputToNotesLog
 %END REM
 Public Property Get enhLogContentToNotesLog As Boolean 
+	enhLogWarning LIB_PREFIX, |DEPRECATED - use enhLogOutputToNotesLog|
 	enhLogContentToNotesLog = enhLogOutputToNotesLog
 End Property
 
@@ -7939,6 +7938,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
