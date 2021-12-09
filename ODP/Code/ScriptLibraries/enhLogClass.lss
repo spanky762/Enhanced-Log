@@ -5348,10 +5348,10 @@ Public Sub enhLogDumpContent (prefix$, filepath$)
 	On Error GoTo ErrorTrap
 	
 	Call getEnhLog()
-	If .ActionsIncludeMethodNames Then
-		.LogAction prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |():  Called enhLogDumpContent()|
+	If enhLog_.ActionsIncludeMethodNames Then
+		enhLog_.LogAction prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |():  Called enhLogDumpContent()|
 	Else
-		.LogAction prefix$ & | Called enhLogDumpContent()|
+		enhLog_.LogAction prefix$ & | Called enhLogDumpContent()|
 	End If 
 	
 	If isBlankString(filepath$) Then Error 1200, |FILE NAME IS BLANK|
@@ -5382,7 +5382,7 @@ End Sub
 
 Public Sub enhLogSetResumeOnLoggingFailure (source As Boolean)
 	Call getEnhLog()
-	.ResumeOnLoggingFailure = source
+	enhLog_.ResumeOnLoggingFailure = source
 End Sub 
 
 '++LotusScript Development Environment:2:1:getHashedValue:13:8
@@ -5451,12 +5451,12 @@ Public Function enhLogAction(prefix$, description$) As Boolean
 	On Error GoTo ErrorTrap
 	
 	Call getEnhLog()
-	If Not .LogActions Then GoTo ExitPoint 
+	If Not enhLog_.LogActions Then GoTo ExitPoint 
 	
-	If .ActionsIncludeMethodNames Then
-		.LogAction prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
+	If enhLog_.ActionsIncludeMethodNames Then
+		enhLog_.LogAction prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
 	Else
-		.LogAction prefix$ & description$
+		enhLog_.LogAction prefix$ & description$
 	End If 
 	
 	result = True
@@ -5661,13 +5661,13 @@ Public Function enhLogMethodResult (prefix$, description$) As Boolean
 	On Error GoTo ErrorTrap
 	
 	Call getEnhLog()
-	If Not .LogMethodResults Then GoTo ExitPoint 
+	If Not enhLog_.LogMethodResults Then GoTo ExitPoint 
 	
-	If .ActionsIncludeMethodNames Then
-		.LogMethodResult prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
+	If enhLog_.ActionsIncludeMethodNames Then
+		enhLog_.LogMethodResult prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
 		enhLogExtendedContent ||, ||, ||
 	Else
-		.LogMethodResult prefix$ & description$
+		enhLog_.LogMethodResult prefix$ & description$
 	End If 
 	
 	result = True
@@ -5810,7 +5810,7 @@ End Function
 
 Public Sub enhLogSetOverwriteFile (source As Boolean)
 	Call getEnhLog()
-	.OverwriteFile = source
+	enhLog_.OverwriteFile = source
 End Sub 
 
 '++LotusScript Development Environment:2:1:getListTags:7:8
@@ -5940,13 +5940,13 @@ Public Function enhLogWarningWithLink (prefix$, description$, linkTo As Variant,
 
 	
 	Call getEnhLog()
-	If .ActionsIncludeMethodNames Then
+	If enhLog_.ActionsIncludeMethodNames Then
 		extendedcontent$ = prefix$ & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & |(): | & description$
 	Else
 		extendedcontent$ = prefix$ & description$
 	End If 
 	
-	.LogWarningWithLink extendedcontent$, linkTo, linkcomment$, HotSpotText$
+	enhLog_.LogWarningWithLink extendedcontent$, linkTo, linkcomment$, HotSpotText$
 	
 	result = True
 	
@@ -7988,6 +7988,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
