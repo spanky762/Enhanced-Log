@@ -259,7 +259,7 @@ Private Const V_PRODOBJ = 35
 Public Class azlwListCarrier
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: azliListCarrier.|
+		CLASS_PREFIX = LIB_PREFIX & |azliListCarrier.|
 	End Property
 
 	Property Get json As String 
@@ -535,7 +535,7 @@ Public Class BooleanList As azlwListCarrier
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: BooleanList.|
+		CLASS_PREFIX = LIB_PREFIX & |BooleanList.|
 	End Property
 
 
@@ -714,7 +714,7 @@ Public Class DateList As azlwListCarrier
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: DateList.|
+		CLASS_PREFIX = LIB_PREFIX & |DateList.|
 	End Property
 
 
@@ -918,7 +918,7 @@ Public Class IntegerList As azlwListCarrier
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: IntegerList.|
+		CLASS_PREFIX = LIB_PREFIX & |IntegerList.|
 	End Property
 
 	
@@ -992,7 +992,7 @@ Public Class VariantList As azlwListCarrier
 	
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: VariantList.|
+		CLASS_PREFIX = LIB_PREFIX & |VariantList.|
 	End Property
 	
 
@@ -1306,7 +1306,7 @@ Public Class StringList As azlwListCarrier
 	
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: StringList.|
+		CLASS_PREFIX = LIB_PREFIX & |StringList.|
 	End Property
 	
 	
@@ -1475,7 +1475,7 @@ Public Class LongList As azlwListCarrier
 	
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: DominoDomainPerson.|
+		CLASS_PREFIX = LIB_PREFIX & |DominoDomainPerson.|
 	End Property
 	
 
@@ -1559,7 +1559,7 @@ Public Class SingleList As azlwListCarrier
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: SingleList.|
+		CLASS_PREFIX = LIB_PREFIX & |SingleList.|
 	End Property
 
 	%REM
@@ -1638,7 +1638,7 @@ Public Class DoubleList As azlwListCarrier
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: DoubleList.|
+		CLASS_PREFIX = LIB_PREFIX & |DoubleList.|
 	End Property
 
 
@@ -1718,7 +1718,7 @@ Public Class CurrencyList As azlwListCarrier
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: CurrencyList.|
+		CLASS_PREFIX = LIB_PREFIX & |CurrencyList.|
 	End Property
 
 
@@ -1809,7 +1809,7 @@ Class KeyedStringList As azlwListCarrier
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: KeyedStringList.|
+		CLASS_PREFIX = LIB_PREFIX & |KeyedStringList.|
 	End Property
 
 
@@ -1894,7 +1894,7 @@ Public Class StringSet As azlwListCarrier
 
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: StringSet.|
+		CLASS_PREFIX = LIB_PREFIX & |StringSet.|
 	End Property
 
 
@@ -2036,7 +2036,7 @@ Class ExceptionCarrier
 	Private errline_ As Integer 
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: ExceptionCarrier.|
+		CLASS_PREFIX = LIB_PREFIX & |ExceptionCarrier.|
 	End Property
 	
 	Public Sub New(errcode%, errmsg$, module$, classname$, procedure$, errorline%)  
@@ -2301,7 +2301,7 @@ Public Class StringSetList As azlwListCarrier
 	
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: StringSetList.|
+		CLASS_PREFIX = LIB_PREFIX & |StringSetList.|
 	End Property
 	
 
@@ -2389,7 +2389,7 @@ Class IntegerPairList As azlwListCarrier
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: IntegerPairList.|
+		CLASS_PREFIX = LIB_PREFIX & |IntegerPairList.|
 	End Property
 
 
@@ -2467,7 +2467,7 @@ Public Class IntegerPair
 	
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: IntegerPair.|
+		CLASS_PREFIX = LIB_PREFIX & |IntegerPair.|
 	End Property
 	
 	Public Property Get First As Integer
