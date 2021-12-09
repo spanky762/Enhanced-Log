@@ -193,7 +193,7 @@ Declare Public Sub enhLogSetCommonProperties(progname$, localEcho As Boolean, lo
 Declare Public Sub enhLogSetLogActions (source As Boolean)
 Declare Public Function enhLogCreateLog (programName$) As EnhancedLog
 Declare Public Function enhLogGetCachedErrorLine() As Integer
-Declare Public Property Get FILEPATH_LOGS As String   
+Declare Private Property Get FILEPATH_LOGS As String   
 Declare Function getEnvarName(source$, clearCache As Boolean) As String
 Declare Public Function enhLogExtendedContentWithLink (prefix$, description$, extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)  As Boolean
 Declare Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
@@ -7685,7 +7685,7 @@ End Function
 	Property Get FILEPATH_LOGS
 	Gets the Filepath for logs 
 %END REM
-Public Property Get FILEPATH_LOGS As String   
+Private Property Get FILEPATH_LOGS As String   
 		On Error GoTo ErrorTrap
 	
 		Static result$
@@ -7988,6 +7988,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
