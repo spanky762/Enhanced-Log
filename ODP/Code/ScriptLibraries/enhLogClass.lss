@@ -193,6 +193,7 @@ Declare Public Sub enhLogSetCommonProperties(progname$, localEcho As Boolean, lo
 Declare Public Sub enhLogSetLogActions (source As Boolean)
 Declare Public Function enhLogCreateLog (programName$) As EnhancedLog
 Declare Public Function enhLogGetCachedErrorLine() As Integer
+Declare Public Property Get FILEPATH_LOGS As String   
 Declare Function getEnvarName(source$, clearCache As Boolean) As String
 Declare Public Function enhLogExtendedContentWithLink (prefix$, description$, extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)  As Boolean
 Declare Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
@@ -217,6 +218,7 @@ Private Const ELEMENT_UNKNOWN = |Notes: Programmable Element Unknown|
 
 Private Const DEFAULT_DELIMITER = |Ø|
 
+Private Const FILEPATH_LOGS_DEFAULT = |hcl| & DEFAULT_DELIMITER & |logs| & DEFAULT_DELIMITER  
 Private Const FORMAT_WHOLE_THOUSANDS = |###,###,###,###,##0|
 
 Private Const ITEMNAME_BODY = |Body|
@@ -238,6 +240,7 @@ Private Const LOGTYPE_NOTES = 0
 Private Const LOGTYPE_AGENT = 1
 Private Const LOGTYPE_FILE = 2
 Private Const LOGTYPE_MAIL = 4
+Private Const LOGTYPE_EVENT = 8
 
 Private Const MAX_RECOVER_ATTEMPTS = 3
 
@@ -463,7 +466,7 @@ Private genhl_ProfileMethodStarts List As Integer
 Private Class enhLogListCarrier
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |Class: enhLogListCarrier.|
+		CLASS_PREFIX = LIB_PREFIX & |enhLogListCarrier.|
 	End Property
 
 
@@ -2042,7 +2045,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	Private dbServer As String
 	Private agentOwner As String
 	Private abbrevUserName As String
-	Private serverName As String
 	Private dbTitle As String
 	Private dbFilepath As String
 	Private dbRepID As String
@@ -2112,12 +2114,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			Me.dbServer = |Local Client|
 		End If 
 
-		If getCurrentSession().IsOnServer Then 
-			Me.serverName$ = nnam.Abbreviated
-		Else
-			Me.serverName$ = |Local Client|
-		End If 
-		
 		Me.dbTitle$ = getCurrentDb().Title
 		Me.dbFilepath$ = getCurrentDb().FilePath
 		Me.dbRepID$ = CStr(getCurrentDb().ReplicaID)
@@ -2380,7 +2376,31 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 
 	End Sub 
 	
-	
+	%REM 
+		Sub LogEvent 
+		Sends a Domino® event to the network. 
+		
+		@param message$ 	The message to send to the network.
+		@param queuename$	The name of the queue. Domino picks a queue if you send an empty string ("").
+		@param type% 		Indicates the kind of event being logged. May be any of the following: 
+				 			EV_ALARM (8)
+							EV_COMM (1)
+							EV_MAIL (3)
+							EV_MISC (6)
+							EV_REPLICA (4)
+							EV_RESOURCE (5)
+							EV_SECURITY (2)
+							EV_SERVER (7)
+							EV_UNKNOWN (0)
+							EV_UPDATE (9)
+							
+		@param severity% 	Indicates the severity of the event being logged. May be any of the following:
+							SEV_FAILURE (2)
+							SEV_FATAL (1)
+							SEV_NORMAL (5)
+							SEV_WARNING1 (3)
+							SEV_WARNING2 (4)
+	%END REM
 	Public Sub LogEvent (message$, queuename$, eventType%, severity%)
 		On Error GoTo ErrorTrap
 		
@@ -2955,7 +2975,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	End Property 
 	
 	Public Property Get Server As String
-		Server = Me.serverName$
+		Server = Me.dbServer$
 	End Property 
 	
 	Public Property Get StartTime As NotesDateTime
@@ -3216,7 +3236,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
 		End If 
 		
-		If (Len(path$) = 0) Then server$ = Me.TargetDatabase.FilePath
+		If (Len(path$) = 0) And Not (Me.TargetDatabase Is Nothing) Then server$ = Me.TargetDatabase.FilePath
 
 		
 		' Close the previous log
@@ -3224,10 +3244,13 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			enhLogAction CLASS_PREFIX, |Changing from  | & _ 
 			lstrLogTypes(Me.logType) & | to | & lstrLogTypes(newLogType) & |.|
 
-			server$ = Me.TargetDatabase.Server 
-			If isBlankString(server$) Then server$ = |[LocalClient]| 
-			enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: | & server$ & |!!| & Me.TargetDatabase.Filepath  
+			If Not (Me.TargetDatabase Is Nothing) Then 
+				server$ = Me.TargetDatabase.Server 
+				If isBlankString(server$) Then server$ = |[LocalClient]| 
+				enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: | & server$ & |!!| & Me.TargetDatabase.Filepath 
+			End If 
 		End If 
+
 		
 		Select Case Me.LogType
 			Case LOGTYPE_AGENT
@@ -3259,9 +3282,12 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				
 			Case LOGTYPE_FILE
 				If (Me.nLog Is Nothing) Then Set Me.nLog = New NotesLog(Me.ProgramName)
+				If isBlankString(path$) Then path$ = FILEPATH_LOGS
 				Me.nLog.OpenFileLog(path$)
 				Me.nLog.LogAction lstrLogTypes(Me.logType) & | opened.|
-				Me.logFilepath$ = path$
+				Me.logFilepath$ = path$ 
+				Call Me.AddBodyHeader_TargetNonNSF() 
+				Me.nLog.LogAction || 
 				
 			Case LOGTYPE_MAIL
 				' do nothing 
@@ -3460,7 +3486,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	End Sub 
 	
 
-	Private Sub AddBodyHeader()  
+	Private Sub AddBodyHeader_NotesDocument()  
 
 		Dim roles$ 
 		Dim role$ 
@@ -3563,6 +3589,39 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		End If 
 	End Sub
 
+
+	Private Sub AddBodyHeader_TargetNonNSF()  
+
+		Dim roles$ 
+		Dim role$ 
+
+		Me.nLog.LogAction |Program: | & Me.ProgramName	
+		Me.nLog.LogAction |User: | & Me.UserNameAbbrev
+		Me.nLog.LogAction |Server: | & Me.Server
+		Me.nLog.LogAction |Db Title: | & Me.dbTitle$ 
+		Me.nLog.LogAction |Db Filepath: | & Me.Filepath
+		Me.nLog.LogAction |Replica ID: | & Me.dbRepID$
+		Me.nLog.LogAction |Notes Version: | & Me.myNotesVersion$
+		Me.nLog.LogAction |ACL Level: | & getACLlevel(Me.acl)
+
+		If IsArray(me.userRoles) Then
+			ForAll s In me.userRoles 
+				role$ = Trim(CStr(s)) 
+				If Not isBlankString(role$) Then
+					If isBlankString(roles$) Then
+						roles$ = role$ 
+					Else
+						roles$ = roles$ & |, | & role$
+					End If  
+				End If 
+			End ForAll 
+		End If 
+
+		
+		If Not isBlankString(roles$) Then
+			Me.nLog.LogAction |ACL Roles: | & roles$
+		End If 
+	End Sub
 	
 	
 	Private Sub setBody()
@@ -3575,7 +3634,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Else
 			Set Me.nrti = New NotesRichTextItem(Me.ndoc, ITEMNAME_BODY)
 			
-			If enhLogContentToNotesLog Then Call Me.AddBodyHeader()
+			If enhLogContentToNotesLog Then Call Me.AddBodyHeader_NotesDocument()
 			Me.nrti.AppendParagraphStyle nrtparastyle
 
 			If Not Me.isSpanningLogDocs Then
@@ -3768,14 +3827,14 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	
 	
 	%REM
-		Sub writeEntry_NotesLog
+		Sub writeEntry_TargetNonNSF
 		Writes the entry to the NotesLog.  
 		
 		A NotesLog can represent a FILE, and AGENT LOG, or an EVENT LOG, depending upon what manner has been opened. 
 		
 		@param entry EnhancedLogEntry to be written to NotesLog object.
 	%END REM
-	Sub writeEntry_NotesLog(entry As EnhancedLogEntry) 
+	Sub writeEntry_TargetNonNSF(entry As EnhancedLogEntry) 
 		On Error GoTo ErrorTrap
 		
 		Dim linkTo As NotesLink
@@ -3785,12 +3844,11 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		' exception variables
 		Dim extendedinfo List As String 
 		Dim msg$
-		
 		Dim temp$
 		
 		
-		
 		' BEGIN CODE 
+		If (Me.nLog Is Nothing) Then Call Me.OpenFileLog(FILEPATH_LOGS)
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION: 
 				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |): | & entry.ErrorMessage
@@ -4123,6 +4181,10 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Dim extendedinfo List As String 
 		Dim msg$
 		
+		Dim message$ 
+		Dim eventtype%
+		Dim severity%
+		
 		
 		
 		' BEGIN CODE 
@@ -4130,11 +4192,34 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		
 		Select Case Me.logType 
 			Case LOGTYPE_NOTES: 
-				Me.writeEntry_NotesDocument entry
+				Me.writeEntry_NotesDocument entry 
+				
+			Case LOGTYPE_EVENT: 
+				Select Case entry.LogEntryType 
+					Case LOGENTRY_TYPE_EXCEPTION:  
+						severity% = 2 	' SEV_FAILURE
+						eventtype% = 8 	' EV_ALARM 
+						message$ = entry.ErrorMethod & |() Error | & CStr(entry.ErrorCode) & _ 
+						| | & entry.ErrorMessage
+						If Not isBlankString(entry.Message) Then message$ = message$ & |  | & entry.Message 
+						If Not isBlankString(entry.ExtendedContent) Then message$ = message$ & |  | & entry.ExtendedContent 
+						
+					Case LOGENTRY_TYPE_WARNING: 
+						severity% = 3 	' SEV_WARNING 
+						eventtype% = 6 	' EV_MISC 
+						message$ = entry.Message 
+							
+					Case Else: 
+						severity% = 5 	' SEV_NORMAL
+						eventtype% = 6 	' EV_MISC 
+						message$ = entry.Message 
+				End Select
+				
+				Call me.LogEvent(entry.Message, ||, eventtype%, severity%)					
 				
 			Case Else: 
 				' LOGTYPE_FILE, LOGTYPE_AGENT, LOGTYPE_MAIL
-				Me.writeEntry_NotesLog entry 
+				Me.writeEntry_TargetNonNSF entry 
 				
 		End Select
 		
@@ -4557,7 +4642,10 @@ Public Class EnhancedLog
 		Resume ExitPoint		
 	End Sub 
 End Class 	
-'++LotusScript Development Environment:2:2:Initialize:4:10
+'++LotusScript Development Environment:2:2:Initialize:7:10
+
+
+
 
 
 
@@ -7592,6 +7680,35 @@ Public Function enhLogGetCachedErrorLine() As Integer
 	If Not (enhLog_ Is Nothing) Then enhLogGetCachedErrorLine = enhLog_.CachedErrorLine
 End Function 
 
+'++LotusScript Development Environment:2:3:FILEPATH_LOGS Get:5:8
+%REM
+	Property Get FILEPATH_LOGS
+	Gets the Filepath for logs 
+%END REM
+Public Property Get FILEPATH_LOGS As String   
+		On Error GoTo ErrorTrap
+	
+		Static result$
+	
+		' BEGIN CODE
+		If isBlankString(result$) Then 
+			If (InStr(LCase(getCurrentSession.Platform), |windows|) > 0) Then 
+				result$ = strReplaceSubstring(FILEPATH_LOGS_DEFAULT, DEFAULT_DELIMITER, |\|) 
+			Else 
+				result$ = strReplaceSubstring(FILEPATH_LOGS_DEFAULT, DEFAULT_DELIMITER, |/|)
+			End If
+		End If 
+		
+	ExitPoint: 
+		FILEPATH_LOGS = result$
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		enhLogException LIB_PREFIX, ||
+		Resume ExitPoint
+End Property
+
+
 '++LotusScript Development Environment:2:1:getEnvarName:11:8
 
 %REM
@@ -7871,6 +7988,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
