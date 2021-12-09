@@ -3983,6 +3983,8 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				hasLine = (entry.ErrorLine > 0)
 				hasMethod = (Len(entry.ErrorMethod) > 0)
 				
+				Me.nrti.AddNewLine 1 
+				
 				' Append the Error information to the RichTextItem
 				If (hasCode Or hasMsg) Then Me.AddTimestamp nrtstyleTimestamp
 				
@@ -4060,7 +4062,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 					Me.nrti.AppendStyle nrtstyleExtended
 					Me.nrti.AppendText entry.Message
 					If Not isBlankString(entry.ExtendedContent) Then Me.nrti.AddNewLine 1
-					
 				End If
 				
 				If entry.hasLink Then 
@@ -4126,7 +4127,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			Me.nrti.AddTab 2
 			Me.nrti.AppendStyle nrtstyleExtended
 			Me.nrti.AppendText entry.ExtendedContent
-			Me.nrti.AddNewLine 1
 		End If 
 
 
@@ -7970,6 +7970,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
 
 
 
