@@ -3894,9 +3894,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		On Error GoTo ErrorTrap
 		
 		Dim nitm As NotesItem
-		Dim nrtstyleTimestamp As NotesRichTextStyle 
-		Dim nrtstyleMessage As NotesRichTextStyle 
-		Dim nrtstyleExtended As NotesRichTextStyle 
 		
 		Dim linkTo As NotesLink
 		Dim st As EnhancedLogStackTrace 
@@ -3922,42 +3919,6 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		writecount = me.writecount_ + 1
 		me.writecount_ = writecount 
 
-		' First select case sets the paragraph styles only
-		Select Case entry.LogEntryType 
-			Case LOGENTRY_TYPE_ACTION:
-				Set nrtstyleTimestamp = nrtstyleTimestampNormal 
-				Set nrtstyleMessage = nrtstyleAction 
-				Set nrtstyleExtended = nrtstyleAction 
-				
-			Case LOGENTRY_TYPE_EXCEPTION:
-				Set nrtstyleTimestamp = nrtstyleTimestampError
-				Set nrtstyleMessage = nrtstyleError 
-				Set nrtstyleExtended = nrtstyleErrorExtended 
-				
-			Case LOGENTRY_TYPE_WARNING:
-				Set nrtstyleTimestamp = nrtstyleTimestampWarning
-				Set nrtstyleMessage = nrtstyleWarning 
-				Set nrtstyleExtended = nrtstyleAction 
-				
-			Case LOGENTRY_TYPE_EXTENDED:
-				Set nrtstyleTimestamp = nrtstyleTimestampExtended 
-				Set nrtstyleMessage = nrtstyleExtendedContent 
-				Set nrtstyleExtended = nrtstyleExtendedContent 
-				
-			Case LOGENTRY_TYPE_METHODRESULT:
-				Set nrtstyleTimestamp = nrtstyleTimestampNormal 
-				Set nrtstyleMessage = nrtstyleMethodResult
-				Set nrtstyleExtended = nrtstyleAction 
-				
-			Case Else 
-				' Covers any new LOGENTRY types that may be added in the future
-				Set nrtstyleTimestamp = nrtstyleTimestampNormal 
-				Set nrtstyleMessage = nrtstyleAction
-				Set nrtstyleExtended = nrtstyleAction 
-		End Select
-
-
-		' Second select case handles various log types
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION:
 				If Not Me.hasLoggedException Then 
@@ -3986,9 +3947,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				Me.nrti.AddNewLine 1 
 				
 				' Append the Error information to the RichTextItem
-				If (hasCode Or hasMsg) Then Me.AddTimestamp nrtstyleTimestamp
+				If (hasCode Or hasMsg) Then Me.AddTimestamp nrtstyleTimestampError
 				
-				Me.nrti.AppendStyle nrtstyleMessage
+				Me.nrti.AppendStyle nrtstyleError
 				
 				If hasCode Then Me.nrti.AppendText |Error #| & CStr(entry.ErrorCode) & |: |			
 				If hasMsg Then Me.nrti.AppendText entry.ErrorMessage		
@@ -4007,14 +3968,11 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				Me.nrti.AddNewLine 1
 								
 				If (Len(entry.Message) > 0) Then
-					Me.nrti.AppendStyle nrtstyleExtended
+					Me.nrti.AppendStyle nrtstyleErrorExtended
 					Me.nrti.AppendText entry.Message
 					Me.nrti.AddNewLine 1
-				Else
-					Me.nrti.AppendText |No extended information available.|
 				End If 
 				
-				Me.nrti.AppendStyle nrtstyleExtended
 				Me.nrti.AddNewLine 1
 				
 				Me.hasLoggedException = True
@@ -4034,8 +3992,8 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 					End If 
 				End If 
 				
-				Me.AddTimestamp nrtstyleTimestamp
-				Me.nrti.AppendStyle nrtstyleMessage
+				Me.AddTimestamp nrtstyleTimestampWarning
+				Me.nrti.AppendStyle nrtstyleWarning
 				Me.nrti.AppendText |Warning: | & entry.Message
 				
 				If entry.hasLink Then 
@@ -4058,8 +4016,8 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				End If 
 
 				If Not isBlankString(entry.Message) Then 					
-					Me.AddTimestamp nrtstyleTimestamp
-					Me.nrti.AppendStyle nrtstyleExtended
+					Me.AddTimestamp nrtstyleTimestampExtended
+					Me.nrti.AppendStyle nrtstyleExtendedContent
 					Me.nrti.AppendText entry.Message
 					If Not isBlankString(entry.ExtendedContent) Then Me.nrti.AddNewLine 1
 				End If
@@ -4073,7 +4031,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				Me.hasLoggedAction = True
 				
 			Case Else: 
-				' LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
+				' LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT
 				If Not Me.hasLoggedAction Then
 					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
 					nitm.IsSummary = True
@@ -4083,11 +4041,17 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 						nitm.IsSummary = True
 					End If 
 				End If 
+
+				Me.AddTimestamp nrtstyleTimestampNormal
+
+				If (LOGENTRY_TYPE_METHODRESULT = entry.LogEntryType) Then 
+					Me.nrti.AppendStyle nrtstyleMethodResult
+				Else 
+					' assume LOGENTRY_TYPE_ACTION
+					Me.nrti.AppendStyle nrtstyleAction
+				End If
 				
-				Me.AddTimestamp nrtstyleTimestamp
-				Me.nrti.AppendStyle nrtstyleMessage
 				Me.nrti.AppendText entry.Message
-				
 				If entry.hasLink Then 
 					Me.nrti.AddTab 1
 					Set linkTo = entry.LinkTo 
@@ -4096,6 +4060,13 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				
 				Me.hasLoggedAction = True
 		End Select
+
+		' EXTENDED CONTENT 
+		If Not isBlankString(entry.ExtendedContent) Then
+			Me.nrti.AddTab 2
+			Me.nrti.AppendStyle nrtstyleExtendedContent
+			Me.nrti.AppendText entry.ExtendedContent
+		End If 
 
 
 		' STACK TRACE
@@ -4121,15 +4092,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			End If 					
 		End If
 		
-		
-		' EXTENDED CONTENT 
-		If Not isBlankString(entry.ExtendedContent) Then
-			Me.nrti.AddTab 2
-			Me.nrti.AppendStyle nrtstyleExtended
-			Me.nrti.AppendText entry.ExtendedContent
-		End If 
-
-
+	
 		Me.nrti.AddNewLine 1
 		If Me.AutoSave Then Me.Save False, False				
 
@@ -7970,6 +7933,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
