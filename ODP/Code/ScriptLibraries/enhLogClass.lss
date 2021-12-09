@@ -3824,41 +3824,26 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Dim temp$
 		
 		
+		
 		' BEGIN CODE 
 		If (Me.nLog Is Nothing) Then Call Me.OpenFileLog(FILEPATH_LOGS)
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION: 
-				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |): | & entry.ErrorMessage
-				If (Len(entry.Message) > 0) Then temp$ = temp$ & entry.Message
-				
+				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |)|
+				If (Len(entry.ErrorMessage) > 0) Then temp$ = temp$ & entry.ErrorMessage 
 				Me.nLog.LogError entry.ErrorCode, temp$
 				
 				If entry.hasLink Then 
-					Me.nrti.AddTab 1
 					Set linkTo = entry.LinkTo 
 					Me.nlog.LogAction entry.LinkComment & | | & linkTo.NotesURL 
 				End If 
+				
+				If (Len(entry.Message) > 0) Then Me.nLog.logAction entry.Message 
 
-				' STACK TRACE
-				If Me.LogStackExceptions Then 
-					If Not (entry.StackTrace Is Nothing) Then 
-						If Me.LogStackExceptions Then
-							Me.nLog.LogAction |Method Stack:|
-							Set st = entry.StackTrace 
-							
-							ForAll stackentry In st.Content 
-								ste = stackentry 
-								Me.nLog.LogAction Chr(9) & ste.methodname & |()  Line #| & ste.linenumber & |  |
-							End ForAll
-						End If
-					Else
-						Me.nLog.LogAction |Stack Logging is Disabled| 
-					End If 					
-				End If
 				
 			Case Else: 
 				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
-				Me.nLog.LogAction entry.Message & | | & entry.ExtendedContent	
+				Me.nLog.LogAction entry.Message	
 				
 				If entry.hasLink Then 
 					Me.nrti.AddTab 1
@@ -3867,6 +3852,27 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				End If 
 		End Select
 
+
+		' EXTENDED CONTENT 
+		If Not isBlankString(entry.ExtendedContent) Then Me.nLog.LogAction entry.ExtendedContent 
+
+
+		' STACK TRACE
+		If Not (entry.StackTrace Is Nothing) Then 
+			If Me.LogStackExceptions Then 
+				If Me.LogStackExceptions Then
+					Me.nLog.LogAction |Method Stack:|
+					Set st = entry.StackTrace 
+					
+					ForAll stackentry In st.Content 
+						ste = stackentry 
+						Me.nLog.LogAction Chr(9) & ste.methodname & |()  Line #| & ste.linenumber & |  |
+					End ForAll
+				End If
+			Else
+				Me.nLog.LogAction |Stack Logging is Disabled| 
+			End If 					
+		End If
 		
 	ExitPoint: 
 		Exit Sub 
@@ -3951,7 +3957,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				
 				Me.nrti.AppendStyle nrtstyleError
 				
-				If hasCode Then Me.nrti.AppendText |Error #| & CStr(entry.ErrorCode) & |: |			
+				If hasCode Then Me.nrti.AppendText |Error | & CStr(entry.ErrorCode) & |: |			
 				If hasMsg Then Me.nrti.AppendText entry.ErrorMessage		
 				
 				If entry.hasLink Then 
@@ -3963,7 +3969,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 				If (hasLine Or hasMethod) Then Me.nrti.AddNewLine 1
 				
 				If (hasMethod) Then Me.nrti.AppendText(entry.ErrorMethod & |();  |)
-				If (hasLine) Then Me.nrti.AppendText(|line #| & CStr(entry.ErrorLine))
+				If (hasLine) Then Me.nrti.AppendText(|line | & CStr(entry.ErrorLine))
 				
 				Me.nrti.AddNewLine 1
 								
@@ -7933,6 +7939,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
