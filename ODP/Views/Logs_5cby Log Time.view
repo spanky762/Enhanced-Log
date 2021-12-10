@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <view name='Logs\by Log Time' alias='lkp-LogsByLogTime' xmlns='http://www.lotus.com/dxl'
- version='12.0' replicaid='85258796005A152A' showinmenu='false' defaultdesign='true'
+ version='12.0' replicaid='852587A5005D981C' showinmenu='false' defaultdesign='true'
  publicaccess='false' designerversion='8.5.3' default='true' unreadmarks='none'
  onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
  showresponsehierarchy='true' showmargin='true' shrinkrows='false' extendlastcolumn='false'
@@ -11,16 +11,16 @@
  uniquekeys='false'>
 <noteinfo noteid='21a' unid='DF668089A058A324862577FA00762127' sequence='3'>
 <created><datetime>20101215T153017,35-06</datetime></created>
-<modified><datetime>20211123T115202,42-05</datetime></modified>
-<revised><datetime>20211123T115202,41-05</datetime></revised>
-<lastaccessed><datetime>20211123T115202,41-05</datetime></lastaccessed>
-<addedtofile><datetime>20211123T112403,34-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20211210T114038,58-05</datetime></modified>
+<revised><datetime>20211210T114038,57-05</datetime></revised>
+<lastaccessed><datetime>20211210T114038,57-05</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120258,99-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby><code
  event='selection'><formula>SELECT @IsMember(Form; "Log Entry":"Events")</formula></code>
 <actionbar bgcolor='#ece9d8' bordercolor='black'>
-<actionbuttonstyle bgcolor='#ece9d8'/><font color='system'/><border style='solid'
- width='0px 0px 1px' color='system'/>
+<actionbuttonstyle bgcolor='#ece9d8'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px' color='system'/>
 <action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
 <action title='_Edit Document' showinbar='false' systemcommand='edit'/>
 <action title='_Send Document' showinbar='false' systemcommand='send'/>

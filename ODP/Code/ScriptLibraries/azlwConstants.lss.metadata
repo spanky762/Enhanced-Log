@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="85258671003806E7" version="11.0">
-<noteinfo noteid="18e" sequence="21" unid="24503045BB3CC583852586610061C2D4">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" replicaid="852587A5005D981C" version="12.0">
+<noteinfo noteid="1b6" sequence="4" unid="24503045BB3CC583852586610061C2D4">
 <created><datetime>20210118T124748,68-05</datetime></created>
-<modified><datetime dst="true">20210517T143212,42-04</datetime></modified>
-<revised><datetime dst="true">20210517T143212,41-04</datetime></revised>
-<lastaccessed><datetime dst="true">20210517T143212,41-04</datetime></lastaccessed>
-<addedtofile><datetime>20210203T051202,81-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20211210T114037,97-05</datetime></modified>
+<revised><datetime>20211210T114037,96-05</datetime></revised>
+<lastaccessed><datetime>20211210T114037,96-05</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120257,89-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$TITLE" sign="true"><text>azlwConstants</text></item>
 <item name="$Flags"><text>s34Q</text></item>
