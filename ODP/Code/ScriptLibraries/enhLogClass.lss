@@ -3736,6 +3736,7 @@ ExitPoint:
 		
 		On Error GoTo ErrorTrap
 
+		Stop
 		currentError.timestamp = Format$(Now, FORMAT_TIMESTAMP) 
 		currentError.message = Error$()
 		currentError.code = Err() 
@@ -3781,7 +3782,7 @@ ExitPoint:
 		Me.ResumeOnLoggingFailure = False
 		result = False
 		enhLogException CLASS_PREFIX, extendedInfo$
-		Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -7967,6 +7968,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
