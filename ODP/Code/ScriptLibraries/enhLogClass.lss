@@ -370,9 +370,6 @@ Public Const VIEWNAME_DBCONFIG = |DbConfig|
  ************************************************************************************
 %END REM *********************************************************************
 Private lstrLogTypes List As String
-Private g_errMsg As String
-Private g_errLine As Long
-Private g_errCode As Integer
 
 
 %REM ***************************************************************************
@@ -383,6 +380,7 @@ Private g_errCode As Integer
 Public Type ErrorInfo
 	timestamp As String
 	methodname As String
+	callingmethod As String 
 	linenumber As Integer
 	code As Integer
 	message As String
@@ -2274,7 +2272,7 @@ ExitPoint:
 ErrorTrap:
 		On Error GoTo 0
 		result = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Function 
 	
 	
@@ -2302,7 +2300,7 @@ ExitPoint:
 		Exit Sub
 ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2323,7 +2321,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2353,7 +2351,7 @@ ExitPoint:
 	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2385,6 +2383,8 @@ ExitPoint:
 	Public Sub LogEvent (message$, queuename$, eventType%, severity%)
 		On Error GoTo ErrorTrap
 		
+		Dim extended$ 
+		
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Me.nLog Is Nothing) Then Set Me.nLog = New NotesLog(Me.ProgramName)
 		
@@ -2404,14 +2404,17 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		enhLogException CLASS_PREFIX, |("| & 	message$ & |", "| & queuename$ & _ 
-		|", "| & CStr(eventType%) & |, | & CStr(severity%) & |)|
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		extended$ = |"| & queuename$ & |", "| & CStr(eventType%) & |, | & CStr(severity%)
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), extended$) Then 
+			enhLogException CLASS_PREFIX, |("| & message$ & |", | & extended$ & |)|
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 		
 	End Sub 
 	
 	
 	Public Sub LogException (code%, errMsg$, errline&, methodname$, description$)
-
 		Dim entry As EnhancedLogEntry 
 		Dim stacktrace As EnhancedLogStackTrace 
 
@@ -2433,7 +2436,7 @@ ExitPoint:
 	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2460,7 +2463,7 @@ ExitPoint:
 	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2483,7 +2486,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2504,7 +2507,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 
 	
@@ -2528,7 +2531,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
 	
 
@@ -2549,7 +2552,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 
 
@@ -2602,7 +2605,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
 
 
@@ -2623,7 +2626,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
 
 
@@ -2644,7 +2647,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage				
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage				
 	End Sub 
 	
 	Public Function OpenAgentLog() As Boolean
@@ -2656,7 +2659,6 @@ ExitPoint:
 		Dim result As Boolean
 		
 		On Error GoTo ErrorTrap
-		g_errCode% = 0
 		
 		TrimString path$
 		
@@ -2670,15 +2672,11 @@ ExitPoint:
 		
 	ExitPoint:
 		OpenFileLog = result
-		On Error GoTo 0
-		If (g_errCode% = ERR_PARAMETER_BLANK) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
 		Exit Function
 	ErrorTrap:
 		On Error GoTo 0
-		enhLogException CLASS_PREFIX, ||
-		g_errCode%  = Err()
 		result = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -2705,8 +2703,13 @@ ExitPoint:
 		OpenMailLog = result
 		Exit Function
 	ErrorTrap:
-		enhLogException LIB_PREFIX, extendedInfo$
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
+		On Error GoTo 0
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, extendedInfo$
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 	
 	End Function 
 	
 	
@@ -2735,9 +2738,9 @@ ExitPoint:
 		enhLogException CLASS_PREFIX, extendedInfo$
 		Resume ExitPoint
 	CriticalError:
-		result = False
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		result = False
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -2778,7 +2781,7 @@ ExitPoint:
 		On Error GoTo 0
 		result = False
 		Me.LogStackExceptions = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -2980,8 +2983,12 @@ ExitPoint:
 	ErrorTrap:
 		On Error GoTo 0
 		Set Me.myTargetDb = getCurrentDb()
-		enhLogException CLASS_PREFIX, ||
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 	
 	End Property 
 	
 	Public Property Get UserName As NotesName
@@ -3155,8 +3162,12 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		enhLogException CLASS_PREFIX, ||
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 	
 	End Sub 
 	
 	
@@ -3194,10 +3205,6 @@ ExitPoint:
 		Dim nnamOld As NotesName
 		Dim isLogSame As Boolean
 
-		
-		g_errCode% = 0
-		g_errMsg$ = ||
-		g_errline& = 0
 		
 		TrimString server$
 		TrimString path$
@@ -3317,7 +3324,7 @@ ExitPoint:
 	CriticalError:
 		On Error GoTo 0
 		result = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -3327,7 +3334,7 @@ ExitPoint:
 		On Error GoTo ErrorTrap
 		
 		Set Me.ndoc = generateLogDoc(Me.acl, Me.TargetDatabase, Me.UserName, Me.UserRoles, Me.StartTime, Me.progName$, Me.dbServer$, Me.dbTitle$, Me.dbFilepath$, subject$, Me.myNotesVersion$, Me.ResumeOnLoggingFailure) 
-		If (Me.ndoc Is Nothing) Then Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
+		If (Me.ndoc Is Nothing) Then GoTo ExitPoint 
 
 		me.hasLoggedAction = False 
 		me.hasLoggedException = False 
@@ -3342,7 +3349,7 @@ ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
 	
 	
@@ -3463,7 +3470,7 @@ ExitPoint:
 		Resume ExitPoint
 	CriticalError:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Sub 
 	
 
@@ -3719,11 +3726,11 @@ ExitPoint:
 		On Error GoTo 0
 		result = False
 		Call Me.LogException(Err(), Error(), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 
 	
-	Private Function resumeInternalError(caller$) As Boolean
+	Private Function resumeInternalError(caller$, extended$) As Boolean
 		Dim extendedInfo As String
 		Dim result As Boolean
 
@@ -3742,7 +3749,8 @@ ExitPoint:
 		currentError.code = Err() 
 		currentError.linenumber = Erl() 
 		currentError.methodname = CLASS_PREFIX & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
-		currentError.extended = |Calling Method: | & caller$
+		currentError.callingmethod = caller$
+		currentError.extended = extended$
 		If (Me.internalErrorCount > 0) Then 
 			ReDim Preserve Me.internalErrorStack(Me.internalErrorCount) As ErrorInfo 
 		Else 
@@ -3758,7 +3766,8 @@ ExitPoint:
 		Me.countInternalErrors = Me.countInternalErrors + 1
 		remaining% = MAX_RECOVER_ATTEMPTS - countInternalErrors
 		If (remaining% < 0) Then remaining% = 0
-		extendedInfo$ = |Recovery Attempts Remaining = | & CStr(remaining%)
+		If Not isBlankString(extended$) Then extendedInfo$ = extended$ & Chr(10)
+		extendedInfo$ = extendedInfo$ & |Recovery Attempts Remaining = | & CStr(remaining%)
 		If (remaining = 0) Then Error ERR_INTERNAL_NORECOVER, MSG_INTERNAL_NORECOVER
 		
 		title$ = |Error | & CStr(currentError.code) & | at line: | & CStr(currentError.linenumber)
@@ -3781,8 +3790,12 @@ ExitPoint:
 		On Error GoTo 0
 		Me.ResumeOnLoggingFailure = False
 		result = False
-		enhLogException CLASS_PREFIX, extendedInfo$
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, extendedinfo$
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If
 	End Function 
 	
 	
@@ -3797,11 +3810,6 @@ ExitPoint:
 		
 		Dim entry As EnhancedLogEntry 
 		
-		' exception variables
-		Dim extendedinfo List As String 
-		Dim msg$
-		
-		
 		' BEGIN CODE 
 		Set entry = me.buffer.FirstEntry 
 		While Not (entry Is Nothing) 
@@ -3815,15 +3823,12 @@ ExitPoint:
 		Exit Sub 
 	ErrorTrap:
 		On Error GoTo 0
-		ForAll s In extendedinfo
-			If isBlankString(msg$) Then 
-				msg$ = ListTag(s) & |: | & s
-			Else 
-				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
-			End If
-		End ForAll
-		enhLogException CLASS_PREFIX, msg$
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If
 	End Sub
 	
 	
@@ -3842,9 +3847,6 @@ ExitPoint:
 		Dim st As EnhancedLogStackTrace 
 		Dim ste As StackTraceElement
 		
-		' exception variables
-		Dim extendedinfo List As String 
-		Dim msg$
 		Dim temp$
 		
 		
@@ -3901,15 +3903,12 @@ ExitPoint:
 		Exit Sub 
 	ErrorTrap:
 		On Error GoTo 0
-		ForAll s In extendedinfo
-			If isBlankString(msg$) Then 
-				msg$ = ListTag(s) & |: | & s
-			Else 
-				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
-			End If
-		End ForAll
-		enhLogException CLASS_PREFIX, msg$
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If
 	End Sub
 	
 	
@@ -3927,10 +3926,6 @@ ExitPoint:
 		Dim linkTo As NotesLink
 		Dim st As EnhancedLogStackTrace 
 		Dim ste As StackTraceElement
-		
-		' exception variables
-		Dim extendedinfo List As String 
-		Dim msg$
 		
 		Dim writecount As Integer 
 		
@@ -4128,15 +4123,12 @@ ExitPoint:
 		Exit Sub 
 	ErrorTrap:
 		On Error GoTo 0
-		ForAll s In extendedinfo
-			If isBlankString(msg$) Then 
-				msg$ = ListTag(s) & |: | & s
-			Else 
-				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
-			End If
-		End ForAll
-		enhLogException CLASS_PREFIX, msg$
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If
 	End Sub
 	
 	
@@ -4149,16 +4141,11 @@ ExitPoint:
 	Private Sub writeEntry(entry As EnhancedLogEntry) 
 		On Error GoTo ErrorTrap
 		
-		' exception variables
-		Dim extendedinfo List As String 
-		Dim msg$
-		
 		Dim message$ 
 		Dim eventtype%
 		Dim severity%
 		
-		
-		
+
 		' BEGIN CODE 
 		If entry Is Nothing Then GoTo ExitPoint 
 		
@@ -4205,15 +4192,12 @@ ExitPoint:
 		Exit Sub 
 	ErrorTrap:
 		On Error GoTo 0
-		ForAll s In extendedinfo
-			If isBlankString(msg$) Then 
-				msg$ = ListTag(s) & |: | & s
-			Else 
-				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
-			End If
-		End ForAll
-		enhLogException CLASS_PREFIX, msg$
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If
 	End Sub
 	
 	
@@ -5011,10 +4995,6 @@ End Sub
 '++LotusScript Development Environment:2:2:InstantiateLoggingSession:2:8
 
 Private Sub InstantiateLoggingSession()
-	g_errMsg$ = ||
-	g_errLine& = 0
-	g_errCode% = 0
-	
 	lstrLogTypes(LOGTYPE_NOTES) = |NotesLog|
 	lstrLogTypes(LOGTYPE_AGENT) = |AgentLog|
 	lstrLogTypes(LOGTYPE_FILE) = |FileLog|
@@ -6563,8 +6543,8 @@ Private Function isStringArrayEmpty (source As Variant) As Boolean
 	Dim extendedInfo As String
 	
 	
+
 	On Error GoTo ErrorTrap
-	g_errCode% = 0
 	
 	sourceType$ = TypeName(source)
 	
@@ -6587,17 +6567,12 @@ Private Function isStringArrayEmpty (source As Variant) As Boolean
 	End Select 	
 	
 ExitPoint:	
-	On Error GoTo 0
-	If (g_errCode% = ERR_PARAMETER_INVALID) Then Error ERR_PARAMETER_INVALID, _ 
-	MSG_PARAMETER_INVALID
-	
 	isStringArrayEmpty = result
 	Exit Function	
 ErrorTrap:
-	On Error GoTo 0
-	If Not (enhLog_ Is Nothing) Then enhLogException LIB_PREFIX, extendedInfo$
-	g_errCode% = Err()
-	Resume ExitPoint
+	On Error GoTo 0 
+	enhLogException LIB_PREFIX, extendedInfo$
+	Resume ExitPoint 
 End Function 
 
 '++LotusScript Development Environment:2:1:enhLogGetLatestLog:2:8
@@ -7317,7 +7292,14 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 	Dim errmsg$ 
 	Dim errcode%
 	
+	Static recursionLevel As Integer 
+	
 	On Error GoTo ErrorTrap
+	Stop
+	
+	recursionLevel = recursionLevel + 1 
+	If (recursionLevel > 1) Then GoTo ExitPoint 
+	
 	
 	If (ndb Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |  ndb Is Nothing| 
 	If (username Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |  username Is Nothing| 
@@ -7394,10 +7376,10 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 ExitPoint:
 	If (errcode% <> 0) Then Error errcode%, errmsg$ 
 	Set generateLogDoc = result
+	recursionLevel = recursionLevel - 1
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
-
 	Set result = Nothing
 	errcode% = Err() 
 	errmsg$ = LIB_PREFIX & |generateLogDoc(): | & Error$() & |, Line #| & CStr(Erl())
@@ -7412,7 +7394,7 @@ ErrorTrap:
 	Else
 		MessageBox msg$, 16, msgtitle$	
 	End If 
-	
+	enhLogException LIB_PREFIX, ||
 	Resume ExitPoint 
 End Function 
 
@@ -7968,6 +7950,14 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
+
+
+
+
 
 
 
