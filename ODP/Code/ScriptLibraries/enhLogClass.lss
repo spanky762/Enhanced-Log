@@ -214,18 +214,20 @@ Private Const LIB_PREFIX = |Library: enhLogClass.|
 	PRIVATE UTILITY CONSTANTS  
  ************************************************************************************
 %END REM *********************************************************************
-Private Const ELEMENT_UNKNOWN = |Notes: Programmable Element Unknown|
+Private Const ELEMENT_UNKNOWN = 		|Notes: Programmable Element Unknown|
 
-Private Const DEFAULT_DELIMITER = |Ø|
+Private Const DEFAULT_DELIMITER = 		|Ø|
 
-Private Const FILEPATH_LOGS_DEFAULT = |hcl| & DEFAULT_DELIMITER & |logs| & DEFAULT_DELIMITER  
-Private Const FORMAT_WHOLE_THOUSANDS = |###,###,###,###,##0|
+Private Const FILEPATH_LOGS_DEFAULT = 	|hcl| & DEFAULT_DELIMITER & |logs| & DEFAULT_DELIMITER  
+Private Const FORMAT_TIMESTAMP = 		|yyyy/mm/dd hh:mm:ss|
+Private Const FORMAT_WHOLE_THOUSANDS = 	|###,###,###,###,##0|
 
-Private Const ITEMNAME_BODY = |Body|
-Private Const ITEMNAME_FORM = |Form|
-Private Const ITEMNAME_HASERRORS = |hasErrors|
-Private Const ITEMNAME_HASWARNINGS = |hasWarnings|
-Private Const ITEMNAME_XMLCONTENT = |xmlContent|
+
+Private Const ITEMNAME_BODY = 			|Body|
+Private Const ITEMNAME_FORM = 			|Form|
+Private Const ITEMNAME_HASERRORS = 		|hasErrors|
+Private Const ITEMNAME_HASWARNINGS = 	|hasWarnings|
+Private Const ITEMNAME_XMLCONTENT = 	|xmlContent|
 
 Private Const LOGENTRY_BUFFER_MAX_COUNT = 	500 ' Maximum number of EnhancedLogEntry objects allowed in the buffer 
 Private Const LOGENTRY_BUFFER_MAX_BYTES = 	5000 ' Maximum size (in bytes) of the EnhancedLogeEntry buffer 
@@ -383,7 +385,7 @@ Public Type ErrorInfo
 	methodname As String
 	linenumber As Integer
 	code As Integer
-	msg As String
+	message As String
 	extended As String
 End Type  
 
@@ -1411,7 +1413,7 @@ Private Class EnhancedLogEntry
  		@return text representation of the logtime 
 	%END REM
 	Property Get TimeStamp As String 
-		TimeStamp = Format$(me.content_.logtime, |yyyy/mm/dd hh:mm:ss|)
+		TimeStamp = Format$(me.content_.logtime, FORMAT_TIMESTAMP)
 	End Property
 
 
@@ -2034,6 +2036,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	Private ndtStartTime As NotesDateTime
 	
 	Private cachedErrors List As ErrorInfo  
+	Private internalErrorStack() As ErrorInfo 
 	
 	Private buffer As EnhancedLogEntryBuffer
 
@@ -2055,6 +2058,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	Private myLinkComment As String 
 	Private myLinkHotspotText As String 
 	Private myNotesVersion As String 
+	
+	Private internalErrorCount As Integer 
+	
 	
 	Private countCachedErrors As Long
 	
@@ -2186,7 +2192,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 
 		Me.exists = True
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
 	End Sub 
 	
@@ -2263,13 +2269,12 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		' If here then no error occurred
 		result = True
 
-	ExitPoint:
+ExitPoint:
 		Exit Function
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		result = False
-		Call Me.LogException(Err(), Error() & Chr(10), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Function 
 	
 	
@@ -2293,12 +2298,11 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2315,12 +2319,11 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2350,7 +2353,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
-		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2403,7 +2406,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		On Error GoTo 0
 		enhLogException CLASS_PREFIX, |("| & 	message$ & |", "| & queuename$ & _ 
 		|", "| & CStr(eventType%) & |, | & CStr(severity%) & |)|
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2430,7 +2433,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
-		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2457,7 +2460,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
-		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2480,8 +2483,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 	
 	
@@ -2502,8 +2504,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 
 	
@@ -2527,8 +2528,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
 	
 
@@ -2549,8 +2549,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
 
 
@@ -2603,8 +2602,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error(), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
 
 
@@ -2625,8 +2623,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
 
 
@@ -2647,8 +2644,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error() & Chr(10) & description$, Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
-		Resume ExitPoint				
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage				
 	End Sub 
 	
 	Public Function OpenAgentLog() As Boolean
@@ -2682,7 +2678,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		enhLogException CLASS_PREFIX, ||
 		g_errCode%  = Err()
 		result = False
-		Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -2710,7 +2706,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Function
 	ErrorTrap:
 		enhLogException LIB_PREFIX, extendedInfo$
-		Resume ExitPoint	
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Function 
 	
 	
@@ -2741,7 +2737,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	CriticalError:
 		result = False
 		On Error GoTo 0
-		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -2782,11 +2778,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		On Error GoTo 0
 		result = False
 		Me.LogStackExceptions = False
-		If isRecursive Then 
-			If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint
-		Else
-			If Me.resumeInternalError(Error() & |  | & Chr(10) & |Recursions: | & CInt(Me.saverecursions_), Err(), Erl()) Then Resume ExitPoint
-		End If 
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -2825,7 +2817,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	
 	Public Property Get CachedErrorMessage As String
 		If IsElement(Me.cachedErrors(Me.countCachedErrors)) Then
-			CachedErrorMessage = Me.cachedErrors(Me.countCachedErrors).msg$
+			CachedErrorMessage = Me.cachedErrors(Me.countCachedErrors).message$
 		Else
 			CachedErrorMessage = ||
 		End If 
@@ -2881,6 +2873,19 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		hasWarnings = Me.buffer.hasWARNING
 	End Property 
 	
+	
+	Public Property Get LastInternalErrorCode As Integer 
+		Dim internalError As ErrorInfo 
+		If (Me.internalErrorCount > 0) Then internalError = me.internalErrorStack(me.internalErrorCount -1) 
+		LastInternalErrorCode = internalError.code  		
+	End Property 
+
+	Public Property Get LastInternalErrorMessage As String 
+		Dim internalError As ErrorInfo 
+		If (Me.internalErrorCount > 0) Then internalError = me.internalErrorStack(me.internalErrorCount -1) 
+		LastInternalErrorMessage = internalError.message 			
+	End Property 
+
 	Public Property Get LocalEcho As Boolean
 		LocalEcho = Me.doLocalEcho	
 	End Property 
@@ -2976,7 +2981,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		On Error GoTo 0
 		Set Me.myTargetDb = getCurrentDb()
 		enhLogException CLASS_PREFIX, ||
-		Resume ExitPoint 
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Property 
 	
 	Public Property Get UserName As NotesName
@@ -3111,7 +3116,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	
 	Private Sub AddTimestamp (nrtstyle As NotesRichTextStyle)
 		Me.nrti.AppendStyle nrtstyle
-		Me.nrti.AppendText Format$(Now, |yyyy/mm/dd hh:mm:ss|) & | |
+		Me.nrti.AppendText Format$(Now, FORMAT_TIMESTAMP) & | |
 	End Sub 
 	
 	
@@ -3151,7 +3156,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	ErrorTrap:
 		On Error GoTo 0
 		enhLogException CLASS_PREFIX, ||
-		If Me.ResumeOnLoggingFailure Then Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Sub 
 	
 	
@@ -3310,9 +3315,9 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		enhLogException CLASS_PREFIX, |Forced Log Type change to | & lstrLogTypes(LOGTYPE_NOTES) & |.|
 		Resume ExitPoint
 	CriticalError:
-		result = False
 		On Error GoTo 0
-		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint		
+		result = False
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 	
 	
@@ -3337,7 +3342,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
 	
 	
@@ -3458,7 +3463,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Resume ExitPoint
 	CriticalError:
 		On Error GoTo 0
-		If Me.resumeInternalError(Error(), Err(), Erl()) Then Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Sub 
 	
 
@@ -3616,7 +3621,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			If Not Me.isSpanningLogDocs Then
 				Me.nrti.AppendParagraphStyle nrtparastyle
 				Me.nrti.AppendStyle Me.nrtstyleMethodResult
-				Me.nrti.AppendText Format$(Now, |yyyy/mm/dd hh:mm:ss|) & | |
+				Me.nrti.AppendText Format$(Now, FORMAT_TIMESTAMP) & | |
 				Me.nrti.AddTab 2 
 				Me.nrti.AppendText |LotusScript Started|
 				Me.nrti.AddNewLine 2 				
@@ -3638,14 +3643,14 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	End Sub 
 	
 	
-	Private Sub SetCachedError (code%, errMsg$, errline&, methodname$, description$)
+	Private Sub SetCachedError (code%, message$, errline&, methodname$, description$)
 		Dim pos As Long		
 		pos = Me.countCachedErrors + 1
 		Me.cachedErrors(pos&).timestamp = CStr(Now)
 		Me.cachedErrors(pos&).methodname$ = methodname$
 		Me.cachedErrors(pos&).linenumber% = errline&
 		Me.cachedErrors(pos&).code% = code%
-		Me.cachedErrors(pos&).msg$ = errMsg$
+		Me.cachedErrors(pos&).message$ = message$
 		Me.cachedErrors(pos&).extended$ = description$
 		Me.countCachedErrors = pos&
 	End Sub 
@@ -3712,23 +3717,40 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Exit Function
 	ErrorTrap:
 		On Error GoTo 0
-		Call Me.LogException(Err(), Error(), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
 		result = False
-		Resume ExitPoint		
+		Call Me.LogException(Err(), Error(), Erl(), GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||)
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Function 
 
 	
-	Private Function resumeInternalError(errormsg$, errcode%, errline&) As Boolean
+	Private Function resumeInternalError(caller$) As Boolean
 		Dim extendedInfo As String
 		Dim result As Boolean
-		
-		On Error GoTo ErrorTrap
+
+		Dim currentError As ErrorInfo 		
 		Dim callingmethod As String
 		Dim msg As String
 		Dim title As String
 
 		Dim remaining As Integer
+		
+		On Error GoTo ErrorTrap
 
+		currentError.timestamp = Format$(Now, FORMAT_TIMESTAMP) 
+		currentError.message = Error$()
+		currentError.code = Err() 
+		currentError.linenumber = Erl() 
+		currentError.methodname = CLASS_PREFIX & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
+		currentError.extended = |Calling Method: | & caller$
+		If (Me.internalErrorCount > 0) Then 
+			ReDim Preserve Me.internalErrorStack(Me.internalErrorCount) As ErrorInfo 
+		Else 
+			ReDim Me.internalErrorStack(0) As ErrorInfo 
+		End If
+		
+		Me.internalErrorStack(Me.internalErrorCount) = currentError 
+		Me.internalErrorCount = me.internalErrorCount + 1 
+	
 		result = Me.ResumeOnLoggingFailure
 		If (Not result) Then GoTo ExitPoint
 
@@ -3738,9 +3760,10 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		extendedInfo$ = |Recovery Attempts Remaining = | & CStr(remaining%)
 		If (remaining = 0) Then Error ERR_INTERNAL_NORECOVER, MSG_INTERNAL_NORECOVER
 		
-		title$ = |Error | & CStr(errcode%) & | at line: | & CStr(errline&)
-		msg$ = CLASS_PREFIX & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & _ 
-		Chr(10) & errormsg$ & Chr(10) & _ 
+		title$ = |Error | & CStr(currentError.code) & | at line: | & CStr(currentError.linenumber)
+		msg$ = currentError.methodname & _ 
+		Chr(10) & currentError.message & Chr(10) & _ 
+		Chr(10) & |Calling Method: | & caller$ & _ 
 		Chr(10) & extendedInfo$
 
 		If getCurrentSession().IsOnServer Then 
@@ -3799,7 +3822,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			End If
 		End ForAll
 		enhLogException CLASS_PREFIX, msg$
-		Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Sub
 	
 	
@@ -3885,7 +3908,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			End If
 		End ForAll
 		enhLogException CLASS_PREFIX, msg$
-		Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Sub
 	
 	
@@ -4112,7 +4135,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			End If
 		End ForAll
 		enhLogException CLASS_PREFIX, msg$
-		Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Sub
 	
 	
@@ -4189,9 +4212,8 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			End If
 		End ForAll
 		enhLogException CLASS_PREFIX, msg$
-		Resume ExitPoint
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC)) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 	End Sub
-	
 	
 	
 	
@@ -7285,7 +7307,14 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 	Dim nnam As NotesName 
 	Dim result As NotesDocument
 	Dim nitm As NotesItem
-	Dim accesslevel As String
+
+	Dim accesslevel$
+	Dim callingmethod$
+	Dim msg$
+	Dim msgtitle$
+
+	Dim errmsg$ 
+	Dim errcode%
 	
 	On Error GoTo ErrorTrap
 	
@@ -7362,16 +7391,16 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 	End ForAll 	
 	
 ExitPoint:
+	If (errcode% <> 0) Then Error errcode%, errmsg$ 
 	Set generateLogDoc = result
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
-	Dim callingmethod As String
-	Dim msg As String
-	Dim msgtitle As String
 
 	Set result = Nothing
-
+	errcode% = Err() 
+	errmsg$ = LIB_PREFIX & |generateLogDoc(): | & Error$() & |, Line #| & CStr(Erl())
+	
 	msgtitle$ = |Error | & CStr(Err()) & | at line: | & CStr(Erl())
 	msg$ = LIB_PREFIX & |generateLogDoc()  | & Chr(10) & _ 
 	|Calling Method: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & _ 
@@ -7383,7 +7412,7 @@ ErrorTrap:
 		MessageBox msg$, 16, msgtitle$	
 	End If 
 	
-	' no resume is intentional
+	Resume ExitPoint 
 End Function 
 
 '++LotusScript Development Environment:2:1:enhLogGetCachedErrorMethod:2:8
@@ -7938,6 +7967,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
 
 
 
