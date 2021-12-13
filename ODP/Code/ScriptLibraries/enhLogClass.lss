@@ -92,7 +92,7 @@ Declare Private Class NotesLink
 Declare Private Class EnhancedLogStackTrace 
 Declare Private Class EnhancedLogEntry 
 Declare Private Class EnhancedLogEntryBuffer
-Declare Private Class LogSingleton 	' Declaring as Private allows for Singleton functionality.
+Declare Private Class Singleton 	' Declaring as Private allows for Singleton functionality.
 Declare Public Class EnhancedLog 
 Declare Sub Initialize
 Declare Sub Terminate	
@@ -450,7 +450,7 @@ End Type
 	Private Instance Objects 
  ************************************************************************************
 %END REM *********************************************************************
-Private singleton_ As LogSingleton
+Private singleton_ As Singleton
 Private enhLog_ As EnhancedLog 
 
 Private genhl_ProfiledMethods As ProfiledMethodList 
@@ -2006,12 +2006,12 @@ End Class
 
 
 
-Private Class LogSingleton 	' Declaring as Private allows for Singleton functionality.
-	Private myTargetDb As NotesDatabase
-	Private ndoc As NotesDocument
-	Private nrti As NotesRichTextItem
-	Private xmlnrti As NotesRichTextItem 
-	Private nLog As NotesLog
+Private Class Singleton 	' Declaring as Private allows for Singleton functionality.
+	Private targetDb_ As NotesDatabase
+	Private ndoc_ As NotesDocument
+	Private nrti_ As NotesRichTextItem
+	Private xmlnrti_ As NotesRichTextItem 
+	Private nlog_ As NotesLog
 	
 	Private nrtstyleTimestampNormal As NotesRichTextStyle
 	Private nrtstyleTimestampError As NotesRichTextStyle
@@ -2094,7 +2094,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	
 	
 	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |LogSingleton.|
+		CLASS_PREFIX = LIB_PREFIX & |Singleton.|
 	End Property	
 	
 	Public Sub New (ByVal programName$)
@@ -2132,6 +2132,8 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 	
 	
 	
+	
+	
 	Private Sub instantiate()
 		Dim configdoc As NotesDocument
 		Dim targetserver As String
@@ -2157,7 +2159,7 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 		Me.ActionsIncludeMethodNames = True
 
 		Set Me.ndtStartTime = New NotesDateTime(Now)	
-		Set Me.myTargetDb = getCurrentDb()
+		Set Me.targetDb_ = getCurrentDb()
 		Set Me.nagt = getCurrentSession().CurrentAgent
 		If (Me.nagt Is Nothing) Then
 			Me.progName$ = getCallingUIobjectName()
@@ -2183,8 +2185,8 @@ Private Class LogSingleton 	' Declaring as Private allows for Singleton function
 			Me.Enabled = (|Yes| = getDocItemText(configdoc, ITEMNAME_ENHLOG_YN_LOGENABLED))
 			targetserver$ = getDocItemText(configdoc, ITEMNAME_ENHLOG_TARGET_SERVER)
 			targetfilepath$ = getDocItemText(configdoc, ITEMNAME_ENHLOG_TARGET_FILEPATH)
-			If ((Len(targetserver$) + Len(targetfilepath$)) > 0) Then Set Me.myTargetDb = getOpenDatabase(targetserver$, targetfilepath$) 
-			If (Me.myTargetDb Is Nothing) Then Set Me.myTargetDb = getCurrentDb()
+			If ((Len(targetserver$) + Len(targetfilepath$)) > 0) Then Set Me.targetDb_ = getOpenDatabase(targetserver$, targetfilepath$) 
+			If (Me.targetDb_ Is Nothing) Then Set Me.targetDb_ = getCurrentDb()
 			Me.hasLogConfigDoc = True
 		End If 
 
@@ -2214,12 +2216,37 @@ ExitPoint:
 			End If 
 		End If 
 		
-		If Not (Me.nLog Is Nothing) Then
-			Call Me.nLog.Close()
-			Set Me.nLog = Nothing
+		If Not (Me.nlog_ Is Nothing) Then
+			Call Me.nlog_.Close()
+			Set Me.nlog_ = Nothing
 		End If 
 
 	End Sub 
+	
+	
+	%REM
+		Property Get TargetDocument
+		Target Log Document 
+	%END REM
+	Private Property Get TargetDocument As NotesDocument 
+		On Error GoTo ErrorTrap
+	
+		' BEGIN CODE
+'		If (Me.ndoc_ Is Nothing) Then If (Not Me.createLogDoc()) Then GoTo ExitPoint
+		If (Me.ndoc_ Is Nothing) Then Call me.createLogDoc() 
+	
+	ExitPoint: 
+		Set TargetDocument = Me.ndoc_
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 
+	End Property
 	
 	
 	Public Function AppendAsDocLink (source As NotesDocument, ByVal fieldname$, linkcomment$, hotspottext$) As Boolean
@@ -2241,7 +2268,9 @@ ExitPoint:
 		
 		If (Len(Trim$(fieldname$)) = 0) Then fieldname$ = ITEMNAME_BODY
 		
-		If (Me.ndoc Is Nothing) Then Call Me.createLogDoc()
+'		If (Me.ndoc_ Is Nothing) Then If (Not Me.createLogDoc()) Then GoTo ExitPoint
+		If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
+		
 		If (Not Me.Save(True, False)) Then 
 			extendedInfo$ = |Could not save Log Document.|
 			Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED
@@ -2259,17 +2288,17 @@ ExitPoint:
 		End If 
 		
 		If (Len(Trim$(hotspottext)) = |0|) Then
-			body.AppendDocLink Me.ndoc, linkcomment$
+			body.AppendDocLink Me.TargetDocument, linkcomment$
 		Else
-			body.AppendDocLink Me.ndoc, linkcomment$, hotspottext$
+			body.AppendDocLink Me.TargetDocument, linkcomment$, hotspottext$
 		End If 
 		
 		' If here then no error occurred
 		result = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
@@ -2386,7 +2415,7 @@ ExitPoint:
 		Dim extended$ 
 		
 		If (Not Me.exists) Then GoTo ExitPoint
-		If (Me.nLog Is Nothing) Then Set Me.nLog = New NotesLog(Me.ProgramName)
+		If (Me.nlog_ Is Nothing) Then Set Me.nlog_ = New NotesLog(Me.ProgramName)
 		
 		If Not getCurrentSession().IsOnServer Then Error ERR_OPERATION_FAILED, _ 
 		MSG_OPERATION_FAILED & |LogEvent cannot be used by client-side code.|
@@ -2398,7 +2427,7 @@ ExitPoint:
 		enhLogExtendedContent ||, ||, |eventType = | & CStr(eventType%)
 		enhLogExtendedContent ||, ||, |eventType = | & CStr(severity%)
 		
-		Call Me.nLog.LogEvent(message$, queuename$, eventType%, severity%)
+		Call Me.nlog_.LogEvent(message$, queuename$, eventType%, severity%)
 		
 	ExitPoint:
 		Exit Sub
@@ -2588,15 +2617,15 @@ ExitPoint:
 			Set stream = enhLogGetProfiledMethodsXMLstream(False)
 			If (Not (stream Is Nothing)) Then
 				stream.Position = 0
-				Me.xmlnrti.AppendText |<?xml version="1.0"?>|
-				Me.xmlnrti.AddNewLine 1
+				Me.xmlnrti_.AppendText |<?xml version="1.0"?>|
+				Me.xmlnrti_.AddNewLine 1
 				
 				Do
-					Me.xmlnrti.AppendText stream.ReadText(STMREAD_LINE, EOL_NONE)
-					Me.xmlnrti.AddNewLine 1
+					Me.xmlnrti_.AppendText stream.ReadText(STMREAD_LINE, EOL_NONE)
+					Me.xmlnrti_.AddNewLine 1
 				Loop Until stream.IsEOS 
 				
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$HASXMLCONTENT|, 1)
+				Set nitm = Me.TargetDocument.ReplaceItemValue(|A$HASXMLCONTENT|, 1)
 				nitm.IsSummary = True
 			End If 
 		End If 
@@ -2732,15 +2761,16 @@ ExitPoint:
 		OpenNotesLog = result	
 		Exit Function
 	ErrorTrap:
-		On Error GoTo CriticalError
-		result = False
-		If (Me.myTargetDb Is Nothing) Then Set Me.myTargetDb = getCurrentDb()
-		enhLogException CLASS_PREFIX, extendedInfo$
-		Resume ExitPoint
-	CriticalError:
 		On Error GoTo 0
 		result = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If (Me.targetDb_ Is Nothing) Then Set Me.targetDb_ = getCurrentDb()
+		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, extendedInfo$
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 
 	End Function 
 	
 	
@@ -2750,27 +2780,30 @@ ExitPoint:
 		On Error GoTo ErrorTrap
 		
 		Dim nitm As NotesItem
-		Dim isRecursive As Boolean				
-
+		Dim isRecursive As Boolean		
+		
 		isRecursive = (GetThreadInfo(LIB_LSI_THREAD_PROC) = GetThreadInfo(LIB_LSI_THREAD_CALLPROC))
 		If isRecursive Then Me.saverecursions_ = Me.saverecursions_ + 1
 		
-		If (Not Me.exists) Then GoTo ExitPoint
+		If (Not Me.exists) Then GoTo ExitPoint 
+		If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
 		
 		Select Case Me.logType			
 			Case LOGTYPE_FILE, LOGTYPE_MAIL
-				result = True
+				result = True 
+				
+				' TODO NEED TO COMPLETE THE SAVE CODE HERE
 				
 			Case Else
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$ENDTIME|, Now)
+				Set nitm = Me.TargetDocument.ReplaceItemValue(|A$ENDTIME|, Now)
 				nitm.IsSummary = True		
 				
-				If enhLogContentToNotesLog Then 
-					Set nitm = Me.ndoc.ReplaceItemValue(|FinishTime|, Now)
+				If enhLogOutputToNotesLog Then 
+					Set nitm = Me.TargetDocument.ReplaceItemValue(|FinishTime|, Now)
 					nitm.IsSummary = True		
 				End If 
 				
-				result = Me.ndoc.Save(force, createResponse)
+				result = Me.TargetDocument.Save(force, createResponse)
 		End Select 
 		
 	ExitPoint:
@@ -2781,7 +2814,12 @@ ExitPoint:
 		On Error GoTo 0
 		result = False
 		Me.LogStackExceptions = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, extendedInfo$
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 
 	End Function 
 	
 	
@@ -2975,14 +3013,14 @@ ExitPoint:
 		Dim result As NotesDatabase
 		On Error GoTo ErrorTrap
 		
-		If (Me.myTargetDb Is Nothing) Then Error ERR_MISSING_DATABASE, MSG_MISSING_DATABASE
+		If (Me.targetDb_ Is Nothing) Then Error ERR_MISSING_DATABASE, MSG_MISSING_DATABASE
 		
 	ExitPoint:
-		Set TargetDatabase = Me.myTargetDb
+		Set TargetDatabase = Me.targetDb_
 		Exit Property
 	ErrorTrap:
 		On Error GoTo 0
-		Set Me.myTargetDb = getCurrentDb()
+		Set Me.targetDb_ = getCurrentDb()
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
 			enhLogException CLASS_PREFIX, ||
 			Resume ExitPoint 
@@ -3073,9 +3111,10 @@ ExitPoint:
 	
 	Public Property Set ProgramName As String
 		Dim nitm As NotesItem
-		If (Me.ndoc Is Nothing) Then Call Me.createLogDoc()
+		If (Me.TargetDocument Is Nothing) Then Exit Property
+		
 		Me.progName$ = ProgramName
-		Set nitm = Me.ndoc.ReplaceItemValue(|A$PROGNAME|, Me.progName$)
+		Set nitm = Me.TargetDocument.ReplaceItemValue(|A$PROGNAME|, Me.progName$)
 	End Property 
 	
 	Public Property Set ResumeOnLoggingFailure As Boolean
@@ -3086,7 +3125,7 @@ ExitPoint:
 		Dim sourceType As String
 		
 		If Not (Me.logType = LOGTYPE_MAIL) Then Error ERR_OPERATION_FAILED, _ 
-		MSG_OPERATION_FAILED & | LogSingleton object was not opened as a MailLog.|
+		MSG_OPERATION_FAILED & | Singleton object was not opened as a MailLog.|
 		
 		sourceType$ = TypeName(SendTo)
 		If Not ((sourceType$ = |STRING|) Or (sourceType$ = |STRING( )|)) Then _ 
@@ -3099,9 +3138,9 @@ ExitPoint:
 	
 	Public Property Set Subject As String
 		Dim nitm As NotesItem
+		If (Me.TargetDocument Is Nothing) Then Exit Property
 		
-		If (Me.ndoc Is Nothing) Then Call Me.createLogDoc()
-		Set nitm = Me.ndoc.ReplaceItemValue(|Subject|, Subject)
+		Set nitm = Me.TargetDocument.ReplaceItemValue(|Subject|, Subject)
 		nitm.IsSummary = True
 		Me.mySubject$ = Subject		
 	End Property 
@@ -3122,8 +3161,8 @@ ExitPoint:
 	End Property 
 	
 	Private Sub AddTimestamp (nrtstyle As NotesRichTextStyle)
-		Me.nrti.AppendStyle nrtstyle
-		Me.nrti.AppendText Format$(Now, FORMAT_TIMESTAMP) & | |
+		Me.nrti_.AppendStyle nrtstyle
+		Me.nrti_.AppendText Format$(Now, FORMAT_TIMESTAMP) & | |
 	End Sub 
 	
 	
@@ -3148,14 +3187,14 @@ ExitPoint:
 		
 		TrimString linkcomment$
 		TrimString HotSpotText$
-		Me.nrti.AppendText | |
+		Me.nrti_.AppendText | |
 		
 		If isBlankString(HotSpotText$) Then
-			Me.nrti.AppendDocLink linkTo, linkcomment$
+			Me.nrti_.AppendDocLink linkTo, linkcomment$
 		Else
-			Me.nrti.AppendDocLink linkTo, linkcomment$, HotSpotText$
+			Me.nrti_.AppendDocLink linkTo, linkcomment$, HotSpotText$
 		End If 
-		Me.nrti.AppendText | |
+		Me.nrti_.AppendText | |
 		
 	ExitPoint:
 		Me.myHasLinkInfo = False
@@ -3210,7 +3249,7 @@ ExitPoint:
 		TrimString path$
 		
 		Set ndbOld = Me.TargetDatabase
-		Set ndocOld = Me.ndoc
+		Set ndocOld = Me.ndoc_
 		
 		If Not IsElement(lstrLogTypes(newLogType)) Then 
 			extendedInfo$ = |Invalid Log Type: (| & CStr(newLogType) & |)| & Chr(10) 
@@ -3242,13 +3281,13 @@ ExitPoint:
 		
 		Select Case Me.LogType
 			Case LOGTYPE_AGENT
-				If Not (Me.nLog Is Nothing) Then Me.nLog.Close
-				Set Me.nLog = Nothing
+				If Not (Me.nlog_ Is Nothing) Then Me.nlog_.Close
+				Set Me.nlog_ = Nothing
 				If Me.hasEntries Then Me.Save False, False
 				
 			Case LOGTYPE_FILE
-				If Not (Me.nLog Is Nothing) Then Me.nLog.Close
-				Set Me.nLog = Nothing
+				If Not (Me.nlog_ Is Nothing) Then Me.nlog_.Close
+				Set Me.nlog_ = Nothing
 				
 			Case LOGTYPE_MAIL
 				If Me.hasEntries Then Me.Send
@@ -3264,18 +3303,18 @@ ExitPoint:
 		' Open the new log
 		Select Case newLogType
 			Case LOGTYPE_AGENT
-				If (Me.nLog Is Nothing) Then Set Me.nLog = New NotesLog(Me.ProgramName)
-				Me.nLog.OpenAgentLog
-				Me.nLog.LogAction lstrLogTypes(Me.logType) & | opened.|
+				If (Me.nlog_ Is Nothing) Then Set Me.nlog_ = New NotesLog(Me.ProgramName)
+				Me.nlog_.OpenAgentLog
+				Me.nlog_.LogAction lstrLogTypes(Me.logType) & | opened.|
 				
 			Case LOGTYPE_FILE
-				If (Me.nLog Is Nothing) Then Set Me.nLog = New NotesLog(Me.ProgramName)
+				If (Me.nlog_ Is Nothing) Then Set Me.nlog_ = New NotesLog(Me.ProgramName)
 				If isBlankString(path$) Then path$ = FILEPATH_LOGS
-				Me.nLog.OpenFileLog(path$)
-				Me.nLog.LogAction lstrLogTypes(Me.logType) & | opened.|
+				Me.nlog_.OpenFileLog(path$)
+				Me.nlog_.LogAction lstrLogTypes(Me.logType) & | opened.|
 				Me.logFilepath$ = path$ 
 				Call Me.AddBodyHeader_TargetNonNSF() 
-				Me.nLog.LogAction || 
+				Me.nlog_.LogAction || 
 				
 			Case LOGTYPE_MAIL
 				' do nothing 
@@ -3292,7 +3331,7 @@ ExitPoint:
 					Set ndbNew = getOpenDatabase(server$, path$)
 					If (ndbNew Is Nothing) Then GoTo ExitPoint
 					
-					Set Me.myTargetDb = ndbNew
+					Set Me.targetDb_ = ndbNew
 					Call Me.createLogDoc()
 					
 					server$ = Me.TargetDatabase.Server 
@@ -3310,31 +3349,36 @@ ExitPoint:
 		ChangeLogType = result
 		Exit Function
 	ErrorTrap:
+		On Error GoTo 0
+
+		result = False
+		Set Me.targetDb_ = ndbOld
+		Set Me.ndoc_ = ndocOld
+		
 		%REM
 			Explicity change to LOGTYPE_NOTES to ensure that this exception is logged for later analysis.
 		%END REM
-		On Error GoTo CriticalError
-		result = False
-		Set Me.myTargetDb = ndbOld
-		Set Me.ndoc = ndocOld
-		Me.logType = LOGTYPE_NOTES ' Change to NotesLog 
-		Me.ndoc.Form = enhLogGetNotesLogForm()
-		enhLogException CLASS_PREFIX, |Forced Log Type change to | & lstrLogTypes(LOGTYPE_NOTES) & |.|
-		Resume ExitPoint
-	CriticalError:
-		On Error GoTo 0
-		result = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		Me.logType = LOGTYPE_NOTES
+		If Not (Me.ndoc_ Is Nothing) Then Me.ndoc_.Form = enhLogGetNotesLogForm()
+		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, extendedInfo$
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 
 	End Function 
 	
 	
-	Private Sub createLogDoc
+	Private Function createLogDoc() As Boolean
 		Dim subject As String
+		
+		Dim result As Boolean 
 		
 		On Error GoTo ErrorTrap
 		
-		Set Me.ndoc = generateLogDoc(Me.acl, Me.TargetDatabase, Me.UserName, Me.UserRoles, Me.StartTime, Me.progName$, Me.dbServer$, Me.dbTitle$, Me.dbFilepath$, subject$, Me.myNotesVersion$, Me.ResumeOnLoggingFailure) 
-		If (Me.ndoc Is Nothing) Then GoTo ExitPoint 
+		Set Me.ndoc_ = generateLogDoc(Me.acl, Me.TargetDatabase, Me.UserName, Me.UserRoles, Me.StartTime, Me.progName$, Me.dbServer$, Me.dbTitle$, Me.dbFilepath$, subject$, Me.myNotesVersion$, Me.ResumeOnLoggingFailure) 
+		If (Me.ndoc_ Is Nothing) Then GoTo ExitPoint 
 
 		me.hasLoggedAction = False 
 		me.hasLoggedException = False 
@@ -3345,12 +3389,20 @@ ExitPoint:
 		Call Me.setBody() 
 		If Me.AutoSave Then enhLogAction CLASS_PREFIX, |Created Log Doc (AutoSave: True)|
 		
+		result = True ' success
+		
 	ExitPoint:
-		Exit Sub
+		createLogDoc = result
+		Exit Function
 	ErrorTrap:
 		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
-	End Sub 
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 
+	End Function 
 	
 	
 	Private Sub initializeRTStyles()
@@ -3420,7 +3472,7 @@ ExitPoint:
 	
 	Private Sub ResetDocument (target As NotesDocument)
 		If (target Is Nothing) Then Exit Sub
-		Set Me.ndoc = target
+		Set Me.ndoc_ = target
 		Call Me.setBody()
 	End Sub 
 	
@@ -3433,7 +3485,8 @@ ExitPoint:
 		On Error GoTo ErrorTrap
 		
 		If (Not Me.exists) Then GoTo ExitPoint
-		If Not (Me.logType = LOGTYPE_MAIL) Then GoTo ExitPoint
+		If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
+		If Not (Me.logType = LOGTYPE_MAIL) Then GoTo ExitPoint 
 		
 		extendedcontent$ = |Attempting to send MailLog to: |
 		sourceType$ = TypeName(Me.varSendTo)
@@ -3446,31 +3499,34 @@ ExitPoint:
 				extendedcontent$ = extendedContent & Join(Me.varSendTo, |, |) & |.|
 		End Select 	
 		
-		Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_FORM, FORMNAME_MEMO)
+		Set nitm = Me.TargetDocument.ReplaceItemValue(ITEMNAME_FORM, FORMNAME_MEMO)
 		
 		If Me.hasEntries Then enhLogAction CLASS_PREFIX, |Sending | & _ 
 		lstrLogTypes(Me.logType)
 		
 		Me.Subject = Me.mySubject$
-		Me.ndoc.Send False, Me.varSendTo
+		Me.TargetDocument.Send False, Me.varSendTo
 		
 	ExitPoint:
 		Exit Sub
 	ErrorTrap:
+		On Error GoTo 0
+		
 		%REM
 			Explicity change (instead of calling ChangeLogType methodname) to LOGTYPE_NOTES 
 			to ensure that this exception is logged for later analysis.
 		%END REM
-		On Error GoTo CriticalError
-		Me.logType = LOGTYPE_NOTES 	' Change to NotesLog 
-		Me.ndoc.Form = enhLogGetNotesLogForm()
+		Me.logType = LOGTYPE_NOTES 	 
+		If Not (Me.ndoc_ Is Nothing) Then Me.ndoc_.Form = enhLogGetNotesLogForm()
 		extendedcontent$ = extendedcontent$ & Chr(10) & _ 
 		|Forced Log Type change to | & lstrLogTypes(LOGTYPE_NOTES) & |.|
-		enhLogException CLASS_PREFIX, extendedcontent$
-		Resume ExitPoint
-	CriticalError:
-		On Error GoTo 0
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, extendedcontent$
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If 
 	End Sub 
 	
 
@@ -3479,76 +3535,78 @@ ExitPoint:
 		Dim roles$ 
 		Dim role$ 
 
-		If (Me.nrti Is Nothing) Then 
-			If Me.ndoc.HasItem(ITEMNAME_BODY) Then
-				Set Me.nrti = Me.ndoc.GetFirstItem(ITEMNAME_BODY)
+		If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
+
+		If (Me.nrti_ Is Nothing) Then 
+			If Me.ndoc_.HasItem(ITEMNAME_BODY) Then
+				Set Me.nrti_ = Me.ndoc_.GetFirstItem(ITEMNAME_BODY)
 			Else
-				Set Me.nrti = New NotesRichTextItem(Me.ndoc, ITEMNAME_BODY)
+				Set Me.nrti_ = New NotesRichTextItem(Me.ndoc_, ITEMNAME_BODY)
 			End If 
 		End If 
 
-		Me.nrti.AppendParagraphStyle nrtparastyle
+		Me.nrti_.AppendParagraphStyle nrtparastyle
 		
 		
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText Me.progName$
-		Me.nrti.AddNewLine 2
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText Me.progName$
+		Me.nrti_.AddNewLine 2
 		
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |LogID: |
-		Me.nrti.AddTab 2
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader
-		Me.nrti.AppendText Me.ndoc.Universalid
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText |LogID: |
+		Me.nrti_.AddTab 2
+		Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+		Me.nrti_.AppendText Me.ndoc_.Universalid
+		Me.nrti_.AddNewLine 1
 		
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |User: |
-		Me.nrti.AddTab 2
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader
-		Me.nrti.AppendText Me.UserNameAbbrev
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText |User: |
+		Me.nrti_.AddTab 2
+		Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+		Me.nrti_.AppendText Me.UserNameAbbrev
+		Me.nrti_.AddNewLine 1
 
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Server: |
-		Me.nrti.AddTab 2
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader
-		Me.nrti.AppendText Me.dbServer$
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText |Server: |
+		Me.nrti_.AddTab 2
+		Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+		Me.nrti_.AppendText Me.dbServer$
+		Me.nrti_.AddNewLine 1
 
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Db Title: |
-		Me.nrti.AddTab 2
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader
-		Me.nrti.AppendText Me.dbTitle$
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText |Db Title: |
+		Me.nrti_.AddTab 2
+		Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+		Me.nrti_.AppendText Me.dbTitle$
+		Me.nrti_.AddNewLine 1
 		
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Db Filepath: |
-		Me.nrti.AddTab 2
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader
-		Me.nrti.AppendText Me.dbFilepath$
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText |Db Filepath: |
+		Me.nrti_.AddTab 2
+		Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+		Me.nrti_.AppendText Me.dbFilepath$
+		Me.nrti_.AddNewLine 1
 		
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Replica ID: |
-		Me.nrti.AddTab 2
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader
-		Me.nrti.AppendText Me.dbRepID$
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText |Replica ID: |
+		Me.nrti_.AddTab 2
+		Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+		Me.nrti_.AppendText Me.dbRepID$
+		Me.nrti_.AddNewLine 1
 		
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |Version: |
-		Me.nrti.AddTab 2
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader
-		Me.nrti.AppendText Me.myNotesVersion$
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText |Version: |
+		Me.nrti_.AddTab 2
+		Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+		Me.nrti_.AppendText Me.myNotesVersion$
+		Me.nrti_.AddNewLine 1
 		
-		Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-		Me.nrti.AppendText |ACL Level: |
-		Me.nrti.AddTab 2
-		Me.nrti.AppendStyle Me.nrtStyleTableHeader
-		Me.nrti.AppendText getACLlevel(Me.acl)
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+		Me.nrti_.AppendText |ACL Level: |
+		Me.nrti_.AddTab 2
+		Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+		Me.nrti_.AppendText getACLlevel(Me.acl)
+		Me.nrti_.AddNewLine 1
 
 
 		If IsArray(me.userRoles) Then
@@ -3566,15 +3624,18 @@ ExitPoint:
 
 		
 		If isBlankString(roles$) Then
-			Me.nrti.AddNewLine 1
+			Me.nrti_.AddNewLine 1
 		Else  
-			Me.nrti.AppendStyle Me.nrtstyleTableHeaderLabel
-			Me.nrti.AppendText |ACL Roles|
-			Me.nrti.AddTab 1
-			Me.nrti.AppendStyle Me.nrtStyleTableHeader
-			Me.nrti.AppendText roles$ 
-			Me.nrti.AddNewLine 2
+			Me.nrti_.AppendStyle Me.nrtstyleTableHeaderLabel
+			Me.nrti_.AppendText |ACL Roles|
+			Me.nrti_.AddTab 1
+			Me.nrti_.AppendStyle Me.nrtStyleTableHeader
+			Me.nrti_.AppendText roles$ 
+			Me.nrti_.AddNewLine 2
 		End If 
+		
+	ExitPoint:
+		Exit Sub 
 	End Sub
 
 
@@ -3583,14 +3644,14 @@ ExitPoint:
 		Dim roles$ 
 		Dim role$ 
 
-		Me.nLog.LogAction |Program: | & Me.ProgramName	
-		Me.nLog.LogAction |User: | & Me.UserNameAbbrev
-		Me.nLog.LogAction |Server: | & Me.Server
-		Me.nLog.LogAction |Db Title: | & Me.dbTitle$ 
-		Me.nLog.LogAction |Db Filepath: | & Me.Filepath
-		Me.nLog.LogAction |Replica ID: | & Me.dbRepID$
-		Me.nLog.LogAction |Notes Version: | & Me.myNotesVersion$
-		Me.nLog.LogAction |ACL Level: | & getACLlevel(Me.acl)
+		Me.nlog_.LogAction |Program: | & Me.ProgramName	
+		Me.nlog_.LogAction |User: | & Me.UserNameAbbrev
+		Me.nlog_.LogAction |Server: | & Me.Server
+		Me.nlog_.LogAction |Db Title: | & Me.dbTitle$ 
+		Me.nlog_.LogAction |Db Filepath: | & Me.Filepath
+		Me.nlog_.LogAction |Replica ID: | & Me.dbRepID$
+		Me.nlog_.LogAction |Notes Version: | & Me.myNotesVersion$
+		Me.nlog_.LogAction |ACL Level: | & getACLlevel(Me.acl)
 
 		If IsArray(me.userRoles) Then
 			ForAll s In me.userRoles 
@@ -3607,7 +3668,7 @@ ExitPoint:
 
 		
 		If Not isBlankString(roles$) Then
-			Me.nLog.LogAction |ACL Roles: | & roles$
+			Me.nlog_.LogAction |ACL Roles: | & roles$
 		End If 
 	End Sub
 	
@@ -3615,38 +3676,48 @@ ExitPoint:
 	Private Sub setBody()
 		Call Me.initializeRTStyles()
 		
-		If Me.ndoc.HasItem(ITEMNAME_BODY) Then
-			Set Me.nrti = Me.ndoc.GetFirstItem(ITEMNAME_BODY)
-			Me.nrti.AppendParagraphStyle nrtparastyle
+		If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
+		
+		If Me.ndoc_.HasItem(ITEMNAME_BODY) Then
+			Set Me.nrti_ = Me.ndoc_.GetFirstItem(ITEMNAME_BODY)
+			Me.nrti_.AppendParagraphStyle nrtparastyle
 
 		Else
-			Set Me.nrti = New NotesRichTextItem(Me.ndoc, ITEMNAME_BODY)
+			Set Me.nrti_ = New NotesRichTextItem(Me.ndoc_, ITEMNAME_BODY)
 			
-			If enhLogContentToNotesLog Then Call Me.AddBodyHeader_NotesDocument()
-			Me.nrti.AppendParagraphStyle nrtparastyle
+			If enhLogOutputToNotesLog Then Call Me.AddBodyHeader_NotesDocument()
+			Me.nrti_.AppendParagraphStyle nrtparastyle
 
 			If Not Me.isSpanningLogDocs Then
-				Me.nrti.AppendParagraphStyle nrtparastyle
-				Me.nrti.AppendStyle Me.nrtstyleMethodResult
-				Me.nrti.AppendText Format$(Now, FORMAT_TIMESTAMP) & | |
-				Me.nrti.AddTab 2 
-				Me.nrti.AppendText |LotusScript Started|
-				Me.nrti.AddNewLine 2 				
+				Me.nrti_.AppendParagraphStyle nrtparastyle
+				Me.nrti_.AppendStyle Me.nrtstyleMethodResult
+				Me.nrti_.AppendText Format$(Now, FORMAT_TIMESTAMP) & | |
+				Me.nrti_.AddTab 2 
+				Me.nrti_.AppendText |LotusScript Started|
+				Me.nrti_.AddNewLine 2 				
 			End If 
-		End If 
+		End If
+		 
+	ExitPoint:
+		Exit Sub 
 	End Sub 
 	
 	
 	Private Sub SetXMLcontent()
 		Call Me.initializeRTStyles()
 		
-		If Me.ndoc.HasItem(ITEMNAME_XMLCONTENT) Then
-			Set Me.xmlnrti = Me.ndoc.GetFirstItem(ITEMNAME_XMLCONTENT)
+		If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
+		
+		If Me.ndoc_.HasItem(ITEMNAME_XMLCONTENT) Then
+			Set Me.xmlnrti_ = Me.ndoc_.GetFirstItem(ITEMNAME_XMLCONTENT)
 		Else
-			Set Me.xmlnrti = New NotesRichTextItem(Me.ndoc, ITEMNAME_XMLCONTENT)
+			Set Me.xmlnrti_ = New NotesRichTextItem(Me.ndoc_, ITEMNAME_XMLCONTENT)
 			
-			If (Not Me.isSpanningLogDocs) Then 	Me.xmlnrti.AppendStyle Me.nrtstyleXMLcontent 
+			If (Not Me.isSpanningLogDocs) Then 	Me.xmlnrti_.AppendStyle Me.nrtstyleXMLcontent 
 		End If 
+		
+	ExitPoint:
+		Exit Sub 
 	End Sub 
 	
 	
@@ -3665,13 +3736,19 @@ ExitPoint:
 	
 	Private Sub SizeCheck()
 		If (Me.isSpanningLogDocs _ 
-		Or (Me.logType = LOGTYPE_FILE)) _ 
-		Or (Me.ndoc.Size <= LOG_DOC_MAX_SIZE) Then Exit Sub
+		Or (Me.logType = LOGTYPE_FILE)) Then GoTo ExitPoint 
+		
+		If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
+		If (Me.ndoc_.Size <= LOG_DOC_MAX_SIZE) GoTo ExitPoint 
 		
 		Call Me.spanLogDocument(|Previous Log document exceeds maximum size.  |, _ 
 		|Link to Previous Log document.  |, _ 
 		|This log document exceeds maximum size.  |, _ 
 		|Link to Next Log document.  |)
+		
+	ExitPoint:
+		Exit Sub 
+		
 	End Sub 
 	
 	Private Function spanLogDocument(descripPrev$, commentPrev$, descripNext$, commentNext$) As Boolean
@@ -3692,21 +3769,23 @@ ExitPoint:
 			Call Me.logAction(descripPrev$)
 
 		Else
-			Call Me.Save(False, False)
-			Set ndocTempOld = Me.ndoc
+			Call Me.Save(False, False) 
+			If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
+			
+			Set ndocTempOld = Me.ndoc_
 			Sleep(1) ' Forces a timestamp difference of 1 second between logs
 			Call Me.createLogDoc()
-			Me.nrti.AddNewLine 1
+			Me.nrti_.AddNewLine 1
 			Set ele = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, descripPrev$, ||, ndocTempOld, commentPrev$, ||, 0, ||, 0, ||, Nothing)
 			me.writeEntry_NotesDocument ele 
-			Me.nrti.AddNewLine 1
+			Me.nrti_.AddNewLine 1
 						
 			Call Me.Save(False, False)
 			
-			Set ndocTempNew = Me.ndoc
+			Set ndocTempNew = Me.ndoc_
 			Call Me.ResetDocument(ndocTempOld)
-			Set Me.nrti = Me.ndoc.getFirstItem(ITEMNAME_BODY)
-			Me.nrti.AddNewLine 1
+			Set Me.nrti_ = Me.ndoc_.getFirstItem(ITEMNAME_BODY)
+			Me.nrti_.AddNewLine 1
 
 			Set ele = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, descripNext$, ||, ndocTempNew, commentNext$, ||, 0, ||, 0, ||, Nothing)
 			me.writeEntry_NotesDocument ele 
@@ -3743,7 +3822,6 @@ ExitPoint:
 		
 		On Error GoTo ErrorTrap
 
-		Stop
 		currentError.timestamp = Format$(Now, FORMAT_TIMESTAMP) 
 		currentError.message = Error$()
 		currentError.code = Err() 
@@ -3851,51 +3929,51 @@ ExitPoint:
 		
 		
 		' BEGIN CODE 
-		If (Me.nLog Is Nothing) Then Call Me.OpenFileLog(FILEPATH_LOGS)
+		If (Me.nlog_ Is Nothing) Then Call Me.OpenFileLog(FILEPATH_LOGS)
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION: 
 				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |)|
 				If (Len(entry.ErrorMessage) > 0) Then temp$ = temp$ & entry.ErrorMessage 
-				Me.nLog.LogError entry.ErrorCode, temp$
+				Me.nlog_.LogError entry.ErrorCode, temp$
 				
 				If entry.hasLink Then 
 					Set linkTo = entry.LinkTo 
-					Me.nlog.LogAction entry.LinkComment & | | & linkTo.NotesURL 
+					Me.nlog_.LogAction entry.LinkComment & | | & linkTo.NotesURL 
 				End If 
 				
-				If (Len(entry.Message) > 0) Then Me.nLog.logAction entry.Message 
+				If (Len(entry.Message) > 0) Then Me.nlog_.logAction entry.Message 
 
 				
 			Case Else: 
 				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
-				Me.nLog.LogAction entry.Message	
+				Me.nlog_.LogAction entry.Message	
 				
 				If entry.hasLink Then 
-					Me.nrti.AddTab 1
+					Me.nrti_.AddTab 1
 					Set linkTo = entry.LinkTo 
-					Me.nlog.LogAction entry.LinkComment & | | & linkTo.NotesURL 
+					Me.nlog_.LogAction entry.LinkComment & | | & linkTo.NotesURL 
 				End If 
 		End Select
 
 
 		' EXTENDED CONTENT 
-		If Not isBlankString(entry.ExtendedContent) Then Me.nLog.LogAction entry.ExtendedContent 
+		If Not isBlankString(entry.ExtendedContent) Then Me.nlog_.LogAction entry.ExtendedContent 
 
 
 		' STACK TRACE
 		If Not (entry.StackTrace Is Nothing) Then 
 			If Me.LogStackExceptions Then 
 				If Me.LogStackExceptions Then
-					Me.nLog.LogAction |Method Stack:|
+					Me.nlog_.LogAction |Method Stack:|
 					Set st = entry.StackTrace 
 					
 					ForAll stackentry In st.Content 
 						ste = stackentry 
-						Me.nLog.LogAction Chr(9) & ste.methodname & |()  Line #| & ste.linenumber & |  |
+						Me.nlog_.LogAction Chr(9) & ste.methodname & |()  Line #| & ste.linenumber & |  |
 					End ForAll
 				End If
 			Else
-				Me.nLog.LogAction |Stack Logging is Disabled| 
+				Me.nlog_.LogAction |Stack Logging is Disabled| 
 			End If 					
 		End If
 		
@@ -3937,7 +4015,8 @@ ExitPoint:
 		
 		
 		' BEGIN CODE 
-		If (Me.ndoc Is Nothing) Then Call Me.createLogDoc()
+		If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
+		
 		Call Me.SizeCheck()
 		
 		writecount = me.writecount_ + 1
@@ -3946,21 +4025,21 @@ ExitPoint:
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION:
 				If Not Me.hasLoggedException Then 
-					Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Error|)
+					Set nitm = Me.ndoc_.ReplaceItemValue(|A$LOGTYPE|, |Error|)
 					nitm.IsSummary = True
 					
-					Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_HASERRORS, 1)
+					Set nitm = Me.ndoc_.ReplaceItemValue(ITEMNAME_HASERRORS, 1)
 					nitm.IsSummary = True
 				End If 
 				
 				' Set the error information items
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$ERRCODE|, CStr(entry.ErrorCode))
+				Set nitm = Me.ndoc_.ReplaceItemValue(|A$ERRCODE|, CStr(entry.ErrorCode))
 				nitm.IsSummary = True
 				
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$ERRMSG|, entry.ErrorMessage)
+				Set nitm = Me.ndoc_.ReplaceItemValue(|A$ERRMSG|, entry.ErrorMessage)
 				nitm.IsSummary = True
 				
-				Set nitm = Me.ndoc.ReplaceItemValue(|A$description|, entry.Message)
+				Set nitm = Me.ndoc_.ReplaceItemValue(|A$description|, entry.Message)
 				nitm.IsSummary = True
 				
 				hasCode = (entry.ErrorCode > 0)
@@ -3968,33 +4047,33 @@ ExitPoint:
 				hasLine = (entry.ErrorLine > 0)
 				hasMethod = (Len(entry.ErrorMethod) > 0)
 				
-				Me.nrti.AddNewLine 1 
+				Me.nrti_.AddNewLine 1 
 				
 				' Append the Error information to the RichTextItem
 				If (hasCode Or hasMsg) Then Me.AddTimestamp nrtstyleTimestampError
 				
-				Me.nrti.AppendStyle nrtstyleError
+				Me.nrti_.AppendStyle nrtstyleError
 				
-				If hasCode Then Me.nrti.AppendText |Error | & CStr(entry.ErrorCode) & |: |			
-				If hasMsg Then Me.nrti.AppendText entry.ErrorMessage		
+				If hasCode Then Me.nrti_.AppendText |Error | & CStr(entry.ErrorCode) & |: |			
+				If hasMsg Then Me.nrti_.AppendText entry.ErrorMessage		
 				
 				If entry.hasLink Then 
-					Me.nrti.AddTab 1
+					Me.nrti_.AddTab 1
 					Set linkTo = entry.LinkTo 
 					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
 				
-				If (hasLine Or hasMethod) Then Me.nrti.AddNewLine 1
+				If (hasLine Or hasMethod) Then Me.nrti_.AddNewLine 1
 				
-				If (hasMethod) Then Me.nrti.AppendText(entry.ErrorMethod & |();  |)
-				If (hasLine) Then Me.nrti.AppendText(|line | & CStr(entry.ErrorLine))
+				If (hasMethod) Then Me.nrti_.AppendText(entry.ErrorMethod & |();  |)
+				If (hasLine) Then Me.nrti_.AppendText(|line | & CStr(entry.ErrorLine))
 				
-				Me.nrti.AddNewLine 1
+				Me.nrti_.AddNewLine 1
 								
 				If (Len(entry.Message) > 0) Then
-					Me.nrti.AppendStyle nrtstyleErrorExtended
-					Me.nrti.AppendText entry.Message
-					Me.nrti.AddNewLine 1
+					Me.nrti_.AppendStyle nrtstyleErrorExtended
+					Me.nrti_.AppendText entry.Message
+					Me.nrti_.AddNewLine 1
 				End If 
 				
 				Me.hasLoggedException = True
@@ -4002,24 +4081,24 @@ ExitPoint:
 				
 			Case LOGENTRY_TYPE_WARNING: 
 				If Not Me.hasLoggedWarning Then 
-					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
+					Set nitm = Me.ndoc_.ReplaceItemValue(|A$ACTION|, entry.Message)
 					nitm.IsSummary = True
 					
-					Set nitm = Me.ndoc.ReplaceItemValue(ITEMNAME_HASWARNINGS, 1)
+					Set nitm = Me.ndoc_.ReplaceItemValue(ITEMNAME_HASWARNINGS, 1)
 					nitm.IsSummary = True
 					
 					If Not Me.hasErrors Then 
-						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Warning|)
+						Set nitm = Me.ndoc_.ReplaceItemValue(|A$LOGTYPE|, |Warning|)
 						nitm.IsSummary = True
 					End If 
 				End If 
 				
 				Me.AddTimestamp nrtstyleTimestampWarning
-				Me.nrti.AppendStyle nrtstyleWarning
-				Me.nrti.AppendText |Warning: | & entry.Message
+				Me.nrti_.AppendStyle nrtstyleWarning
+				Me.nrti_.AppendText |Warning: | & entry.Message
 				
 				If entry.hasLink Then 
-					Me.nrti.AddTab 1
+					Me.nrti_.AddTab 1
 					Set linkTo = entry.LinkTo 
 					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
@@ -4028,24 +4107,24 @@ ExitPoint:
 				
 			Case LOGENTRY_TYPE_EXTENDED: 
 				If Not Me.hasLoggedAction Then
-					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
+					Set nitm = Me.ndoc_.ReplaceItemValue(|A$ACTION|, entry.Message)
 					nitm.IsSummary = True
 					
 					If Not (Me.hasErrors Or Me.hasWarnings) Then 
-						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
+						Set nitm = Me.ndoc_.ReplaceItemValue(|A$LOGTYPE|, |Action|)
 						nitm.IsSummary = True
 					End If 
 				End If 
 
 				If Not isBlankString(entry.Message) Then 					
 					Me.AddTimestamp nrtstyleTimestampExtended
-					Me.nrti.AppendStyle nrtstyleExtendedContent
-					Me.nrti.AppendText entry.Message
-					If Not isBlankString(entry.ExtendedContent) Then Me.nrti.AddNewLine 1
+					Me.nrti_.AppendStyle nrtstyleExtendedContent
+					Me.nrti_.AppendText entry.Message
+					If Not isBlankString(entry.ExtendedContent) Then Me.nrti_.AddNewLine 1
 				End If
 				
 				If entry.hasLink Then 
-					Me.nrti.AddTab 1
+					Me.nrti_.AddTab 1
 					Set linkTo = entry.LinkTo 
 					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
@@ -4055,11 +4134,11 @@ ExitPoint:
 			Case Else: 
 				' LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT
 				If Not Me.hasLoggedAction Then
-					Set nitm = Me.ndoc.ReplaceItemValue(|A$ACTION|, entry.Message)
+					Set nitm = Me.ndoc_.ReplaceItemValue(|A$ACTION|, entry.Message)
 					nitm.IsSummary = True
 					
 					If Not Me.hasErrors Then 
-						Set nitm = Me.ndoc.ReplaceItemValue(|A$LOGTYPE|, |Action|)
+						Set nitm = Me.ndoc_.ReplaceItemValue(|A$LOGTYPE|, |Action|)
 						nitm.IsSummary = True
 					End If 
 				End If 
@@ -4067,15 +4146,15 @@ ExitPoint:
 				Me.AddTimestamp nrtstyleTimestampNormal
 
 				If (LOGENTRY_TYPE_METHODRESULT = entry.LogEntryType) Then 
-					Me.nrti.AppendStyle nrtstyleMethodResult
+					Me.nrti_.AppendStyle nrtstyleMethodResult
 				Else 
 					' assume LOGENTRY_TYPE_ACTION
-					Me.nrti.AppendStyle nrtstyleAction
+					Me.nrti_.AppendStyle nrtstyleAction
 				End If
 				
-				Me.nrti.AppendText entry.Message
+				Me.nrti_.AppendText entry.Message
 				If entry.hasLink Then 
-					Me.nrti.AddTab 1
+					Me.nrti_.AddTab 1
 					Set linkTo = entry.LinkTo 
 					Call Me.AppendDocLink(linkTo.NotesObject, entry.LinkComment, entry.HotSpotText)
 				End If 
@@ -4085,37 +4164,37 @@ ExitPoint:
 
 		' EXTENDED CONTENT 
 		If Not isBlankString(entry.ExtendedContent) Then
-			Me.nrti.AddTab 2
-			Me.nrti.AppendStyle nrtstyleExtendedContent
-			Me.nrti.AppendText entry.ExtendedContent
+			Me.nrti_.AddTab 2
+			Me.nrti_.AppendStyle nrtstyleExtendedContent
+			Me.nrti_.AppendText entry.ExtendedContent
 		End If 
 
 
 		' STACK TRACE
 		If Not (entry.StackTrace Is Nothing) Then 
-			Me.nrti.AppendStyle Me.nrtstyleErrorExtended 
+			Me.nrti_.AppendStyle Me.nrtstyleErrorExtended 
 			If Me.LogStackExceptions Then 
-				Me.nrti.AppendText |Method Stack:|
-				Me.nrti.AddNewLine 1 
-				Me.nrti.AppendStyle Me.nrtstyleErrorExtended 
+				Me.nrti_.AppendText |Method Stack:|
+				Me.nrti_.AddNewLine 1 
+				Me.nrti_.AppendStyle Me.nrtstyleErrorExtended 
 				Set st = entry.StackTrace 
 				
 				ForAll stackentry In st.Content 
 					ste = stackentry 
-					Me.nrti.AddTab 1	
-					Me.nrti.AppendText ste.methodname & |()  Line #| & ste.linenumber & |  |
-					Me.nrti.AddNewLine 1								
+					Me.nrti_.AddTab 1	
+					Me.nrti_.AppendText ste.methodname & |()  Line #| & ste.linenumber & |  |
+					Me.nrti_.AddNewLine 1								
 				End ForAll
 
-				Me.nrti.AddNewLine 1
+				Me.nrti_.AddNewLine 1
 			Else
-				Me.nrti.AppendText |Stack Logging is Disabled| 
-				Me.nrti.AddNewLine 2
+				Me.nrti_.AppendText |Stack Logging is Disabled| 
+				Me.nrti_.AddNewLine 2
 			End If 					
 		End If
 		
 	
-		Me.nrti.AddNewLine 1
+		Me.nrti_.AddNewLine 1
 		If Me.AutoSave Then Me.Save False, False				
 
 
@@ -4584,7 +4663,7 @@ Public Class EnhancedLog
 		errcode% = 0
 		extendedInfo$ = |Program Name: | & programname$
 		
-		If (singleton_ Is Nothing) Then Set singleton_ = New LogSingleton(programname$)
+		If (singleton_ Is Nothing) Then Set singleton_ = New Singleton(programname$)
 		
 	ExitPoint:
 		If (errcode% <> 0) Then Error errcode%, errmsg$
@@ -4597,10 +4676,7 @@ Public Class EnhancedLog
 		Resume ExitPoint		
 	End Sub 
 End Class 	
-'++LotusScript Development Environment:2:2:Initialize:7:10
-
-
-
+'++LotusScript Development Environment:2:2:Initialize:4:10
 
 
 
@@ -7270,14 +7346,7 @@ ErrorTrap:
 	Resume ExitPoint 
 End Function 
 
-'++LotusScript Development Environment:2:1:generateLogDoc:9:8
-
-
-
-
-
-
-
+'++LotusScript Development Environment:2:1:generateLogDoc:2:8
 
 Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesName, userroles As Variant, start As NotesDateTime, progname$, server$, title$, filepath$, subject$, notesversion$, resumeonfail As Boolean) As NotesDocument
 	Dim nnam As NotesName 
@@ -7292,18 +7361,16 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 	Dim errmsg$ 
 	Dim errcode%
 	
-	Static recursionLevel As Integer 
+	Static calldepth As Integer 
 	
 	On Error GoTo ErrorTrap
-	Stop
 	
-	recursionLevel = recursionLevel + 1 
-	If (recursionLevel > 1) Then GoTo ExitPoint 
+	calldepth = calldepth + 1 
+	If (calldepth > 1) Then GoTo ExitPoint 
 	
-	
-	If (ndb Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |  ndb Is Nothing| 
-	If (username Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |  username Is Nothing| 
-	If (start Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |  start Is Nothing| 
+	If (ndb Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |ndb Is Nothing| 
+	If (username Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |username Is Nothing| 
+	If (start Is Nothing) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |start Is Nothing| 
 
 	accesslevel$ = getACLlevel(acl%) 
 	
@@ -7361,7 +7428,7 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 	
 	Set nitm = result.replaceItemValue(|A$NOTESVERSION|, notesversion$) 
 	
-	If enhLogContentToNotesLog Then 
+	If enhLogOutputToNotesLog Then 
 		Set nnam = New NotesName(getCurrentSession().EffectiveUserName) 
 		Set nitm = result.replaceItemValue(|StartTime|, start) 
 		Set nitm = result.replaceItemValue(|Server|, nnam.Abbreviated) ' poor choice of field names 
@@ -7376,7 +7443,7 @@ Private Function generateLogDoc(acl%, ndb As NotesDatabase, username As NotesNam
 ExitPoint:
 	If (errcode% <> 0) Then Error errcode%, errmsg$ 
 	Set generateLogDoc = result
-	recursionLevel = recursionLevel - 1
+	calldepth = calldepth - 1
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
@@ -7385,16 +7452,17 @@ ErrorTrap:
 	errmsg$ = LIB_PREFIX & |generateLogDoc(): | & Error$() & |, Line #| & CStr(Erl())
 	
 	msgtitle$ = |Error | & CStr(Err()) & | at line: | & CStr(Erl())
-	msg$ = LIB_PREFIX & |generateLogDoc()  | & Chr(10) & _ 
+	
+	msg$ = LIB_PREFIX & |generateLogDoc()  | & _ 
 	|Calling Method: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) & _ 
-	|  | & Chr(10) & Error()
+	Chr(10) & |Call Depth: | & CStr(calldepth) & _ 
+	Chr(10) & Error()
 	
 	If getCurrentSession().IsOnServer Then 
 		MessageBox msgtitle$ & Chr(10) & msg$
 	Else
 		MessageBox msg$, 16, msgtitle$	
 	End If 
-	enhLogException LIB_PREFIX, ||
 	Resume ExitPoint 
 End Function 
 
@@ -7950,6 +8018,19 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
