@@ -3273,8 +3273,11 @@ ExitPoint:
 
 			If Not (Me.TargetDatabase Is Nothing) Then 
 				server$ = Me.TargetDatabase.Server 
-				If isBlankString(server$) Then server$ = |[LocalClient]| 
-				enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: | & server$ & |!!| & Me.TargetDatabase.Filepath 
+				If isBlankString(server$) Then 
+					enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: [LocalClient]!!| & Me.TargetDatabase.Filepath
+				Else 
+					enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: | & server$ & |!!| & Me.TargetDatabase.Filepath
+				End If  
 			End If 
 		End If 
 
@@ -3335,9 +3338,11 @@ ExitPoint:
 					Call Me.createLogDoc()
 					
 					server$ = Me.TargetDatabase.Server 
-					If isBlankString(server$) Then server$ = |[LocalClient]| 
-					enhLogAction CLASS_PREFIX, |Opened NotesLog | & server$ & |!!| & Me.TargetDatabase.Filepath
-					
+					If isBlankString(server$) Then 
+						enhLogAction CLASS_PREFIX, |Opened NotesLog: [LocalClient]!!| & Me.TargetDatabase.Filepath
+					Else 
+						enhLogAction CLASS_PREFIX, |Opened NotesLog: | & server$ & |!!| & Me.TargetDatabase.Filepath
+					End If  
 					Set Me.ndtStartTime = New NotesDateTime(Now)
 				End If 
 		End Select 	
@@ -7130,6 +7135,8 @@ Public Function getOpenDatabase(server$, filepath$) As NotesDatabase
 		
 	Dim sfKey As String
 	
+	Stop 
+	
 	TrimString server$
 	TrimString filepath$
 	extendedInfo$ = |Server: | & server$ & Chr(10) & |Filepath: | & filepath$
@@ -7140,7 +7147,7 @@ Public Function getOpenDatabase(server$, filepath$) As NotesDatabase
 	If IsElement(nonDbs(sfKey$)) Then GoTo ExitPoint
 	
 	Set result = New NotesDatabase(server$, filepath$)
-	If (Not result.IsOpen) Then Call result.Open(result.Server, result.Filepath)
+	If (Not result.IsOpen) Then Call result.Open(server$, filepath$)
 	If (Not result.isOpen) Then Error ERR_DATABASE_NOTOPEN, MSG_DATABASE_NOTOPEN
 	
 ExitPoint:
@@ -8018,6 +8025,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
