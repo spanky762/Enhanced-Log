@@ -135,6 +135,7 @@ Declare Public Function enhLogProfileMethodStart(ByVal classname$, ByVal operati
 Declare Public Function enhLogWarningWithLink (prefix$, description$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$) As Boolean
 Declare Public Property Set enhLogContentToNotesLog As Boolean 
 Declare Public Function getDbConfigDoc(ByVal source$, clearCache As Boolean) As NotesDocument
+Declare Private Function checkCreateDirectory(root$, target$) As String 
 Declare Public Function fileExists (filepath$) As Boolean
 Declare Public Function enhLogGetTaggedMilliseconds(tag$) As Double
 Declare Public Function enhLogTicksPerSecond() As Long 
@@ -162,6 +163,7 @@ Declare Public Sub enhLogSetSendTo (source As Variant)
 Declare Private Function getACLlevel(acl%) As String 
 Declare Public Function getEmptyDocumentCollection (source As NotesDatabase) As NotesDocumentCollection
 Declare Public Function enhLogGetSubject() As String
+Declare Public Property Get FILEPATH_ENHANCEDLOG_FILE As String   
 Declare Public Sub enhLogSetAutoSave (source As Boolean)
 Declare Public Function enhLogGetCachedErrorCode() As Integer
 Declare Public Function enhLogGetMethodTicks(ByVal classname$) As Double
@@ -172,6 +174,7 @@ Declare Public Function enhLogAppendAsDocLink (source As NotesDocument, fieldnam
 Declare Public Function enhLogHasEntries() As Boolean
 Declare Public Sub enhLogSetLogErrors (source As Boolean)
 Declare Public Sub enhLogSetProgramName (source$)
+Declare Private Property Get FILEPATH_DELIMITER As String   
 Declare Public Sub enhLogAllDocItems (source As NotesDocument)
 Declare Public Function enhLogGetCachedErrorMessage() As String
 Declare Public Function enhLogGetConfigItemNames() As Variant 
@@ -193,7 +196,6 @@ Declare Public Sub enhLogSetCommonProperties(progname$, localEcho As Boolean, lo
 Declare Public Sub enhLogSetLogActions (source As Boolean)
 Declare Public Function enhLogCreateLog (programName$) As EnhancedLog
 Declare Public Function enhLogGetCachedErrorLine() As Integer
-Declare Private Property Get FILEPATH_LOGS As String   
 Declare Function getEnvarName(source$, clearCache As Boolean) As String
 Declare Public Function enhLogExtendedContentWithLink (prefix$, description$, extendedcontent$, linkTo As Variant, ByVal linkcomment$, ByVal HotSpotText$)  As Boolean
 Declare Public Function enhLogGetLogConfigDoc(spawnNew As Boolean) As NotesDocument
@@ -218,7 +220,9 @@ Private Const ELEMENT_UNKNOWN = 		|Notes: Programmable Element Unknown|
 
 Private Const DEFAULT_DELIMITER = 		|Ø|
 
-Private Const FILEPATH_LOGS_DEFAULT = 	|hcl| & DEFAULT_DELIMITER & |logs| & DEFAULT_DELIMITER  
+' C:\Notes\Data\IBM_TECHNICAL_SUPPORT
+
+Private Const FILEPATH_LOGS_DEFAULT = 	|logs|
 Private Const FORMAT_TIMESTAMP = 		|yyyy/mm/dd hh:mm:ss|
 Private Const FORMAT_WHOLE_THOUSANDS = 	|###,###,###,###,##0|
 
@@ -456,6 +460,13 @@ Private enhLog_ As EnhancedLog
 Private genhl_ProfiledMethods As ProfiledMethodList 
 Private genhl_dbConfigDocCache List As NotesDocument
 Private genhl_ProfileMethodStarts List As Integer       
+
+
+
+
+
+
+
 
 
 
@@ -2683,29 +2694,8 @@ ExitPoint:
 		OpenAgentLog = Me.ChangeLogType(LOGTYPE_AGENT, ||, ||)
 	End Function 
 	
-	Public Function OpenFileLog(ByVal path$) As Boolean
-		Dim extendedInfo As String
-		Dim result As Boolean
-		
-		On Error GoTo ErrorTrap
-		
-		TrimString path$
-		
-		If ((Len(path$) = 0) Or Right$(LCase$(path$), 4) = |.nsf|) Then
-			extendedInfo$ = |Cannot open | & lstrLogTypes(LOGTYPE_FILE) & _ 
-			| with filepath of "| & path$ & |".|
-			Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
-		End If 
-		
-		result = Me.ChangeLogType(LOGTYPE_FILE, ||, path$)
-		
-	ExitPoint:
-		OpenFileLog = result
-		Exit Function
-	ErrorTrap:
-		On Error GoTo 0
-		result = False
-		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+	Public Function OpenFileLog(path$) As Boolean
+		OpenFileLog = Me.ChangeLogType(LOGTYPE_FILE, ||, path$)
 	End Function 
 	
 	
@@ -3232,7 +3222,7 @@ ExitPoint:
 	End Function 
 	
 	
-	Private Function ChangeLogType(newLogType As Byte, ByVal server$, ByVal path$) As Boolean 
+	Private Function ChangeLogType(newLogType As Byte, ByVal server$, path$) As Boolean 
 		Dim extendedInfo As String
 		Dim result As Boolean
 		On Error GoTo ErrorTrap
@@ -3256,11 +3246,13 @@ ExitPoint:
 			Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
 		End If 
 		
-		If ((newLogType = LOGTYPE_FILE) _ 
-		And ((Len(path$) = 0) Or Right$(LCase$(path$), 4) = |.nsf|)) Then
-			extendedInfo$ = |Cannot open | & lstrLogTypes(newLogType) & _ 
-			| with filepath of "| & path$ & |".|
-			Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
+		If (newLogType = LOGTYPE_FILE) Then 
+			If isBlankString(path$) Then path$ = FILEPATH_ENHANCEDLOG_FILE 
+			If (Right$(LCase$(path$), 4) = |.nsf|) Then
+				extendedInfo$ = |Cannot open | & lstrLogTypes(newLogType) & _ 
+				| with filepath of "| & path$ & |".|
+				Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
+			End If 
 		End If 
 		
 		If (Len(path$) = 0) And Not (Me.TargetDatabase Is Nothing) Then server$ = Me.TargetDatabase.FilePath
@@ -3312,7 +3304,6 @@ ExitPoint:
 				
 			Case LOGTYPE_FILE
 				If (Me.nlog_ Is Nothing) Then Set Me.nlog_ = New NotesLog(Me.ProgramName)
-				If isBlankString(path$) Then path$ = FILEPATH_LOGS
 				Me.nlog_.OpenFileLog(path$)
 				Me.nlog_.LogAction lstrLogTypes(Me.logType) & | opened.|
 				Me.logFilepath$ = path$ 
@@ -3649,6 +3640,8 @@ ExitPoint:
 		Dim roles$ 
 		Dim role$ 
 
+
+		Stop
 		Me.nlog_.LogAction |Program: | & Me.ProgramName	
 		Me.nlog_.LogAction |User: | & Me.UserNameAbbrev
 		Me.nlog_.LogAction |Server: | & Me.Server
@@ -3934,7 +3927,7 @@ ExitPoint:
 		
 		
 		' BEGIN CODE 
-		If (Me.nlog_ Is Nothing) Then Call Me.OpenFileLog(FILEPATH_LOGS)
+		If (Me.nlog_ Is Nothing) Then Call Me.OpenFileLog(FILEPATH_ENHANCEDLOG_FILE)
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION: 
 				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |)|
@@ -4704,10 +4697,10 @@ End Sub
 
 %REM
 	Function enhLogGetLogConfigText
-	Gets the text representation of the Log Config value for the specified Item naMe.
+	Gets the text representation of the Log Config value for the specified Item name.
 
 	@param itemname$ String Name of the NotesItem value to retrieve.
-	@return Text for the specified item naMe.  Returns empty string ("") if document or item not found.
+	@return Text for the specified item name.  Returns empty string ("") if document or item not found.
 	
 %END REM
 Public Function enhLogGetLogConfigText(itemname$) As String
@@ -6119,6 +6112,71 @@ ErrorTrap:
 	Resume ExitPoint
 End Function  
 
+'++LotusScript Development Environment:2:1:checkCreateDirectory:8:8
+%REM
+	Function checkCreateDirectory
+	Verifies that a target directory exists under a root directory, and conditionally creates it if not. 
+	
+	@return full directory (root & target concatenated with the appropriate delimiter) if target exists or was created.  
+	Empty string ("") on failure. 
+%END REM
+Private Function checkCreateDirectory(root$, target$) As String 
+
+	Const ATTR_DIRECTORY = 16
+
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$ 
+	
+	Dim chunks As Variant 
+	
+	Dim result$
+	Dim directory$ 
+	Dim found As Boolean 
+	
+	
+	' BEGIN CODE
+	If isBlankString(root$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Root is blank.  |
+	If isBlankString(root$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Target is blank.  |
+	On Error GoTo ErrorTrap
+	
+	extendedinfo(|Root|) = root$
+	extendedinfo(|Target|) = target$ 
+
+	result$ = root$ & FILEPATH_DELIMITER & target$ 
+	extendedinfo(|Result|) = result$
+	On Error Resume Next 
+	directory$ = Dir$(result$, ATTR_DIRECTORY)
+	On Error GoTo ErrorTrap
+	Do While Not isBlankString(directory$)
+		extendedinfo(|Directory|) = directory$ 
+		If (0 = StrCompare(directory$, target$, 0)) Then GoTo ExitPoint
+		directory$ = Dir$ 
+	Loop	
+	
+	' If here then the directory was not found.  Attempt to create it. 
+	MkDir result$ 
+
+ExitPoint:
+	While StrRightBack(result$, 1) = FILEPATH_DELIMITER 
+		result$ = Left$(result$, Len(result) -1)
+	Wend 
+	checkCreateDirectory = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0 
+	result$ = || ' any error should force an empty string to be returned. 
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
 '++LotusScript Development Environment:2:1:fileExists:9:8
  
 %REM 
@@ -6741,12 +6799,12 @@ End Function
 
 %REM 
 	Function getDocItemText
-	Gets the item text for the specified Item naMe.
+	Gets the item text for the specified Item name.
 	
 	@param source NotesDocument from which to get the item text.
 	@param itemname$ String Name of the NotesItem text to retrieve.
 	
-	@return text for the specified item naMe.  Returns empty string ("") if document is nothing or item not found.		
+	@return text for the specified item name.  Returns empty string ("") if document is nothing or item not found.		
 %END REM
 Function getDocItemText(source As NotesDocument, itemname$) As Variant
 	Dim extendedInfo As String	
@@ -6836,6 +6894,42 @@ Public Function enhLogGetSubject() As String
 	If Not (enhLog_ Is Nothing) Then enhLogGetSubject = enhLog_.Subject
 End Function  
 
+'++LotusScript Development Environment:2:3:FILEPATH_ENHANCEDLOG_FILE Get:5:8
+%REM
+	Property Get FILEPATH_ENHANCEDLOG_FILE
+	Gets the Filepath for the current Enhanced Log File
+%END REM
+Public Property Get FILEPATH_ENHANCEDLOG_FILE As String   
+		On Error GoTo ErrorTrap
+	
+		Static result$
+		
+		Dim chunks As Variant 
+		Dim subdirectory$ 
+	
+		' BEGIN CODE
+		If isBlankString(result$) Then 
+			chunks = Split(FILEPATH_LOGS_DEFAULT, DEFAULT_DELIMITER)
+			result$ = getCurrentSession().getEnvironmentString(|Directory|, True) 
+			ForAll subdir In chunks
+				subdirectory$ = CStr(subdir) 
+				If Not isBlankString(subdirectory$) Then result$ = checkCreateDirectory(result$, CStr(subdir))
+				If isBlankString(result$) Then Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED 
+			End ForAll
+			
+			result$ = result$ & FILEPATH_DELIMITER & |enhlog_| & Format$(Now, |yyyymmdd@hhnnss.log|) 
+		End If 
+		
+	ExitPoint: 
+		FILEPATH_ENHANCEDLOG_FILE = result$
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		enhLogException LIB_PREFIX, ||
+		Resume ExitPoint
+End Property
+
+
 '++LotusScript Development Environment:2:2:enhLogSetAutoSave:2:8
 
 Public Sub enhLogSetAutoSave (source As Boolean)
@@ -6858,7 +6952,7 @@ End Function
 	Function getMethodTicks
 	Returns the number of clock ticks for a calling methodname since last called.
 
-	@param classname$: Prefix for the calling methodnaMe.
+	@param classname$: Prefix for the calling methodname.
 	@return: Number of milliseconds since last called.
 %END REM
 Public Function enhLogGetMethodTicks(ByVal classname$) As Double
@@ -7033,6 +7127,35 @@ Public Sub enhLogSetProgramName (source$)
 	enhLog_.ProgramName = source
 End Sub 
 
+'++LotusScript Development Environment:2:3:FILEPATH_DELIMITER Get:5:8
+%REM
+	Property Get FILEPATH_DELIMITER
+	Gets the Filepath Delimiter for the current Operating System
+%END REM
+Private Property Get FILEPATH_DELIMITER As String   
+	On Error GoTo ErrorTrap
+
+	Static result$
+
+	' BEGIN CODE
+	If isBlankString(result$) Then 
+		If (InStr(LCase(getCurrentSession.Platform), |windows|) > 0) Then 
+			result$ = |\|
+		Else 
+			result$ = |/| 
+		End If
+	End If 
+	
+ExitPoint: 
+	FILEPATH_DELIMITER = result$
+	Exit Property 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, ||
+	Resume ExitPoint
+End Property
+
+
 '++LotusScript Development Environment:2:2:enhLogAllDocItems:2:8
 
 Public Sub enhLogAllDocItems (source As NotesDocument)
@@ -7134,8 +7257,6 @@ Public Function getOpenDatabase(server$, filepath$) As NotesDatabase
 	Static nonDbs List As Boolean
 		
 	Dim sfKey As String
-	
-	Stop 
 	
 	TrimString server$
 	TrimString filepath$
@@ -7717,35 +7838,6 @@ Public Function enhLogGetCachedErrorLine() As Integer
 	If Not (enhLog_ Is Nothing) Then enhLogGetCachedErrorLine = enhLog_.CachedErrorLine
 End Function 
 
-'++LotusScript Development Environment:2:3:FILEPATH_LOGS Get:5:8
-%REM
-	Property Get FILEPATH_LOGS
-	Gets the Filepath for logs 
-%END REM
-Private Property Get FILEPATH_LOGS As String   
-		On Error GoTo ErrorTrap
-	
-		Static result$
-	
-		' BEGIN CODE
-		If isBlankString(result$) Then 
-			If (InStr(LCase(getCurrentSession.Platform), |windows|) > 0) Then 
-				result$ = strReplaceSubstring(FILEPATH_LOGS_DEFAULT, DEFAULT_DELIMITER, |\|) 
-			Else 
-				result$ = strReplaceSubstring(FILEPATH_LOGS_DEFAULT, DEFAULT_DELIMITER, |/|)
-			End If
-		End If 
-		
-	ExitPoint: 
-		FILEPATH_LOGS = result$
-		Exit Property 
-	ErrorTrap:
-		On Error GoTo 0
-		enhLogException LIB_PREFIX, ||
-		Resume ExitPoint
-End Property
-
-
 '++LotusScript Development Environment:2:1:getEnvarName:11:8
 
 %REM
@@ -8025,6 +8117,14 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
+
+
+
+
 
 
 
