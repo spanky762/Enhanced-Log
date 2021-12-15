@@ -2075,6 +2075,10 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 	
 	Private countCachedErrors As Long
 	
+	
+	Private targetfilehandle_ As Integer 
+	 
+	
 	Private saverecursions_ As Integer
 	Private writecount_ As Integer
 	
@@ -3247,18 +3251,6 @@ ExitPoint:
 			Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
 		End If 
 		
-		If (newLogType = LOGTYPE_FILE) Then 
-			If isBlankString(path$) Then path$ = FILEPATH_ENHANCEDLOG_FILE(me.ProgramName & |_|)
-			If (Right$(LCase$(path$), 4) = |.nsf|) Then
-				extendedInfo$ = |Cannot open | & lstrLogTypes(newLogType) & _ 
-				| with filepath of "| & path$ & |".|
-				Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
-			End If 
-		End If 
-		
-		If (Len(path$) = 0) And Not (Me.TargetDatabase Is Nothing) Then server$ = Me.TargetDatabase.FilePath
-
-		
 		' Close the previous log
 		If Me.hasEntries Then 
 			enhLogAction CLASS_PREFIX, |Changing from  | & _ 
@@ -3304,18 +3296,34 @@ ExitPoint:
 				Me.nlog_.LogAction lstrLogTypes(Me.logType) & | opened.|
 				
 			Case LOGTYPE_FILE
-				If (Me.nlog_ Is Nothing) Then Set Me.nlog_ = New NotesLog(Me.ProgramName)
-				Me.nlog_.OpenFileLog(path$)
-				Me.nlog_.LogAction me.StartTimeStamp & | LotusScript Started|
-				Me.nlog_.LogAction lstrLogTypes(Me.logType) & | opened.|
-				Me.logFilepath$ = path$ 
-				Call Me.AddBodyHeader_TargetNonNSF() 
-				Me.nlog_.LogAction || 
+				If isBlankString(path$) Then path$ = FILEPATH_ENHANCEDLOG_FILE(me.ProgramName & |_|)
+				If (Right$(LCase$(path$), 4) = |.nsf|) Then
+					extendedInfo$ = |Cannot open | & lstrLogTypes(newLogType) & _ 
+					| with filepath of "| & path$ & |".|
+					Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
+				End If 				
+				
+				
+'				If (Me.nlog_ Is Nothing) Then Set Me.nlog_ = New NotesLog(Me.ProgramName)
+'				Me.nlog_.OpenFileLog(path$)
+'				Me.nlog_.LogAction me.StartTimeStamp & | LotusScript Started|
+'				Me.nlog_.LogAction lstrLogTypes(Me.logType) & | opened.|
+'				Me.logFilepath$ = path$ 
+'				Call Me.AddBodyHeader_TargetNonNSF() 
+'				Me.nlog_.LogAction || 
+
+				If (Me.targetfilehandle_% = 0) Then 
+					targetfilehandle_% = FreeFile()
+					Open path$ For Output As targetfilehandle_%
+					
+				End If
+
 				
 			Case LOGTYPE_MAIL
 				' do nothing 
 				
 			Case LOGTYPE_NOTES
+				If Not (Me.TargetDatabase Is Nothing) Then server$ = Me.TargetDatabase.FilePath
 				Set nnamOld = New NotesName(Me.TargetDatabase.Server)
 				Set nnamNew = New NotesName(server$)
 				
@@ -3526,6 +3534,44 @@ ExitPoint:
 		End If 
 	End Sub 
 	
+	
+
+	Private Sub AddBodyHeader_File()  
+
+		Dim roles$ 
+		Dim role$ 
+
+		Me.nlog_.LogAction |Program: | & Me.ProgramName	
+		Me.nlog_.LogAction |User: | & Me.UserNameAbbrev
+		Me.nlog_.LogAction |Server: | & Me.Server
+		Me.nlog_.LogAction |Db Title: | & Me.dbTitle$ 
+		Me.nlog_.LogAction |Db Filepath: | & Me.Filepath
+		Me.nlog_.LogAction |Replica ID: | & Me.dbRepID$
+		Me.nlog_.LogAction |Notes Version: | & Me.myNotesVersion$
+		Me.nlog_.LogAction |ACL Level: | & getACLlevel(Me.acl)
+
+		If IsArray(me.userRoles) Then
+			ForAll s In me.userRoles 
+				role$ = Trim(CStr(s)) 
+				If Not isBlankString(role$) Then
+					If isBlankString(roles$) Then
+						roles$ = role$ 
+					Else
+						roles$ = roles$ & |, | & role$
+					End If  
+				End If 
+			End ForAll 
+		End If 
+
+		
+		If Not isBlankString(roles$) Then
+			Me.nlog_.LogAction |ACL Roles: | & roles$
+		End If 
+	End Sub
+	
+	
+	
+	
 
 	Private Sub AddBodyHeader_NotesDocument()  
 
@@ -3636,7 +3682,7 @@ ExitPoint:
 	End Sub
 
 
-	Private Sub AddBodyHeader_TargetNonNSF()  
+	Private Sub zzzcruft_AddBodyHeader_TargetNonNSF()  
 
 		Dim roles$ 
 		Dim role$ 
@@ -3905,17 +3951,14 @@ ExitPoint:
 			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 		End If
 	End Sub
-	
-	
+
 	%REM
-		Sub writeEntry_TargetNonNSF
-		Writes the entry to the NotesLog.  
+		Sub writeEntry_File
+		Writes the entry to the Log File.  
 		
-		A NotesLog can represent a FILE, and AGENT LOG, or an EVENT LOG, depending upon what manner has been opened. 
-		
-		@param entry EnhancedLogEntry to be written to NotesLog object.
+		@param entry EnhancedLogEntry to be written to Log File.
 	%END REM
-	Sub writeEntry_TargetNonNSF(entry As EnhancedLogEntry) 
+	Sub writeEntry_File(entry As EnhancedLogEntry) 
 		On Error GoTo ErrorTrap
 		
 		Dim linkTo As NotesLink
@@ -3926,7 +3969,7 @@ ExitPoint:
 		
 		
 		' BEGIN CODE 
-		If (Me.nlog_ Is Nothing) Then Call Me.OpenFileLog(FILEPATH_ENHANCEDLOG_FILE(Me.ProgramName & |_|))
+		If (Me.nlog_ Is Nothing) Then Call Me.OpenFileLog(||)
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION: 
 				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |)|
@@ -3940,6 +3983,83 @@ ExitPoint:
 				
 				If (Len(entry.Message) > 0) Then Me.nlog_.logAction entry.Message 
 
+				
+			Case Else: 
+				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
+				Me.nlog_.LogAction entry.Message	
+				
+				If entry.hasLink Then 
+					Me.nrti_.AddTab 1
+					Set linkTo = entry.LinkTo 
+					Me.nlog_.LogAction entry.LinkComment & | | & linkTo.NotesURL 
+				End If 
+		End Select
+
+
+		' EXTENDED CONTENT 
+		If Not isBlankString(entry.ExtendedContent) Then Me.nlog_.LogAction entry.ExtendedContent 
+
+
+		' STACK TRACE
+		If Not (entry.StackTrace Is Nothing) Then 
+			If Me.LogStackExceptions Then 
+				If Me.LogStackExceptions Then
+					Me.nlog_.LogAction |Method Stack:|
+					Set st = entry.StackTrace 
+					
+					ForAll stackentry In st.Content 
+						ste = stackentry 
+						Me.nlog_.LogAction Chr(9) & ste.methodname & |()  Line #| & ste.linenumber & |  |
+					End ForAll
+				End If
+			Else
+				Me.nlog_.LogAction |Stack Logging is Disabled| 
+			End If 					
+		End If
+		
+ExitPoint: 
+		Exit Sub 
+ErrorTrap:
+		On Error GoTo 0
+		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
+			enhLogException CLASS_PREFIX, ||
+			Resume ExitPoint 
+		Else 
+			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
+		End If
+	End Sub
+	
+	
+	%REM
+		Sub writeEntry_Agent
+		Writes the entry to the Agent Log.  
+		
+		@param entry EnhancedLogEntry to be written to NotesLog object.
+	%END REM
+	Sub writeEntry_Agent(entry As EnhancedLogEntry) 
+		On Error GoTo ErrorTrap
+		
+		Dim linkTo As NotesLink
+		Dim st As EnhancedLogStackTrace 
+		Dim ste As StackTraceElement
+		
+		Dim temp$
+		
+		
+		' BEGIN CODE 
+		If (Me.nlog_ Is Nothing) Then Call Me.OpenAgentLog()
+		Select Case entry.LogEntryType 
+			Case LOGENTRY_TYPE_EXCEPTION: 
+				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |)|
+				If (Len(entry.ErrorMessage) > 0) Then temp$ = temp$ & entry.ErrorMessage 
+				Me.nlog_.LogError entry.ErrorCode, temp$
+				
+				If entry.hasLink Then 
+					Set linkTo = entry.LinkTo 
+					Me.nlog_.LogAction entry.LinkComment & | | & linkTo.NotesURL 
+				End If 
+				
+				If (Len(entry.Message) > 0) Then Me.nlog_.logAction entry.Message 
 				
 			Case Else: 
 				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
@@ -4226,10 +4346,10 @@ ExitPoint:
 		If entry Is Nothing Then GoTo ExitPoint 
 		
 		Select Case Me.logType 
-			Case LOGTYPE_NOTES: 
+			Case LOGTYPE_NOTES, LOGTYPE_MAIL: 
 				Me.writeEntry_NotesDocument entry 
 				
-			Case LOGTYPE_EVENT: 
+			Case LOGTYPE_EVENT:
 				Select Case entry.LogEntryType 
 					Case LOGENTRY_TYPE_EXCEPTION:  
 						severity% = 2 	' SEV_FAILURE
@@ -4252,9 +4372,12 @@ ExitPoint:
 				
 				Call me.LogEvent(entry.Message, ||, eventtype%, severity%)					
 				
+			Case LOGTYPE_FILE: 
+				Me.writeEntry_File entry 
+				
 			Case Else: 
-				' LOGTYPE_FILE, LOGTYPE_AGENT, LOGTYPE_MAIL
-				Me.writeEntry_TargetNonNSF entry 
+				' LOGTYPE_AGENT
+				Me.writeEntry_Agent entry 
 				
 		End Select
 		
@@ -8119,6 +8242,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
