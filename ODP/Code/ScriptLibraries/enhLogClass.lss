@@ -324,6 +324,9 @@ Private Const MSG_PARAMETER_BLANK = |A required parameter is blank or missing.  
 Private Const ERR_PARAMETER_INVALID = 1195
 Private Const MSG_PARAMETER_INVALID = |A passed parameter is invalid.  |
 
+Private Const ERR_LOGTARGET_NOTOPEN =  1070 
+Private Const MSG_LOGTARGET_NOTOPEN = |The target log is not open.  |
+
 Private Const ERR_DOCUMENT_NOT_FOUND = 1020
 Private Const MSG_DOCUMENT_NOT_FOUND = |Could not find the specified document.  |
 
@@ -2077,7 +2080,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 	
 	
 	Private targetfilehandle_ As Integer 
-	 
+	
 	
 	Private saverecursions_ As Integer
 	Private writecount_ As Integer
@@ -2153,6 +2156,8 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 	
 	Private Sub instantiate()
 		Dim configdoc As NotesDocument
+		
+		Dim chunks As Variant 
 		Dim targetserver As String
 		Dim targetfilepath As String
 		
@@ -2161,7 +2166,11 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 		Set me.buffer = New EnhancedLogEntryBuffer() 
 		
 		Me.isInstantiating = True
-		Me.myNotesVersion = Join(Split(getCurrentSession.NotesVersion, "|"), "; ") & |; Build | & CStr(getCurrentSession().NotesBuildVersion)
+		chunks = Split(getCurrentSession.NotesVersion, "|")
+		ForAll element In chunks 
+			element = Trim$(CStr(element))
+		End ForAll 
+		Me.myNotesVersion = Join(chunks, "; ") & |; Build | & CStr(getCurrentSession().NotesBuildVersion)
 
 		Me.Enabled = True
 		Me.LogActions = True
@@ -2209,7 +2218,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 
 		Me.exists = True
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
 	End Sub 
 	
@@ -2795,7 +2804,7 @@ ExitPoint:
 		If isRecursive Then Me.saverecursions_ = Me.saverecursions_ - 1
 		Save = result
 		Exit Function
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		result = False
 		Me.LogStackExceptions = False
@@ -3010,10 +3019,10 @@ ExitPoint:
 		
 		If (Me.targetDb_ Is Nothing) Then Error ERR_MISSING_DATABASE, MSG_MISSING_DATABASE
 		
-	ExitPoint:
+ExitPoint:
 		Set TargetDatabase = Me.targetDb_
 		Exit Property
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		Set Me.targetDb_ = getCurrentDb()
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
@@ -3239,11 +3248,11 @@ ExitPoint:
 		Dim nnamOld As NotesName
 		Dim isLogSame As Boolean
 
-		
+		Stop 
 		TrimString server$
 		TrimString path$
 		
-		Set ndbOld = Me.TargetDatabase
+		Set ndbOld = Me.targetDb_
 		Set ndocOld = Me.ndoc_
 		
 		If Not IsElement(lstrLogTypes(newLogType)) Then 
@@ -3256,12 +3265,12 @@ ExitPoint:
 			enhLogAction CLASS_PREFIX, |Changing from  | & _ 
 			lstrLogTypes(Me.logType) & | to | & lstrLogTypes(newLogType) & |.|
 
-			If Not (Me.TargetDatabase Is Nothing) Then 
-				server$ = Me.TargetDatabase.Server 
+			If Not (Me.targetDb_ Is Nothing) Then 
+				server$ = Me.targetDb_.Server 
 				If isBlankString(server$) Then 
-					enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: [LocalClient]!!| & Me.TargetDatabase.Filepath
+					enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: [LocalClient]!!| & Me.targetDb_.Filepath
 				Else 
-					enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: | & server$ & |!!| & Me.TargetDatabase.Filepath
+					enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: | & server$ & |!!| & Me.targetDb_.Filepath
 				End If  
 			End If 
 		End If 
@@ -3315,22 +3324,30 @@ ExitPoint:
 				If (Me.targetfilehandle_% = 0) Then 
 					targetfilehandle_% = FreeFile()
 					Open path$ For Output As targetfilehandle_%
-					
 				End If
+
+				Call Me.AddBodyHeader_File() 
+				Print #Me.targetfilehandle_%, me.StartTimestamp & |  LotusScript Started|				
 
 				
 			Case LOGTYPE_MAIL
 				' do nothing 
 				
 			Case LOGTYPE_NOTES
-				If Not (Me.TargetDatabase Is Nothing) Then server$ = Me.TargetDatabase.FilePath
-				Set nnamOld = New NotesName(Me.TargetDatabase.Server)
+				If Not (Me.targetDb_ Is Nothing) Then 
+					If isBlankString(server$) Then server$ = Me.targetDb_.Server 
+					Set nnamOld = New NotesName(Me.targetDb_.Server) 
+				End If
+				
+				If isBlankString(server$) And Not (Me.targetDb_ Is Nothing) Then server$ = Me.targetDb_.FilePath
 				Set nnamNew = New NotesName(server$)
-				
-				isLogSame = ((Me.LogType <> LOGTYPE_FILE) _ 
-				And (LCase$(Me.TargetDatabase.FilePath) = path$) _ 
-				And ((LCase$(nnamOld.Abbreviated) = LCase$(nnamNew.Abbreviated))))
-				
+
+				If (Me.LogType = LOGTYPE_NOTES) Then 
+					If Not (Me.targetDb_ Is Nothing) Then 
+						isLogSame = (LCase$(Me.targetDb_.FilePath) = path$) And  ((LCase$(nnamOld.Abbreviated) = LCase$(nnamNew.Abbreviated))) 
+					End If
+				End If
+
 				If (Not isLogSame) Then
 					Set ndbNew = getOpenDatabase(server$, path$)
 					If (ndbNew Is Nothing) Then GoTo ExitPoint
@@ -3338,11 +3355,11 @@ ExitPoint:
 					Set Me.targetDb_ = ndbNew
 					Call Me.createLogDoc()
 					
-					server$ = Me.TargetDatabase.Server 
+					server$ = Me.targetDb_.Server 
 					If isBlankString(server$) Then 
-						enhLogAction CLASS_PREFIX, |Opened NotesLog: [LocalClient]!!| & Me.TargetDatabase.Filepath
+						enhLogAction CLASS_PREFIX, |Opened NotesLog: [LocalClient]!!| & Me.targetDb_.Filepath
 					Else 
-						enhLogAction CLASS_PREFIX, |Opened NotesLog: | & server$ & |!!| & Me.TargetDatabase.Filepath
+						enhLogAction CLASS_PREFIX, |Opened NotesLog: | & server$ & |!!| & Me.targetDb_.Filepath
 					End If  
 				End If 
 		End Select 	
@@ -3382,7 +3399,7 @@ ExitPoint:
 		
 		On Error GoTo ErrorTrap
 		
-		Set Me.ndoc_ = generateLogDoc(Me.acl, Me.TargetDatabase, Me.UserName, Me.UserRoles, Me.StartTime, Me.progName$, Me.dbServer$, Me.dbTitle$, Me.dbFilepath$, subject$, Me.myNotesVersion$, Me.ResumeOnLoggingFailure) 
+		Set Me.ndoc_ = generateLogDoc(Me.acl, Me.targetDb_, Me.UserName, Me.UserRoles, Me.StartTime, Me.progName$, Me.dbServer$, Me.dbTitle$, Me.dbFilepath$, subject$, Me.myNotesVersion$, Me.ResumeOnLoggingFailure) 
 		If (Me.ndoc_ Is Nothing) Then GoTo ExitPoint 
 
 		me.hasLoggedAction = False 
@@ -3537,18 +3554,19 @@ ExitPoint:
 	
 
 	Private Sub AddBodyHeader_File()  
-
 		Dim roles$ 
 		Dim role$ 
 
-		Me.nlog_.LogAction |Program: | & Me.ProgramName	
-		Me.nlog_.LogAction |User: | & Me.UserNameAbbrev
-		Me.nlog_.LogAction |Server: | & Me.Server
-		Me.nlog_.LogAction |Db Title: | & Me.dbTitle$ 
-		Me.nlog_.LogAction |Db Filepath: | & Me.Filepath
-		Me.nlog_.LogAction |Replica ID: | & Me.dbRepID$
-		Me.nlog_.LogAction |Notes Version: | & Me.myNotesVersion$
-		Me.nlog_.LogAction |ACL Level: | & getACLlevel(Me.acl)
+		If (0 = me.targetfilehandle_%) Then Error ERR_LOGTARGET_NOTOPEN, MSG_LOGTARGET_NOTOPEN
+
+		Print #Me.targetfilehandle_%, |Program: |, | |, Me.ProgramName	
+		Print #Me.targetfilehandle_%, |User: |, | |, Me.UserNameAbbrev
+		Print #Me.targetfilehandle_%, |Server: |, | |, Me.Server
+		Print #Me.targetfilehandle_%, |Db Title: |, | |, Me.dbTitle$ 
+		Print #Me.targetfilehandle_%, |Db Filepath: |, Me.Filepath
+		Print #Me.targetfilehandle_%, |Replica ID: |, | |, Me.dbRepID$
+		Print #Me.targetfilehandle_%, |Notes Version: |, Me.myNotesVersion$
+		Print #Me.targetfilehandle_%, |ACL Level: |, | |, getACLlevel(Me.acl)
 
 		If IsArray(me.userRoles) Then
 			ForAll s In me.userRoles 
@@ -3562,11 +3580,13 @@ ExitPoint:
 				End If 
 			End ForAll 
 		End If 
-
 		
 		If Not isBlankString(roles$) Then
-			Me.nlog_.LogAction |ACL Roles: | & roles$
+			Print #Me.targetfilehandle_%, |ACL Roles: |, | |, roles$
 		End If 
+
+		Print #Me.targetfilehandle_%, | | 
+		Print #Me.targetfilehandle_%, | | 
 	End Sub
 	
 	
@@ -3682,39 +3702,7 @@ ExitPoint:
 	End Sub
 
 
-	Private Sub zzzcruft_AddBodyHeader_TargetNonNSF()  
 
-		Dim roles$ 
-		Dim role$ 
-
-		Me.nlog_.LogAction |Program: | & Me.ProgramName	
-		Me.nlog_.LogAction |User: | & Me.UserNameAbbrev
-		Me.nlog_.LogAction |Server: | & Me.Server
-		Me.nlog_.LogAction |Db Title: | & Me.dbTitle$ 
-		Me.nlog_.LogAction |Db Filepath: | & Me.Filepath
-		Me.nlog_.LogAction |Replica ID: | & Me.dbRepID$
-		Me.nlog_.LogAction |Notes Version: | & Me.myNotesVersion$
-		Me.nlog_.LogAction |ACL Level: | & getACLlevel(Me.acl)
-
-		If IsArray(me.userRoles) Then
-			ForAll s In me.userRoles 
-				role$ = Trim(CStr(s)) 
-				If Not isBlankString(role$) Then
-					If isBlankString(roles$) Then
-						roles$ = role$ 
-					Else
-						roles$ = roles$ & |, | & role$
-					End If  
-				End If 
-			End ForAll 
-		End If 
-
-		
-		If Not isBlankString(roles$) Then
-			Me.nlog_.LogAction |ACL Roles: | & roles$
-		End If 
-	End Sub
-	
 	
 	Private Sub setBody()
 		Call Me.initializeRTStyles()
@@ -3969,57 +3957,57 @@ ExitPoint:
 		
 		
 		' BEGIN CODE 
-		If (Me.nlog_ Is Nothing) Then Call Me.OpenFileLog(||)
+		If (0 = Me.targetfilehandle_%) Then Call Me.OpenFileLog(||)
+		
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION: 
 				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |)|
 				If (Len(entry.ErrorMessage) > 0) Then temp$ = temp$ & entry.ErrorMessage 
-				Me.nlog_.LogError entry.ErrorCode, temp$
+				Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  | & entry.ErrorCode, temp$
 				
 				If entry.hasLink Then 
 					Set linkTo = entry.LinkTo 
-					Me.nlog_.LogAction entry.LinkComment & | | & linkTo.NotesURL 
+					Print #Me.targetfilehandle_%, | |, entry.LinkComment & | | & linkTo.NotesURL 
 				End If 
 				
-				If (Len(entry.Message) > 0) Then Me.nlog_.logAction entry.Message 
+				If (Len(entry.Message) > 0) Then Print #Me.targetfilehandle_%, | |, entry.Message 
 
 				
 			Case Else: 
 				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
-				Me.nlog_.LogAction entry.Message	
+				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  | & entry.Message	
 				
 				If entry.hasLink Then 
-					Me.nrti_.AddTab 1
 					Set linkTo = entry.LinkTo 
-					Me.nlog_.LogAction entry.LinkComment & | | & linkTo.NotesURL 
+					Print #Me.targetfilehandle_%, | |, entry.LinkComment & | | & linkTo.NotesURL 
 				End If 
 		End Select
 
 
 		' EXTENDED CONTENT 
-		If Not isBlankString(entry.ExtendedContent) Then Me.nlog_.LogAction entry.ExtendedContent 
+		If Not isBlankString(entry.ExtendedContent) Then Print | |, | |, me.targetfilehandle_% entry.ExtendedContent 
 
 
 		' STACK TRACE
 		If Not (entry.StackTrace Is Nothing) Then 
 			If Me.LogStackExceptions Then 
 				If Me.LogStackExceptions Then
-					Me.nlog_.LogAction |Method Stack:|
+					Print #Me.targetfilehandle_%, |Method Stack:|
 					Set st = entry.StackTrace 
 					
 					ForAll stackentry In st.Content 
 						ste = stackentry 
-						Me.nlog_.LogAction Chr(9) & ste.methodname & |()  Line #| & ste.linenumber & |  |
+						Print #Me.targetfilehandle_%, | | & Chr(9), ste.methodname & |()  Line #| & ste.linenumber & |  |
 					End ForAll
 				End If
 			Else
-				Me.nlog_.LogAction |Stack Logging is Disabled| 
+				Print #Me.targetfilehandle_%, |Stack Logging is Disabled| 
 			End If 					
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub 
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
 			enhLogException CLASS_PREFIX, ||
@@ -8242,6 +8230,12 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
+
+
 
 
 
