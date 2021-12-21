@@ -968,6 +968,55 @@ Private Class NotesLink
 		Me.filepath_ = ndb.Filepath 
 		Me.replicaid_ = ndb.Replicaid 
 		
+		Me.notesurl_ = |Notes:///|
+		
+		If Not isBlankString(ndb.Server) Then Me.notesurl_ = me.notesurl_ & ndb.Server & |!!|
+		Me.notesurl_ = Me.notesurl_ & ndb.ReplicaID 
+				
+		Select Case linkToType$
+			Case |NOTESVIEW|:
+				Me.notesurl_ = Me.notesurl_ & |/| & Me.viewname_  
+				
+			Case |NOTESDOCUMENT|:
+				Me.notesurl_ = Me.notesurl_ & |/0/| & Me.universalid_   
+		End Select 	
+		 
+		%REM TODO 
+		Object should have Property Get Text (or similar) in place of NotesURL 
+				
+				Document Link
+					Enhanced Log - Demo - Log A Lot of Stuff on (Local Client:c:\Notes\Data\enhLog.nsf) at 12/21/2021 10:20:21 AM EST by Devin Olson/azlighthouse
+					<NDL>
+					<REPLICA 85258765:005D91D6>
+					<VIEW OFDF668089:A058A324-ON862577FA:00762127>
+					<NOTE OFDE16A107:607D890E-ON852587B2:0054465E>
+					<HINT>   /</HINT>
+					<REM>Database 'Enhanced Log', View 'Logs\by Log Time', Document 'Demo - Log A Lot of Stuff on (Local Client:c:\Notes\Data\enhLog.nsf) at 12/21/2021 10:20:21 AM EST by Devin Olson/azlighthouse'</REM>
+					</NDL>
+				
+				
+				View Link 
+					Enhanced Log - Logs\by Log Time
+					<NDL>
+					<REPLICA 85258765:005D91D6>
+					<VIEW OFDF668089:A058A324-ON862577FA:00762127>
+					<HINT>   /</HINT>
+					<REM>Enhanced Log</REM>
+					</NDL>
+				
+				
+				Database Link 
+					Enhanced Log    
+					<NDL>
+					<REPLICA 85258765:005D91D6>
+					<HINT>   /</HINT>
+					<REM>Enhanced Log</REM>
+					</NDL>
+					
+		%END REM		 
+		 
+		 
+		
 
 	ExitPoint: 
 		If (0 <> errcode%) Then Error errcode%, errmsg$ & | at line | & CStr(errline%) & | in | & CLASS_PREFIX & |New() Constructor| 
@@ -1035,45 +1084,6 @@ Private Class NotesLink
 	Property Get UniversalID As String 
 		UniversalID = me.universalid_
 	End Property
-
-
-	%REM
-		Property Get LinkText
-		Text representation if the NotesLink object. 
-	%END REM
-	Property Get LinkText As String 
-		On Error GoTo ErrorTrap
-	
-		' exception variables
-		Dim extendedinfo List As String 
-		Dim msg$
-	
-	
-		Dim result As String
-	
-		' BEGIN CODE
-		result$ = Me.notesurl_
-		If IsBlankString(me.viewname_) Then 
-			result$ = result$ & |/0/| & me.universalid_ 
-		Else
-			result$ = result$ & |/| & me.viewname_
-		End If
-		
-	ExitPoint: 
-		LinkText = result
-		Exit Property 
-	ErrorTrap:
-		On Error GoTo 0
-		ForAll s In extendedinfo
-			If isBlankString(msg$) Then 
-				msg$ = ListTag(s) & |: | & s
-			Else 
-				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
-			End If
-		End ForAll
-		enhLogException CLASS_PREFIX, msg$
-		Resume ExitPoint
-	End Property
 	
 	
 	%REM
@@ -1132,7 +1142,6 @@ Private Class NotesLink
 		' BEGIN CODE
 		Set result = Nothing 
 		extendedinfo(|Filepath|) = me.Filepath 
-		extendedinfo(|LinkText|) = me.LinkText 
 		extendedinfo(|NotesURL|) = me.NotesURL 
 		extendedinfo(|ReplicaID|) = me.ReplicaID 
 		extendedinfo(|Server|) = me.Server 
@@ -1365,6 +1374,7 @@ Private Class EnhancedLogEntry
 		me.content_.errormessage = errormessage$
 		me.content_.errorline = errorline&
 		me.content_.errormethod = errormethod$ 
+		me.content_.linkcomment = linkcomment$ 
 		
 		extendedinfo(|Log Entry Type|) = CStr(logtype%) 
 		If Not isBlankString(message$) Then extendedinfo(|Message|) = message$
@@ -2224,7 +2234,7 @@ ExitPoint:
 	
 	
 	Public Sub Delete()
-		Me.Close
+		Call Me.Close()
 	End Sub 
 	
 	
@@ -2472,9 +2482,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, Nothing, ||, ||, code%, errMsg$, errline&, methodname$, stacktrace)
 		Call me.buffer.addEntry(entry)
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
@@ -2498,10 +2508,10 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, linkTo, linkcomment$, HotSpotText$, code%, errMsg$, errline&, methodname$, stacktrace)
 		Call me.buffer.addEntry(entry)
 		
-ExitPoint:
+	ExitPoint:
 		Me.myHasLinkInfo = False
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
@@ -2523,9 +2533,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXTENDED, description$, extendedcontent$, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
@@ -2544,9 +2554,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXTENDED, description$, extendedcontent$, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
@@ -2568,9 +2578,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_METHODRESULT, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
@@ -2589,9 +2599,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_METHODRESULT, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
@@ -2642,9 +2652,9 @@ ErrorTrap:
 			End If 
 		End If 
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
@@ -2663,9 +2673,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_WARNING, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
 	End Sub 
@@ -2684,9 +2694,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_WARNING, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage				
 	End Sub 
@@ -2719,10 +2729,10 @@ ErrorTrap:
 			Me.varSendTo = recipients
 		End If 
 		
-ExitPoint:
+	ExitPoint:
 		OpenMailLog = result
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
 			enhLogException CLASS_PREFIX, extendedInfo$
@@ -2748,10 +2758,10 @@ ErrorTrap:
 		' success!	
 		result = True
 		
-ExitPoint:		
+	ExitPoint:		
 		OpenNotesLog = result	
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		If (Me.targetDb_ Is Nothing) Then Set Me.targetDb_ = getCurrentDb()
@@ -2800,11 +2810,11 @@ ErrorTrap:
 		End Select 
 		
 		
-ExitPoint:
+	ExitPoint:
 		If isRecursive Then Me.saverecursions_ = Me.saverecursions_ - 1
 		Save = result
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		Me.LogStackExceptions = False
@@ -3019,10 +3029,10 @@ ErrorTrap:
 		
 		If (Me.targetDb_ Is Nothing) Then Error ERR_MISSING_DATABASE, MSG_MISSING_DATABASE
 		
-ExitPoint:
+	ExitPoint:
 		Set TargetDatabase = Me.targetDb_
 		Exit Property
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Set Me.targetDb_ = getCurrentDb()
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then 
@@ -3248,7 +3258,6 @@ ErrorTrap:
 		Dim nnamOld As NotesName
 		Dim isLogSame As Boolean
 
-		Stop 
 		TrimString server$
 		TrimString path$
 		
@@ -3311,15 +3320,6 @@ ErrorTrap:
 					| with filepath of "| & path$ & |".|
 					Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
 				End If 				
-				
-				
-'				If (Me.nlog_ Is Nothing) Then Set Me.nlog_ = New NotesLog(Me.ProgramName)
-'				Me.nlog_.OpenFileLog(path$)
-'				Me.nlog_.LogAction me.StartTimeStamp & | LotusScript Started|
-'				Me.nlog_.LogAction lstrLogTypes(Me.logType) & | opened.|
-'				Me.logFilepath$ = path$ 
-'				Call Me.AddBodyHeader_TargetNonNSF() 
-'				Me.nlog_.LogAction || 
 
 				If (Me.targetfilehandle_% = 0) Then 
 					targetfilehandle_% = FreeFile()
@@ -3329,7 +3329,6 @@ ErrorTrap:
 				Call Me.AddBodyHeader_File() 
 				Print #Me.targetfilehandle_%, me.StartTimestamp & |  LotusScript Started|				
 
-				
 			Case LOGTYPE_MAIL
 				' do nothing 
 				
@@ -3339,9 +3338,7 @@ ErrorTrap:
 					Set nnamOld = New NotesName(Me.targetDb_.Server) 
 				End If
 				
-				If isBlankString(server$) And Not (Me.targetDb_ Is Nothing) Then server$ = Me.targetDb_.FilePath
 				Set nnamNew = New NotesName(server$)
-
 				If (Me.LogType = LOGTYPE_NOTES) Then 
 					If Not (Me.targetDb_ Is Nothing) Then 
 						isLogSame = (LCase$(Me.targetDb_.FilePath) = path$) And  ((LCase$(nnamOld.Abbreviated) = LCase$(nnamNew.Abbreviated))) 
@@ -3965,27 +3962,25 @@ ErrorTrap:
 				If (Len(entry.ErrorMessage) > 0) Then temp$ = temp$ & entry.ErrorMessage 
 				Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  | & entry.ErrorCode, temp$
 				
-				If entry.hasLink Then 
-					Set linkTo = entry.LinkTo 
-					Print #Me.targetfilehandle_%, | |, entry.LinkComment & | | & linkTo.NotesURL 
-				End If 
-				
-				If (Len(entry.Message) > 0) Then Print #Me.targetfilehandle_%, | |, entry.Message 
-
+				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, | |, entry.Message 
 				
 			Case Else: 
 				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
 				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  | & entry.Message	
 				
-				If entry.hasLink Then 
-					Set linkTo = entry.LinkTo 
-					Print #Me.targetfilehandle_%, | |, entry.LinkComment & | | & linkTo.NotesURL 
-				End If 
 		End Select
 
 
 		' EXTENDED CONTENT 
-		If Not isBlankString(entry.ExtendedContent) Then Print | |, | |, me.targetfilehandle_% entry.ExtendedContent 
+		If Not isBlankString(entry.ExtendedContent) Then Print #Me.targetfilehandle_%, | |, | |, entry.ExtendedContent 
+
+
+		' LINK
+		If entry.hasLink Then
+			Set linkTo = entry.LinkTo 
+			Print #Me.targetfilehandle_%, | |, | |, entry.LinkComment, linkTo.NotesURL
+			Print #Me.targetfilehandle_%, | |
+		End If 
 
 
 		' STACK TRACE
@@ -4403,11 +4398,14 @@ Public Class EnhancedLog
 	End Sub 
 
 	Public Sub Delete()
-		If Not (singleton_ Is Nothing) Then Delete singleton_
+		Call Me.Close() 
 	End Sub 
 	
 	Public Sub Close()
-		If Not (singleton_ Is Nothing) Then Call singleton_.Close()
+		If Not (singleton_ Is Nothing) Then 
+			Delete singleton_
+			Set singleton_ = Nothing
+		End If 
 	End Sub 
 	
 	Public Function AppendAsDocLink (source As NotesDocument, fieldname$, linkcomment$, hotspottext$) As Boolean
@@ -8230,6 +8228,18 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
