@@ -111,6 +111,7 @@ Public Class Wabe
 		enhLogProfileMethodFinish CLASS_PREFIX, || 
 		Exit Sub
 	ErrorTrap:
+		On Error GoTo 0
 		enhLogException CLASS_PREFIX, extendedInfo$
 		Resume ExitPoint
 	End Sub ' gimble
@@ -169,6 +170,7 @@ Public Class Wabe
 		enhLogProfileMethodFinish CLASS_PREFIX, |Set|
 		Exit Property
 	ErrorTrap:
+		On Error GoTo 0
 		enhLogException CLASS_PREFIX, ||
 		Resume ExitPoint
 	End Property 
@@ -313,6 +315,7 @@ ExitPoint:
 	enhLogProfileMethodFinish ||, || 
 	Exit Sub	
 ErrorTrap:
+	On Error GoTo 0
 	enhLogException LIB_PREFIX, ||
 	Resume ExitPoint
 End Sub
@@ -340,6 +343,7 @@ Sub logActionToEnhancedLogObject(source As EnhancedLog, description$)
 %END REM
 	source.LogAction description$
 End Sub ' logActionToEnhancedLogObject
+
 
 
 
