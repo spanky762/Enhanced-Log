@@ -2,19 +2,19 @@
 <agent name='Demo - Log A Lot of Stuff to NotesLog' xmlns='http://www.lotus.com/dxl'
  version='12.0' replicaid='852587A5005D981C' hide='v3' publicaccess='false'
  designerversion='8.5.3'>
-<noteinfo noteid='18a' unid='21CAF0D82650A01B85258680006D4B94' sequence='5'>
+<noteinfo noteid='18a' unid='21CAF0D82650A01B85258680006D4B94' sequence='15'>
 <created><datetime>20210218T145347,72-05</datetime></created>
-<modified><datetime>20211221T124732,90-05</datetime></modified>
-<revised><datetime>20211221T124732,89-05</datetime></revised>
-<lastaccessed><datetime>20211221T124732,89-05</datetime></lastaccessed>
+<modified><datetime>20211222T161513,79-05</datetime></modified>
+<revised><datetime>20211222T161513,78-05</datetime></revised>
+<lastaccessed><datetime>20211222T161513,78-05</datetime></lastaccessed>
 <addedtofile><datetime>20211208T120257,59-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime>20211221T124732,89-05</datetime></designchange>
+<designchange><datetime>20211222T161513,78-05</datetime></designchange>
 <trigger type='actionsmenu'/>
 <documentset type='runonce'/><code event='options'><lotusscript>%REM ***************************************************************************
  ************************************************************************************
-	Demo - Log A Lot of Stuff to Notes Log Lotusscript Agent
+	Demo - Log A Lot of Stuff to NotesLog Lotusscript Agent
 
 	Demonstration Agent for Enhanced Logging
 	&amp;copy; Copyright 2002 - 2010, Devin S. Olson
@@ -24,7 +24,7 @@
 	http://www.devinolson.net
 	Version 2021.02.18
 
-	Last updated: 02/2021
+	Last updated: 12/2021
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -43,6 +43,6 @@ End Sub
 	Messagebox |Agent Finished!|, 64, |Complete|
 End Sub</lotusscript></code>
 <rundata processeddocs='0' exitcode='0'>
-<agentmodified><datetime>20211221T124732,88-05</datetime></agentmodified></rundata>
+<agentmodified><datetime>20211222T161513,74-05</datetime></agentmodified></rundata>
 <item name='$POID'><datetime>20101203T153715,28-05</datetime></item></agent>
 
