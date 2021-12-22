@@ -220,8 +220,6 @@ Private Const ELEMENT_UNKNOWN = 		|Notes: Programmable Element Unknown|
 
 Private Const DEFAULT_DELIMITER = 		|Ø|
 
-' C:\Notes\Data\IBM_TECHNICAL_SUPPORT
-
 Private Const FILEPATH_LOGS_DEFAULT = 	|logs|
 Private Const FORMAT_TIMESTAMP = 		|yyyy/mm/dd hh:mm:ss|
 Private Const FORMAT_WHOLE_THOUSANDS = 	|###,###,###,###,##0|
@@ -318,6 +316,9 @@ Private Const MSG_INTERNAL_NORECOVER = |Internal Error in EnhancedLog object.  R
 Private Const ERR_OBJECT_CREATE_FAILED = 1208
 Private Const MSG_OBJECT_CREATE_FAILED = |Failed to create an Object.  |
 
+Private Const ERR_METHOD_DEPRECATED = 1150
+Private Const MSG_METHOD_DEPRECATED = |Method has been deprecated.  |
+
 Private Const ERR_PARAMETER_BLANK = 1199
 Private Const MSG_PARAMETER_BLANK = |A required parameter is blank or missing.  |
 
@@ -334,7 +335,9 @@ Private Const ERR_VIEW_NOT_FOUND = 1039
 Private Const MSG_VIEW_NOT_FOUND = |Could not find the specified view.  |
 
 Private Const ERR_PARENT_METHOD_NOT_ALLOWED = 1100
-Private Const MSG_PARENT_METHOD_NOT_ALLOWED = |Method must be overriden in child class.  |
+Private Const MSG_PARENT_METHOD_NOT_ALLOWED = |Method must be overridden in child class.  |
+
+
 
 %REM ***************************************************************************
  ************************************************************************************
@@ -2073,15 +2076,15 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 	Private dbTitle As String
 	Private dbFilepath As String
 	Private dbRepID As String
-	Private logFilepath As String
 	
-	Private progName As String 
 	Private mySubject As String
 	Private myLinkComment As String 
 	Private myLinkHotspotText As String 
 	Private myNotesVersion As String 
 	
-	Private starttimestamp_ As String 
+	Private progName As String 
+	Private starttimestamp_ As String
+	Private targetfilepath_ As String 
 	
 	Private internalErrorCount As Integer 
 	
@@ -2228,7 +2231,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 
 		Me.exists = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
 	End Sub 
 	
@@ -2246,18 +2249,22 @@ ExitPoint:
 			Call Me.LogProfiledMethodSummary()  
 			
 			Select Case me.logType 
-			Case LOGTYPE_MAIL: 
-				Me.Send 
-				
-			Case LOGTYPE_NOTES: 
-				Me.Save False, False 
-				
-			Case Else: 
-				If Not (Me.nlog_ Is Nothing) Then
-					Call Me.nlog_.Close()
-					Set Me.nlog_ = Nothing
-				End If 
-		End Select
+				Case LOGTYPE_MAIL: 
+					Call Me.Send() 
+					
+				Case LOGTYPE_AGENT:
+					If Not (Me.nlog_ Is Nothing) Then
+						Call Me.nlog_.Close()
+						Set Me.nlog_ = Nothing
+					End If 
+	
+				Case LOGTYPE_NOTES: 
+					Call Me.Save(False, False)
+					
+				Case LOGTYPE_FILE: 
+					Call Me.Save(False, False)
+					If (0 <> Me.targetfilehandle_%) Then Close #Me.targetfilehandle_% 
+			End Select
 		End If 
 	End Sub 
 	
@@ -2482,9 +2489,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, Nothing, ||, ||, code%, errMsg$, errline&, methodname$, stacktrace)
 		Call me.buffer.addEntry(entry)
 		
-	ExitPoint:
+ExitPoint:
 		Exit Sub
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
@@ -2508,10 +2515,10 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, linkTo, linkcomment$, HotSpotText$, code%, errMsg$, errline&, methodname$, stacktrace)
 		Call me.buffer.addEntry(entry)
 		
-	ExitPoint:
+ExitPoint:
 		Me.myHasLinkInfo = False
 		Exit Sub
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
@@ -2533,9 +2540,9 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXTENDED, description$, extendedcontent$, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
-	ErrorTrap:
+ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
@@ -2554,7 +2561,7 @@ ErrorTrap:
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXTENDED, description$, extendedcontent$, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
 		Call me.buffer.addEntry(entry)
 
-	ExitPoint:
+ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
@@ -2776,20 +2783,22 @@ ErrorTrap:
 	
 	
 	Public Function Save(force As Boolean, createResponse As Boolean) As Boolean
-		Dim result As Boolean	
-		Dim extendedInfo As String	
-		On Error GoTo ErrorTrap
-		
 		Dim nitm As NotesItem
+
+		Dim extendedInfo As String	
+
+		Dim result As Boolean	
 		Dim isRecursive As Boolean		
-		
+
+		On Error GoTo ErrorTrap
+	
 		isRecursive = (GetThreadInfo(LIB_LSI_THREAD_PROC) = GetThreadInfo(LIB_LSI_THREAD_CALLPROC))
 		If isRecursive Then Me.saverecursions_ = Me.saverecursions_ + 1
 		
 		If (Not Me.exists) Then GoTo ExitPoint 
 		
 		Select Case Me.logType			
-			Case LOGTYPE_NOTES
+			Case LOGTYPE_NOTES:
 				If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
 				Set nitm = Me.TargetDocument.ReplaceItemValue(|A$ENDTIME|, Now)
 				nitm.IsSummary = True		
@@ -2801,10 +2810,22 @@ ErrorTrap:
 				
 				result = Me.TargetDocument.Save(force, createResponse)
 
-			Case LOGTYPE_FILE, LOGTYPE_MAIL
+			Case LOGTYPE_FILE: 
+				If (0 <> Me.targetfilehandle_%) Then 
+					Close #Me.targetfilehandle_% ' This saves the target file
+					
+					' Target file must be re-opened in append mode
+					Me.targetfilehandle_% = FreeFile()
+					Open Me.targetfilepath_$ For Append As targetfilehandle_%
+				End If
+			
+			Case LOGTYPE_MAIL:
 				result = True
 				
 				' TODO NEED TO COMPLETE THE SAVE CODE HERE
+				
+			Case LOGTYPE_AGENT: 
+				' do nothing, agent logs are not saved.
 				
 
 		End Select 
@@ -3292,9 +3313,11 @@ ErrorTrap:
 				If Me.hasEntries Then Me.Save False, False
 				
 			Case LOGTYPE_FILE
-				If Not (Me.nlog_ Is Nothing) Then Me.nlog_.Close
-				Set Me.nlog_ = Nothing
-				
+				If (0 <> Me.targetfilehandle_%) Then 
+					Close #Me.targetfilehandle_%	
+					Me.targetfilehandle_% = 0
+				End If 	
+
 			Case LOGTYPE_MAIL
 				If Me.hasEntries Then Me.Send
 				
@@ -3321,9 +3344,10 @@ ErrorTrap:
 					Error ERR_PARAMETER_INVALID, MSG_PARAMETER_INVALID
 				End If 				
 
-				If (Me.targetfilehandle_% = 0) Then 
-					targetfilehandle_% = FreeFile()
-					Open path$ For Output As targetfilehandle_%
+				If (0 = Me.targetfilehandle_%) Then
+					Me.targetfilepath_$ = path$
+					Me.targetfilehandle_% = FreeFile()
+					Open Me.targetfilepath_$ For Output As targetfilehandle_%
 				End If
 
 				Call Me.AddBodyHeader_File() 
@@ -3776,8 +3800,8 @@ ErrorTrap:
 		
 	ExitPoint:
 		Exit Sub 
-		
 	End Sub 
+
 	
 	Private Function spanLogDocument(descripPrev$, commentPrev$, descripNext$, commentNext$) As Boolean
 		Dim result As Boolean 
@@ -3913,7 +3937,6 @@ ErrorTrap:
 	Private Sub dumpBuffer 
 		On Error GoTo ErrorTrap
 		
-		
 		Dim entry As EnhancedLogEntry 
 		
 		' BEGIN CODE 
@@ -3922,8 +3945,10 @@ ErrorTrap:
 			Me.writeEntry entry 
 			Set entry = me.buffer.NextEntry 
 		Wend
+		Call me.buffer.Clear 
 		
-		Call me.buffer.Clear 		
+		If Me.AutoSave Then Me.Save False, False				
+				
 		
 	ExitPoint: 
 		Exit Sub 
@@ -4293,10 +4318,7 @@ ErrorTrap:
 			End If 					
 		End If
 		
-	
 		Me.nrti_.AddNewLine 1
-		If Me.AutoSave Then Me.Save False, False				
-
 
 	ExitPoint: 
 		Exit Sub 
@@ -6105,8 +6127,20 @@ End Function
 	@see enhLogOutputToNotesLog
 %END REM
 Public Property Set enhLogContentToNotesLog As Boolean 
-	enhLogWarning LIB_PREFIX, |DEPRECATED - use enhLogOutputToNotesLog|
-	enhLogOutputToNotesLog = enhLogContentToNotesLog 	
+	Dim extendedinfo$
+	On Error GoTo ErrorTrap
+	
+	enhLogOutputToNotesLog = enhLogContentToNotesLog 
+	
+	extendedinfo$ = |Calling Method: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
+	Error ERR_METHOD_DEPRECATED, MSG_METHOD_DEPRECATED & |Use enhLogOutputToNotesLog|
+	
+ExitPoint:
+	Exit Property
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedinfo$
+	Resume ExitPoint 	 	
 End Property
 
 '++LotusScript Development Environment:2:1:getDbConfigDoc:14:8
@@ -6417,8 +6451,19 @@ End Function
 	@see enhLogOutputToNotesLog
 %END REM
 Public Property Get enhLogContentToNotesLog As Boolean 
-	enhLogWarning LIB_PREFIX, |DEPRECATED - use enhLogOutputToNotesLog|
+	Dim extendedinfo$
+	On Error GoTo ErrorTrap
+	
+	extendedinfo$ = |Calling Method: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
+	Error ERR_METHOD_DEPRECATED, MSG_METHOD_DEPRECATED & |Use enhLogOutputToNotesLog|
+	
+ExitPoint:
 	enhLogContentToNotesLog = enhLogOutputToNotesLog
+	Exit Property
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, extendedinfo$
+	Resume ExitPoint 	 	 	
 End Property
 
 '++LotusScript Development Environment:2:1:isBlankString:7:8
@@ -8228,6 +8273,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
