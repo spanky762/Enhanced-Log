@@ -2243,7 +2243,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 	
 	Public Sub Close()
 		If Me.hasEntries Then 
-			me.LogMethodResult |LotusScript Finished|
+			Me.LogMethodResult |LotusScript Finished.  Elapsed Time: | & Me.ElapsedText
 			Call me.dumpBuffer() 
 			
 			Call Me.LogProfiledMethodSummary()  
@@ -3101,6 +3101,124 @@ ExitPoint:
 			Me.ActionsIncludeMethodNames = False
 		End If 
 	End Property 
+	
+	
+	%REM
+		Property Get Elapsed
+		Number of seconds that have elapsed since this object was created.
+	%END REM
+	Public Property Get Elapsed As Long 
+		On Error GoTo ErrorTrap
+	
+		Dim ndt As New NotesDateTime(Now) 
+		Dim result&
+	
+		' BEGIN CODE
+		result = ndt.TimeDifference(Me.StartTime) 
+	
+	ExitPoint: 
+		Elapsed = result&
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		enhLogException CLASS_PREFIX, ||
+		Resume ExitPoint
+	End Property
+
+
+	%REM
+		Property Get ElapsedText
+		Text representation of the amount of time that has passed ince the object was created.
+			%END REM
+	Public Property Get ElapsedText As String 
+		On Error GoTo ErrorTrap
+	
+		' exception variables
+		Dim extendedinfo List As String 
+		Dim msg$
+	
+		Dim seconds&
+		Dim minutes%
+		Dim hours% 
+	
+	
+		Dim result$
+	
+		' BEGIN CODE
+		seconds& = Me.Elapsed 
+		extendedinfo(|Seconds|) = CStr(seconds&) 
+		If (seconds& < 1) Then 
+			result$ = |Less than 1 Second|
+		Else 		
+			
+			If (seconds& >= 3600) Then 
+				' get the hours
+				hours% = CInt(seconds \ 3600) ' integer division 
+				extendedinfo(|Hours|) = CStr(hours%)
+				
+				' get the seconds remaining 
+				seconds& = seconds& - (hours% * 3600) 
+				extendedinfo(|Seconds|) = CStr(seconds&) 
+	
+				' append hours to result string 
+				result$ = CStr(hours%)
+				If (hours% > 1) Then 
+					result$ = result$ & | Hours|
+				Else
+					result$ = result$ & | Hour|
+				End If
+			End If
+		
+			If (seconds& >= 60) Then 
+				' get the minutes
+				minutes% = CInt(seconds \ 60) ' integer division 
+				extendedinfo(|Minutes|) = CStr(minutes%)
+				
+				' get the seconds remaining 
+				seconds& = seconds& - (minutes% * 60) 
+				extendedinfo(|Seconds|) = CStr(seconds&) 
+	
+				' append minutes to result string 
+				If (hours% > 0) Then result$ = result$ & |, |
+				result$ = result$ & CStr(minutes%)
+				If (minutes% > 1) Then 
+					result$ = result$ & | Minutes|
+				Else
+					result$ = result$ & | Minute|
+				End If
+			End If
+	
+			' append seconds to result string 
+			If (seconds& > 0) Then 
+				If Not isBlankString(result$) Then result$ = result$ & |, |
+				result$ = result$ & CStr(seconds&)
+				If (seconds& > 1) Then 
+					result$ = result$ & | Seconds|
+				Else
+					result$ = result$ & | Second|
+				End If
+			End If	
+		End If 	
+	
+	ExitPoint: 
+		ElapsedText = result$
+		Exit Property 
+	ErrorTrap:
+		On Error GoTo 0
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		enhLogException CLASS_PREFIX, msg$
+		Resume ExitPoint
+	End Property
+
+
+
+
 	
 	
 	Public Property Set LocalEcho As Boolean
@@ -6128,14 +6246,16 @@ End Function
 %END REM
 Public Property Set enhLogContentToNotesLog As Boolean 
 	Dim extendedinfo$
+	Dim result As Boolean 
 	On Error GoTo ErrorTrap
 	
-	enhLogOutputToNotesLog = enhLogContentToNotesLog 
+	result = enhLogContentToNotesLog 
 	
 	extendedinfo$ = |Calling Method: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
 	Error ERR_METHOD_DEPRECATED, MSG_METHOD_DEPRECATED & |Use enhLogOutputToNotesLog|
 	
 ExitPoint:
+	enhLogOutputToNotesLog = result
 	Exit Property
 ErrorTrap:
 	On Error GoTo 0
@@ -6452,13 +6572,15 @@ End Function
 %END REM
 Public Property Get enhLogContentToNotesLog As Boolean 
 	Dim extendedinfo$
+	Dim result As Boolean 
 	On Error GoTo ErrorTrap
 	
+	result = enhLogOutputToNotesLog
 	extendedinfo$ = |Calling Method: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC)
 	Error ERR_METHOD_DEPRECATED, MSG_METHOD_DEPRECATED & |Use enhLogOutputToNotesLog|
 	
 ExitPoint:
-	enhLogContentToNotesLog = enhLogOutputToNotesLog
+	enhLogContentToNotesLog = result
 	Exit Property
 ErrorTrap:
 	On Error GoTo 0
@@ -8273,6 +8395,14 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
+
+
+
+
 
 
 
