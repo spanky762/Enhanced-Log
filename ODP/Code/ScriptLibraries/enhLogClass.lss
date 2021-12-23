@@ -2338,7 +2338,6 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 	
 	
 	Public Sub LogAction (description$)
-		Dim nitm As NotesItem
 		On Error GoTo ErrorTrap
 		
 		Dim entry As EnhancedLogEntry 
@@ -2524,7 +2523,6 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 	
 	
 	Public Sub LogExtendedContent (description$, extendedcontent$)
-		Dim nitm As NotesItem
 		On Error GoTo ErrorTrap
 		
 		Dim entry As EnhancedLogEntry 
@@ -4137,7 +4135,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 			Case LOGENTRY_TYPE_EXCEPTION: 
 				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |)|
 				If (Len(entry.ErrorMessage) > 0) Then temp$ = temp$ & entry.ErrorMessage 
-				Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  | & entry.ErrorCode, temp$
+				Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  ERROR |, entry.ErrorCode, temp$
 				
 				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, | |, entry.Message 
 				
@@ -4226,7 +4224,6 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 				Me.nlog_.LogAction entry.Message	
 				
 				If entry.hasLink Then 
-					Me.nrti_.AddTab 1
 					Set linkTo = entry.LinkTo 
 					Me.nlog_.LogAction entry.LinkComment & | | & linkTo.NotesURL 
 				End If 
@@ -8426,6 +8423,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
