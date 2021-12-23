@@ -507,7 +507,7 @@ Private Class enhLogListCarrier
 		@return Flag indicating if the tag represents an element in the internal list   
 	%END REM
 	Function hasTag(tag$) As Boolean 
-		hasTag = IsList(me.getContent()) And IsElement(me.getContent()(tag$)) 
+		hasTag = IsList(Me.getContent()) And IsElement(Me.getContent()(tag$)) 
 	End Function 
 	
 	
@@ -516,12 +516,12 @@ Private Class enhLogListCarrier
 		Description: array of all ListTags
 	%END REM
 	Property Get listTags As Variant 
-		listTags =  getListTags(me.getContent()) 
+		listTags =  getListTags(Me.getContent()) 
 	End Property
 
 	
 	Property Get size As Long 
-		size = getListSize(me.getContent()) 
+		size = getListSize(Me.getContent()) 
 	End Property
 	
 	Property Get hasContent As Boolean
@@ -530,7 +530,7 @@ Private Class enhLogListCarrier
 		Dim result As Boolean 
 		
 		result = False 
-		ForAll element In me.getContent()  
+		ForAll element In Me.getContent()  
 			result = True 
 			Exit ForAll 
 		End ForAll
@@ -563,10 +563,10 @@ Private Class enhLogListCarrier
 		result = False 
 		
 		If (source Is Nothing) Then GoTo ExitPoint 
-		If (me.CLASS_PREFIX <> source.CLASS_PREFIX) Then GoTo ExitPoint ' Class Prefix must match
+		If (Me.CLASS_PREFIX <> source.CLASS_PREFIX) Then GoTo ExitPoint ' Class Prefix must match
 		
 		' check all tags and values from this object
-		ForAll value In me.getContent() 
+		ForAll value In Me.getContent() 
 			tag$ = ListTag(value) 
 			If Not source.hasTag(tag$) Then GoTo ExitPoint 
 			If (value <> source.getContent()(tag$)) Then GoTo ExitPoint 
@@ -575,8 +575,8 @@ Private Class enhLogListCarrier
 		' check all tags and values from the passed in object
 		ForAll value In source.getContent()
 			tag$ = ListTag(value) 
-			If Not me.hasTag(tag$) Then GoTo ExitPoint 
-			If (value <> me.getContent()(tag$)) Then GoTo ExitPoint 
+			If Not Me.hasTag(tag$) Then GoTo ExitPoint 
+			If (value <> Me.getContent()(tag$)) Then GoTo ExitPoint 
 		End ForAll
 		
 		' no differences found 
@@ -587,7 +587,7 @@ Private Class enhLogListCarrier
 		Exit Function 
 	ErrorTrap:
 		On Error GoTo 0 
-		enhLogException me.CLASS_PREFIX, |ListTag: | & tag$ 
+		enhLogException Me.CLASS_PREFIX, |ListTag: | & tag$ 
 		Resume ExitPoint 
 	End Function
 	
@@ -601,7 +601,7 @@ Private Class enhLogListCarrier
 		@return 		Flag indicating all tags and values have equal values
 	%END REM
 	Function isEqual(source As enhLogListCarrier) As Boolean 	
-		isEqual = me.equals(source) 
+		isEqual = Me.equals(source) 
 	End Function
 
 
@@ -626,7 +626,7 @@ Private Class ProfiledMethod
 		Name of the Module containing the object 
 	%END REM
 	Property Get ModuleName As String 
-		ModuleName = me.content.modulename 
+		ModuleName = Me.content.modulename 
 	End Property
 
 	%REM
@@ -634,7 +634,7 @@ Private Class ProfiledMethod
 		Name of the Class containing the object 
 	%END REM
 	Property Get ClassName As String 
-		ClassName = me.content.classname 
+		ClassName = Me.content.classname 
 	End Property
 
 	%REM
@@ -642,7 +642,7 @@ Private Class ProfiledMethod
 		Name of the Method being profiled 
 	%END REM
 	Property Get MethodName As String 
-		MethodName = me.content.methodname 
+		MethodName = Me.content.methodname 
 	End Property
 
 	%REM
@@ -650,7 +650,7 @@ Private Class ProfiledMethod
 		Operation (for a property, Get or Set) 
 	%END REM
 	Property Get Operation As String 
-		Operation = me.content.operation
+		Operation = Me.content.operation
 	End Property
 
 
@@ -659,7 +659,7 @@ Private Class ProfiledMethod
 		Elapsed time (in milliseconds) total for Object
 	%END REM
 	Property Get Elapsed As Long 
-		Elapsed = me.content.elapsed 
+		Elapsed = Me.content.elapsed 
 	End Property
 
 	%REM
@@ -667,7 +667,7 @@ Private Class ProfiledMethod
 		Operating system clock ticks (milliseconds) set for the object.  
 	%END REM
 	Property Get Ticks As Long 
-		Ticks = me.content.ticks 
+		Ticks = Me.content.ticks 
 	End Property
 
 	%REM
@@ -675,7 +675,7 @@ Private Class ProfiledMethod
 		Number of times the method / operation being profiled has been called
 	%END REM
 	Property Get Calls As Long 
-		Calls = me.content.calls 
+		Calls = Me.content.calls 
 	End Property
 
 	%REM
@@ -683,7 +683,7 @@ Private Class ProfiledMethod
 		Number of recursive calls to the method / operation 
 	%END REM
 	Property Get Recursions As Long 
-		Recursions = me.content.recursions 
+		Recursions = Me.content.recursions 
 	End Property
 
 	%REM
@@ -691,7 +691,7 @@ Private Class ProfiledMethod
 		Current recursion depth for the method / operation 
 	%END REM
 	Property Get RecursionDepth As Long 
-		RecursionDepth = me.content.recursiondepth 
+		RecursionDepth = Me.content.recursiondepth 
 	End Property
 
 	%REM
@@ -699,7 +699,7 @@ Private Class ProfiledMethod
 		Maximum recursion depth that has occurred for the method / operation 
 	%END REM
 	Property Get MaxRecursionDepth As Long 
-		MaxRecursionDepth = me.content.maxrecursiondepth 
+		MaxRecursionDepth = Me.content.maxrecursiondepth 
 	End Property
 
 	%REM
@@ -708,7 +708,7 @@ Private Class ProfiledMethod
 		Started being the method has begun operation, but not yet finished. 
 	%END REM
 	Property Get isStarted As Boolean 
-		isStarted = me.content.isstarted  
+		isStarted = Me.content.isstarted  
 	End Property
 
 
@@ -718,7 +718,7 @@ Private Class ProfiledMethod
 		Operation (for a property, Get or Set) 
 	%END REM
 	Property Set Operation As String 
-		me.content.operation = Operation
+		Me.content.operation = Operation
 	End Property
 
 	%REM
@@ -726,7 +726,7 @@ Private Class ProfiledMethod
 		Elapsed time (in milliseconds) total for Object
 	%END REM
 	Property Set Elapsed As Long 
-		me.content.elapsed = Elapsed 
+		Me.content.elapsed = Elapsed 
 	End Property
 
 	%REM
@@ -734,7 +734,7 @@ Private Class ProfiledMethod
 		Operating system clock ticks (milliseconds) set for the object.  
 	%END REM
 	Property Set Ticks As Long 
-		me.content.ticks = Ticks 
+		Me.content.ticks = Ticks 
 	End Property
 
 
@@ -743,7 +743,7 @@ Private Class ProfiledMethod
 		Number of times the method / operation being profiled has been called
 	%END REM
 	Property Set Calls As Long 
-		me.content.calls = Calls 
+		Me.content.calls = Calls 
 	End Property
 
 	%REM
@@ -751,7 +751,7 @@ Private Class ProfiledMethod
 		Number of recursive calls to the method / operation 
 	%END REM
 	Property Set Recursions As Long 
-		me.content.recursions = Recursions
+		Me.content.recursions = Recursions
 	End Property
 
 	%REM
@@ -759,7 +759,7 @@ Private Class ProfiledMethod
 		Current recursion depth for the method / operation 
 	%END REM
 	Property Set RecursionDepth As Long 
-		me.content.recursiondepth = RecursionDepth  
+		Me.content.recursiondepth = RecursionDepth  
 	End Property
 
 	%REM
@@ -767,7 +767,7 @@ Private Class ProfiledMethod
 		Maximum recursion depth that has occurred for the method / operation 
 	%END REM
 	Property Set MaxRecursionDepth As Long 
-		me.content.maxrecursiondepth = MaxRecursionDepth 
+		Me.content.maxrecursiondepth = MaxRecursionDepth 
 	End Property
 
 	%REM
@@ -776,7 +776,7 @@ Private Class ProfiledMethod
 		Started being the method has begun operation, but not yet finished. 
 	%END REM
 	Property Set isStarted As Boolean 
-		me.content.isstarted = isStarted  
+		Me.content.isstarted = isStarted  
 	End Property
 
 
@@ -802,11 +802,11 @@ Private Class ProfiledMethod
 		extendedinfo(|Operation|) = operation$ 
 		extendedinfo(|Ticks|) = CStr(ticks&) 
 
-		me.content.modulename = modulename$
-		me.content.classname = classname$ 
-		me.content.methodname = methodname$ 
-		me.Operation = operation$ 
-		me.Ticks = ticks& 
+		Me.content.modulename = modulename$
+		Me.content.classname = classname$ 
+		Me.content.methodname = methodname$ 
+		Me.Operation = operation$ 
+		Me.Ticks = ticks& 
 		
 
 
@@ -843,7 +843,7 @@ Private Class ProfiledMethodList As enhLogListCarrier
 	End Sub
 
 	Public Sub Delete()
-		Erase me.content
+		Erase Me.content
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
@@ -856,13 +856,13 @@ Private Class ProfiledMethodList As enhLogListCarrier
 		Description: Gets the content list for the object
 	%END REM
 	Public Function getContent() As Variant 	
-		getContent = me.content 	
+		getContent = Me.content 	
 	End Function
 		
 		
 	Public Function getValue(tag$) As ProfiledMethod
 		Dim result As ProfiledMethod 
-		If IsElement(me.content(tag$)) Then Set result = me.content(tag$) Else Set result = Nothing 
+		If IsElement(Me.content(tag$)) Then Set result = Me.content(tag$) Else Set result = Nothing 
 		
 		Set getValue = result  
 	End Function 		
@@ -878,7 +878,7 @@ Private Class NestedProfiledMethodList As enhLogListCarrier
 	End Sub
 
 	Public Sub Delete()
-		Erase me.content
+		Erase Me.content
 	End Sub
 	
 	Private Property Get CLASS_PREFIX As String 
@@ -890,7 +890,7 @@ Private Class NestedProfiledMethodList As enhLogListCarrier
 		Description: Gets the content list for the object
 	%END REM
 	Public Function getContent() As Variant 	
-		getContent = me.content 	
+		getContent = Me.content 	
 	End Function
 
 End Class  
@@ -953,7 +953,7 @@ Private Class NotesLink
 						Exit ForAll 
 					End ForAll 
 				End If
-				If isBlankString (Me.viewname_) Then me.viewname_ = nvw.Name 
+				If isBlankString (Me.viewname_) Then Me.viewname_ = nvw.Name 
 
 				Set ndb = nvw.Parent 
 				
@@ -973,7 +973,7 @@ Private Class NotesLink
 		
 		Me.notesurl_ = |Notes:///|
 		
-		If Not isBlankString(ndb.Server) Then Me.notesurl_ = me.notesurl_ & ndb.Server & |!!|
+		If Not isBlankString(ndb.Server) Then Me.notesurl_ = Me.notesurl_ & ndb.Server & |!!|
 		Me.notesurl_ = Me.notesurl_ & ndb.ReplicaID 
 				
 		Select Case linkToType$
@@ -1045,7 +1045,7 @@ Private Class NotesLink
  		@return NotesURL for the entry 
 	%END REM
 	Property Get NotesURL As String 
-		NotesURL = me.notesurl_
+		NotesURL = Me.notesurl_
 	End Property
 
 	%REM
@@ -1053,7 +1053,7 @@ Private Class NotesLink
  		@return Server for the entry 
 	%END REM
 	Property Get Server As String 
-		Server = me.server_
+		Server = Me.server_
 	End Property
 
 	%REM
@@ -1061,7 +1061,7 @@ Private Class NotesLink
  		@return Filepath for the entry 
 	%END REM
 	Property Get Filepath As String 
-		Filepath = me.filepath_
+		Filepath = Me.filepath_
 	End Property
 
 	%REM
@@ -1069,7 +1069,7 @@ Private Class NotesLink
  		@return ReplicaID for the entry 
 	%END REM
 	Property Get ReplicaID As String 
-		ReplicaID = me.replicaid_
+		ReplicaID = Me.replicaid_
 	End Property
 
 	%REM
@@ -1077,7 +1077,7 @@ Private Class NotesLink
  		@return Viewname for the entry 
 	%END REM
 	Property Get Viewname As String 
-		Viewname = me.viewname_
+		Viewname = Me.viewname_
 	End Property
 
 	%REM
@@ -1085,7 +1085,7 @@ Private Class NotesLink
  		@return UniversalID for the entry 
 	%END REM
 	Property Get UniversalID As String 
-		UniversalID = me.universalid_
+		UniversalID = Me.universalid_
 	End Property
 	
 	
@@ -1144,17 +1144,17 @@ Private Class NotesLink
 	
 		' BEGIN CODE
 		Set result = Nothing 
-		extendedinfo(|Filepath|) = me.Filepath 
-		extendedinfo(|NotesURL|) = me.NotesURL 
-		extendedinfo(|ReplicaID|) = me.ReplicaID 
-		extendedinfo(|Server|) = me.Server 
-		extendedinfo(|UniversalID|) = me.UniversalID 
-		extendedinfo(|ViewName|) = me.ViewName 
+		extendedinfo(|Filepath|) = Me.Filepath 
+		extendedinfo(|NotesURL|) = Me.NotesURL 
+		extendedinfo(|ReplicaID|) = Me.ReplicaID 
+		extendedinfo(|Server|) = Me.Server 
+		extendedinfo(|UniversalID|) = Me.UniversalID 
+		extendedinfo(|ViewName|) = Me.ViewName 
 		
-		Set ndb = getOpenDatabase(me.Server, me.Filepath) 		
-		If isBlankString(me.UniversalID) Then 
+		Set ndb = getOpenDatabase(Me.Server, Me.Filepath) 		
+		If isBlankString(Me.UniversalID) Then 
 			' Not a NotesDocument 
-			If isBlankString(me.Viewname) Then 
+			If isBlankString(Me.Viewname) Then 
 				' Not a view, return the Database 
 				Set result = ndb 
 			Else 
@@ -1164,7 +1164,7 @@ Private Class NotesLink
 			End If
 		Else 
  			' return a Document 
- 			Set result = ndb.getDocumentByUNID(me.UniversalID) 
+ 			Set result = ndb.getDocumentByUNID(Me.UniversalID) 
 			If (result Is Nothing) Then Error ERR_DOCUMENT_NOT_FOUND, MSG_DOCUMENT_NOT_FOUND 
 		End If	
 		
@@ -1234,12 +1234,12 @@ Private Class EnhancedLogStackTrace
 		
 		
 		' BEGIN CODE 
-		ReDim Preserve me.Content(me.count_) As StackTraceElement 
-		me.module_ = GetThreadInfo(LIB_LSI_THREAD_MODULE)
+		ReDim Preserve Me.Content(Me.count_) As StackTraceElement 
+		Me.module_ = GetThreadInfo(LIB_LSI_THREAD_MODULE)
 		stackinfo =  Split(LSI_Info(LIB_LSI_THREAD_STACKINFO), Chr(10))
 		
 		ForAll element In stackinfo
-			idx% = UBound(me.Content) 
+			idx% = UBound(Me.Content) 
 			stackelement = Split(element, |,|) 
 			steModule$ = Trim$(stackelement(0))
 			If (UBound(stackelement) >= 1) Then steMethodname$ = Trim$(stackelement(1)) Else steMethodname$ = ||
@@ -1249,7 +1249,7 @@ Private Class EnhancedLogStackTrace
 				If Not isStackStarted Then 
 					Select Case steMethodname$
 						Case |LOGSTACKTRACE|, |LOGEXCEPTION|, |LOGEXCEPTIONWITHLINK|, |ENHLOGEXCEPTION|, |ENHLOGSTACKTRACE|
-							isStackStarted = (Trim$(stackelement(0)) <> me.module_)
+							isStackStarted = (Trim$(stackelement(0)) <> Me.module_)
 						Case Else
 							isStackStarted = True
 					End Select 	
@@ -1259,9 +1259,9 @@ Private Class EnhancedLogStackTrace
 					ste.module = steModule$
 					ste.methodname = steMethodname$
 					ste.linenumber = steLinenumber$ 
-					ReDim Preserve me.Content(me.count_) As StackTraceElement 
-					me.Content(me.count_) = ste 
-					me.count_ = me.count_ + 1
+					ReDim Preserve Me.Content(Me.count_) As StackTraceElement 
+					Me.Content(Me.count_) = ste 
+					Me.count_ = Me.count_ + 1
 				End If 
 			End If
 		End ForAll 
@@ -1292,7 +1292,7 @@ Private Class EnhancedLogStackTrace
  		@return Module from which the Stack Trace was triggered
 	%END REM
 	Property Get Module As String  
-		Module = me.module_
+		Module = Me.module_
 	End Property
 
 
@@ -1308,8 +1308,8 @@ Private Class EnhancedLogStackTrace
 		Dim result As Long 
 		
 		' BEGIN CODE
-		result = LenB(me.module_) 
-		ForAll ste In me.Content 
+		result = LenB(Me.module_) 
+		ForAll ste In Me.Content 
 			result = result + LenB(ste.linenumber) + LenB(ste.methodname) + LenB(ste.module) 
 		End ForAll
 		
@@ -1369,26 +1369,26 @@ Private Class EnhancedLogEntry
 		
 		
 		' BEGIN CODE 
-		me.content_.logtime = Now 
-		me.content_.logentrytype = logtype% 
-		me.content_.message = message$ 
-		me.content_.extendedcontent = extendedcontent$
-		me.content_.errorcode = errorcode%
-		me.content_.errormessage = errormessage$
-		me.content_.errorline = errorline&
-		me.content_.errormethod = errormethod$ 
-		me.content_.linkcomment = linkcomment$ 
+		Me.content_.logtime = Now 
+		Me.content_.logentrytype = logtype% 
+		Me.content_.message = message$ 
+		Me.content_.extendedcontent = extendedcontent$
+		Me.content_.errorcode = errorcode%
+		Me.content_.errormessage = errormessage$
+		Me.content_.errorline = errorline&
+		Me.content_.errormethod = errormethod$ 
+		Me.content_.linkcomment = linkcomment$ 
 		
 		extendedinfo(|Log Entry Type|) = CStr(logtype%) 
 		If Not isBlankString(message$) Then extendedinfo(|Message|) = message$
 		If Not isBlankString(extendedcontent$) Then extendedinfo(|Extended Content|) = extendedcontent$ 
 		If Not isBlankString(linkcomment$) Then extendedinfo(|Link Comment|) = linkcomment$
 		If Not isBlankString(hotspottext$) Then extendedinfo(|Hot Spot Text|) = hotspottext$
-		Set me.stacktrace_ = st 
+		Set Me.stacktrace_ = st 
 		
 		If (linkTo Is Nothing) Then GoTo ExitPoint
 		
-		Set me.link_ = New NotesLink(linkTo) 
+		Set Me.link_ = New NotesLink(linkTo) 
 		
 	ExitPoint: 
 		If (0 <> errcode%) Then Error errcode%, errmsg$ & | at line | & CStr(errline%) & | in | & CLASS_PREFIX & |New() Constructor| 
@@ -1415,7 +1415,7 @@ Private Class EnhancedLogEntry
  		@return Date/Time of the log entry, Variant of DataType 7 (Date/Time).
 	%END REM
 	Property Get LogTime As Variant ' Variant of DataType 7 (Date/Time).
-		LogTime = me.content_.logtime
+		LogTime = Me.content_.logtime
 	End Property
 
 	%REM
@@ -1423,14 +1423,14 @@ Private Class EnhancedLogEntry
  		@return NotesLink for which to include a Link in the log.
 	%END REM
 	Property Get LinkTo As NotesLink 
-		Set LinkTo = me.link_ 
+		Set LinkTo = Me.link_ 
 	End Property
 
 	%REM
  		Property Get LogEntryType
 	%END REM
 	Property Get LogEntryType As Integer 
-		LogEntryType = me.content_.logentrytype
+		LogEntryType = Me.content_.logentrytype
 	End Property
 
 	%REM
@@ -1438,7 +1438,7 @@ Private Class EnhancedLogEntry
  		@return text representation of the logtime 
 	%END REM
 	Property Get TimeStamp As String 
-		TimeStamp = Format$(me.content_.logtime, FORMAT_TIMESTAMP)
+		TimeStamp = Format$(Me.content_.logtime, FORMAT_TIMESTAMP)
 	End Property
 
 
@@ -1447,7 +1447,7 @@ Private Class EnhancedLogEntry
  		@return Message for the entry 
 	%END REM
 	Property Get Message As String 
-		Message = me.content_.message
+		Message = Me.content_.message
 	End Property
 
 	%REM
@@ -1455,7 +1455,7 @@ Private Class EnhancedLogEntry
  		@return ExtendedContent for the entry 
 	%END REM
 	Property Get ExtendedContent As String 
-		ExtendedContent = me.content_.extendedcontent
+		ExtendedContent = Me.content_.extendedcontent
 	End Property
 
 	%REM
@@ -1463,7 +1463,7 @@ Private Class EnhancedLogEntry
  		@return LinkComment for the entry 
 	%END REM
 	Property Get LinkComment As String 
-		LinkComment = me.content_.linkcomment
+		LinkComment = Me.content_.linkcomment
 	End Property
 
 	%REM
@@ -1471,7 +1471,7 @@ Private Class EnhancedLogEntry
  		@return HotSpotText for the entry 
 	%END REM
 	Property Get HotSpotText As String 
-		HotSpotText = me.content_.hotspottext
+		HotSpotText = Me.content_.hotspottext
 	End Property
 
 	%REM
@@ -1479,7 +1479,7 @@ Private Class EnhancedLogEntry
  		@return ErrorMessage for the entry 
 	%END REM
 	Property Get ErrorMessage As String 
-		ErrorMessage = me.content_.errormessage
+		ErrorMessage = Me.content_.errormessage
 	End Property
 
 	%REM
@@ -1487,7 +1487,7 @@ Private Class EnhancedLogEntry
  		@return ErrorMethod for the entry 
 	%END REM
 	Property Get ErrorMethod As String 
-		ErrorMethod = me.content_.errormethod
+		ErrorMethod = Me.content_.errormethod
 	End Property
 
 	%REM
@@ -1495,7 +1495,7 @@ Private Class EnhancedLogEntry
  		@return ErrorLine for the entry 
 	%END REM
 	Property Get ErrorLine As Long 
-		ErrorLine = me.content_.errorline
+		ErrorLine = Me.content_.errorline
 	End Property	
 
 	%REM
@@ -1503,7 +1503,7 @@ Private Class EnhancedLogEntry
  		@return ErrorCode for the entry 
 	%END REM
 	Property Get ErrorCode As Integer 
-		ErrorCode = me.content_.errorcode
+		ErrorCode = Me.content_.errorcode
 	End Property
 
 	%REM
@@ -1511,7 +1511,7 @@ Private Class EnhancedLogEntry
  		@return Flag indicating if the object has a link
 	%END REM
 	Property Get hasLink As Boolean 
-		hasLink = Not (me.link_ Is Nothing)  
+		hasLink = Not (Me.link_ Is Nothing)  
 	End Property
 
 
@@ -1520,7 +1520,7 @@ Private Class EnhancedLogEntry
  		@return StackTrace for the entry 
 	%END REM
 	Property Get StackTrace As EnhancedLogStackTrace 
-		Set StackTrace = me.stacktrace_ 
+		Set StackTrace = Me.stacktrace_ 
 	End Property
 
 
@@ -1537,19 +1537,19 @@ Private Class EnhancedLogEntry
 		Dim result As Long 
 	
 		' BEGIN CODE
-		result = LenB(me.TimeStamp) _
-			+ LenB(me.content_.message) _ 
-			+ LenB(me.content_.extendedcontent) _ 
-			+ LenB(me.content_.linkcomment) _ 
-			+ LenB(me.content_.hotspottext) _ 
-			+ Len(me.content_.logentrytype) _ 
-			+ Len(me.content_.errorcode) _ 
-			+ LenB(me.content_.errormessage) _ 
-			+ Len(me.content_.errorline) _ 
-			+ LenB(me.content_.errormethod) 
+		result = LenB(Me.TimeStamp) _
+			+ LenB(Me.content_.message) _ 
+			+ LenB(Me.content_.extendedcontent) _ 
+			+ LenB(Me.content_.linkcomment) _ 
+			+ LenB(Me.content_.hotspottext) _ 
+			+ Len(Me.content_.logentrytype) _ 
+			+ Len(Me.content_.errorcode) _ 
+			+ LenB(Me.content_.errormessage) _ 
+			+ Len(Me.content_.errorline) _ 
+			+ LenB(Me.content_.errormethod) 
 		
-		If me.hasLink Then result = result + me.link_.size 
-		If Not (me.stacktrace_ Is Nothing) Then result = result + me.stacktrace_.size 
+		If Me.hasLink Then result = result + Me.link_.size 
+		If Not (Me.stacktrace_ Is Nothing) Then result = result + Me.stacktrace_.size 
 		
 	ExitPoint: 
 		size = result
@@ -1602,15 +1602,15 @@ Private Class EnhancedLogEntryBuffer
 		Dim idx%
 		
 		' BEGIN CODE 
-		Erase me.content
+		Erase Me.content
 		
 		For idx% = 0 To LOGENTRY_BUFFER_MAX_COUNT 
 			extendedinfo(|Index|) = CStr(idx%)
-			Set me.content(idx%) = Nothing
+			Set Me.content(idx%) = Nothing
 		Next
 
-		me.count_ = 0
-		me.index_ = 0
+		Me.count_ = 0
+		Me.index_ = 0
 		
 	ExitPoint: 
 		Exit Sub 
@@ -1649,8 +1649,8 @@ Private Class EnhancedLogEntryBuffer
 		
 		
 		' BEGIN CODE
-		result = (me.count => LOGENTRY_BUFFER_MAX_COUNT)
-		If Not result Then result = (me.size => LOGENTRY_BUFFER_MAX_BYTES) 
+		result = (Me.count => LOGENTRY_BUFFER_MAX_COUNT)
+		If Not result Then result = (Me.size => LOGENTRY_BUFFER_MAX_BYTES) 
 		
 		ExitPoint: 
 			isFull = result
@@ -1675,7 +1675,7 @@ Private Class EnhancedLogEntryBuffer
  		@return Number of entries in the buffer 
 	%END REM
 	Property Get count As Integer 
-		count = me.count_ 
+		count = Me.count_ 
 	End Property
 
 	%REM
@@ -1695,9 +1695,9 @@ Private Class EnhancedLogEntryBuffer
 		Dim result As EnhancedLogEntry
 	
 		' BEGIN CODE
-		extendedinfo(|Index|) = me.index_ 
-		Set result = me.content(me.index_) 
-		If (me.index_ <= me.count_) Then me.index_ = me.index_ + 1 
+		extendedinfo(|Index|) = Me.index_ 
+		Set result = Me.content(Me.index_) 
+		If (Me.index_ <= Me.count_) Then Me.index_ = Me.index_ + 1 
 	
 	ExitPoint: 
 		Set NextEntry = result
@@ -1731,8 +1731,8 @@ Private Class EnhancedLogEntryBuffer
 		Dim result As EnhancedLogEntry
 	
 		' BEGIN CODE
-		me.index_ = 0 
-		Set result = me.NextEntry 
+		Me.index_ = 0 
+		Set result = Me.NextEntry 
 	
 	ExitPoint: 
 		Set FirstEntry = result
@@ -1766,12 +1766,12 @@ Private Class EnhancedLogEntryBuffer
 		Dim result As EnhancedLogEntry
 		
 		' BEGIN CODE
-		If (me.count_ > 0) Then 
-			me.index_ = me.count_ -1
+		If (Me.count_ > 0) Then 
+			Me.index_ = Me.count_ -1
 		Else 
-			me.index_ = 0
+			Me.index_ = 0
 		End If
-		Set result = me.NextEntry 
+		Set result = Me.NextEntry 
 		
 	ExitPoint: 
 		Set LastEntry = result
@@ -1803,9 +1803,9 @@ Private Class EnhancedLogEntryBuffer
 		
 		
 		' BEGIN CODE  
-		If me.isFull Then Error ERR_INTERNAL, MSG_INTERNAL & |Buffer is full.  Additional entries cannot be added.  |
-		Set me.content(me.count_) = source
-		me.count_ = me.count_ + 1 
+		If Me.isFull Then Error ERR_INTERNAL, MSG_INTERNAL & |Buffer is full.  Additional entries cannot be added.  |
+		Set Me.content(Me.count_) = source
+		Me.count_ = Me.count_ + 1 
 		
 		
 	ExitPoint: 
@@ -1839,7 +1839,7 @@ Private Class EnhancedLogEntryBuffer
 
 		' BEGIN CODE
 		For idx% = 0 To Me.count
-			Set entry = me.content(idx%) 
+			Set entry = Me.content(idx%) 
 			If Not (entry Is Nothing) Then 
 				result = result + entry.size 
 			End If 
@@ -1875,9 +1875,9 @@ Private Class EnhancedLogEntryBuffer
 		Dim result%
 		
 		' BEGIN CODE
-		If me.count_ > 0 Then 
-			For i% = 0 To me.count_ 
-				Set ele = me.content(i%) 
+		If Me.count_ > 0 Then 
+			For i% = 0 To Me.count_ 
+				Set ele = Me.content(i%) 
 				If (ele Is Nothing) Then GoTo ExitPoint
 				If (ele.LogEntryType And logtype%) Then  ' logical bitwise comparison
 					result = True 
@@ -1907,7 +1907,7 @@ Private Class EnhancedLogEntryBuffer
  		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, or LOGENTRY_TYPE_EXTENDED exist in the buffer
 	%END REM
 	Property Get hasACTION As Boolean 
-		hasACTION = me.hasLogEntryCount(LOGENTRY_TYPE_ACTION + LOGENTRY_TYPE_METHODRESULT + LOGENTRY_TYPE_EXTENDED)
+		hasACTION = Me.hasLogEntryCount(LOGENTRY_TYPE_ACTION + LOGENTRY_TYPE_METHODRESULT + LOGENTRY_TYPE_EXTENDED)
 	End Property
 
 	%REM
@@ -1915,7 +1915,7 @@ Private Class EnhancedLogEntryBuffer
  		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_METHODRESULT exist in the buffer
  	%END REM
 	Property Get hasMETHODRESULT As Boolean 
-		hasMETHODRESULT = me.hasLogEntryCount(LOGENTRY_TYPE_METHODRESULT)
+		hasMETHODRESULT = Me.hasLogEntryCount(LOGENTRY_TYPE_METHODRESULT)
 	End Property
 
 	%REM
@@ -1923,7 +1923,7 @@ Private Class EnhancedLogEntryBuffer
   		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_EXTENDED exist in the buffer
  	%END REM
 	Property Get hasEXTENDED As Boolean 
-		hasEXTENDED = me.hasLogEntryCount(LOGENTRY_TYPE_EXTENDED)
+		hasEXTENDED = Me.hasLogEntryCount(LOGENTRY_TYPE_EXTENDED)
 	End Property
 
 	%REM
@@ -1931,7 +1931,7 @@ Private Class EnhancedLogEntryBuffer
   		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_WARNING exist in the buffer
  	%END REM
 	Property Get hasWARNING As Boolean 
-		hasWARNING = me.hasLogEntryCount(LOGENTRY_TYPE_WARNING)
+		hasWARNING = Me.hasLogEntryCount(LOGENTRY_TYPE_WARNING)
 	End Property
 
 	%REM
@@ -1939,7 +1939,7 @@ Private Class EnhancedLogEntryBuffer
  		@return Flag indicating if EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_EXCEPTION exist in the buffer
  	%END REM
 	Property Get hasEXCEPTION As Boolean 
-		hasEXCEPTION = me.hasLogEntryCount(LOGENTRY_TYPE_EXCEPTION)
+		hasEXCEPTION = Me.hasLogEntryCount(LOGENTRY_TYPE_EXCEPTION)
 	End Property
 
 
@@ -1964,9 +1964,9 @@ Private Class EnhancedLogEntryBuffer
 		Dim result%
 		
 		' BEGIN CODE
-		If me.count_ > 0 Then 
-			For i% = 0 To me.count_ 
-				Set ele = me.content(i%) 
+		If Me.count_ > 0 Then 
+			For i% = 0 To Me.count_ 
+				Set ele = Me.content(i%) 
 				If (ele Is Nothing) Then GoTo ExitPoint
 				If (ele.LogEntryType And logtype%) Then result% = result% + 1 ' logical bitwise comparison
 			Next
@@ -1993,7 +1993,7 @@ Private Class EnhancedLogEntryBuffer
  		@return count of EnhancedLogEntry objects with LogEntryType of LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, or LOGENTRY_TYPE_EXTENDED
 	%END REM
 	Property Get countACTION As Integer 
-		countACTION = me.getLogEntryCount(LOGENTRY_TYPE_ACTION + LOGENTRY_TYPE_METHODRESULT + LOGENTRY_TYPE_EXTENDED)
+		countACTION = Me.getLogEntryCount(LOGENTRY_TYPE_ACTION + LOGENTRY_TYPE_METHODRESULT + LOGENTRY_TYPE_EXTENDED)
 	End Property
 
 	%REM
@@ -2001,7 +2001,7 @@ Private Class EnhancedLogEntryBuffer
  		@return count of EnhancedLogEntry objects with LogEntryType = LOGENTRY_TYPE_METHODRESULT
 	%END REM
 	Property Get countMETHODRESULT As Integer 
-		countMETHODRESULT = me.getLogEntryCount(LOGENTRY_TYPE_METHODRESULT)
+		countMETHODRESULT = Me.getLogEntryCount(LOGENTRY_TYPE_METHODRESULT)
 	End Property
 
 	%REM
@@ -2009,7 +2009,7 @@ Private Class EnhancedLogEntryBuffer
  		@return count of EnhancedLogEntry objects with LogEntryType = LOGENTRY_TYPE_EXTENDED
 	%END REM
 	Property Get countEXTENDED As Integer 
-		countEXTENDED = me.getLogEntryCount(LOGENTRY_TYPE_EXTENDED)
+		countEXTENDED = Me.getLogEntryCount(LOGENTRY_TYPE_EXTENDED)
 	End Property
 
 	%REM
@@ -2017,7 +2017,7 @@ Private Class EnhancedLogEntryBuffer
  		@return count of EnhancedLogEntry objects with LogEntryType = LOGENTRY_TYPE_WARNING
 	%END REM
 	Property Get countWARNING As Integer 
-		countWARNING = me.getLogEntryCount(LOGENTRY_TYPE_WARNING)
+		countWARNING = Me.getLogEntryCount(LOGENTRY_TYPE_WARNING)
 	End Property
 
 	%REM
@@ -2025,7 +2025,7 @@ Private Class EnhancedLogEntryBuffer
  		@return count of EnhancedLogEntry objects with LogEntryType = LOGENTRY_TYPE_EXCEPTION
 	%END REM
 	Property Get countEXCEPTION As Integer 
-		countEXCEPTION = me.getLogEntryCount(LOGENTRY_TYPE_EXCEPTION)
+		countEXCEPTION = Me.getLogEntryCount(LOGENTRY_TYPE_EXCEPTION)
 	End Property
 
 
@@ -2130,6 +2130,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 		CLASS_PREFIX = LIB_PREFIX & |Singleton.|
 	End Property	
 	
+	
 	Public Sub New (ByVal programName$)
 		Dim nnam As NotesName
 		Dim temp As String 
@@ -2163,10 +2164,6 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 		Call Me.ClearCachedError()
 	End Sub 
 	
-	
-	
-	
-	
 	Private Sub instantiate()
 		Dim configdoc As NotesDocument
 		
@@ -2176,7 +2173,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 		
 		If Me.isInstantiating Then GoTo ExitPoint
 		
-		Set me.buffer = New EnhancedLogEntryBuffer() 
+		Set Me.buffer = New EnhancedLogEntryBuffer() 
 		
 		Me.isInstantiating = True
 		chunks = Split(getCurrentSession.NotesVersion, "|")
@@ -2244,11 +2241,11 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 	Public Sub Close()
 		If Me.hasEntries Then 
 			Me.LogMethodResult |LotusScript Finished.  Elapsed Time: | & Me.ElapsedText
-			Call me.dumpBuffer() 
+			Call Me.dumpBuffer() 
 			
 			Call Me.LogProfiledMethodSummary()  
 			
-			Select Case me.logType 
+			Select Case Me.logType 
 				Case LOGTYPE_MAIL: 
 					Call Me.Send() 
 					
@@ -2274,7 +2271,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 		Target Log Document 
 	%END REM
 	Private Property Get TargetDocument As NotesDocument 
-		If (Me.ndoc_ Is Nothing) Then Call me.createLogDoc() 
+		If (Me.ndoc_ Is Nothing) Then Call Me.createLogDoc() 
 		Set TargetDocument = Me.ndoc_
 	End Property
 	
@@ -2325,9 +2322,9 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 		' If here then no error occurred
 		result = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
@@ -2349,14 +2346,14 @@ ErrorTrap:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 		
-		If me.buffer.isFull Then Call me.dumpBuffer() 
+		If Me.buffer.isFull Then Call Me.dumpBuffer() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
@@ -2370,14 +2367,14 @@ ErrorTrap:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer() 
+		If Me.buffer.isFull Then Call Me.dumpBuffer() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
@@ -2399,14 +2396,14 @@ ErrorTrap:
 		
 		If (Not Me.exists) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer()
+		If Me.buffer.isFull Then Call Me.dumpBuffer()
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, ||, ||, Nothing, ||, ||, 0, ||, 0, ||, stacktrace)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
@@ -2458,9 +2455,9 @@ ErrorTrap:
 		
 		Call Me.nlog_.LogEvent(message$, queuename$, eventType%, severity%)
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		extended$ = |"| & queuename$ & |", "| & CStr(eventType%) & |, | & CStr(severity%)
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), extended$) Then 
@@ -2481,17 +2478,17 @@ ErrorTrap:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer()
+		If Me.buffer.isFull Then Call Me.dumpBuffer()
 		
 		Set stackTrace = Nothing 
 		If Me.LogStackExceptions Then Set stackTrace = New EnhancedLogStackTrace() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, Nothing, ||, ||, code%, errMsg$, errline&, methodname$, stacktrace)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 		
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
@@ -2507,18 +2504,18 @@ ErrorTrap:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer()
+		If Me.buffer.isFull Then Call Me.dumpBuffer()
 		
 		Set stackTrace = Nothing 
 		If Me.LogStackExceptions Then Set stackTrace = New EnhancedLogStackTrace() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXCEPTION, description$, ||, linkTo, linkcomment$, HotSpotText$, code%, errMsg$, errline&, methodname$, stacktrace)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 		
-ExitPoint:
+	ExitPoint:
 		Me.myHasLinkInfo = False
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		Me.LogStackExceptions = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
@@ -2535,14 +2532,14 @@ ErrorTrap:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 		
-		If me.buffer.isFull Then Call me.dumpBuffer() 
+		If Me.buffer.isFull Then Call Me.dumpBuffer() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXTENDED, description$, extendedcontent$, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage		
 	End Sub 
@@ -2556,12 +2553,12 @@ ErrorTrap:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer() 
+		If Me.buffer.isFull Then Call Me.dumpBuffer() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_EXTENDED, description$, extendedcontent$, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
 	ErrorTrap:
 		On Error GoTo 0
@@ -2580,10 +2577,10 @@ ExitPoint:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer() 
+		If Me.buffer.isFull Then Call Me.dumpBuffer() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_METHODRESULT, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 
 	ExitPoint:
 		Exit Sub
@@ -2601,10 +2598,10 @@ ExitPoint:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer() 
+		If Me.buffer.isFull Then Call Me.dumpBuffer() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_METHODRESULT, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 
 	ExitPoint:
 		Exit Sub
@@ -2667,6 +2664,47 @@ ExitPoint:
 	End Sub 
 
 
+	%REM
+		Function AppendFileLog
+		Opens the File Log for Appending 
+		
+		@return Flag indicating success of the operation. 
+		@throws Exception ERR_OPERATION_FAILED on failure
+	%END REM
+	Private Function AppendFileLog() As Boolean 
+		On Error GoTo ErrorTrap
+		
+		' exception variables
+		Dim errmsg$ 
+		Dim errcode%
+		
+		Dim result As Boolean
+		
+		' BEGIN CODE
+		If (0 <> Me.targetfilehandle_%) Then GoTo ExitPoint ' TargetFileHandle is already open 
+		 
+		If isBlankString(Me.targetfilepath_$) Then Me.targetfilepath_$ = FILEPATH_ENHANCEDLOG_FILE(Me.ProgramName & |_|)
+		Me.targetfilehandle_% = FreeFile()
+		
+		Open Me.targetfilepath_$ For Append As targetfilehandle_%
+		result = True ' success! 
+		
+	ExitPoint:
+		If (0 <> errcode%) Then Error ERR_OPERATION_FAILED, MSG_OPERATION_FAILED & errmsg$  
+		AppendFileLog = result
+		Exit Function 
+	ErrorTrap:
+		On Error GoTo 0 
+		errcode% = Err() 
+		errmsg$ = |Error | & CStr(errcode%) & |,  | _ 
+			& Error$() & | Called by: | & GetThreadInfo(LIB_LSI_THREAD_CALLPROC) _ 
+			& |, Target File Path: | & Me.targetfilepath_$ _ 
+			& |, Target File Handle: | & CStr(Me.targetfilehandle_%)
+			
+		Resume ExitPoint 	
+	End Function
+
+
 	Public Sub LogWarning (description$)
 		On Error GoTo ErrorTrap
 		
@@ -2675,10 +2713,10 @@ ExitPoint:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer() 
+		If Me.buffer.isFull Then Call Me.dumpBuffer() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_WARNING, description$, ||, Nothing, ||, ||, 0, ||, 0, ||, Nothing)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 
 	ExitPoint:
 		Exit Sub
@@ -2696,10 +2734,10 @@ ExitPoint:
 		If (Not Me.exists) Then GoTo ExitPoint
 		If (Not Me.LogActions) Then GoTo ExitPoint
 
-		If me.buffer.isFull Then Call me.dumpBuffer() 
+		If Me.buffer.isFull Then Call Me.dumpBuffer() 
 		
 		Set entry = New EnhancedLogEntry(LOGENTRY_TYPE_WARNING, description$, ||, linkTo, linkcomment$, HotSpotText$, 0, ||, 0, ||, Nothing)
-		Call me.buffer.addEntry(entry)
+		Call Me.buffer.addEntry(entry)
 
 	ExitPoint:
 		Exit Sub
@@ -2715,7 +2753,6 @@ ExitPoint:
 	Public Function OpenFileLog(path$) As Boolean
 		OpenFileLog = Me.ChangeLogType(LOGTYPE_FILE, ||, path$)
 	End Function 
-	
 	
 	Public Function OpenMailLog(recipients As Variant, ByVal subject$) As Boolean
 		Dim extendedInfo As String
@@ -2815,18 +2852,15 @@ ExitPoint:
 					Close #Me.targetfilehandle_% ' This saves the target file
 					
 					' Target file must be re-opened in append mode
-					Me.targetfilehandle_% = FreeFile()
-					Open Me.targetfilepath_$ For Append As targetfilehandle_%
+					result = Me.AppendFileLog()
 				End If
 			
 			Case LOGTYPE_MAIL:
-				result = True
-				
 				' TODO NEED TO COMPLETE THE SAVE CODE HERE
+				result = True
 				
 			Case LOGTYPE_AGENT: 
 				' do nothing, agent logs are not saved.
-				
 
 		End Select 
 		
@@ -2914,7 +2948,7 @@ ExitPoint:
 	End Property 
 	
 	Public Property Get hasActions As Boolean
-		hasActions = me.buffer.hasACTION
+		hasActions = Me.buffer.hasACTION
 	End Property 
 	
 	Public Property Get hasCachedError As Boolean
@@ -2942,13 +2976,13 @@ ExitPoint:
 	
 	Public Property Get LastInternalErrorCode As Integer 
 		Dim internalError As ErrorInfo 
-		If (Me.internalErrorCount > 0) Then internalError = me.internalErrorStack(me.internalErrorCount -1) 
+		If (Me.internalErrorCount > 0) Then internalError = Me.internalErrorStack(Me.internalErrorCount -1) 
 		LastInternalErrorCode = internalError.code  		
 	End Property 
 
 	Public Property Get LastInternalErrorMessage As String 
 		Dim internalError As ErrorInfo 
-		If (Me.internalErrorCount > 0) Then internalError = me.internalErrorStack(me.internalErrorCount -1) 
+		If (Me.internalErrorCount > 0) Then internalError = Me.internalErrorStack(Me.internalErrorCount -1) 
 		LastInternalErrorMessage = internalError.message 			
 	End Property 
 
@@ -3035,8 +3069,8 @@ ExitPoint:
 		Formatted timestamp indicating when the object was instantiated
 	%END REM
 	Public Property Get StartTimestamp As String 
-		If isBlankString(me.starttimestamp_) Then me.starttimestamp_ = Format$(me.StartTime.Lslocaltime, FORMAT_TIMESTAMP) 
-		StartTimestamp = me.starttimestamp_
+		If isBlankString(Me.starttimestamp_) Then Me.starttimestamp_ = Format$(Me.StartTime.Lslocaltime, FORMAT_TIMESTAMP) 
+		StartTimestamp = Me.starttimestamp_
 	End Property
 	
 	
@@ -3455,7 +3489,7 @@ ExitPoint:
 				Me.nlog_.LogAction lstrLogTypes(Me.logType) & | opened.|
 				
 			Case LOGTYPE_FILE
-				If isBlankString(path$) Then path$ = FILEPATH_ENHANCEDLOG_FILE(me.ProgramName & |_|)
+				If isBlankString(path$) Then path$ = FILEPATH_ENHANCEDLOG_FILE(Me.ProgramName & |_|)
 				If (Right$(LCase$(path$), 4) = |.nsf|) Then
 					extendedInfo$ = |Cannot open | & lstrLogTypes(newLogType) & _ 
 					| with filepath of "| & path$ & |".|
@@ -3469,7 +3503,7 @@ ExitPoint:
 				End If
 
 				Call Me.AddBodyHeader_File() 
-				Print #Me.targetfilehandle_%, me.StartTimestamp & |  LotusScript Started|				
+				Print #Me.targetfilehandle_%, Me.StartTimestamp & |  LotusScript Started|				
 
 			Case LOGTYPE_MAIL
 				' do nothing 
@@ -3541,9 +3575,9 @@ ExitPoint:
 		Set Me.ndoc_ = generateLogDoc(Me.acl, Me.targetDb_, Me.UserName, Me.UserRoles, Me.StartTime, Me.progName$, Me.dbServer$, Me.dbTitle$, Me.dbFilepath$, subject$, Me.myNotesVersion$, Me.ResumeOnLoggingFailure) 
 		If (Me.ndoc_ Is Nothing) Then GoTo ExitPoint 
 
-		me.hasLoggedAction = False 
-		me.hasLoggedException = False 
-		me.hasLoggedWarning = False 	
+		Me.hasLoggedAction = False 
+		Me.hasLoggedException = False 
+		Me.hasLoggedWarning = False 	
 
 		Me.Subject = subject$
 		
@@ -3696,7 +3730,7 @@ ExitPoint:
 		Dim roles$ 
 		Dim role$ 
 
-		If (0 = me.targetfilehandle_%) Then Error ERR_LOGTARGET_NOTOPEN, MSG_LOGTARGET_NOTOPEN
+		If (0 = Me.targetfilehandle_%) Then Error ERR_LOGTARGET_NOTOPEN, MSG_LOGTARGET_NOTOPEN
 
 		Print #Me.targetfilehandle_%, |Program: |, | |, Me.ProgramName	
 		Print #Me.targetfilehandle_%, |User: |, | |, Me.UserNameAbbrev
@@ -3707,8 +3741,8 @@ ExitPoint:
 		Print #Me.targetfilehandle_%, |Notes Version: |, Me.myNotesVersion$
 		Print #Me.targetfilehandle_%, |ACL Level: |, | |, getACLlevel(Me.acl)
 
-		If IsArray(me.userRoles) Then
-			ForAll s In me.userRoles 
+		If IsArray(Me.userRoles) Then
+			ForAll s In Me.userRoles 
 				role$ = Trim(CStr(s)) 
 				If Not isBlankString(role$) Then
 					If isBlankString(roles$) Then
@@ -3811,8 +3845,8 @@ ExitPoint:
 		Me.nrti_.AddNewLine 1
 
 
-		If IsArray(me.userRoles) Then
-			ForAll s In me.userRoles 
+		If IsArray(Me.userRoles) Then
+			ForAll s In Me.userRoles 
 				role$ = Trim(CStr(s)) 
 				If Not isBlankString(role$) Then
 					If isBlankString(roles$) Then
@@ -3861,7 +3895,7 @@ ExitPoint:
 			If Not Me.isSpanningLogDocs Then
 				Me.nrti_.AppendParagraphStyle nrtparastyle
 				Me.nrti_.AppendStyle Me.nrtstyleMethodResult
-				Me.nrti_.AppendText me.StartTimeStamp & | |
+				Me.nrti_.AppendText Me.StartTimeStamp & | |
 				Me.nrti_.AddTab 2 
 				Me.nrti_.AppendText |LotusScript Started|
 				Me.nrti_.AddNewLine 2 				
@@ -3947,7 +3981,7 @@ ExitPoint:
 			Call Me.createLogDoc()
 			Me.nrti_.AddNewLine 1
 			Set ele = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, descripPrev$, ||, ndocTempOld, commentPrev$, ||, 0, ||, 0, ||, Nothing)
-			me.writeEntry_NotesDocument ele 
+			Me.writeEntry_NotesDocument ele 
 			Me.nrti_.AddNewLine 1
 						
 			Call Me.Save(False, False)
@@ -3958,7 +3992,7 @@ ExitPoint:
 			Me.nrti_.AddNewLine 1
 
 			Set ele = New EnhancedLogEntry(LOGENTRY_TYPE_ACTION, descripNext$, ||, ndocTempNew, commentNext$, ||, 0, ||, 0, ||, Nothing)
-			me.writeEntry_NotesDocument ele 
+			Me.writeEntry_NotesDocument ele 
 			
 			Call Me.Save(False, False)
 			
@@ -4006,7 +4040,7 @@ ExitPoint:
 		End If
 		
 		Me.internalErrorStack(Me.internalErrorCount) = currentError 
-		Me.internalErrorCount = me.internalErrorCount + 1 
+		Me.internalErrorCount = Me.internalErrorCount + 1 
 	
 		result = Me.ResumeOnLoggingFailure
 		If (Not result) Then GoTo ExitPoint
@@ -4058,12 +4092,12 @@ ExitPoint:
 		Dim entry As EnhancedLogEntry 
 		
 		' BEGIN CODE 
-		Set entry = me.buffer.FirstEntry 
+		Set entry = Me.buffer.FirstEntry 
 		While Not (entry Is Nothing) 
 			Me.writeEntry entry 
-			Set entry = me.buffer.NextEntry 
+			Set entry = Me.buffer.NextEntry 
 		Wend
-		Call me.buffer.Clear 
+		Call Me.buffer.Clear 
 		
 		If Me.AutoSave Then Me.Save False, False				
 				
@@ -4262,8 +4296,8 @@ ExitPoint:
 		
 		Call Me.SizeCheck()
 		
-		writecount = me.writecount_ + 1
-		me.writecount_ = writecount 
+		writecount = Me.writecount_ + 1
+		Me.writecount_ = writecount 
 
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION:
@@ -4493,7 +4527,7 @@ ExitPoint:
 						message$ = entry.Message 
 				End Select
 				
-				Call me.LogEvent(entry.Message, ||, eventtype%, severity%)					
+				Call Me.LogEvent(entry.Message, ||, eventtype%, severity%)					
 				
 			Case LOGTYPE_FILE: 
 				Me.writeEntry_File entry 
@@ -4510,6 +4544,7 @@ ExitPoint:
 			If (Len(entry.ExtendedContent) > 0) Then Print entry.ExtendedContent
 		End If 
 		
+		
 	ExitPoint: 
 		Exit Sub 
 	ErrorTrap:
@@ -4521,9 +4556,6 @@ ExitPoint:
 			Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage
 		End If
 	End Sub
-	
-	
-	
 End Class 	
 
 
@@ -4959,7 +4991,7 @@ Public Function enhLogGetLogConfigText(itemname$) As String
 	extendedInfo$ = |Item Name: | & itemname$
 	result = getDocItemText(enhLogGetLogConfigDoc(False), itemname$)
 	
-	ExitPoint:
+ExitPoint:
 	enhLogGetLogConfigText = result
 	Exit Function
 ErrorTrap:
@@ -5096,8 +5128,7 @@ PURGE:
 		Call enhLog_.Save(False, False)
 	End If 
 	
-ExitPoint:
-	On Error GoTo 0
+ExitPoint:	
 	enhLogArchiveDocuments = result
 	enhLogMethodResult LIB_PREFIX, |Archived | & Format$(archived&, FORMAT_WHOLE_THOUSANDS) & | documents.|
 	enhLogMethodResult LIB_PREFIX, |Purged | & Format$(purged&, FORMAT_WHOLE_THOUSANDS) & | documents.|
@@ -8395,6 +8426,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
 
 
 
