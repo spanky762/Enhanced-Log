@@ -248,8 +248,8 @@ Private Const PROFILENAME_ENHANCEDLOG = |enhLogOptionsProfile|
 Private Const VIEWNAME_LOGS_BYLOGTIME = |lkp-LogsByLogTime|
 
 Private Const VERSION = 		|1.96|
-Private Const BUILD = 			|1.2152|
-Private Const RELEASE_DATE = 	|22 DEC 2021|
+Private Const BUILD = 			|1.2203|
+Private Const RELEASE_DATE = 	|28 DEC 2021|
 
 
 %REM ***************************************************************************
@@ -1758,7 +1758,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 
 		Me.exists = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Sub
 	End Sub 
 	
@@ -1774,22 +1774,22 @@ ExitPoint:
 			Call Me.LogProfiledMethodSummary()  
 			
 			Select Case Me.logType 
-			Case LOGTYPE_MAIL: 
-				Call Me.Send() 
-				
-			Case LOGTYPE_AGENT:
-				If Not (Me.nlog_ Is Nothing) Then
-					Call Me.nlog_.Close()
-					Set Me.nlog_ = Nothing
-				End If 
-				
-			Case LOGTYPE_NOTES: 
-				Call Me.Save(False, False)
-				
-			Case LOGTYPE_FILE: 
-				Call Me.Save(False, False)
-				If (0 <> Me.targetfilehandle_%) Then Close #Me.targetfilehandle_% 
-		End Select
+				Case LOGTYPE_MAIL: 
+					Call Me.Send() 
+					
+				Case LOGTYPE_AGENT:
+					If Not (Me.nlog_ Is Nothing) Then
+						Call Me.nlog_.Close()
+						Set Me.nlog_ = Nothing
+					End If 
+					
+				Case LOGTYPE_NOTES: 
+					Call Me.Save(False, False)
+					
+				Case LOGTYPE_FILE: 
+					Call Me.Save(False, False)
+					If (0 <> Me.targetfilehandle_%) Then Close #Me.targetfilehandle_% 
+			End Select
 		End If 
 	End Sub 
 	
@@ -1850,9 +1850,9 @@ ExitPoint:
 		' If here then no error occurred
 		result = True
 
-ExitPoint:
+	ExitPoint:
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		result = False
 		If Me.resumeInternalError(GetThreadInfo(LIB_LSI_THREAD_CALLPROC), ||) Then Resume ExitPoint Else Error Me.LastInternalErrorCode, Me.LastInternalErrorMessage	
@@ -2353,7 +2353,7 @@ ErrorTrap:
 
 			Case LOGTYPE_FILE: 
 				If (0 <> Me.targetfilehandle_%) Then 
-					Close #Me.targetfilehandle_% ' This saves the target file
+					Close #Me.targetfilehandle_% ' Close method saves and closes the target file
 					
 					' Target file must be re-opened in append mode
 					result = Me.AppendFileLog()
@@ -2386,14 +2386,15 @@ ErrorTrap:
 	End Function 
 	
 	
-	
 	Public Property Get ActionsIncludeMethodNames As Boolean
 		ActionsIncludeMethodNames = Me.doActionsIncludeMethodNames
 	End Property 
 	
+	
 	Public Property Get AutoSave As Boolean
 		AutoSave = Me.doAutoSave
 	End Property 
+	
 	
 	Public Property Get CachedErrorCode As Integer
 		If IsElement(Me.cachedErrors(Me.countCachedErrors)) Then
@@ -2403,6 +2404,7 @@ ErrorTrap:
 		End If 
 	End Property 
 	
+	
 	Public Property Get CachedErrorExtended As String
 		If IsElement(Me.cachedErrors(Me.countCachedErrors)) Then
 			CachedErrorExtended = Me.cachedErrors(Me.countCachedErrors).extended$
@@ -2410,6 +2412,7 @@ ErrorTrap:
 			CachedErrorExtended = ||
 		End If 
 	End Property 
+	
 	
 	Public Property Get CachedErrorLine As Integer
 		If IsElement(Me.cachedErrors(Me.countCachedErrors)) Then
@@ -2419,6 +2422,7 @@ ErrorTrap:
 		End If 
 	End Property 
 	
+	
 	Public Property Get CachedErrorMessage As String
 		If IsElement(Me.cachedErrors(Me.countCachedErrors)) Then
 			CachedErrorMessage = Me.cachedErrors(Me.countCachedErrors).message$
@@ -2426,6 +2430,7 @@ ErrorTrap:
 			CachedErrorMessage = ||
 		End If 
 	End Property 
+	
 	
 	Public Property Get CachedErrorMethod As String
 		If IsElement(Me.cachedErrors(Me.countCachedErrors)) Then
@@ -2944,39 +2949,36 @@ ErrorTrap:
 			enhLogAction CLASS_PREFIX, |Changing from  | & _ 
 			lstrLogTypes(Me.logType) & | to | & lstrLogTypes(newLogType) & |.|
 
-			If Not (Me.targetDb_ Is Nothing) Then 
-				server$ = Me.targetDb_.Server 
-				If isBlankString(server$) Then 
-					enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: [LocalClient]!!| & Me.targetDb_.Filepath
-				Else 
-					enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: | & server$ & |!!| & Me.targetDb_.Filepath
-				End If  
-			End If 
+			Select Case Me.LogType
+				Case LOGTYPE_AGENT
+					If Not (Me.nlog_ Is Nothing) Then Me.nlog_.Close
+					Set Me.nlog_ = Nothing
+					If Me.hasEntries Then Me.Save False, False
+					
+				Case LOGTYPE_FILE
+					If (0 <> Me.targetfilehandle_%) Then 
+						Close #Me.targetfilehandle_% ' Close method saves and closes the target file
+						Me.targetfilehandle_% = 0
+					End If 	
+	
+				Case LOGTYPE_MAIL
+					If Me.hasEntries Then Me.Send
+					
+				Case LOGTYPE_NOTES
+					' Notes Log document and database are intentionally NOT closed here.
+					' This is so exceptions can be logged if something goes horribly wrong 
+					' when opening the new log type.
+					If Not (Me.targetDb_ Is Nothing) Then 
+						server$ = Me.targetDb_.Server 
+						If isBlankString(server$) Then 
+							enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: [LocalClient]!!| & Me.targetDb_.Filepath
+						Else 
+							enhLogAction CLASS_PREFIX, |Closing | & lstrLogTypes(Me.logType) & |: | & server$ & |!!| & Me.targetDb_.Filepath
+						End If  
+					End If 
+			End Select 	
 		End If 
 
-		
-		Select Case Me.LogType
-			Case LOGTYPE_AGENT
-				If Not (Me.nlog_ Is Nothing) Then Me.nlog_.Close
-				Set Me.nlog_ = Nothing
-				If Me.hasEntries Then Me.Save False, False
-				
-			Case LOGTYPE_FILE
-				If (0 <> Me.targetfilehandle_%) Then 
-					Close #Me.targetfilehandle_%	
-					Me.targetfilehandle_% = 0
-				End If 	
-
-			Case LOGTYPE_MAIL
-				If Me.hasEntries Then Me.Send
-				
-			Case LOGTYPE_NOTES
-				' Notes Log document and database are intentionally NOT closed here.
-				' This is so exceptions can be logged if something goes horribly wrong 
-				' when opening the new log type.
-				If Me.hasEntries Then Me.Save False, False
-		End Select 	
-		
 		
 		' Open the new log
 		Select Case newLogType
@@ -3033,6 +3035,7 @@ ErrorTrap:
 					End If  
 				End If 
 		End Select 	
+		
 		
 		Me.logType = newLogType
 		result = True
@@ -3529,12 +3532,13 @@ ErrorTrap:
 		
 		Me.isSpanningLogDocs = True
 		
-		If (Me.logType = LOGTYPE_MAIL) Then  
+		If (LOGTYPE_MAIL = Me.logType) Then  
 			Call Me.logAction(descripNext$)
 			Call Me.ChangeLogType(LOGTYPE_MAIL, ||, ||)
 			Call Me.logAction(descripPrev$)
-
+			
 		Else
+			
 			Call Me.Save(False, False) 
 			If (Me.TargetDocument Is Nothing) Then GoTo ExitPoint  
 			
@@ -4031,19 +4035,6 @@ ErrorTrap:
 		' BEGIN CODE 
 		If entry Is Nothing Then GoTo ExitPoint 
 		
-		Select Case entry.LogEntryType
-			Case LOGENTRY_TYPE_EXCEPTION: 
-				Me.countErrors_ = Me.countErrors_ + 1
-			
-			Case LOGENTRY_TYPE_WARNING: 
-				Me.countWarnings_ = Me.countWarnings_ + 1
-				
-			Case Else: 
-				' LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
-				Me.countActions_ = Me.countActions_ + 1 
-		End Select
-		
-		
 		Select Case Me.logType 
 			Case LOGTYPE_NOTES, LOGTYPE_MAIL: 
 				Me.writeEntry_NotesDocument entry 
@@ -4079,6 +4070,20 @@ ErrorTrap:
 				Me.writeEntry_Agent entry 
 				
 		End Select
+		
+		
+		Select Case entry.LogEntryType
+			Case LOGENTRY_TYPE_EXCEPTION: 
+				Me.countErrors_ = Me.countErrors_ + 1
+				
+			Case LOGENTRY_TYPE_WARNING: 
+				Me.countWarnings_ = Me.countWarnings_ + 1
+				
+			Case Else: 
+				' LOGENTRY_TYPE_ACTION, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
+				Me.countActions_ = Me.countActions_ + 1 
+		End Select
+		
 		
 		If Me.LocalEcho Then 			
 			If (Len(entry.ErrorMessage) > 0) Then Print entry.ErrorMessage 
@@ -7848,6 +7853,10 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
+
 
 
 
