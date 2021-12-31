@@ -3663,17 +3663,35 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 		
 		Dim temp$
 		
+		Dim hasCode As Boolean 
+		Dim hasMsg As Boolean 
+		Dim hasLine As Boolean 
+		Dim hasMethod As Boolean 
+		
 		
 		' BEGIN CODE 
 		If (0 = Me.targetfilehandle_%) Then Call Me.OpenFileLog(||)
 		
 		Select Case entry.LogEntryType 
 			Case LOGENTRY_TYPE_EXCEPTION: 
-				temp$ = entry.ErrorMethod & | (Line | & CStr(entry.ErrorLine) & |) |
-				If (Len(entry.ErrorMessage) > 0) Then temp$ = temp$ & entry.ErrorMessage 
-				Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  ERROR |, entry.ErrorCode, temp$
+				hasCode = (entry.ErrorCode > 0)
+				hasMsg = (Len(entry.ErrorMessage) > 0)
+				hasLine = (entry.ErrorLine > 0)
+				hasMethod = (Len(entry.ErrorMethod) > 0)
 				
-				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, | |, entry.Message 
+				temp$ = Format$(Now, FORMAT_TIMESTAMP)
+				If hasCode Then temp$ = temp$ & |  ERROR | & CStr(entry.ErrorCode) & |: |		
+				If hasMsg Then temp$ = temp$ & entry.ErrorMessage	
+				Print #Me.targetfilehandle_%, temp$ 
+				
+				If (hasLine Or hasMethod) Then 
+					temp$ = || 
+					If hasMethod Then temp$ = entry.ErrorMethod & |(); | 
+					If hasLine Then temp$ = temp$ & |line | & CStr(entry.ErrorLine) 
+					Print #Me.targetfilehandle_%, | |, | |, temp$ 
+				End If
+				
+				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, | |, | |, entry.Message 
 				
 			Case Else: 
 				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
@@ -3710,6 +3728,15 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 				Print #Me.targetfilehandle_%, |Stack Logging is Disabled| 
 			End If 					
 		End If
+		
+		Select Case entry.LogEntryType 
+			Case LOGENTRY_TYPE_EXCEPTION, LOGENTRY_TYPE_METHODRESULT:
+				' add a blank line after exceptions and method results 
+				Print #Me.targetfilehandle_%, | |
+				
+			Case Else 
+				' do nothing
+		End Select 
 		
 	ExitPoint: 
 		Exit Sub 
@@ -7853,6 +7880,8 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
 
 
 
