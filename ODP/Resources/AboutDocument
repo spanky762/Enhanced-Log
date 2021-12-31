@@ -1,13 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<helpaboutdocument xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
- replicaid='85258671003806E7' publicaccess='false' designerversion='8.5.3'
- default='true' renderpassthrough='true'>
-<noteinfo noteid='216' unid='C102C898FB7300E885257370004FE586' sequence='22'>
+<helpaboutdocument xmlns='http://www.lotus.com/dxl' version='12.0' replicaid='852587A5005D981C'
+ publicaccess='false' designerversion='8.5.3' default='true' renderpassthrough='true'>
+<noteinfo noteid='166' unid='C102C898FB7300E885257370004FE586' sequence='3'>
 <created><datetime dst='true'>20071010T103241,02-04</datetime></created>
-<modified><datetime dst='true'>20210519T203149,14-04</datetime></modified>
-<revised><datetime dst='true'>20210519T203149,13-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210519T203149,13-04</datetime></lastaccessed>
-<addedtofile><datetime>20210203T051203,88-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20211231T083812,04-05</datetime></modified>
+<revised><datetime>20211231T083812,03-05</datetime></revised>
+<lastaccessed><datetime>20211231T083812,03-05</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120257,44-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <body><richtext>
@@ -440,7 +439,7 @@ AAAAXGRldmluXERlc2t0b3BcbgICAgICAgICdABaACgAAAAUHgEABQAAAAEBAQEBAQEBQATd3UAE
  size='9pt' style='underline' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
 <par def='14'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
- familyid='20'/>Last updated: 05/2021</run></par>
+ familyid='20'/>Last updated: 12/2021</run></par>
 <par def='2'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
 <par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
