@@ -1400,7 +1400,7 @@ Private Class EnhancedLogEntry
 				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
 			End If
 		End ForAll
-		enhLogException CLASS_PREFIX, msg$
+		Print CLASS_PREFIX & |.New() - EXCEPTION | & CStr(errcode%) & | at line | & CStr(errline%) & |: | & errmsg$ & Chr(10) & msg$ 
 		Resume ExitPoint
 	End Sub 
 
@@ -1529,10 +1529,30 @@ Private Class EnhancedLogEntry
 	Property Get size As Long 
 		On Error GoTo ErrorTrap
 	
-		Dim result As Long 
-	
+		Dim extendedinfo List As String 
+		Dim msg$
+
+		Dim errmsg$ 
+		Dim errcode%
+		Dim errline%
+
+		Dim temp&
+		Dim result& 
+		
+
 		' BEGIN CODE
-		result = LenB(Me.TimeStamp) _
+		extendedinfo(|Log Time|) = CStr(Me.content_.logtime) 
+		extendedinfo(|Message|) = Me.content_.message 
+		extendedinfo(|Extended  Content|) = Me.content_.extendedcontent 
+		extendedinfo(|Link Comment|) = Me.content_.linkcomment 
+		extendedinfo(|Hotspot  Text|) = CStr(Me.content_.logentrytype)
+		extendedinfo(|LogEntryType|) = Me.content_.message 
+		extendedinfo(|Error Code|) = CStr(Me.content_.errorcode)
+		extendedinfo(|Error Line|) = CStr(Me.content_.errorline) 
+		extendedinfo(|Error Method|) = Me.content_.errormethod 
+		extendedinfo(|Error Message|) = Me.content_.errormessage 
+		
+		result& = LenB(Me.TimeStamp) _
 			+ LenB(Me.content_.message) _ 
 			+ LenB(Me.content_.extendedcontent) _ 
 			+ LenB(Me.content_.linkcomment) _ 
@@ -1543,15 +1563,35 @@ Private Class EnhancedLogEntry
 			+ Len(Me.content_.errorline) _ 
 			+ LenB(Me.content_.errormethod) 
 		
-		If Me.hasLink Then result = result + Me.link_.size 
-		If Not (Me.stacktrace_ Is Nothing) Then result = result + Me.stacktrace_.size 
+		If Me.hasLink Then
+			temp& = Me.link_.size
+			extendedinfo(|Link Size|) = CStr(temp&) 
+			result& = result& + temp&
+		End If  
+		
+		If Not (Me.stacktrace_ Is Nothing) Then 
+			temp& = Me.stacktrace_.size
+			extendedinfo(|Stack Trace Size|) = CStr(temp&) 
+			result& = result& + temp&
+		End If  
 		
 	ExitPoint: 
-		size = result
+		If (0 <> errcode%) Then Error errcode%, errmsg$ & | at line | & CStr(errline%) & | in | & CLASS_PREFIX & |.size Property  |
+		size = result& 
 		Exit Property 
 	ErrorTrap:
 		On Error GoTo 0
-		enhLogException CLASS_PREFIX, ||
+		errcode% = Err() 
+		errmsg$ = Error() 
+		errline% = Erl()
+		ForAll s In extendedinfo
+			If isBlankString(msg$) Then 
+				msg$ = ListTag(s) & |: | & s
+			Else 
+				msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+			End If
+		End ForAll
+		Print CLASS_PREFIX & |.size - EXCEPTION | & CStr(errcode%) & | at line | & CStr(errline%) & |: | & errmsg$ & Chr(10) & msg$ 
 		Resume ExitPoint
 	End Property
 
@@ -3692,16 +3732,16 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 				End If
 				
 				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, | |, | |, entry.Message 
+		
+			Case LOGENTRY_TYPE_EXTENDED: 
+				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  | & entry.Message	
+				Print #Me.targetfilehandle_%, | |, | |, entry.ExtendedContent
+					
 				
 			Case Else: 
-				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT, LOGENTRY_TYPE_EXTENDED
+				' LOGENTRY_TYPE_ACTION, LOG_ENTRY_TYPE_WARNING, LOGENTRY_TYPE_METHODRESULT
 				If Not isBlankString(entry.Message) Then Print #Me.targetfilehandle_%, Format$(Now, FORMAT_TIMESTAMP) & |  | & entry.Message	
-				
 		End Select
-
-
-		' EXTENDED CONTENT 
-		If Not isBlankString(entry.ExtendedContent) Then Print #Me.targetfilehandle_%, | |, | |, entry.ExtendedContent 
 
 
 		' LINK
@@ -7880,6 +7920,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
