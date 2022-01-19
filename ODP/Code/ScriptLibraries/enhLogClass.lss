@@ -11,8 +11,8 @@
 	http://www.devinolson.net
 	Version 2021.12.15
 
-	Last updated: 12/2021
-
+	Last updated: 01/2022
+	
  ************************************************************************************
 %END REM *********************************************************************
 
@@ -1828,7 +1828,10 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 					
 				Case LOGTYPE_FILE: 
 					Call Me.Save(False, False)
-					If (0 <> Me.targetfilehandle_%) Then Close #Me.targetfilehandle_% 
+					If (0 <> Me.targetfilehandle_%) Then 
+						Close #Me.targetfilehandle_%
+						Me.targetfilehandle_% = 0 
+					End If  
 			End Select
 		End If 
 	End Sub 
@@ -2233,8 +2236,8 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 		 
 		If isBlankString(Me.targetfilepath_$) Then Me.targetfilepath_$ = FILEPATH_ENHANCEDLOG_FILE(Me.ProgramName & |_|)
 		Me.targetfilehandle_% = FreeFile()
-		
-		Open Me.targetfilepath_$ For Append As targetfilehandle_%
+		Open Me.targetfilepath_$ For Append As Me.targetfilehandle_%
+
 		result = True ' success! 
 		
 	ExitPoint:
@@ -2394,6 +2397,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 			Case LOGTYPE_FILE: 
 				If (0 <> Me.targetfilehandle_%) Then 
 					Close #Me.targetfilehandle_% ' Close method saves and closes the target file
+					Me.targetfilehandle_% = 0 
 					
 					' Target file must be re-opened in append mode
 					result = Me.AppendFileLog()
@@ -3038,7 +3042,7 @@ Private Class Singleton 	' Declaring as Private allows for Singleton functionali
 				If (0 = Me.targetfilehandle_%) Then
 					Me.targetfilepath_$ = path$
 					Me.targetfilehandle_% = FreeFile()
-					Open Me.targetfilepath_$ For Output As targetfilehandle_%
+					Open Me.targetfilepath_$ For Output As Me.targetfilehandle_%
 				End If
 
 				Call Me.AddBodyHeader_File() 
@@ -7920,6 +7924,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
