@@ -130,6 +130,8 @@ Declare Function ampersandDecode(source$) As String
 Declare Private Function equals(var1 As Variant, var2 As Variant) As Boolean 
 Declare Private Function toJSONvalue(source As Variant) As String 
 Declare Function popExceptionCarrier() As ExceptionCarrier 
+Declare Function stripHT(source$) As String 
+Declare Function replaceHT(source$, replacement$) As String 
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
 
@@ -177,6 +179,9 @@ Private Const V_IUNKNOWN = 13
 Private Const V_BYTE = 17 
 Private Const V_LSOBJ = 34
 Private Const V_PRODOBJ = 35 
+
+
+
 
 
 
@@ -2860,7 +2865,7 @@ End Sub
 	Replaces Carriage Returns and Line Feeds in a string with a new string and returns a new string. 
 	
 	@param source$  String from which Carriage Returns and Line Feeds should be removed. 
-	@param replacement$ New string to replace all CarriageReturns and Line Feeds.
+	@param replacement$ New string to replace all Carriage Returns and Line Feeds.
 	@return source$ with all Carriage Returns and Line Feeds  replaced 
 %END REM
 Function replaceCRLF(source$, replacement$) As String 
@@ -4109,9 +4114,9 @@ Private Function toJSONvalue(source As Variant) As String
 				' escape single backslashes
 				result$ = escapeSingleBackslashes(CStr(source))
 				
-				' replace carriage returns and line feeds
+				' replace tabs, carriage returns and line feeds
+				result$ = replaceHT(result$, |\t|)
 				result$ = replaceCRLF(result$, |\n|)
-'				result$ = replaceCRLF(CStr(source), |\n|)  
 				
 				If IsNumeric(source) Then 
 					result$ = LCase$(result$) ' Converts Boolean True to "true" and False to "false" 
@@ -4215,3 +4220,64 @@ End Function
 
 
 
+
+
+'++LotusScript Development Environment:2:1:stripHT:10:8
+%REM
+	Function stripHT
+	Strips Tabs from a string and returns the result as a new FULLY Trimmed string. 
+	
+	NOTE: This is a convenience wrapper for replaceHT(source$, ||) 
+	
+	@param source$ String from which Tabs should be removed. 
+	@return source$ with all Tabs stripped out. 
+%END REM
+Function stripHT(source$) As String 
+	stripHT = FullTrim(replaceHT(source$, ||)) 
+End Function
+
+'++LotusScript Development Environment:2:1:replaceHT:10:8
+
+%REM
+	Function replaceHT
+	Replaces Tabs in a string with a new string and returns a new string. 
+	
+	@param source$  String from which Tabs should be removed. 
+	@param replacement$ New string to replace all Tabs.
+	@return source$ with all Tabs  replaced 
+%END REM
+Function replaceHT(source$, replacement$) As String 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+
+	Dim result$
+
+	
+	' BEGIN CODE
+	extendedinfo(|source|) = source$
+	
+	result$ = source$
+	If IsBlankString(result$) Then GoTo ExitPoint 
+	
+	' replace Tabs
+	If (InStr(result$, HT) > 0) Then result$ = Join(Split(result$, HT), replacement$)
+
+	
+ExitPoint: 
+	replaceHT = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
