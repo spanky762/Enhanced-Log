@@ -10,7 +10,7 @@
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
 
-	Last updated: 01/2022
+	Last updated: 02/2022
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -115,7 +115,10 @@ Declare Public Sub shellSortStrings(source As Variant)
 Declare Function replaceCRLF(source$, replacement$) As String 
 Declare Private Sub enhLogComplexElement(source As Variant, tagname$) 
 Declare Function jsonObjectToStringList(source As NotesJSONObject) As StringList 
+Declare Function jsonArrayToJSON(source As NotesJSONArray) As String 
+Declare Public Function jsonElementToJSON(source As NotesJSONElement) As String 
 Declare Function escapeSingleBackslashes(source$) As String 
+Declare Function replaceHT(source$, replacement$) As String 
 Declare Function getErrorMessages() As StringList
 Declare Function getAmpersandSequences() As StringList 
 Declare Public Function jsonToStringList(source$) As StringList
@@ -125,19 +128,19 @@ Declare Private Sub logJSONValue(source As Variant, excludeNodes As BooleanList,
 Declare Function getJSONelementTypeName(source%) As String  
 Declare Public Function getExceptionCarrierStack() As ExceptionCarrierStack
 Declare Function spawnExceptionCarrier(classname$) As ExceptionCarrier 
+Declare Function stripHT(source$) As String 
 Declare Public Function jsonElementToStringList(source As NotesJSONElement) As StringList 
 Declare Function ampersandDecode(source$) As String 
 Declare Private Function equals(var1 As Variant, var2 As Variant) As Boolean 
+Declare Function jsonObjectToJSON(source As NotesJSONObject) As String 
 Declare Private Function toJSONvalue(source As Variant) As String 
 Declare Function popExceptionCarrier() As ExceptionCarrier 
-Declare Function stripHT(source$) As String 
-Declare Function replaceHT(source$, replacement$) As String 
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
 
 
 
-Private Const LIB_PREFIX = |Library azlwListsCollections.| 
+Private Const LIB_PREFIX = |Library ListsCollections.| 
 
 %REM ***************************************************************************
  ************************************************************************************
@@ -189,86 +192,6 @@ Private Const V_PRODOBJ = 35
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 %REM
 	Class azlwListCarrier
 	Base Class for List Carriers 
@@ -299,6 +222,7 @@ Public Class azlwListCarrier
 		result$ = |{}|
 		Resume ExitPoint 
 	End Property
+	
 	
 	Property Get jsonAllStrings As String 
 		On Error GoTo ErrorTrap
@@ -447,34 +371,6 @@ Public Class azlwListCarrier
 	End Function
 
 
-	%REM
-		Sub logContent
-		Logs the content of the object (keys and values) using the EnhancedLog class 
-		
-		@param prefix$  		Prefix used for the first call to LogExtendedContent 
-		@param description$ 	Description used for the first call to LogExtendedContent 
-		@param content$ 		Content used for the first call to LogExtendedContent 
-		
-	%END REM
-'	Sub logContent(prefix$, description$, content$) 
-'		On Error GoTo ErrorTrap
-'		
-'		Dim values As Variant ' List as XXX container 
-'		
-''		 BEGIN CODE
-'		If (Len(Trim$(prefix$ & description$ & content$)) > 0) Then enhLogExtendedContent prefix$, description$, content$ 
-'		values = me.getContent() 
-'		ForAll element In values 
-'			enhLogComplexElement element, ListTag(element) 
-'		End ForAll
-'		
-'	ExitPoint: 
-'		Exit Sub 
-'	ErrorTrap:
-'		On Error GoTo 0
-'		enhLogException CLASS_PREFIX, ||
-'		Resume ExitPoint
-'	End Sub
 
 	%REM
 		Sub logJSON
@@ -538,8 +434,6 @@ Public Class BooleanList As azlwListCarrier
 	Public Function getContent() As Variant 	
 		getContent = me.content 	
 	End Function
-
-	
 
 	
 	Sub addAll(source As BooleanList) 	
@@ -612,6 +506,7 @@ Public Class BooleanList As azlwListCarrier
 		Resume ExitPoint 
 	End Property	
 	
+	
 	%REM
 		Property falseOnly
 		subset of all False values
@@ -633,7 +528,6 @@ Public Class BooleanList As azlwListCarrier
 		Resume ExitPoint 
 	End Property	
 	
-
 	
 	
 	%REM
@@ -730,9 +624,9 @@ Public Class DateList As azlwListCarrier
 			Set me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -758,10 +652,10 @@ ErrorTrap:
 			End ForAll
 		End If
 
-ExitPoint: 
+	ExitPoint: 
 		Set getValue = result 
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
@@ -814,9 +708,9 @@ ErrorTrap:
 			getlistTagsByDate = Null  
 		End If 
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Function 
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, ||
 		Resume ExitPoint 
@@ -851,7 +745,7 @@ ErrorTrap:
 					k% = k% - h%
 					If (k% <= botMax%) Then GoTo wOut
 				Wend
-wOut:
+				wOut:
 				If (k% <> i%) Then Set source(k%) = kndt
 			Next
 		Loop Until h% = 1
@@ -886,7 +780,7 @@ wOut:
 					k% = k% - h%
 					If (k% <= botMax%) Then GoTo wOut
 				Wend
-wOut:
+				wOut:
 				If (k% <> i%) Then Set source(k%) = kndt
 			Next
 		Loop Until h% = 1
@@ -934,9 +828,9 @@ Public Class IntegerList As azlwListCarrier
 			me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -962,10 +856,10 @@ ErrorTrap:
 			End ForAll
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		getValue = result 
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
@@ -1096,6 +990,7 @@ Public Class VariantList As azlwListCarrier
 		Resume ExitPoint 
 	End Function
 
+
 	Property Get json As String 
 		On Error GoTo ErrorTrap
 		
@@ -1216,19 +1111,11 @@ Public Class StringList As azlwListCarrier
 	End Sub
 	
 	
-	
-	
-	
-	
 	Private Property Get CLASS_PREFIX As String 
 		CLASS_PREFIX = LIB_PREFIX & |StringList.|
 	End Property
 	
 	
-
-	
-
-
 	%REM
 		Function getContent
 		Gets the content list for the object
@@ -1369,14 +1256,13 @@ Public Class LongList As azlwListCarrier
 			me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
 	End Sub
-	
 	
 	
 	
@@ -1398,18 +1284,14 @@ ErrorTrap:
 			End ForAll
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		getValue = result 
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
 	End Function
-	
-	
-
-	
 	
 End Class
 
@@ -1452,9 +1334,9 @@ Public Class SingleList As azlwListCarrier
 			me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -1480,10 +1362,10 @@ ErrorTrap:
 			End ForAll
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		getValue = result 
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
@@ -1532,9 +1414,9 @@ Public Class DoubleList As azlwListCarrier
 			me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -1560,10 +1442,10 @@ ErrorTrap:
 			End ForAll
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		getValue = result 
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
@@ -1613,9 +1495,9 @@ Public Class CurrencyList As azlwListCarrier
 			me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -1641,10 +1523,10 @@ ErrorTrap:
 			End ForAll
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		getValue = result 
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
@@ -1694,9 +1576,9 @@ Class KeyedStringList As azlwListCarrier
 			Set me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -1723,10 +1605,10 @@ ErrorTrap:
 			End ForAll
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		Set getValue = result 
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
@@ -1788,9 +1670,9 @@ Public Class StringSet As azlwListCarrier
 			me.content(tag$) = CStr(element)
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -2012,10 +1894,10 @@ Class ExceptionCarrier
 		
 		result$ = Join(chunks, |.|) 
 		
-ExitPoint:
+	ExitPoint:
 		ModuleClassProcdure = result$
 		Exit Property
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, ||
 		Resume ExitPoint 
@@ -2080,10 +1962,10 @@ ErrorTrap:
 		
 		result$ = result$ & |: | & me.ErrorMessage 
 		
-ExitPoint:
+	ExitPoint:
 		SummaryLong = result$
 		Exit Property
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, ||
 		Resume ExitPoint 			
@@ -2191,9 +2073,9 @@ Public Class StringSetList As azlwListCarrier
 			Set me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -2220,10 +2102,10 @@ ErrorTrap:
 			End ForAll
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		Set getValue =result
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
@@ -2272,9 +2154,9 @@ Class IntegerPairList As azlwListCarrier
 			Set me.content(tag$) = element 
 		End ForAll
 		
-ExitPoint: 
+	ExitPoint: 
 		Exit Sub
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |tag: | & tag$
 		Resume ExitPoint 
@@ -2301,10 +2183,10 @@ ErrorTrap:
 			End ForAll
 		End If
 		
-ExitPoint: 
+	ExitPoint: 
 		Set getValue = result 
 		Exit Function
-ErrorTrap:
+	ErrorTrap:
 		On Error GoTo 0
 		enhLogException me.CLASS_PREFIX, |key: | & key$
 		Resume ExitPoint 
@@ -2448,7 +2330,6 @@ Public Class azlwKeyedValueCarrier
 		Dim result As Boolean 
 
 		' BEGIN CODE
-
 		result = False 
 		
 		If (source Is Nothing) Then GoTo ExitPoint 
@@ -2470,34 +2351,7 @@ Public Class azlwKeyedValueCarrier
 	End Function
 
 
-	%REM
-		Sub logContent
-		Logs the content of the object (keys and values) using the EnhancedLog class 
-		
-		@param prefix$  		Prefix used for the first call to LogExtendedContent 
-		@param description$ 	Description used for the first call to LogExtendedContent 
-		@param content$ 		Content used for the first call to LogExtendedContent 
-		
-	%END REM
-'	Sub logContent(prefix$, description$, content$) 
-'		On Error GoTo ErrorTrap
-'		
-'		Dim values As Variant ' List as XXX container 
-'		
-''		 BEGIN CODE
-'		If (Len(Trim$(prefix$ & description$ & content$)) > 0) Then enhLogExtendedContent prefix$, description$, content$ 
-'		values = me.getContent() 
-'		ForAll element In values 
-'			enhLogComplexElement element, ListTag(element) 
-'		End ForAll
-'		
-'	ExitPoint: 
-'		Exit Sub 
-'	ErrorTrap:
-'		On Error GoTo 0
-'		enhLogException CLASS_PREFIX, ||
-'		Resume ExitPoint
-'	End Sub
+
 
 	%REM
 		Sub logJSON
@@ -2594,7 +2448,24 @@ Sub Initialize
 
 End Sub
 
-'++LotusScript Development Environment:2:1:updateDocumentStringSet:1:8
+'++LotusScript Development Environment:2:1:updateDocumentStringSet:18:8
+%REM
+	Function updateDocumentStringSet 
+	
+	Updates a document item with values from a source StringSet.  
+	Replaces the value, does not append to existing value(s).
+	
+	If the StringSet is NOTHING or EMPTY (does not have content) it will not be added to the document.  
+	If an item (as specified by itemname$) already exists on the target document it will be removed. 
+	
+	This method does NOT save the document.  Saves will need to be handled by calling code. 
+	
+	@param source StringSet whose values will be written to the specified item. 
+	@param itemname$ Name of the item to update. 
+	@param target NotesDocument to be updated 
+	
+	@return Flag indicating success of the operation. 
+%END REM
 Function updateDocumentStringSet(source As StringSet, itemname$, target As NotesDocument) As Boolean  
 	If isBlankString(itemname$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK & |Itemname is blank|
 	If (target Is Nothing) Then GoTo ExitPoint 
@@ -2699,20 +2570,19 @@ Function jsonArrayToStringList(source As NotesJSONArray) As StringList
 	' BEGIN CODE
 	If (source Is Nothing) Then GoTo ExitPoint 
 	
+	
 	extendedinfo(|Source Size|) = CStr(source.Size) 
 	Set element = source.getFirstElement()
 	While Not element Is Nothing
 		extendedinfo(|Element Name|) = element.Name
 		extendedinfo(|Element Type|) = CStr(element.Type) 
 		extendedinfo(|Element Type Name|) = getJSONelementTypeName(element.Type) 		
-		
-		
+
 		Set ss = jsonElementToStringList(element) 
 		If ss.hasContent Then result.addAll ss
 		Set element = source.getNextElement()
 	Wend
 
-		
 ExitPoint: 
 	Set jsonArrayToStringList = result
 	Exit Function 
@@ -2906,7 +2776,8 @@ ErrorTrap:
 	Resume ExitPoint
 End Function
 
-'++LotusScript Development Environment:2:2:enhLogComplexElement:8:8
+'++LotusScript Development Environment:2:2:enhLogComplexElement:9:8
+
 %REM
 	Sub enhLogComplexElement
 	Logs an element using enhanced log extended content 
@@ -2974,10 +2845,6 @@ Private Sub enhLogComplexElement(source As Variant, tagname$)
 	End Select
 	
 	
-	
-	
-
-	
 ExitPoint: 
 	If (recursions > 0) Then recursions = recursions - 1
 	Exit Sub 
@@ -3036,7 +2903,222 @@ Function jsonObjectToStringList(source As NotesJSONObject) As StringList
 
 		
 ExitPoint: 
+	If Not (result Is Nothing) Then enhLogMethodResult LIB_PREFIX, result.json 
 	Set jsonObjectToStringList = result
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:jsonArrayToJSON:10:8
+%REM
+	Function jsonArrayToJSON
+	Converts a NotesJSONArray to a StringList 
+	
+	Empty strings, null, zero, and false values are not included in the result. 
+	
+	@param source NotesJSONArray from which to construct the JSON
+	@return JSON constructed from the NotesJSONArray  
+%END REM
+Function jsonArrayToJSON(source As NotesJSONArray) As String 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	
+	Dim njelem As NotesJSONElement
+	Dim array_variant() As Variant 	
+	Dim idx% 
+	
+	Dim result$ 
+	
+	
+	' BEGIN CODE
+	If (source Is Nothing) Then GoTo ExitPoint 
+	
+	ReDim array_variant(0) As Variant 
+	
+	Set njelem = source.getFirstElement() 
+	
+	While Not (njelem Is Nothing) 
+		ReDim Preserve array_variant(idx%) As Variant 
+		Set array_variant(idx%) = njelem
+		idx% = idx% + 1
+		Set njelem = source.getNextElement() 
+	Wend
+	
+	result$ = toJSONvalue(array_variant)
+
+ExitPoint: 
+	enhLogMethodResult LIB_PREFIX, result$
+	jsonArrayToJSON = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:jsonElementToJSON:10:8
+%REM
+	Function jsonElementToJSON
+	Generates JSON for a NotesJSONelement object  
+	
+	Empty strings, null, zero, and false values are not included in the result. 
+	
+	@param source NotesJSONelement from which to construct the JSON
+	@return JSON constructed from the NotesJSONelement  
+%END REM
+Public Function jsonElementToJSON(source As NotesJSONElement) As String 
+	On Error GoTo ErrorTrap
+	
+	
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+	
+	Dim sl As StringList 
+	
+	Dim njnav As NotesJSONNavigator 
+	Dim njobj As NotesJSONObject 
+	Dim njary As NotesJSONArray 
+	
+	Dim result$
+	
+	Dim elName$
+	Dim stringValue$
+	
+	Dim numbervalue As Variant 
+	
+	Dim intVal% 
+	Dim lngVal& 
+	Dim sngVal! 
+	Dim dblVal#
+	Dim curVal@
+	
+	Dim booleanValue As Boolean 
+	Dim include As Boolean 
+	
+	
+	' BEGIN CODE
+	If source Is Nothing Then GoTo ExitPoint 
+
+	%REM JSON Element Types 		
+		Jsonelem_type_array
+		Jsonelem_type_boolean
+		Jsonelem_type_empty
+		Jsonelem_type_number
+		Jsonelem_type_object
+		Jsonelem_type_string
+	%END REM 		
+	
+		include = False 
+		stringValue = ||
+		extendedinfo(|element name|) = source.Name 
+		extendedinfo(|element type|) = CStr(source.Type) 
+		
+		Select Case source.type
+			Case Jsonelem_type_number: 
+				numbervalue = source.value 
+
+				Select Case DataType(numbervalue) 
+					Case V_INTEGER:
+						intVal% = CInt(numbervalue) 
+						If (intVal% <> 0%) Then 
+							stringValue$ = CStr(intVal%)
+							include = True 
+						End If
+						
+					Case V_LONG:
+						lngVal& = CLng(numbervalue)
+						If (lngVal& <> 0&) Then 
+							stringValue$ = CStr(lngVal&)
+							include = True 
+						End If
+				
+					Case V_SINGLE:
+						sngVal! = CSng(numbervalue)
+						If (sngVal! <> 0!) Then 
+							stringValue$ = CStr(sngVal!)
+							include = True 
+						End If		
+						
+					Case V_DOUBLE:
+						dblVal# = CDbl(numbervalue)
+						If (dblVal# <> 0#) Then 
+							stringValue$ = CStr(dblVal#)
+							include = True 
+						End If
+						
+					Case V_CURRENCY:
+						curVal@ = CCur(numbervalue)
+						If (curVal@ <> 0@) Then 
+							stringValue$ = CStr(curVal@)
+							include = True 
+						End If
+						
+					Case Else 
+						' do nothing 
+				End Select
+				
+
+			Case Jsonelem_type_array: 
+				Set njary = source.Value 
+				Set sl = jsonArrayToStringList(njary)
+				If sl.hasContent Then result$ = sl.json  
+				
+				
+			Case Jsonelem_type_boolean: 
+				booleanValue = CBool(source.value) 
+				If (booleanValue) Then 
+					stringValue$ = |true|
+					include = True 
+				End If  
+				
+						
+			Case Jsonelem_type_object: 
+				Set njobj = source.Value
+				result$ = jsonObjectToJSON(njobj)  
+												
+				
+			Case Jsonelem_type_string: 
+				stringValue$ = CStr(source.value) 
+				If Not isBlankString(stringValue$) Then
+					include = True 
+					stringValue$ = |"| & ampersandDecode(stringValue$) & |"| 					
+				End If 
+		End Select
+		
+		
+		If include Then 
+			If isBlankString(source.Name) Then 
+				result$ = stringValue$
+			Else 
+				result$ = |"| & source.Name & |":| & stringValue$ 
+			End If
+		End If  
+	
+ExitPoint: 
+	jsonElementToJSON = result$
 	Exit Function 
 ErrorTrap:
 	On Error GoTo 0
@@ -3063,7 +3145,6 @@ Function escapeSingleBackslashes(source$) As String
 	Dim extendedinfo List As String 
 	Dim msg$
 	
-
 	Dim idx&
 	Dim result$
 	Dim temp$ 
@@ -3102,7 +3183,54 @@ ErrorTrap:
 	Resume ExitPoint
 End Function
 
-'++LotusScript Development Environment:2:1:getErrorMessages:9:8
+'++LotusScript Development Environment:2:1:replaceHT:10:8
+
+%REM
+	Function replaceHT
+	Replaces Tabs in a string with a new string and returns a new string. 
+	
+	@param source$  String from which Tabs should be removed. 
+	@param replacement$ New string to replace all Tabs.
+	@return source$ with all Tabs  replaced 
+%END REM
+Function replaceHT(source$, replacement$) As String 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+
+	Dim result$
+
+	
+	' BEGIN CODE
+	extendedinfo(|source|) = source$
+	
+	result$ = source$
+	If IsBlankString(result$) Then GoTo ExitPoint 
+	
+	' replace Tabs
+	If (InStr(result$, HT) > 0) Then result$ = Join(Split(result$, HT), replacement$)
+
+	
+ExitPoint: 
+	replaceHT = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
+'++LotusScript Development Environment:2:1:getErrorMessages:10:8
+
 
 
 %REM
@@ -3233,46 +3361,7 @@ ErrorTrap:
 	Resume ExitPoint
 End Function
 
-'++LotusScript Development Environment:2:1:getSortedListTags:49:8
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+'++LotusScript Development Environment:2:1:getSortedListTags:10:8
 
 
 
@@ -3327,7 +3416,8 @@ ErrorTrap:
 	Resume ExitPoint 
 End Sub
 
-'++LotusScript Development Environment:2:2:logJSONValue:12:8
+'++LotusScript Development Environment:2:2:logJSONValue:13:8
+
 %REM
 	Function logJSONValue
 	Converts a value to JSON and writes it to the log.
@@ -3647,6 +3737,20 @@ ErrorTrap:
 	Resume ExitPoint 
 End Function
 
+'++LotusScript Development Environment:2:1:stripHT:10:8
+%REM
+	Function stripHT
+	Strips Tabs from a string and returns the result as a new FULLY Trimmed string. 
+	
+	NOTE: This is a convenience wrapper for replaceHT(source$, ||) 
+	
+	@param source$ String from which Tabs should be removed. 
+	@return source$ with all Tabs stripped out. 
+%END REM
+Function stripHT(source$) As String 
+	stripHT = FullTrim(replaceHT(source$, ||)) 
+End Function
+
 '++LotusScript Development Environment:2:1:jsonElementToStringList:12:8
 %REM
 	Function jsonElementToStringList
@@ -3703,7 +3807,6 @@ Public Function jsonElementToStringList(source As NotesJSONElement) As StringLis
 		Jsonelem_type_object
 		Jsonelem_type_string
 	%END REM 		
-	
 	
 		include = False 
 		stringValue = ||
@@ -3786,7 +3889,7 @@ Public Function jsonElementToStringList(source As NotesJSONElement) As StringLis
 		
 	
 ExitPoint: 
-	Set jsonElementToStringList = result
+		Set jsonElementToStringList = result
 	Exit Function 
 ErrorTrap:
 	On Error GoTo 0
@@ -3907,10 +4010,6 @@ Private Function equals(var1 As Variant, var2 As Variant) As Boolean
 	extendedinfo(|var2 TypeName|) = typename_var2$
 	If Not (0 = StrComp(typename_var1$, typename_var1$)) Then GoTo ExitPoint ' Typenames must match
 	
-	
-	 
-	
-	
 	Select Case LCase(typename_var1$) 
 		Case |boolean|:
 			result = (var1 And var2)
@@ -4010,6 +4109,73 @@ ErrorTrap:
 	Resume ExitPoint
 End Function
 
+'++LotusScript Development Environment:2:1:jsonObjectToJSON:10:8
+%REM
+	Function jsonObjectToJSON
+	Converts a NotesJSONObject JSON
+	
+	Empty strings, null, zero, and false values are not included in the result. 
+	
+	@param source NotesJSONobject from which to construct the JSON
+	@return JSON constructed from the NotesJSONelement   
+%END REM
+Function jsonObjectToJSON(source As NotesJSONObject) As String 
+	On Error GoTo ErrorTrap
+	
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
+
+
+	Dim array_string() As String 
+	Dim idx%
+
+	Dim result$
+	
+	Dim njelem As NotesJSONElement 
+	
+
+	' BEGIN CODE
+	If (source Is Nothing) Then GoTo ExitPoint 
+
+	extendedinfo(|Source Size|) = CStr(source.Size) 
+	Set njelem = source.getFirstElement()
+	If (njelem Is Nothing) Then GoTo ExitPoint 
+	While Not njelem Is Nothing
+		extendedinfo(|Element Name|) = njelem.Name
+		extendedinfo(|Element Type|) = CStr(njelem.Type) 
+		extendedinfo(|Element Type Name|) = getJSONelementTypeName(njelem.Type)
+
+		ReDim Preserve array_string(idx%) As String 
+		If isBlankString(njelem.Name) Then 
+			array_string(idx%) = toJSONvalue(njelem) 
+		Else 
+			array_string(idx%) = |"| & njelem.Name & |":| & toJSONvalue(njelem) 
+		End If
+	
+		Set njelem = source.getNextElement()
+		idx% = idx% + 1
+	Wend
+
+	result$ = Join(array_string, |,|) 
+		
+ExitPoint: 
+	enhLogMethodResult LIB_PREFIX, result$ 
+	jsonObjectToJSON = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
+	Resume ExitPoint
+End Function
+
 '++LotusScript Development Environment:2:1:toJSONvalue:9:8
 %REM
 	Function toJSONvalue
@@ -4022,9 +4188,12 @@ End Function
 Private Function toJSONvalue(source As Variant) As String 
 	On Error GoTo ErrorTrap
 	
+	Dim njary As NotesJSONArray 
+	Dim njelem As NotesJSONElement
+	Dim njobj As NotesJSONObject 
 
 	Dim pair(1) As String 
-	Dim valuesarray() As String 
+	Dim array_string() As String 
 
 	Dim extendedinfo List As String 
 	Dim msg$
@@ -4034,7 +4203,6 @@ Private Function toJSONvalue(source As Variant) As String
 	Dim result$
 	Dim json$ 
 	Dim tag$ 
-
 
 	Dim idx%
 	
@@ -4077,6 +4245,20 @@ Private Function toJSONvalue(source As Variant) As String
 		|keyedvariant|: 
 			result$ = toJSONvalue(source.getValue()) 
 			
+		Case |notesjsonarray|:
+			Set njary = source 
+			result$ = jsonArrayToJSON(njary)
+			
+		Case |notesjsonelement|:
+			Set njelem = source
+			result$ = jsonElementToJSON(njelem) 
+			 
+			 
+		Case |notesjsonobject|: 
+			Set njobj = source
+			result$ = jsonObjectToJSON(njobj)  
+			
+			
 		Case Else: 
 			If IsArray(source) Then 
 				ForAll element In source 
@@ -4090,20 +4272,24 @@ Private Function toJSONvalue(source As Variant) As String
 				result$ = |[| & result$ & |]|
 				
 			ElseIf IsList(source) Then 
-				ReDim valuesarray(0) As String 
+				ReDim array_string(0) As String 
 				ForAll element In source
+					ReDim Preserve array_string(idx%) As String 
 					tag$ = ListTag(element)
 					json$ = toJSONvalue(element) 
-
-					pair(0) = |"| & ampersandEncode(tag$) & |"|
-					pair(1) = json$
 					
-					ReDim Preserve valuesarray(idx%) As String 
-					valuesarray(idx%) = Join(pair, |:|)
+					If isBlankString(tag$) Then
+						array_string(idx%) = json$ 
+					Else 
+						pair(0) = |"| & ampersandEncode(tag$) & |"|
+						pair(1) = json$
+						array_string(idx%) = Join(pair, |:|)					
+					End If
+
 					idx% = idx% + 1
 				End ForAll
 				
-				result$ = |{| & Join(valuesarray, |,|) & |}|
+				result$ = |{| & Join(array_string, |,|) & |}|
 
 			ElseIf IsObject(source) Then
 				' General Object conversion not yet completed  
@@ -4153,29 +4339,7 @@ ErrorTrap:
 	Resume ExitPoint 
 End Function
 
-'++LotusScript Development Environment:2:1:popExceptionCarrier:30:8
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+'++LotusScript Development Environment:2:1:popExceptionCarrier:8:8
 
 %REM
 	Function popExceptionCarrier
@@ -4195,89 +4359,3 @@ End Function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'++LotusScript Development Environment:2:1:stripHT:10:8
-%REM
-	Function stripHT
-	Strips Tabs from a string and returns the result as a new FULLY Trimmed string. 
-	
-	NOTE: This is a convenience wrapper for replaceHT(source$, ||) 
-	
-	@param source$ String from which Tabs should be removed. 
-	@return source$ with all Tabs stripped out. 
-%END REM
-Function stripHT(source$) As String 
-	stripHT = FullTrim(replaceHT(source$, ||)) 
-End Function
-
-'++LotusScript Development Environment:2:1:replaceHT:10:8
-
-%REM
-	Function replaceHT
-	Replaces Tabs in a string with a new string and returns a new string. 
-	
-	@param source$  String from which Tabs should be removed. 
-	@param replacement$ New string to replace all Tabs.
-	@return source$ with all Tabs  replaced 
-%END REM
-Function replaceHT(source$, replacement$) As String 
-	On Error GoTo ErrorTrap
-	
-	' exception variables
-	Dim extendedinfo List As String 
-	Dim msg$
-
-	Dim result$
-
-	
-	' BEGIN CODE
-	extendedinfo(|source|) = source$
-	
-	result$ = source$
-	If IsBlankString(result$) Then GoTo ExitPoint 
-	
-	' replace Tabs
-	If (InStr(result$, HT) > 0) Then result$ = Join(Split(result$, HT), replacement$)
-
-	
-ExitPoint: 
-	replaceHT = result$
-	Exit Function 
-ErrorTrap:
-	On Error GoTo 0
-	ForAll s In extendedinfo
-		If isBlankString(msg$) Then 
-			msg$ = ListTag(s) & |: | & s
-		Else 
-			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
-		End If
-	End ForAll
-	enhLogException LIB_PREFIX, msg$
-	Resume ExitPoint
-End Function
