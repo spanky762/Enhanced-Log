@@ -11,7 +11,7 @@
 	http://www.devinolson.net
 	Version 2021.12.15
 
-	Last updated: 01/2022
+	Last updated: 02/2022
 	
  ************************************************************************************
 %END REM *********************************************************************
@@ -93,6 +93,7 @@ Declare Private Class EnhancedLogStackTrace
 Declare Private Class EnhancedLogEntry 
 Declare Private Class Singleton 	' Declaring as Private allows for Singleton functionality.
 Declare Public Class EnhancedLog 
+Declare Private Class IntegerPair 
 Declare Sub Initialize
 Declare Sub Terminate	
 Declare Public Function enhLogGetLogConfigText(itemname$) As String
@@ -115,7 +116,7 @@ Declare Public Function enhLogExceptionWithLink (prefix$, description$, linkTo A
 Declare Public Function enhLogGetCachedErrorTimestamp() As String
 Declare Public Sub enhLogDumpContent (prefix$, filepath$)
 Declare Public Sub enhLogSetResumeOnLoggingFailure (source As Boolean)
-Declare Function getHashedValue(source$, clearCache As Boolean) As String
+Declare Public Function getHashedValue(source$, clearCache As Boolean) As String
 Declare Public Function enhLogAction(prefix$, description$) As Boolean
 Declare Public Property Get enhLogOutputToNotesLog As Boolean 
 Declare Public Function enhLogGetLogConfigUNID() As String
@@ -159,6 +160,7 @@ Declare Public Function stripFirstSubstr (source$, searchfor$) As String
 Declare Public Function enhLogHasErrors() As Boolean
 Declare Function getDocItemText(source As NotesDocument, itemname$) As Variant
 Declare Public Sub enhLogSetSendTo (source As Variant)
+Declare Private Function asciiFilterByRange(source$, ranges As Variant) As String 
 Declare Private Function getACLlevel(acl%) As String 
 Declare Public Function getEmptyDocumentCollection (source As NotesDatabase) As NotesDocumentCollection
 Declare Public Function enhLogGetSubject() As String
@@ -180,6 +182,7 @@ Declare Public Function enhLogGetConfigItemNames() As Variant
 Declare Public Sub enhLogSetSubject(source$)
 Declare Public Function getOpenDatabase(server$, filepath$) As NotesDatabase
 Declare Public Function enhLogWarning (prefix$, description$) As Boolean
+Declare Private Function alphanumericOnly(source$) As String 
 Declare Public Function strBeginsWith(searchin$, searchfor$) As Boolean 
 Declare Public Function getCurrentDb() As NotesDatabase
 Declare Private Function enhLogOptionsProfileFieldNames() As Variant
@@ -461,6 +464,11 @@ Private enhLog_ As EnhancedLog
 Private genhl_ProfiledMethods As ProfiledMethodList 
 Private genhl_dbConfigDocCache List As NotesDocument
 Private genhl_ProfileMethodStarts List As Integer       
+
+
+
+
+
 
 
 
@@ -4572,6 +4580,40 @@ Public Class EnhancedLog
 		Resume ExitPoint		
 	End Sub 
 End Class 	
+
+
+
+
+%REM
+	Type IntegerPair
+	Carrier for a pair of Integers
+%END REM
+Private Class IntegerPair 
+	Private first_ As Integer 
+	Private last_ As Integer
+	
+	
+	Private Property Get CLASS_PREFIX As String 
+		CLASS_PREFIX = LIB_PREFIX & |IntegerPair.|
+	End Property
+	
+	Public Property Get First As Integer
+		First = me.first_ 
+	End Property
+
+	Public Property Get Last As Integer
+		Last = me.last_ 
+	End Property
+			
+	%REM
+		Constructor
+	%END REM
+	Public Sub New(first%, last%)  
+		me.first_ = first% 
+		me.last_ = last% 
+	End Sub
+End Class
+
 '++LotusScript Development Environment:2:2:Initialize:4:10
 
 
@@ -4986,9 +5028,9 @@ Public Sub enhLogSetUserNameAbbrev (source$)
 	enhLog_.UserNameAbbrev = source
 End Sub
 
- 
+'++LotusScript Development Environment:2:1:uiSelectDatabase:13:8
 
-'++LotusScript Development Environment:2:1:uiSelectDatabase:11:8
+ 
 %REM
 	Function uiSelectDatabase
 	Description: Presents the user with a dialog box from which to select a database, 
@@ -5320,29 +5362,39 @@ End Sub
 	
 	@return	Hashed result.  Blank on Error.	
 %END REM
-Function getHashedValue(source$, clearCache As Boolean) As String
-	Dim extendedInfo As String
-	Dim result As String
+Public Function getHashedValue(source$, clearCache As Boolean) As String
 	On Error GoTo ErrorTrap
 	
 	Static cache List As String
 	
-	Dim argument As String 
+	' exception variables
+	Dim extendedinfo List As String 
+	Dim msg$
 	
-	extendedInfo$ = |Source: | & source$ & Chr(10) & |ClearCache: | & CStr(clearCache)
-	result$ = Trim$(source$)
-	If (Len(result$) = 0) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
+	
+	Dim result$
+	Dim argument$ 
+	Dim valuetohash$ 
+	
+	extendedinfo(|Source|) = source$
+	extendedinfo(|ClearCache|) = CStr(clearCache) 
+
+	If isBlankString(source$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
 	If clearCache Then Erase cache
-	If IsElement(cache(result$)) Then 
-		result$ = cache(result$)
+	
+	valuetohash$ = alphanumericOnly(source$) 
+	extendedinfo(|Value to Hash|) = valuetohash$ 
+	If isBlankString(valuetohash$) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
+	
+	If IsElement(cache(valuetohash$)) Then 
+		result$ = cache(valuetohash$)
 	Else
-		argument$ = |@ReplaceSubString(@Text(@Password("| & result$ & |")); "(":")";"")|
-		cache(result$) = Trim$(CStr(getScalar(safeEvaluate(argument$, Nothing, ||))))
-		If (Len(cache(result$)) = 0) Then 
-			Erase cache(result$)
-			result$ = ||
-		Else
-			result$ = cache(result$)
+		argument$ = |@Text(@Password("| & valuetohash$ & |"))|
+		extendedinfo(|argument|) = argument$ 
+		result$ = Trim$(CStr(getScalar(safeEvaluate(argument$, Nothing, ||))))
+		If (Len(result$) > 0) Then 
+			result$ = Mid$(result$, 2, Len(result$) -2)
+			If Not clearCache Then cache(valuetohash$) = result$
 		End If 
 	End If 
 	
@@ -5351,8 +5403,15 @@ ExitPoint:
 	Exit Function
 ErrorTrap:
 	On Error GoTo 0
-	enhLogException LIB_PREFIX, extendedInfo$
 	result$ = ||
+	ForAll s In extendedinfo
+		If isBlankString(msg$) Then 
+			msg$ = ListTag(s) & |: | & s
+		Else 
+			msg$ = msg$ & |, | & Chr(10) & ListTag(s) & |: | & s
+		End If
+	End ForAll
+	enhLogException LIB_PREFIX, msg$
 	Resume ExitPoint
 End Function 
 
@@ -6320,7 +6379,7 @@ Public Function safeEvaluate(ByVal formula$, context As Variant, failValue As Va
 		extendedInfo$ = |Formula: | & formula$
 		If (Len(formula$) = 0) Then Error ERR_PARAMETER_BLANK, MSG_PARAMETER_BLANK
 		
-		Let syntax = Evaluate(|@CheckFormulaSyntax({| & formula$ & |})|)
+		syntax = Evaluate(|@CheckFormulaSyntax({| & formula$ & |})|)
 		If (Not(syntax(0) = |1|)) Then
 			Error ERR_FORMULA_INVALID, MSG_FORMULA_INVALID & | (| & syntax(0) & |: | & syntax(5) & |)|
 		End If
@@ -6765,6 +6824,55 @@ Public Sub enhLogSetSendTo (source As Variant)
 	enhLog_.SendTo = source
 End Sub 	
 
+'++LotusScript Development Environment:2:1:asciiFilterByRange:9:8
+%REM
+	Function asciiFilterByRange
+	Removes all non-allowed characters from a string 
+	
+	@param source$ String from which to remove non-allowed characters 
+	@param ranges List of ascii ranges (k=name, v=range) definining the allowed characters.
+	@return source with all non-alphanumeric characters removed. 
+%END REM
+Private Function asciiFilterByRange(source$, ranges As Variant) As String 
+	On Error GoTo ErrorTrap
+
+	
+	Dim range As IntegerPair  	
+	
+	Dim character$ 
+	Dim result$
+	
+	Dim idx&
+	Dim code&
+	Dim include As Boolean  
+
+	If isBlankString(source$) Then GoTo ExitPoint
+	 
+		
+	For idx& = 1 To Len(source$) 
+		include = False 
+		character$ = Mid$(source$, idx&, 1)
+		code& = Asc(character$)
+		
+		ForAll element In ranges 
+			Set range = element 
+			include = ((code& >= range.First) And (code& <= range.Last)) 
+			If include Then Exit ForAll 
+		End ForAll
+		
+		If include Then result$ = result$ & character$
+	Next
+	
+		
+ExitPoint: 
+	asciiFilterByRange = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & source$
+	Resume ExitPoint
+End Function
+
 '++LotusScript Development Environment:2:1:getACLlevel:9:8
 %REM
 	Function getACLlevel
@@ -6856,8 +6964,8 @@ Public Property Get FILEPATH_ENHANCEDLOG_FILE (prefix$) As String
 		Resume ExitPoint
 End Property
 
+'++LotusScript Development Environment:2:2:enhLogSetAutoSave:3:8
 
-'++LotusScript Development Environment:2:2:enhLogSetAutoSave:2:8
 
 Public Sub enhLogSetAutoSave (source As Boolean)
 	Call getEnhLog()
@@ -7082,8 +7190,8 @@ ErrorTrap:
 	Resume ExitPoint
 End Property
 
+'++LotusScript Development Environment:2:2:enhLogAllDocItems:3:8
 
-'++LotusScript Development Environment:2:2:enhLogAllDocItems:2:8
 
 Public Sub enhLogAllDocItems (source As NotesDocument)
 	On Error GoTo ErrorTrap
@@ -7236,6 +7344,42 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, ||
 	Resume ExitPoint	
 End Function 
+
+'++LotusScript Development Environment:2:1:alphanumericOnly:8:8
+%REM
+	Function alphanumericOnly
+	Removes all non-alphanumeric (a-z, A-Z, 0-9) characters from String 
+	
+	@param source$ String from which to remove non-alphanumeric characters 
+	@return source with all non-alphanumeric characters removed. 
+%END REM
+Private Function alphanumericOnly(source$) As String 
+	On Error GoTo ErrorTrap
+
+	Static ranges List As IntegerPair 
+	Static rangesloaded As Boolean 
+	
+	Dim result$
+	
+	If isBlankString(source$) Then GoTo ExitPoint 
+	
+	If Not rangesloaded Then  
+		Set ranges(|Numeric|) = New IntegerPair(48, 57) 		' ASCII 0 - 9
+		Set ranges(|AlphaUpper|) = New IntegerPair(65, 90) 		' ASCII A - Z
+		Set ranges(|AlphaLower|) = New IntegerPair(97, 122) 	' ASCII a - z
+		rangesloaded = True 
+	End If
+	
+	result$ = asciiFilterbyRange(source$, ranges) 
+		
+ExitPoint: 
+	alphanumericOnly = result$
+	Exit Function 
+ErrorTrap:
+	On Error GoTo 0
+	enhLogException LIB_PREFIX, |Source: | & source$
+	Resume ExitPoint
+End Function
 
 '++LotusScript Development Environment:2:1:strBeginsWith:9:8
 %REM
@@ -7924,6 +8068,9 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
+
+
 
 
 
