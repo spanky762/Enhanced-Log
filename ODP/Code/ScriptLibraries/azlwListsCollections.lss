@@ -2440,7 +2440,6 @@ Class KeyedNotesDateTime As azlwKeyedValueCarrier
 	End Sub
 	
 End Class 
-
 '++LotusScript Development Environment:2:2:Initialize:1:10
 Sub Initialize
 	
@@ -2903,7 +2902,6 @@ Function jsonObjectToStringList(source As NotesJSONObject) As StringList
 
 		
 ExitPoint: 
-	If Not (result Is Nothing) Then enhLogMethodResult LIB_PREFIX, result.json 
 	Set jsonObjectToStringList = result
 	Exit Function 
 ErrorTrap:
@@ -2961,7 +2959,6 @@ Function jsonArrayToJSON(source As NotesJSONArray) As String
 	result$ = toJSONvalue(array_variant)
 
 ExitPoint: 
-	enhLogMethodResult LIB_PREFIX, result$
 	jsonArrayToJSON = result$
 	Exit Function 
 ErrorTrap:
@@ -3346,7 +3343,6 @@ Public Function jsonToStringList(source$) As StringList
 
 ExitPoint: 
 	Set jsonToStringList = result
-'	If result.hasContent Then enhLogMethodResult LIB_PREFIX, result.json 
 	Exit Function 
 ErrorTrap:
 	On Error GoTo 0
@@ -4160,7 +4156,6 @@ Function jsonObjectToJSON(source As NotesJSONObject) As String
 	result$ = Join(array_string, |,|) 
 		
 ExitPoint: 
-	enhLogMethodResult LIB_PREFIX, result$ 
 	jsonObjectToJSON = result$
 	Exit Function 
 ErrorTrap:
@@ -4350,6 +4345,7 @@ End Function
 Function popExceptionCarrier() As ExceptionCarrier 
 	Set popExceptionCarrier = getExceptionCarrierStack().pop()
 End Function
+
 
 
 
