@@ -100,7 +100,6 @@ Declare Class ExceptionCarrier
 Declare Public Class ExceptionCarrierStack 
 Declare Public Class StringSetList As azlwListCarrier 
 Declare Class IntegerPairList As azlwListCarrier 
-Declare Public Class IntegerPair 
 Declare Class KeyedVariant 
 Declare Public Class azlwKeyedValueCarrier 
 Declare Class KeyedString As azlwKeyedValueCarrier 
@@ -2192,39 +2191,6 @@ Class IntegerPairList As azlwListCarrier
 		Resume ExitPoint 
 	End Function
 		
-End Class
-
-
-
-
-%REM
-	Type IntegerPair
-	Carrier for a pair of Integers
-%END REM
-Public Class IntegerPair 
-	Private first_ As Integer 
-	Private last_ As Integer
-	
-	
-	Private Property Get CLASS_PREFIX As String 
-		CLASS_PREFIX = LIB_PREFIX & |IntegerPair.|
-	End Property
-	
-	Public Property Get First As Integer
-		First = me.first_ 
-	End Property
-
-	Public Property Get Last As Integer
-		Last = me.last_ 
-	End Property
-			
-	%REM
-		Constructor
-	%END REM
-	Public Sub New(first%, last%)  
-		me.first_ = first% 
-		me.last_ = last% 
-	End Sub
 End Class
 %REM
 	Class KeyedVariant
@@ -4345,6 +4311,7 @@ End Function
 Function popExceptionCarrier() As ExceptionCarrier 
 	Set popExceptionCarrier = getExceptionCarrierStack().pop()
 End Function
+
 
 
 

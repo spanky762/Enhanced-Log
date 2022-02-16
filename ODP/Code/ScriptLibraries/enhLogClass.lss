@@ -93,7 +93,7 @@ Declare Private Class EnhancedLogStackTrace
 Declare Private Class EnhancedLogEntry 
 Declare Private Class Singleton 	' Declaring as Private allows for Singleton functionality.
 Declare Public Class EnhancedLog 
-Declare Private Class IntegerPair 
+Declare Public Class IntegerPair 
 Declare Sub Initialize
 Declare Sub Terminate	
 Declare Public Function enhLogGetLogConfigText(itemname$) As String
@@ -4580,15 +4580,11 @@ Public Class EnhancedLog
 		Resume ExitPoint		
 	End Sub 
 End Class 	
-
-
-
-
 %REM
-	Type IntegerPair
+	Class IntegerPair
 	Carrier for a pair of Integers
 %END REM
-Private Class IntegerPair 
+Public Class IntegerPair 
 	Private first_ As Integer 
 	Private last_ As Integer
 	
@@ -4613,7 +4609,6 @@ Private Class IntegerPair
 		me.last_ = last% 
 	End Sub
 End Class
-
 '++LotusScript Development Environment:2:2:Initialize:4:10
 
 
@@ -8068,6 +8063,7 @@ ErrorTrap:
 	result = False
 	Resume ExitPoint
 End Function 
+
 
 
 
