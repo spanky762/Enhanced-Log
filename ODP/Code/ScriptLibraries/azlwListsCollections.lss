@@ -100,10 +100,10 @@ Declare Class ExceptionCarrier
 Declare Public Class ExceptionCarrierStack 
 Declare Public Class StringSetList As azlwListCarrier 
 Declare Class IntegerPairList As azlwListCarrier 
-Declare Class KeyedVariant 
 Declare Public Class azlwKeyedValueCarrier 
 Declare Class KeyedString As azlwKeyedValueCarrier 
 Declare Class KeyedNotesDateTime As azlwKeyedValueCarrier  
+Declare Class KeyedVariant As azlwKeyedValueCarrier 
 Declare Sub Initialize
 Declare Function updateDocumentStringSet(source As StringSet, itemname$, target As NotesDocument) As Boolean  
 Declare Function ampersandEncode(source$) As String
@@ -181,6 +181,8 @@ Private Const V_IUNKNOWN = 13
 Private Const V_BYTE = 17 
 Private Const V_LSOBJ = 34
 Private Const V_PRODOBJ = 35 
+
+
 
 
 
@@ -2193,32 +2195,6 @@ Class IntegerPairList As azlwListCarrier
 		
 End Class
 %REM
-	Class KeyedVariant
-	Carrier for a key / value pair, where the value is a Variant
-%END REM
-Class KeyedVariant 
-	Public value As Variant
-	
-	%REM
-		Function getValue() 
-		Gets the Value for the object
-		@return value for the object
-	%END REM
-	Function getValue() As Variant 
-		getValue = Me.value 
-	End Function
-	 
-	%REM
-		Sub SetValue() 
-		Sets the Value for the object
-		
-		@param source value to set 
-	%END REM
-	Sub setValue(source As Variant) 
-		Set Me.value = source
-	End Sub
-End Class
-%REM
 	Class azlwKeyedValueCarrier
 	Base Class for KeyedValue Carriers
 %END REM
@@ -2406,6 +2382,32 @@ Class KeyedNotesDateTime As azlwKeyedValueCarrier
 	End Sub
 	
 End Class 
+%REM
+	Class KeyedVariant
+	Carrier for a key / value pair, where the value is a Variant
+%END REM
+Class KeyedVariant As azlwKeyedValueCarrier 
+	Public value As Variant
+	
+	%REM
+		Function getValue() 
+		Gets the Value for the object
+		@return value for the object
+	%END REM
+	Function getValue() As Variant 
+		getValue = Me.value 
+	End Function
+	 
+	%REM
+		Sub SetValue() 
+		Sets the Value for the object
+		
+		@param source value to set 
+	%END REM
+	Sub setValue(source As Variant) 
+		Set Me.value = source
+	End Sub
+End Class
 '++LotusScript Development Environment:2:2:Initialize:1:10
 Sub Initialize
 	
@@ -4311,6 +4313,7 @@ End Function
 Function popExceptionCarrier() As ExceptionCarrier 
 	Set popExceptionCarrier = getExceptionCarrierStack().pop()
 End Function
+
 
 
 
