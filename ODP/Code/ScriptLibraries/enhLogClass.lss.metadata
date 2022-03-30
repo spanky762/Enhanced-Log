@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" replicaid="85258796005A152A" version="12.0">
-<noteinfo noteid="1be" sequence="5" unid="418CA900B5769A72852586610061C2D6">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="852587A5005D981C" version="12.0">
+<noteinfo noteid="1be" sequence="848" unid="418CA900B5769A72852586610061C2D6">
 <created><datetime>20210118T124748,70-05</datetime></created>
-<modified><datetime>20211123T112627,77-05</datetime></modified>
-<revised><datetime>20211123T112627,76-05</datetime></revised>
-<lastaccessed><datetime>20211123T112627,76-05</datetime></lastaccessed>
-<addedtofile><datetime>20211123T112402,50-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime>20220216T082343,14-05</datetime></modified>
+<revised><datetime>20220216T082343,13-05</datetime></revised>
+<lastaccessed><datetime>20220216T082343,13-05</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120258,12-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$TITLE" sign="true"><text>enhLogClass</text></item>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$POID"><datetime dst="true">20190626T055254,45-04</datetime></item>
+
 
 
 

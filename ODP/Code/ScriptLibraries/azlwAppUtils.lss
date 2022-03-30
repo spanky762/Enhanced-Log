@@ -82,7 +82,6 @@
  
 Option Public
 Option Explicit
-Use "enhLogClass"
 Use "azlwConstants"
 Use "azlwListsCollections"
 
@@ -216,7 +215,7 @@ Public Class DocumentObject
 	Private isdirty_ As Boolean 
 	
 	Private Property Get CLASS_PREFIX As String  
-		CLASS_PREFIX = LIB_PREFIX & |Class: DocumentObject.|
+		CLASS_PREFIX = LIB_PREFIX & |DocumentObject.|
 	End Property
 	
 	
@@ -2562,6 +2561,7 @@ ErrorTrap:
 	enhLogException LIB_PREFIX, |Viewname: | & viewname$ & Chr(10) & |Column #: | & CStr(colnum%) 
 	Resume ExitPoint 
 End Function
+
 
 
 

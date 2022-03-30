@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="85258671003806E7" version="11.0">
-<noteinfo noteid="182" sequence="74" unid="2D70747AF90DBAA0862577FA007649FB">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><note xmlns="http://www.lotus.com/dxl" class="filter" maintenanceversion="1.0" replicaid="852587A5005D981C" version="12.0">
+<noteinfo noteid="1ae" sequence="9" unid="2D70747AF90DBAA0862577FA007649FB">
 <created><datetime>20101215T153201,87-06</datetime></created>
-<modified><datetime dst="true">20210519T201850,51-04</datetime></modified>
-<revised><datetime dst="true">20210519T201850,50-04</datetime></revised>
-<lastaccessed><datetime dst="true">20210519T201850,50-04</datetime></lastaccessed>
-<addedtofile><datetime>20210203T051202,72-05</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Devin Olson/OU=USA/O=PNPHCL</name><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
+<modified><datetime dst="true">20220330T093408,77-04</datetime></modified>
+<revised><datetime dst="true">20220330T093408,76-04</datetime></revised>
+<lastaccessed><datetime dst="true">20220330T093408,76-04</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120257,75-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <item name="$Flags"><text>s34Q</text></item>
 <item name="$PublicAccess" sign="true"><text>1</text></item>
 <item name="$TITLE" sign="true"><text>Demo methods for logging a lot of stuff</text></item>
 <item name="$DesignerVersion" sign="true"><text>8.5.2</text></item>
 <item name="$POID"><datetime>20101203T153715,20-05</datetime></item>
+<item name="$Comment"><text>Demo library only - not for production</text></item>
 
-
-<item name="$Comment"><text>Demo library only - not for production</text></item></note>
+</note>
