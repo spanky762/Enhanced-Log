@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <view name='Admin\Config' alias='lkp-Config' xmlns='http://www.lotus.com/dxl'
- version='12.0' replicaid='85258796005A152A' hide='web' showinmenu='false'
- publicaccess='false' designerversion='8.5.3' comment='Lookup for configuration information'
+ version='12.0' maintenanceversion='1.0' replicaid='852587A5005D981C' hide='web'
+ showinmenu='false' publicaccess='false' designerversion='8.5.3' comment='Lookup for configuration information'
  unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator' headers='beveled'
  opencollapsed='false' showresponsehierarchy='true' showmargin='true' shrinkrows='false'
  extendlastcolumn='false' showhierarchies='false' unreadcolor='black' rowlinecount='1'
@@ -9,12 +9,12 @@
  boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
  allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
  uniquekeys='false'>
-<noteinfo noteid='212' unid='AA6F8B6FB575899E85258662006B676E' sequence='2'>
+<noteinfo noteid='212' unid='AA6F8B6FB575899E85258662006B676E' sequence='5'>
 <created><datetime>20210119T143308,30-05</datetime></created>
-<modified><datetime>20211123T112403,32-05</datetime></modified>
-<revised><datetime>20211123T112403,31-05</datetime></revised>
-<lastaccessed><datetime>20211123T112403,31-05</datetime></lastaccessed>
-<addedtofile><datetime>20211123T112403,30-05</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20220330T093409,19-04</datetime></modified>
+<revised><datetime dst='true'>20220330T093409,18-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20220330T093409,18-04</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120258,95-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby><code
  event='selection'><formula>SELECT @Contains(@LowerCase(Form); "config")</formula></code><sharedcolumnref

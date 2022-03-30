@@ -187,7 +187,7 @@ End Property
 '++LotusScript Development Environment:2:3:CRLF Get:6:8
 
 %REM
-	Property Get LF
+	Property Get CRLF
 	Gets the LotusScript characters for a carriage return followed by a line feed
 %END REM
 Property Get CRLF As String  
@@ -206,7 +206,7 @@ End Property
 '++LotusScript Development Environment:2:3:HT Get:5:8
 %REM
 	Property Get HT
-	Gets the LotusScript character for a horizontal tabulation
+	Gets the LotusScript character for a horizontal tab
 %END REM
 Property Get HT As String 
 	HT = Chr(9)

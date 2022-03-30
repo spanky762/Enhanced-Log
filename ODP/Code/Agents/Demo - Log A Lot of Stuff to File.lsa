@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
-<agent name='Demo - Log A Lot of Stuff to NotesLog' xmlns='http://www.lotus.com/dxl'
+<agent name='Demo - Log A Lot of Stuff to File' xmlns='http://www.lotus.com/dxl'
  version='12.0' maintenanceversion='1.0' replicaid='852587A5005D981C' hide='v3'
- publicaccess='false' designerversion='8.5.3'>
-<noteinfo noteid='18a' unid='21CAF0D82650A01B85258680006D4B94' sequence='17'>
-<created><datetime>20210218T145347,72-05</datetime></created>
-<modified><datetime dst='true'>20220330T093408,92-04</datetime></modified>
-<revised><datetime dst='true'>20220330T093408,91-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20220330T093408,91-04</datetime></lastaccessed>
-<addedtofile><datetime>20211208T120257,59-05</datetime></addedtofile></noteinfo>
+ publicaccess='false' designerversion='8.5.3' restrictions='unrestricted'>
+<noteinfo noteid='236' unid='73E0986DC9E484B2852587AB00458E96' sequence='14'>
+<created><datetime>20211214T073944,86-05</datetime></created>
+<modified><datetime dst='true'>20220330T093408,89-04</datetime></modified>
+<revised><datetime dst='true'>20220330T093408,88-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20220330T093408,88-04</datetime></lastaccessed>
+<addedtofile><datetime>20211214T073948,28-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
-<designchange><datetime dst='true'>20220330T093408,91-04</datetime></designchange>
+<designchange><datetime dst='true'>20220330T093408,88-04</datetime></designchange>
 <trigger type='actionsmenu'/>
 <documentset type='runonce'/><code event='options'><lotusscript>%REM ***************************************************************************
  ************************************************************************************
-	Demo - Log A Lot of Stuff to NotesLog Lotusscript Agent
+	Demo - Log A Lot of Stuff Lotusscript Agent
 
 	Demonstration Agent for Enhanced Logging
 	&amp;copy; Copyright 2002 - 2010, Devin S. Olson
@@ -22,9 +22,9 @@
 	
 	Author: Devin S. Olson  (devin.olson@azlighthouse.com)
 	http://www.devinolson.net
-	Version 2021.02.18
+	Version 2017.12.26
 
-	Last updated: 12/2021
+	Last updated: 12/2017
 
  ************************************************************************************
 %END REM *********************************************************************
@@ -32,10 +32,8 @@ Option Public
 Option Explicit
 Use "Demo methods for logging a lot of stuff"
 
-</lotusscript></code><code event='initialize'><lotusscript>
-
-Sub Initialize
-	enhLogOutputToNotesLog = True 
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	Call getEnhLog().OpenFileLog(||)
 	Call logalotofstuff() 	
 End Sub
 
@@ -43,6 +41,6 @@ End Sub
 	Messagebox |Agent Finished!|, 64, |Complete|
 End Sub</lotusscript></code>
 <rundata processeddocs='0' exitcode='0'>
-<agentmodified><datetime>20211222T161513,74-05</datetime></agentmodified></rundata>
+<agentmodified><datetime>20211214T170203,79-05</datetime></agentmodified></rundata>
 <item name='$POID'><datetime>20101203T153715,28-05</datetime></item></agent>
 

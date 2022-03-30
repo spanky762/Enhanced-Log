@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <form name='Log Entry' alias='Events' xmlns='http://www.lotus.com/dxl' version='12.0'
- replicaid='85258796005A152A' hide='web' nocompose='true' noquery='true' publicaccess='false'
- designerversion='8.5.3' renderpassthrough='true'>
-<noteinfo noteid='1ca' unid='E8A970EC3F9BD1F4852585BD005C2013' sequence='4'>
+ maintenanceversion='1.0' replicaid='852587A5005D981C' hide='web' nocompose='true'
+ noquery='true' publicaccess='false' designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='1ca' unid='E8A970EC3F9BD1F4852585BD005C2013' sequence='11'>
 <created><datetime dst='true'>20200807T124615,23-04</datetime></created>
-<modified><datetime>20211123T115037,39-05</datetime></modified>
-<revised><datetime>20211123T115037,38-05</datetime></revised>
-<lastaccessed><datetime>20211123T115037,38-05</datetime></lastaccessed>
-<addedtofile><datetime>20211123T112402,83-05</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20220330T093409,13-04</datetime></modified>
+<revised><datetime dst='true'>20220330T093409,12-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20220330T093409,12-04</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120258,47-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <globals><code event='options'><lotusscript>Option Public
@@ -45,63 +45,65 @@ End Function ' getHTMLstyle
 	Set result = getCurrentSession().CreateStream() 
 	Call result.WriteText(|&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
-   &lt;xsl:template match="/"&gt;
-      &lt;html&gt;
-      	&lt;head&gt;
-			&lt;style&gt;
-				th {
-					padding:0 0.5em;
-				}; 
-				
-				td {
-					padding:0 1em;
-				};
-				
-			&lt;/style&gt;
-      	&lt;/head&gt;
-         &lt;body&gt;
-            &lt;h2&gt;Profiled Methods&lt;/h2&gt;
-            &lt;table&gt;
-               &lt;tr bgcolor="#9acd32"&gt;
-                  &lt;th&gt;Module&lt;/th&gt;
-                  &lt;th&gt;Class&lt;/th&gt;
-                  &lt;th&gt;Method&lt;/th&gt;
-                  &lt;th&gt;Operation&lt;/th&gt;
-                  &lt;th&gt;Calls&lt;/th&gt;
-                  &lt;th&gt;Milliseconds&lt;/th&gt;
-                  &lt;th&gt;Recursions&lt;/th&gt;
-                  &lt;td&gt;Recursion&lt;br /&gt; Max Depth&lt;/td&gt;
-               &lt;/tr&gt;
+&lt;xsl:template match="/"&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;style&gt;
+		th { padding:0 0.5em; } 
 
-               &lt;xsl:for-each select="profiledmethods/module/class/method"&gt;
-                  &lt;tr align="right"&gt;
-                     &lt;td align="left"&gt;&lt;xsl:value-of select="../../@name" /&gt;&lt;/td&gt;
-                     &lt;td align="left"&gt;&lt;xsl:value-of select="../@name" /&gt;&lt;/td&gt;
-                     &lt;td align="left"&gt;&lt;xsl:value-of select="@name" /&gt;&lt;/td&gt;
-                     &lt;td align="left"&gt;&lt;xsl:value-of select="@o" /&gt;&lt;/td&gt;
-                     &lt;td&gt;&lt;xsl:value-of select="@c" /&gt;&lt;/td&gt;
-                     &lt;td&gt;&lt;xsl:value-of select="@et" /&gt;&lt;/td&gt;
-                     &lt;td&gt;&lt;xsl:value-of select="@r" /&gt;&lt;/td&gt;
-                     &lt;td&gt;&lt;xsl:value-of select="@mr" /&gt;&lt;/td&gt;
-                  &lt;/tr&gt;
-               &lt;/xsl:for-each&gt;
+		td { padding:0 0.5em; }
 
-               &lt;xsl:for-each select="profiledmethods/module/method"&gt;
-                  &lt;tr align="right"&gt;
-                     &lt;td align="left"&gt;&lt;xsl:value-of select="../@name" /&gt;&lt;/td&gt;
-                     &lt;td&gt;  &lt;/td&gt;
-                     &lt;td align="left"&gt;&lt;xsl:value-of select="@name" /&gt;&lt;/td&gt;
-                     &lt;td align="left"&gt;&lt;xsl:value-of select="@o" /&gt;&lt;/td&gt;
-                     &lt;td&gt;&lt;xsl:value-of select="@c" /&gt;&lt;/td&gt;
-                     &lt;td&gt;&lt;xsl:value-of select="@et" /&gt;&lt;/td&gt;
-                     &lt;td&gt;&lt;xsl:value-of select="@r" /&gt;&lt;/td&gt;
-                     &lt;td&gt;&lt;xsl:value-of select="@mr" /&gt;&lt;/td&gt;
-                  &lt;/tr&gt;
-               &lt;/xsl:for-each&gt;
-            &lt;/table&gt;
-         &lt;/body&gt;
-      &lt;/html&gt;
-   &lt;/xsl:template&gt;
+		.l { text-align: left; }
+
+		.r { text-align: right; }
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;h2&gt;Profiled Methods&lt;/h2&gt;
+	&lt;table&gt;
+		&lt;thead&gt;
+			&lt;tr bgcolor="#9acd32"&gt;
+			&lt;th&gt;Module&lt;/th&gt;
+			&lt;th&gt;Class&lt;/th&gt;
+			&lt;th&gt;Method&lt;/th&gt;
+			&lt;th&gt;Operation&lt;/th&gt;
+			&lt;th&gt;Calls&lt;/th&gt;
+			&lt;th&gt;Milliseconds&lt;/th&gt;
+			&lt;th&gt;Recursions&lt;/th&gt;
+			&lt;th&gt;Recursion&lt;br /&gt; Max Depth&lt;/th&gt;
+			&lt;/tr&gt;
+		&lt;/thead&gt;
+		&lt;tbody&gt;
+			&lt;xsl:for-each select="profiledmethods/module/class/method"&gt;
+				&lt;tr class="r"&gt;
+					&lt;td class="l"&gt;&lt;xsl:value-of select="../../@name" /&gt;&lt;/td&gt;
+					&lt;td class="l"&gt;&lt;xsl:value-of select="../@name" /&gt;&lt;/td&gt;
+					&lt;td class="l"&gt;&lt;xsl:value-of select="@name" /&gt;&lt;/td&gt;
+					&lt;td class="l"&gt;&lt;xsl:value-of select="@o" /&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;xsl:value-of select="@c" /&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;xsl:value-of select="@et" /&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;xsl:value-of select="@r" /&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;xsl:value-of select="@mr" /&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/xsl:for-each&gt;
+
+			&lt;xsl:for-each select="profiledmethods/module/method"&gt;
+				&lt;tr class="r"&gt;
+					&lt;td class="l"&gt;&lt;xsl:value-of select="../@name" /&gt;&lt;/td&gt;
+					&lt;td&gt;  &lt;/td&gt;
+					&lt;td class="l"&gt;&lt;xsl:value-of select="@name" /&gt;&lt;/td&gt;
+					&lt;td class="l"&gt;&lt;xsl:value-of select="@o" /&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;xsl:value-of select="@c" /&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;xsl:value-of select="@et" /&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;xsl:value-of select="@r" /&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;xsl:value-of select="@mr" /&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/xsl:for-each&gt;
+		&lt;/tbody&gt;
+	&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/xsl:template&gt;
 &lt;/xsl:stylesheet&gt;|)
 	
 ExitPoint:
@@ -161,7 +163,7 @@ Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font size='8pt' color='green'/><field
  type='text' kind='computedwhencomposed' name='VERSION'><code event='defaultvalue'><formula
 >@ThisValue</formula></code></field></run><compositedata type='98' prevtype='65418'
- nexttype='222' afterparcount='66' containertype='65418' aftercontainercount='1'
+ nexttype='222' afterparcount='67' containertype='65418' aftercontainercount='1'
  afterbegincount='3'>
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font size='8pt' color='green'/></run><run
@@ -169,7 +171,7 @@ Yg4BAIQAAAAAAAAAAAA=
  format='general' digits='2' punctuated='false' parens='false' percent='false'
  bytes='false'/><code event='defaultvalue'><formula>@ThisValue</formula></code></field></run><run
 ><font size='8pt' color='green'/></run></par>
-<table widthtype='fitmargins' user4spacing='true' refwidth='20.6458in'><tablecolumn
+<table widthtype='fitmargins' user4spacing='true' refwidth='21.4271in'><tablecolumn
  width='5.9931%'/><tablecolumn width='94.0069%'/>
 <tablerow>
 <tablecell borderwidth='0px'>
@@ -277,15 +279,15 @@ Yg4BAIQAAAAAAAAAAAA=
  width='10.2799in'/>
 <tablerow>
 <tablecell valign='center'>
-<pardef id='10' hide='notes web mobile' keepwithnext='true' keeptogether='true'/>
-<par def='10'/>
+<pardef id='9' hide='notes web mobile' keepwithnext='true' keeptogether='true'/>
+<par def='9'/>
 <table minrowheight='0.0299in' leftmargin='0.0313in' widthtype='fixedleft'
  cellborderstyle='ridge' rowspacing='0.0299in' columnspacing='0.0299in' refwidth='10.2486in'><tablecolumn
  width='4.8764in'/><tablecolumn width='5.2528in'/>
 <tablerow>
 <tablecell valign='center' borderwidth='0px'>
-<pardef id='12' leftmargin='0.0340in' keepwithnext='true' keeptogether='true'/>
-<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<pardef id='11' leftmargin='0.0340in' keepwithnext='true' keeptogether='true'/>
+<par def='11'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>User </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
  name='A$USER'><code event='defaultvalue'><formula>@ThisValue</formula></code></field></run><compositedata
@@ -295,8 +297,8 @@ Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font name='Arial'
  pitch='variable' truetype='true' familyid='20'/> </run></par></tablecell>
 <tablecell valign='center' borderwidth='0px'>
-<pardef id='13' leftmargin='0.0354in' keepwithnext='true' keeptogether='true'/>
-<par def='13'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<pardef id='12' leftmargin='0.0354in' keepwithnext='true' keeptogether='true'/>
+<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>Server </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
  name='A$SERVER' description='Name of script program'><code event='defaultvalue'><formula
@@ -308,7 +310,7 @@ Yg4BAIQAAAAAAAAAAAA=
  truetype='true' familyid='20'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell valign='center' borderwidth='0px'>
-<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='11'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>Start Time</run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/> </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='datetime' kind='computedwhencomposed'
@@ -319,7 +321,7 @@ Yg4BAIQAAAAAAAAAAAA=
  preference='usersetting'/><code event='defaultvalue'><formula>@ThisValue</formula></code></field></run><run
 ><font style='bold' name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par></tablecell>
 <tablecell valign='center' borderwidth='0px'>
-<par def='13'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>Db Title</run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/> </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
@@ -332,7 +334,7 @@ Yg4BAIQAAAAAAAAAAAA=
  pitch='variable' truetype='true' familyid='20'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell valign='center' borderwidth='0px'>
-<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='11'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>End Time</run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/> </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='datetime' kind='computedwhencomposed'
@@ -343,7 +345,7 @@ Yg4BAIQAAAAAAAAAAAA=
  preference='usersetting'/><code event='defaultvalue'><formula>@ThisValue</formula></code></field></run><run
 ><font name='Arial' pitch='variable' truetype='true' familyid='20' color='navy'/></run></par></tablecell>
 <tablecell valign='center' borderwidth='0px'>
-<par def='13'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>Db Filepath</run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/> </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
@@ -356,7 +358,7 @@ Yg4BAIQAAAAAAAAAAAA=
  pitch='variable' truetype='true' familyid='20'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell valign='center' borderwidth='0px'>
-<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='11'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>Elapsed Time</run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/> </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedfordisplay'
@@ -384,7 +386,7 @@ Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font name='Arial'
  pitch='variable' truetype='true' familyid='20' color='maroon'/></run></par></tablecell>
 <tablecell valign='center' borderwidth='0px'>
-<par def='13'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>Db RepID</run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/> </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
@@ -397,12 +399,12 @@ Yg4BAIQAAAAAAAAAAAA=
  pitch='variable' truetype='true' familyid='20'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px'>
-<pardef id='14' keepwithnext='true' keeptogether='true'/>
-<par def='14'><run><font name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par></tablecell>
+<pardef id='13' keepwithnext='true' keeptogether='true'/>
+<par def='13'><run><font name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par></tablecell>
 <tablecell borderwidth='0px'>
-<pardef id='15' leftmargin='0.0354in' tabs='L0.5000in' keepwithnext='true'
+<pardef id='14' leftmargin='0.0354in' tabs='L0.5000in' keepwithnext='true'
  keeptogether='true'/>
-<par def='15'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='14'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>Notes Version</run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/> </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
@@ -415,7 +417,7 @@ Yg4BAIQAAAAAAAAAAAA=
  truetype='true' familyid='20'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell borderwidth='0px'>
-<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='11'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>ACL Level </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
  name='A$USERACCESS'><code event='defaultvalue'><formula>@ThisValue</formula></code></field></run><compositedata
@@ -425,7 +427,7 @@ Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font name='Arial'
  pitch='variable' truetype='true' familyid='20'/> </run></par></tablecell>
 <tablecell borderwidth='0px'>
-<par def='13'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<par def='12'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>ACL Roles </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' allowmultivalues='true'
  kind='computedfordisplay' name='dspUserRoles' listinputseparators='comma semicolon newline'
@@ -435,11 +437,11 @@ Yg4BAIQAAAAAAAAAAAA=
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font name='Arial'
  pitch='variable' truetype='true' familyid='20'/> </run></par></tablecell></tablerow></table>
-<par def='10'><run><font name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par></tablecell></tablerow>
+<par def='9'><run><font name='Arial' pitch='variable' truetype='true' familyid='20'/></run></par></tablecell></tablerow>
 <tablerow>
 <tablecell>
-<pardef id='16' leftmargin='0.0951in' keepwithnext='true' keeptogether='true'/>
-<par def='16'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
+<pardef id='15' leftmargin='0.0951in' keepwithnext='true' keeptogether='true'/>
+<par def='15'><run><font style='bold' name='Arial' pitch='variable' truetype='true'
  familyid='20' color='navy'/>Subject  </run><run><font name='Arial' pitch='variable'
  truetype='true' familyid='20'/><field type='text' kind='computedwhencomposed'
  name='Subject'><code event='defaultvalue'><formula>@ThisValue</formula></code></field></run><compositedata
@@ -448,30 +450,30 @@ Yg4BAIQAAAAAAAAAAAA=
 Yg4BAIQAAAAAAAAAAAA=
 </compositedata><run><font name='Arial'
  pitch='variable' truetype='true' familyid='20'/></run></par></tablecell></tablerow></table>
-<pardef id='17' leftmargin='1.1250in' rightmargin='95%'/>
-<par def='17'><run><font size='9pt'/></run></par>
-<pardef id='18' leftmargin='1in' rightmargin='95%'/>
-<par def='18'><run><font style='bold' color='navy'/>Log Entries</run><run
+<pardef id='16' leftmargin='1.1250in' rightmargin='95%'/>
+<par def='16'><run><font size='9pt'/></run></par>
+<pardef id='17' leftmargin='1in' rightmargin='95%'/>
+<par def='17'><run><font style='bold' color='navy'/>Log Entries</run><run
 ><font size='9pt'/> </run><field type='richtext' kind='computed' name='Body'><code
  event='defaultvalue'><formula>@ThisValue</formula></code></field><compositedata
  type='98' prevtype='65418' nexttype='222' afterparcount='11' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAEAAAA=
 </compositedata></par>
-<par def='18'><run><font style='bold' color='navy'/></run></par>
-<par def='18'><run><font size='9pt'/></run><field type='richtext' kind='computed'
+<par def='17'><run><font style='bold' color='navy'/></run></par>
+<par def='17'><run><font size='9pt'/></run><field type='richtext' kind='computed'
  name='attachments'><code event='defaultvalue'><formula>@ThisValue</formula></code></field><compositedata
  type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAEAAAA=
 </compositedata></par>
-<par def='18'/>
-<pardef id='19' leftmargin='1in' rightmargin='95%'><code event='hidewhen'><formula
+<par def='17'/>
+<pardef id='18' leftmargin='1in' rightmargin='95%'><code event='hidewhen'><formula
 >@ToNumber(A$HASXMLCONTENT != 1)</formula></code></pardef>
-<par def='19'><run><font style='bold' color='navy'/>XML Content  </run></par>
-<pardef id='20' leftmargin='1in' rightmargin='95%'><code event='hidewhen'><formula
+<par def='18'><run><font style='bold' color='navy'/>XML Content  </run></par>
+<pardef id='19' leftmargin='1in' rightmargin='95%'><code event='hidewhen'><formula
 >@ToNumber(A$HASXMLCONTENT != 1) | @Attachments</formula></code></pardef>
-<par def='20'><run><font style='bold' color='navy'/></run><button width='2in'
+<par def='19'><run><font style='bold' color='navy'/></run><button width='2in'
  widthtype='maximum' maxlines='1' wraptext='true' edge='rounded' bgcolor='system'><font
  size='8pt' color='blue'/>Transform<code event='options'><lotusscript>Option Explicit
 
@@ -533,16 +535,16 @@ ErrorTrap:
 	Resume ExitPoint 	
 End Sub
 </lotusscript></code></button><run><font style='bold' color='navy'/></run></par>
-<par def='19'><run><font size='9pt'/></run><field type='richtext' kind='computed'
+<par def='18'><run><font size='9pt'/></run><field type='richtext' kind='computed'
  name='xmlContent'><code event='defaultvalue'><formula>@ThisValue</formula></code></field><compositedata
  type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAEAAAA=
 </compositedata></par>
-<par def='19'><run><font style='bold' color='navy'/></run></par>
-<par def='19'/></richtext></body>
-<item name='HasErrors' summary='false' sign='true'><number>0</number></item>
-<item name='A$ERRCODE' summary='false' sign='true'><number>0</number></item>
-<item name='A$HASXMLCONTENT' summary='false' sign='true'><number>0</number></item>
-<item name='$$ScriptName' summary='false' sign='true'><text>Log Entry</text></item></form>
+<par def='18'><run><font style='bold' color='navy'/></run></par>
+<par def='18'/></richtext></body>
+<item name='HasErrors' summary='false'><number>0</number></item>
+<item name='A$ERRCODE' summary='false'><number>0</number></item>
+<item name='A$HASXMLCONTENT' summary='false'><number>0</number></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>Events</text></item></form>
 

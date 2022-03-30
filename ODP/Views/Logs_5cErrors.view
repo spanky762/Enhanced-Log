@@ -1,25 +1,25 @@
 <?xml version='1.0' encoding='utf-8'?>
-<view name='Logs\Errors' xmlns='http://www.lotus.com/dxl' version='12.0' replicaid='85258796005A152A'
- hide='web' showinmenu='false' defaultdesign='true' publicaccess='false' designerversion='8.5.3'
- unreadmarks='none' onopengoto='lastopened' onrefresh='displayindicator' headers='beveled'
- opencollapsed='false' showresponsehierarchy='true' showmargin='true' shrinkrows='false'
- extendlastcolumn='false' showhierarchies='false' unreadcolor='black' rowlinecount='1'
- headerlinecount='1' rowspacing='1' bgcolor='white' altrowcolor='#f7f7f7'
- totalscolor='black' headerbgcolor='white' boldunreadrows='false' evaluateactions='false'
- allownewdocuments='false' allowcustomizations='false' hidemarginborder='false'
- marginwidth='0px' marginbgcolor='white' uniquekeys='false'>
-<noteinfo noteid='216' unid='5D19A55F113717E185258662004A1475' sequence='3'>
+<view name='Logs\Errors' xmlns='http://www.lotus.com/dxl' version='12.0' maintenanceversion='1.0'
+ replicaid='852587A5005D981C' hide='web' showinmenu='false' defaultdesign='true'
+ publicaccess='false' designerversion='8.5.3' unreadmarks='none' onopengoto='lastopened'
+ onrefresh='displayindicator' headers='beveled' opencollapsed='false' showresponsehierarchy='true'
+ showmargin='true' shrinkrows='false' extendlastcolumn='false' showhierarchies='false'
+ unreadcolor='black' rowlinecount='1' headerlinecount='1' rowspacing='1' bgcolor='white'
+ altrowcolor='#f7f7f7' totalscolor='black' headerbgcolor='white' boldunreadrows='false'
+ evaluateactions='false' allownewdocuments='false' allowcustomizations='false'
+ hidemarginborder='false' marginwidth='0px' marginbgcolor='white' uniquekeys='false'>
+<noteinfo noteid='216' unid='5D19A55F113717E185258662004A1475' sequence='5'>
 <created><datetime>20210119T082909,01-05</datetime></created>
-<modified><datetime>20211123T115158,31-05</datetime></modified>
-<revised><datetime>20211123T115158,30-05</datetime></revised>
-<lastaccessed><datetime>20211123T115158,30-05</datetime></lastaccessed>
-<addedtofile><datetime>20211123T112403,32-05</datetime></addedtofile></noteinfo>
+<modified><datetime dst='true'>20220330T093409,28-04</datetime></modified>
+<revised><datetime dst='true'>20220330T093409,27-04</datetime></revised>
+<lastaccessed><datetime dst='true'>20220330T093409,27-04</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120258,97-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby><code
  event='selection'><formula>SELECT @IsMember(Form; "Log Entry":"Events") &amp; HasErrors</formula></code>
 <actionbar bgcolor='#ece9d8' bordercolor='black'>
-<actionbuttonstyle bgcolor='#ece9d8'/><font color='system'/><border style='solid'
- width='0px 0px 1px' color='system'/>
+<actionbuttonstyle bgcolor='#ece9d8'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px' color='system'/>
 <action title='Categori_ze' showinbar='false' systemcommand='categorize'/>
 <action title='_Edit Document' showinbar='false' systemcommand='edit'/>
 <action title='_Send Document' showinbar='false' systemcommand='send'/>

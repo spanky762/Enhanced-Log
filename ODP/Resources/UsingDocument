@@ -1,13 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<helpusingdocument xmlns='http://www.lotus.com/dxl' version='11.0' maintenanceversion='1.0'
- replicaid='85258671003806E7' publicaccess='false' designerversion='8.5.3'
- default='true' renderpassthrough='true'>
-<noteinfo noteid='21a' unid='E5AD462E797701AA852573700050055E' sequence='21'>
+<helpusingdocument xmlns='http://www.lotus.com/dxl' version='12.0' replicaid='852587A5005D981C'
+ publicaccess='false' designerversion='8.5.3' default='true' renderpassthrough='true'>
+<noteinfo noteid='16a' unid='E5AD462E797701AA852573700050055E' sequence='3'>
 <created><datetime dst='true'>20071010T103402,54-04</datetime></created>
-<modified><datetime dst='true'>20210519T202258,78-04</datetime></modified>
-<revised><datetime dst='true'>20210519T202258,77-04</datetime></revised>
-<lastaccessed><datetime dst='true'>20210519T202258,77-04</datetime></lastaccessed>
-<addedtofile><datetime>20210203T051203,90-05</datetime></addedtofile></noteinfo>
+<modified><datetime>20211231T083823,32-05</datetime></modified>
+<revised><datetime>20211231T083823,31-05</datetime></revised>
+<lastaccessed><datetime>20211231T083823,31-05</datetime></lastaccessed>
+<addedtofile><datetime>20211208T120257,47-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=azlighthouse</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=azlighthouse</name></wassignedby>
 <body><richtext>
@@ -264,9 +263,7 @@
 <par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
  familyid='40' color='green'/>	prefix$	The prefix to add to the method name.</run></par>
 <par def='8'><run><font name='Comic Sans MS' pitch='variable' truetype='true'
- familyid='40' color='green'/>	extendedMsg$	The extended description of the error.</run><run
-><font name='Comic Sans MS' pitch='variable' truetype='true' familyid='40'
- color='green'/></run></par></section>
+ familyid='40' color='green'/>	extendedMsg$	The extended description of the error.</run></par></section>
 <par def='8'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
 <par def='8'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
@@ -280,8 +277,7 @@
 <par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
 <par def='7'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
- familyid='20'/></run><run><font size='12pt' name='Arial' pitch='variable'
- truetype='true' familyid='20'/></run></par></section>
+ familyid='20'/></run></par></section>
 <pardef id='9' leftmargin='0.7500in'/>
 <par def='9'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
@@ -306,7 +302,7 @@
  size='9pt' style='underline' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
 <par def='10'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
- familyid='20'/>Last updated: 05/2021</run></par>
+ familyid='20'/>Last updated: 12/2021</run></par>
 <par def='2'><run><font size='9pt' name='Arial' pitch='variable' truetype='true'
  familyid='20'/></run></par>
 <par def='2'><run><font size='12pt' name='Arial' pitch='variable' truetype='true'
